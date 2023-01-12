@@ -95,18 +95,18 @@ atstype_lint ats2_xprelude_g0float2int_exrat_lint (ats2_xprelude_exrat);
 #define ats2_xprelude_g0float2int_exrat_ssize(x)                \
   ((atstype_ssize) ats2_xprelude_g0float2int_exrat_lint (x))
 
-ats2_xprelude_exrat ats2_xprelude_g0int2float_int64_exrat_32bit (atstype_int64 x);
-ats2_xprelude_exrat ats2_xprelude_g0int2float_int64_exrat (atstype_int64 x);
+m4_foreachq(`INT',`int64,llint,intmax',
+`
+ats2_xprelude_exrat ats2_xprelude_g0int2float_`'INT`'_exrat_32bit (intb2c(INT) x);
+ats2_xprelude_exrat ats2_xprelude_g0int2float_`'INT`'_exrat (intb2c(INT) x);
+')dnl
 
-ats2_xprelude_exrat ats2_xprelude_g0int2float_llint_exrat_32bit (atstype_llint x);
-ats2_xprelude_exrat ats2_xprelude_g0int2float_llint_exrat (atstype_llint x);
-
-/* FIXME: on x86, etc., int64 and llint are larger than lint. Special
-   handling is needed but not yet provided. */
-#define ats2_xprelude_g0float2int_exrat_int64(x)                \
-  ((atstype_int64) ats2_xprelude_g0float2int_exrat_lint (x))
-#define ats2_xprelude_g0float2int_exrat_llint(x)                \
-  ((atstype_llint) ats2_xprelude_g0float2int_exrat_lint (x))
+/* FIXME: on x86, etc., int64, llint, and intmax_t are larger than
+   lint. Special handling is needed but not yet provided. */
+m4_foreachq(`INT',`int64,llint,intmax',
+`#define ats2_xprelude_g0float2int_exrat_`'INT(x) dnl
+((intb2c(INT)) ats2_xprelude_g0float2int_exrat_lint (x))
+')dnl
 
 ats2_xprelude_exrat ats2_xprelude_g0float2float_double_exrat (atstype_double);
 ats2_xprelude_exrat ats2_xprelude_g0float2float_ldouble_exrat (atstype_ldouble);

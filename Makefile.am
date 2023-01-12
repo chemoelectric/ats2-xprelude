@@ -238,10 +238,7 @@ CLEANFILES += $(FIXED32P32_SRC)
 nobase_nodist_pkginclude_HEADERS += $(FIXED32P32_SRC)
 
 EXTRA_DIST += fixed32p32_square_root.dats
-CLEANFILES += fixed32p32_square_root_dats.c
-
 EXTRA_DIST += tostrptr_fixed32p32.dats
-CLEANFILES += tostrptr_fixed32p32_dats.c
 
 nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_SATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_DATS_C)
@@ -258,15 +255,15 @@ EXRAT_CATS = xprelude/CATS/exrat.cats
 EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
 EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
 
-EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
-EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC))
-BUILT_SOURCES += $(EXRAT_SRC)
-CLEANFILES += $(EXRAT_SRC)
-
-if ENABLE_EXRAT
-
 EXRAT_SUPPORT_DATS = exrat-support.dats
 EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
+
+EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
+EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS))
+BUILT_SOURCES += $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)
+CLEANFILES += $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)
+
+if ENABLE_EXRAT
 
 nobase_nodist_pkginclude_HEADERS += $(EXRAT_SRC)
 
@@ -275,9 +272,6 @@ nodist_libats2_xprelude_la_SOURCES += $(EXRAT_DATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(EXRAT_SUPPORT_DATS_C)
 
 endif ENABLE_EXRAT
-
-EXTRA_DIST += $(EXRAT_SUPPORT_DATS)
-CLEANFILES += $(EXRAT_SUPPORT_DATS_C)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -289,6 +283,8 @@ $(foreach source_file, \
 xats-c-clean:
 	-rm -f xprelude/SATS/*_sats.c
 	-rm -f xprelude/DATS/*_dats.c
+	-rm -f ./*_sats.c
+	-rm -f ./*_dats.c
 
 #--------------------------------------------------------------------------
 #

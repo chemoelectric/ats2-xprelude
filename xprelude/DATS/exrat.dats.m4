@@ -72,25 +72,10 @@ g0float_exrat_make_gint_gint (n, d) =
 implement tostrptr_val<exrat> = tostrptr_exrat_base10
 implement tostring_val<exrat> = tostring_exrat_base10
 
-implement g0int2float<int8knd,exratknd> = g0int2float_int8_exrat
-implement g0int2float<int16knd,exratknd> = g0int2float_int16_exrat
-implement g0int2float<int32knd,exratknd> = g0int2float_int32_exrat
-implement g0int2float<int64knd,exratknd> = g0int2float_int64_exrat
-implement g0int2float<sintknd,exratknd> = g0int2float_sint_exrat
-implement g0int2float<intknd,exratknd> = g0int2float_int_exrat
-implement g0int2float<lintknd,exratknd> = g0int2float_lint_exrat
-implement g0int2float<llintknd,exratknd> = g0int2float_llint_exrat
-implement g0int2float<ssizeknd,exratknd> = g0int2float_ssize_exrat
-
-implement g0float2int<exratknd,int8knd> = g0float2int_exrat_int8
-implement g0float2int<exratknd,int16knd> = g0float2int_exrat_int16
-implement g0float2int<exratknd,int32knd> = g0float2int_exrat_int32
-implement g0float2int<exratknd,int64knd> = g0float2int_exrat_int64
-implement g0float2int<exratknd,sintknd> = g0float2int_exrat_sint
-implement g0float2int<exratknd,intknd> = g0float2int_exrat_int
-implement g0float2int<exratknd,lintknd> = g0float2int_exrat_lint
-implement g0float2int<exratknd,llintknd> = g0float2int_exrat_llint
-implement g0float2int<exratknd,ssizeknd> = g0float2int_exrat_ssize
+m4_foreachq(`INT',`intbases',
+`implement g0int2float<intb2k(INT),exratknd> = g0int2float_`'INT`'_exrat
+implement g0float2int<exratknd,intb2k(INT)> = g0float2int_exrat_`'INT
+')dnl
 
 implement g0float2float<fltknd,exratknd> = g0float2float_float_exrat
 implement g0float2float<dblknd,exratknd> = g0float2float_double_exrat
@@ -156,3 +141,4 @@ dnl
 dnl local variables:
 dnl mode: ATS
 dnl end:
+dnl

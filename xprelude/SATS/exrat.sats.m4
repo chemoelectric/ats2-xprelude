@@ -117,25 +117,14 @@ overload tostring_exrat with tostring_exrat_given_base
 overload tostrptr_exrat with tostrptr_exrat_base10
 overload tostring_exrat with tostring_exrat_base10
 
-fn g0int2float_int8_exrat : int8 -<> exrat = "mac#%"
-fn g0int2float_int16_exrat : int16 -<> exrat = "mac#%"
-fn g0int2float_int32_exrat : int32 -<> exrat = "mac#%"
-fn g0int2float_int64_exrat : int64 -<> exrat = "mac#%"
-fn g0int2float_sint_exrat : sint -<> exrat = "mac#%"
-fn g0int2float_int_exrat : int -<> exrat = "mac#%"
-fn g0int2float_lint_exrat : lint -<> exrat = "mac#%"
-fn g0int2float_llint_exrat : llint -<> exrat = "mac#%"
-fn g0int2float_ssize_exrat : ssize_t -<> exrat = "mac#%"
-
-fn g0float2int_exrat_int8 : exrat -<> int8 = "mac#%"
-fn g0float2int_exrat_int16 : exrat -<> int16 = "mac#%"
-fn g0float2int_exrat_int32 : exrat -<> int32 = "mac#%"
-fn g0float2int_exrat_int64 : exrat -<> int64 = "mac#%" (* FIXME: On x86, int64 is bigger than lint. This is a bug. *)
-fn g0float2int_exrat_sint : exrat -<> sint = "mac#%"
-fn g0float2int_exrat_int : exrat -<> int = "mac#%"
-fn g0float2int_exrat_lint : exrat -<> lint = "mac#%"
-fn g0float2int_exrat_llint : exrat -<> llint = "mac#%" (* FIXME: On x86, llint is bigger than lint. This is a bug. *)
-fn g0float2int_exrat_ssize : exrat -<> ssize_t = "mac#%"
+(* FIXME: On x86 and some other platforms, int64, llint, and intmax
+          are bigger than lint. This makes the current conversions
+          from exrat to those types buggy--the conversion will
+          overflow if the value exceeds the limits of a lint. *)
+m4_foreachq(`INT',`intbases',
+`fn g0int2float_`'INT`'_exrat : m4_g0int(INT) -<> exrat = "mac#%"
+fn g0float2int_exrat_`'INT : exrat -<> m4_g0int(INT) = "mac#%"
+')dnl
 
 fn g0float2float_float_exrat : float -<> exrat = "mac#%"
 fn g0float2float_double_exrat : double -<> exrat = "mac#%"

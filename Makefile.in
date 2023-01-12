@@ -199,7 +199,7 @@ am__objects_5 = xprelude/SATS/fixed32p32_sats.lo
 am__objects_6 = xprelude/DATS/fixed32p32_dats.lo
 am__objects_7 = xprelude/SATS/exrat_sats.lo
 am__objects_8 = xprelude/DATS/exrat_dats.lo
-@ENABLE_EXRAT_TRUE@am__objects_9 = exrat-support_dats.lo
+am__objects_9 = exrat-support_dats.lo
 @ENABLE_EXRAT_TRUE@am__objects_10 = $(am__objects_7) $(am__objects_8) \
 @ENABLE_EXRAT_TRUE@	$(am__objects_9)
 nodist_libats2_xprelude_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
@@ -768,18 +768,17 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	COPYING INSTALL README AUTHORS $(addsuffix .m4, \
 	$(INTEGER_SRC)) $(addsuffix .m4, $(FLOAT_SRC)) $(addsuffix \
 	.m4, $(FIXED32P32_SRC)) fixed32p32_square_root.dats \
-	tostrptr_fixed32p32.dats $(addsuffix .m4, $(EXRAT_SRC)) \
-	$(EXRAT_SUPPORT_DATS) tests/test-float.dats \
+	tostrptr_fixed32p32.dats $(addsuffix .m4, $(EXRAT_SRC) \
+	$(EXRAT_SUPPORT_DATS)) tests/test-float.dats \
 	tests/test-fixed32p32.dats tests/test-exrat.dats \
 	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) \
-	fixed32p32_square_root_dats.c tostrptr_fixed32p32_dats.c \
-	$(EXRAT_SRC) $(EXRAT_SUPPORT_DATS_C) $(TESTS) \
+	$(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) $(TESTS) \
 	list-ats-dependencies list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) \
-	$(EXRAT_SRC)
+	$(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)
 AM_M4FLAGS = 
 AM_CPPFLAGS = -I$(builddir) -I$(srcdir) -I$(builddir)/lib \
 	-I$(srcdir)/lib -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime/
@@ -852,9 +851,9 @@ EXRAT_DATS = xprelude/DATS/exrat.dats
 EXRAT_CATS = xprelude/CATS/exrat.cats
 EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
 EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
+EXRAT_SUPPORT_DATS = exrat-support.dats
+EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
 EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
-@ENABLE_EXRAT_TRUE@EXRAT_SUPPORT_DATS = exrat-support.dats
-@ENABLE_EXRAT_TRUE@EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
 
 #--------------------------------------------------------------------------
 #
@@ -2129,6 +2128,8 @@ $(foreach source_file, \
 xats-c-clean:
 	-rm -f xprelude/SATS/*_sats.c
 	-rm -f xprelude/DATS/*_dats.c
+	-rm -f ./*_sats.c
+	-rm -f ./*_dats.c
 
 tests-clean:
 	-rm -f tests/*.$(OBJEXT)

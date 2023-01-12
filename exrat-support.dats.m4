@@ -15,6 +15,8 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+(*------------------------------------------------------------------*)
 
 #define ATS_DYNLOADFLAG 0
 
@@ -33,7 +35,7 @@ staload _ = "xprelude/DATS/fixed32p32.dats"
 
 #include <assert.h>
 #include <stdint.h>
-#include <inttypes.h>
+#include <`inttypes'.h>
 #include <limits.h>
 
 static void *
@@ -131,26 +133,26 @@ ats2_xprelude_exrat_support_initialize (void)
 }
 
 static atsvoid_t0ype
-_ats2_xprelude_fprint_exrat (FILE *outf, ats2_xprelude_exrat x)
+_ats2_xprelude_fprint_exrat (FILE *outf, floatt2c(exrat) x)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   gmp_fprintf (outf, "%Qd", x);
 }
 
 atsvoid_t0ype
-ats2_xprelude_fprint_exrat (atstype_ref fref, ats2_xprelude_exrat x)
+ats2_xprelude_fprint_exrat (atstype_ref fref, floatt2c(exrat) x)
 {
   _ats2_xprelude_fprint_exrat ((FILE *) fref, x);
 }
 
 atsvoid_t0ype
-ats2_xprelude_print_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_print_exrat (floatt2c(exrat) x)
 {
   _ats2_xprelude_fprint_exrat (stdout, x);
 }
 
 atsvoid_t0ype
-ats2_xprelude_prerr_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_prerr_exrat (floatt2c(exrat) x)
 {
   _ats2_xprelude_fprint_exrat (stderr, x);
 }
@@ -159,26 +161,26 @@ static ats2_xprelude_exrat
 _ats2_xprelude_exrat_init (void)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  ats2_xprelude_exrat x = ATS_MALLOC (sizeof (ats2_xprelude_mpq_t));
+  floatt2c(exrat) x = ATS_MALLOC (sizeof (ats2_xprelude_mpq_t));
   mpq_init (x[0]);
   return x;
 }
 
 ats2_xprelude_exrat
 ats2_xprelude_g0float_exrat_make_ulint_ulint (atstype_ulint n,
-                                          atstype_ulint d)
+                                              atstype_ulint d)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_set_ui (y[0], n, d);
   mpq_canonicalize (y[0]);
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_exrat_make_lint_ulint (atstype_lint n,
-                                         atstype_ulint d)
+ats2_xprelude_g0float_exrat_make_lint_ulint (intb2c(lint) n,
+                                             atstype_ulint d)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_set_si (y[0], n, d);
   mpq_canonicalize (y[0]);
   return y;
@@ -186,49 +188,49 @@ ats2_xprelude_g0float_exrat_make_lint_ulint (atstype_lint n,
 
 atsvoid_t0ype
 ats2_xprelude__g0float_exrat_make_from_string (atstype_string s,
-                                           atstype_int base,
-                                           atstype_ref p_y,
-                                           atstype_ref p_status)
+                                               atstype_int base,
+                                               atstype_ref p_y,
+                                               atstype_ref p_status)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   int status = mpq_set_str (y[0], (const char *) s, base);
   if (status == 0)
     mpq_canonicalize (y[0]);
-  *(ats2_xprelude_exrat *) p_y = y;
+  *(floatt2c(exrat) *) p_y = y;
   *(atstype_int *) p_status = status;
 }
 
 atstype_string
-ats2_xprelude_tostrptr_exrat_given_base (ats2_xprelude_exrat x,
-                                     int base)
+ats2_xprelude_tostrptr_exrat_given_base (floatt2c(exrat) x,
+                                         int base)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return mpq_get_str (NULL, base, x[0]);
 }
 
 atstype_string
-ats2_xprelude_tostring_exrat_given_base (ats2_xprelude_exrat x,
-                                     int base)
+ats2_xprelude_tostring_exrat_given_base (floatt2c(exrat) x,
+                                         int base)
 {
   return ats2_xprelude_tostrptr_exrat_given_base (x, base);
 }
 
 atstype_string
-ats2_xprelude_tostrptr_exrat_base10 (ats2_xprelude_exrat x)
+ats2_xprelude_tostrptr_exrat_base10 (floatt2c(exrat) x)
 {
   return ats2_xprelude_tostrptr_exrat_given_base (x, 10);
 }
 
 atstype_string
-ats2_xprelude_tostring_exrat_base10 (ats2_xprelude_exrat x)
+ats2_xprelude_tostring_exrat_base10 (floatt2c(exrat) x)
 {
   return ats2_xprelude_tostring_exrat_given_base (x, 10);
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0int2float_lint_exrat (atstype_lint x)
+ats2_xprelude_g0int2float_lint_exrat (intb2c(lint) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_set_si (y[0], x, 1);
   return y;
 }
@@ -237,7 +239,7 @@ ats2_xprelude_exrat
 ats2_xprelude_g0int2float_int64_exrat_32bit (atstype_int64 x)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  ats2_xprelude_exrat y;
+  floatt2c(exrat) y;
 
   /* We assume INT64_MIN < -INT64_MAX implies int64_t is
      two’s-complement. */
@@ -275,19 +277,19 @@ ats2_xprelude_g0int2float_int64_exrat_32bit (atstype_int64 x)
 ats2_xprelude_exrat
 ats2_xprelude_g0int2float_int64_exrat (atstype_int64 x)
 {
-  return (sizeof (atstype_lint) < sizeof (atstype_int64)) ?
+  return (sizeof (intb2c(lint)) < sizeof (atstype_int64)) ?
     ats2_xprelude_g0int2float_int64_exrat_32bit (x) :
-    ats2_xprelude_g0int2float_lint_exrat ((atstype_lint) x);
+    ats2_xprelude_g0int2float_lint_exrat ((intb2c(lint)) x);
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0int2float_llint_exrat_32bit (atstype_llint x)
+ats2_xprelude_g0int2float_llint_exrat_32bit (intb2c(llint) x)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  ats2_xprelude_exrat y;
+  floatt2c(exrat) y;
 
-  _Static_assert (CHAR_BIT * sizeof (atstype_llint) <= (31 * 3) + 1,
-                  "atstype_llint is longer than 94 bits");
+  _Static_assert (CHAR_BIT * sizeof (intb2c(llint)) <= (31 * 3) + 1,
+                  "intb2c(llint) is longer than 94 bits");
 
   /* We assume LLONG_MIN < -LLONG_MAX implies long long int is
      two’s-complement. */
@@ -324,15 +326,66 @@ ats2_xprelude_g0int2float_llint_exrat_32bit (atstype_llint x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0int2float_llint_exrat (atstype_llint x)
+ats2_xprelude_g0int2float_llint_exrat (intb2c(llint) x)
 {
-  return (sizeof (atstype_lint) < sizeof (atstype_llint)) ?
+  return (sizeof (intb2c(lint)) < sizeof (intb2c(llint))) ?
     ats2_xprelude_g0int2float_llint_exrat_32bit (x) :
-    ats2_xprelude_g0int2float_lint_exrat ((atstype_lint) x);
+    ats2_xprelude_g0int2float_lint_exrat ((intb2c(lint)) x);
 }
 
-atstype_lint
-ats2_xprelude_g0float2int_exrat_lint (ats2_xprelude_exrat x)
+ats2_xprelude_exrat
+ats2_xprelude_g0int2float_intmax_exrat_32bit (intb2c(intmax) x)
+{
+  ats2_xprelude_exrat_one_time_initialization ();
+  floatt2c(exrat) y;
+
+  _Static_assert (CHAR_BIT * sizeof (intb2c(intmax)) <= (31 * 3) + 1,
+                  "intb2c(intmax) is longer than 94 bits");
+
+  /* We assume INTMAX_MIN < -INTMAX_MAX implies intmax_t is
+     two’s-complement. */
+
+  if (INTMAX_MIN < -INTMAX_MAX && x == INTMAX_MIN)
+    {
+      y = _ats2_xprelude_exrat_init ();
+      mpz_mul_2exp (mpq_numref (y[0]),
+                    mpq_numref (_ats2_xprelude_exrat_one),
+                    (CHAR_BIT * sizeof (intb2c(intmax))) - 1);
+      mpq_neg (y[0], y[0]);
+    }
+  else if (x < 0)
+    {
+      y = ats2_xprelude_g0int2float_intmax_exrat_32bit (-x);
+      mpq_neg (y[0], y[0]);
+    }
+  else
+    {
+      uint64_t x0 = (x & ((UINT64_C(1) << 31) - 1));
+      uint64_t x1 = ((x >> 31) & ((UINT64_C(1) << 31) - 1));
+      uint64_t x2 = (x >> 62);
+      y = _ats2_xprelude_exrat_init ();
+      mpq_set_ui (y[0], x1, 1);
+      mpz_mul_2exp (mpq_numref (y[0]), mpq_numref (y[0]), 31);
+      mpz_add_ui (mpq_numref (y[0]), mpq_numref (y[0]), x0);
+      mpz_t y2;
+      mpz_init (y2);
+      mpz_set_ui (y2, x2);
+      mpz_mul_2exp (y2, y2, 62);
+      mpz_add (mpq_numref (y[0]), mpq_numref (y[0]), y2);
+    }    
+  return y;
+}
+
+ats2_xprelude_exrat
+ats2_xprelude_g0int2float_intmax_exrat (intb2c(intmax) x)
+{
+  return (sizeof (intb2c(lint)) < sizeof (intb2c(intmax))) ?
+    ats2_xprelude_g0int2float_intmax_exrat_32bit (x) :
+    ats2_xprelude_g0int2float_lint_exrat ((intb2c(lint)) x);
+}
+
+intb2c(lint)
+ats2_xprelude_g0float2int_exrat_lint (floatt2c(exrat) x)
 {
   ats2_xprelude_exrat_one_time_initialization ();
 
@@ -345,9 +398,9 @@ ats2_xprelude_g0float2int_exrat_lint (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float2float_double_exrat (atstype_double x)
+ats2_xprelude_g0float2float_double_exrat (floatt2c(double) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_set_d (y[0], x);
   return y;
 }
@@ -359,7 +412,7 @@ _ats2_xprelude_g0float2float_fixed32p32_exrat_32bit (ats2_xprelude_fixed32p32 x)
             negative value. Note, though, that one may consider that
             value an overflow. */
 
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
 
   uint64_t z = (x < 0) ? -x : x;
   uint32_t z0 = (int32_t) (z & ((INT64_C(1) << 32) - 1));
@@ -383,7 +436,7 @@ _ats2_xprelude_g0float2float_fixed32p32_exrat_32bit (ats2_xprelude_fixed32p32 x)
 static inline ats2_xprelude_exrat
 _ats2_xprelude_g0float2float_fixed32p32_exrat_64bit (ats2_xprelude_fixed32p32 x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_set_si (y[0], x, 1);
   mpq_div (y[0], y[0], _ats2_xprelude_exrat_two_raised_32);
   return y;
@@ -405,15 +458,15 @@ ats2_xprelude_g0float2float_fixed32p32_exrat_32bit (ats2_xprelude_fixed32p32 x)
   return _ats2_xprelude_g0float2float_fixed32p32_exrat_32bit (x);
 }
 
-atstype_double
-ats2_xprelude_g0float2float_exrat_double (ats2_xprelude_exrat x)
+floatt2c(double)
+ats2_xprelude_g0float2float_exrat_double (floatt2c(exrat) x)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return mpq_get_d (x[0]);
 }
 
 static inline ats2_xprelude_fixed32p32
-_ats2_xprelude_g0float2float_exrat_fixed32p32_32bit (ats2_xprelude_exrat x)
+_ats2_xprelude_g0float2float_exrat_fixed32p32_32bit (floatt2c(exrat) x)
 {
   /* FIXME: I am not certain what happens here if x has the most
             negative fixed-point value. Note, though, that one may
@@ -444,7 +497,7 @@ _ats2_xprelude_g0float2float_exrat_fixed32p32_32bit (ats2_xprelude_exrat x)
 }
 
 static inline ats2_xprelude_fixed32p32
-_ats2_xprelude_g0float2float_exrat_fixed32p32_64bit (ats2_xprelude_exrat x)
+_ats2_xprelude_g0float2float_exrat_fixed32p32_64bit (floatt2c(exrat) x)
 {
   ats2_xprelude_exrat_one_time_initialization ();
 
@@ -456,7 +509,7 @@ _ats2_xprelude_g0float2float_exrat_fixed32p32_64bit (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_fixed32p32
-ats2_xprelude_g0float2float_exrat_fixed32p32 (ats2_xprelude_exrat x)
+ats2_xprelude_g0float2float_exrat_fixed32p32 (floatt2c(exrat) x)
 {
   return (sizeof (long int) < sizeof (int64_t)) ?
     _ats2_xprelude_g0float2float_exrat_fixed32p32_32bit (x) :
@@ -466,13 +519,13 @@ ats2_xprelude_g0float2float_exrat_fixed32p32 (ats2_xprelude_exrat x)
 /* ats2_xprelude_g0float2float_exrat_fixed32p32_32bit exists to provide
    testing coverage of the 32-bit support on 64-bit systems. */
 ats2_xprelude_fixed32p32
-ats2_xprelude_g0float2float_exrat_fixed32p32_32bit (ats2_xprelude_exrat x)
+ats2_xprelude_g0float2float_exrat_fixed32p32_32bit (floatt2c(exrat) x)
 {
   return _ats2_xprelude_g0float2float_exrat_fixed32p32_32bit (x);
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float2float_ldouble_exrat (atstype_ldouble x)
+ats2_xprelude_g0float2float_ldouble_exrat (floatt2c(ldouble) x)
 {
   /* FIXME: This implementation is quite bad. */
 
@@ -508,9 +561,9 @@ ats2_xprelude_g0float2float_ldouble_exrat (atstype_ldouble x)
       memmove (p + 1, p + 2, strlen (p) - 1);
     }
 
-  ats2_xprelude_exrat mantissa = _ats2_xprelude_exrat_init ();
-  ats2_xprelude_exrat radix = _ats2_xprelude_exrat_init ();
-  ats2_xprelude_exrat sixteen = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) mantissa = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) radix = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) sixteen = _ats2_xprelude_exrat_init ();
 
   mpq_set_str (mantissa[0], p, 16);
   if (is_negative)
@@ -519,7 +572,7 @@ ats2_xprelude_g0float2float_ldouble_exrat (atstype_ldouble x)
   mpq_set_ui (radix[0], FLT_RADIX, 1);
   mpq_set_ui (sixteen[0], 16, 1);
 
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   if (0 <= exponent)
     y = (ats2_xprelude_g0float_mul_exrat
             (mantissa,
@@ -535,13 +588,13 @@ ats2_xprelude_g0float2float_ldouble_exrat (atstype_ldouble x)
   return y;
 }
 
-atstype_ldouble
-ats2_xprelude_g0float2float_exrat_ldouble (ats2_xprelude_exrat x)
+floatt2c(ldouble)
+ats2_xprelude_g0float2float_exrat_ldouble (floatt2c(exrat) x)
 {
   /* FIXME: This implementation is quite bad. */
 
   mpf_t temp;
-  mpf_init2 (temp, sizeof (atstype_ldouble) * CHAR_BIT);
+  mpf_init2 (temp, sizeof (floatt2c(ldouble)) * CHAR_BIT);
 
   mpf_set_q (temp, x[0]);
 
@@ -560,68 +613,68 @@ ats2_xprelude_g0float2float_exrat_ldouble (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_neg_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_neg_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_neg (y[0], x[0]);
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_abs_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_abs_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_abs (y[0], x[0]);
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_fabs_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_fabs_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_abs (y[0], x[0]);
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_succ_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_succ_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_add (y[0], x[0], _ats2_xprelude_exrat_one);
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_pred_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_pred_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_sub (y[0], x[0], _ats2_xprelude_exrat_one);
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_add_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_add_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
-  ats2_xprelude_exrat z = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
   mpq_add (z[0], x[0], y[0]);
   return z;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_sub_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_sub_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
-  ats2_xprelude_exrat z = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
   mpq_sub (z[0], x[0], y[0]);
   return z;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_min_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_min_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
-  ats2_xprelude_exrat z = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
   int cmp = mpq_cmp (x[0], y[0]);
   if (cmp <= 0)
     mpq_set (z[0], x[0]);
@@ -631,10 +684,10 @@ ats2_xprelude_g0float_min_exrat (ats2_xprelude_exrat x,
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_max_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_max_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
-  ats2_xprelude_exrat z = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
   int cmp = mpq_cmp (x[0], y[0]);
   if (cmp >= 0)
     mpq_set (z[0], x[0]);
@@ -644,94 +697,94 @@ ats2_xprelude_g0float_max_exrat (ats2_xprelude_exrat x,
 }
 
 atstype_bool
-ats2_xprelude_g0float_eq_exrat (ats2_xprelude_exrat x,
-                            ats2_xprelude_exrat y)
+ats2_xprelude_g0float_eq_exrat (floatt2c(exrat) x,
+                                floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return mpq_equal (x[0], y[0]);
 }
 
 atstype_bool
-ats2_xprelude_g0float_neq_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_neq_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return !(mpq_equal (x[0], y[0]));
 }
 
 atstype_bool
-ats2_xprelude_g0float_lt_exrat (ats2_xprelude_exrat x,
-                            ats2_xprelude_exrat y)
+ats2_xprelude_g0float_lt_exrat (floatt2c(exrat) x,
+                                floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return (mpq_cmp (x[0], y[0]) < 0);
 }
 
 atstype_bool
-ats2_xprelude_g0float_lte_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_lte_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return (mpq_cmp (x[0], y[0]) <= 0);
 }
 
 atstype_bool
-ats2_xprelude_g0float_gt_exrat (ats2_xprelude_exrat x,
-                            ats2_xprelude_exrat y)
+ats2_xprelude_g0float_gt_exrat (floatt2c(exrat) x,
+                                floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return (mpq_cmp (x[0], y[0]) > 0);
 }
 
 atstype_bool
-ats2_xprelude_g0float_gte_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_gte_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return (mpq_cmp (x[0], y[0]) >= 0);
 }
 
 atstype_int
-ats2_xprelude_g0float_compare_exrat (ats2_xprelude_exrat x,
-                                 ats2_xprelude_exrat y)
+ats2_xprelude_g0float_compare_exrat (floatt2c(exrat) x,
+                                     floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
   return (mpq_cmp (x[0], y[0]));
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_mul_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_mul_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
-  ats2_xprelude_exrat z = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
   mpq_mul (z[0], x[0], y[0]);
   return z;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_div_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y)
+ats2_xprelude_g0float_div_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y)
 {
-  ats2_xprelude_exrat z = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
   mpq_div (z[0], x[0], y[0]);
   return z;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_fma_exrat (ats2_xprelude_exrat x,
-                             ats2_xprelude_exrat y,
-                             ats2_xprelude_exrat z)
+ats2_xprelude_g0float_fma_exrat (floatt2c(exrat) x,
+                                 floatt2c(exrat) y,
+                                 floatt2c(exrat) z)
 {
-  ats2_xprelude_exrat w = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) w = _ats2_xprelude_exrat_init ();
   mpq_mul (w[0], x[0], y[0]);
   mpq_add (w[0], w[0], z[0]);
   return w;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_round_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_round_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
 
   mpz_t tmp;
   mpz_init (tmp);
@@ -752,9 +805,9 @@ ats2_xprelude_g0float_round_exrat (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_nearbyint_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_nearbyint_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
 
   mpz_t tmp;
   mpz_init (tmp);
@@ -785,9 +838,9 @@ ats2_xprelude_g0float_nearbyint_exrat (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_floor_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_floor_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
 
   mpz_t tmp;
   mpz_init (tmp);
@@ -799,9 +852,9 @@ ats2_xprelude_g0float_floor_exrat (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_ceil_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_ceil_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
 
   mpz_t tmp;
   mpz_init (tmp);
@@ -813,9 +866,9 @@ ats2_xprelude_g0float_ceil_exrat (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_trunc_exrat (ats2_xprelude_exrat x)
+ats2_xprelude_g0float_trunc_exrat (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
 
   mpz_t tmp;
   mpz_init (tmp);
@@ -827,10 +880,10 @@ ats2_xprelude_g0float_trunc_exrat (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_g0float_npow_exrat (ats2_xprelude_exrat x,
-                              atstype_int n)
+ats2_xprelude_g0float_npow_exrat (floatt2c(exrat) x,
+                                  atstype_int n)
 {
-  ats2_xprelude_exrat z = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
 
   assert (0 <= n);
 
@@ -863,33 +916,33 @@ ats2_xprelude_g0float_npow_exrat (ats2_xprelude_exrat x,
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_exrat_numerator (ats2_xprelude_exrat x)
+ats2_xprelude_exrat_numerator (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpz_set (mpq_numref (y[0]), mpq_numref (x[0]));
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_exrat_denominator (ats2_xprelude_exrat x)
+ats2_xprelude_exrat_denominator (floatt2c(exrat) x)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpz_set (mpq_numref (y[0]), mpq_denref (x[0]));
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_exrat_mul_exp2 (ats2_xprelude_exrat x, atstype_ulint i)
+ats2_xprelude_exrat_mul_exp2 (floatt2c(exrat) x, atstype_ulint i)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_mul_2exp (y[0], x[0], i);
   return y;
 }
 
 ats2_xprelude_exrat
-ats2_xprelude_exrat_div_exp2 (ats2_xprelude_exrat x, atstype_ulint i)
+ats2_xprelude_exrat_div_exp2 (floatt2c(exrat) x, atstype_ulint i)
 {
-  ats2_xprelude_exrat y = _ats2_xprelude_exrat_init ();
+  floatt2c(exrat) y = _ats2_xprelude_exrat_init ();
   mpq_div_2exp (y[0], x[0], i);
   return y;
 }
@@ -938,3 +991,10 @@ g0float_exrat_make_string_opt_base10 s =
 implement
 g0float_exrat_make_string_exn_base10 s =
   g0float_exrat_make_string_exn_given_base (s, 10)
+
+(*------------------------------------------------------------------*)
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:
+dnl

@@ -43,6 +43,10 @@ macdef llint_to_exrat_32bit (x) =
   $extfcall (exrat,
              "ats2_xprelude_g0int2float_llint_exrat_32bit",
              ,(x))
+macdef intmax_to_exrat_32bit (x) =
+  $extfcall (exrat,
+             "ats2_xprelude_g0int2float_intmax_exrat_32bit",
+             ,(x))
 macdef fixed2exrat_32bit (x) =
   $extfcall (exrat,
              "ats2_xprelude_g0float2float_fixed32p32_exrat_32bit",
@@ -244,6 +248,19 @@ main () =
     val- true = g0int2float<llintknd,exratknd> llint_min_plus_one = succ llint_min_expected
     val- true = llint_to_exrat_32bit minus_llint_min_plus_one = ~(succ llint_min_expected)
     val- true = g0int2float<llintknd,exratknd> minus_llint_min_plus_one = ~(succ llint_min_expected)
+
+    val intmax_bitsize = $extval (Size_t, "(CHAR_BIT * sizeof (ats2_xprelude_intmax))")
+    val () = assertloc (intmax_bitsize >= i2sz 1)
+    val intmax_min_expected = ~((i2ex 2) ** sz2i (pred intmax_bitsize))
+    val intmax_min = $extval (intmax, "INTMAX_MIN")
+    val intmax_min_plus_one = succ intmax_min
+    val minus_intmax_min_plus_one = ~intmax_min_plus_one
+    val- true = intmax_to_exrat_32bit intmax_min = intmax_min_expected
+    val- true = g0int2float<intmaxknd,exratknd> intmax_min = intmax_min_expected
+    val- true = intmax_to_exrat_32bit intmax_min_plus_one = succ intmax_min_expected
+    val- true = g0int2float<intmaxknd,exratknd> intmax_min_plus_one = succ intmax_min_expected
+    val- true = intmax_to_exrat_32bit minus_intmax_min_plus_one = ~(succ intmax_min_expected)
+    val- true = g0int2float<intmaxknd,exratknd> minus_intmax_min_plus_one = ~(succ intmax_min_expected)
 
     val- true = sgn (exrat_make (~123, 456)) = ~1
     val- true = sgn (exrat_make (0, 1)) = 0
