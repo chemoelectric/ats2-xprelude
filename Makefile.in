@@ -116,14 +116,10 @@ bin_PROGRAMS =
 EXTRA_PROGRAMS = $(am__EXEEXT_2) list-ats-dependencies$(EXEEXT)
 TESTS = tests/test-float$(EXEEXT) tests/test-fixed32p32$(EXEEXT) \
 	$(am__EXEEXT_1)
-@ENABLE_EXRAT_TRUE@am__append_1 = $(EXRAT_SATS) $(EXRAT_DATS) \
-@ENABLE_EXRAT_TRUE@	$(EXRAT_CATS)
+@ENABLE_EXRAT_TRUE@am__append_1 = $(EXRAT_SRC)
 @ENABLE_EXRAT_TRUE@am__append_2 = $(EXRAT_SATS_C) $(EXRAT_DATS_C) \
 @ENABLE_EXRAT_TRUE@	$(EXRAT_SUPPORT_DATS_C)
-@ENABLE_EXRAT_TRUE@am__append_3 = $(EXRAT_SUPPORT_DATS)
-@ENABLE_EXRAT_TRUE@am__append_4 = $(EXRAT_SUPPORT_DATS_C)
-@ENABLE_EXRAT_TRUE@am__append_5 = tests/test-exrat
-@ENABLE_EXRAT_TRUE@am__append_6 = tests/test-exrat.dats
+@ENABLE_EXRAT_TRUE@am__append_3 = tests/test-exrat
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -146,8 +142,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) \
-	$(am__nobase_dist_pkginclude_HEADERS_DIST) $(am__DIST_COMMON)
+	$(am__configure_deps) $(nobase_dist_pkginclude_HEADERS) \
+	$(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
@@ -201,8 +197,8 @@ am__objects_3 = xprelude/SATS/float_sats.lo
 am__objects_4 = xprelude/DATS/float_dats.lo
 am__objects_5 = xprelude/SATS/fixed32p32_sats.lo
 am__objects_6 = xprelude/DATS/fixed32p32_dats.lo
-@ENABLE_EXRAT_TRUE@am__objects_7 = xprelude/SATS/exrat_sats.lo
-@ENABLE_EXRAT_TRUE@am__objects_8 = xprelude/DATS/exrat_dats.lo
+am__objects_7 = xprelude/SATS/exrat_sats.lo
+am__objects_8 = xprelude/DATS/exrat_dats.lo
 @ENABLE_EXRAT_TRUE@am__objects_9 = exrat-support_dats.lo
 @ENABLE_EXRAT_TRUE@am__objects_10 = $(am__objects_7) $(am__objects_8) \
 @ENABLE_EXRAT_TRUE@	$(am__objects_9)
@@ -318,12 +314,6 @@ am__can_run_installinfo = \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 DATA = $(nodist_pkgconfig_DATA)
-am__nobase_dist_pkginclude_HEADERS_DIST =  \
-	xprelude/HATS/xprelude_sats.hats \
-	xprelude/HATS/xprelude_dats.hats xprelude/HATS/xprelude.hats \
-	xprelude/SATS/fixed32p32.sats xprelude/DATS/fixed32p32.dats \
-	xprelude/CATS/fixed32p32.cats xprelude/SATS/exrat.sats \
-	xprelude/DATS/exrat.dats xprelude/CATS/exrat.cats
 HEADERS = $(nobase_dist_pkginclude_HEADERS) \
 	$(nobase_nodist_pkginclude_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
@@ -774,17 +764,20 @@ AUTOMAKE_OPTIONS = foreign subdir-objects -Wno-portability
 @CODE_COVERAGE_ENABLED_TRUE@code_coverage_sanitize = $(subst -,_,$(subst .,_,$(1)))
 @CODE_COVERAGE_ENABLED_TRUE@AM_DISTCHECK_CONFIGURE_FLAGS := $(AM_DISTCHECK_CONFIGURE_FLAGS) --disable-code-coverage
 SUBDIRS = lib
+#EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC))
+#BUILT_SOURCES += $(EXRAT_SRC)
+#CLEANFILES += $(EXRAT_SRC)
 EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	COPYING INSTALL README AUTHORS $(addsuffix .m4, \
 	$(INTEGER_SRC)) $(addsuffix .m4, $(FLOAT_SRC)) $(addsuffix \
 	.m4, $(FIXED32P32_SRC)) fixed32p32_square_root.dats \
-	tostrptr_fixed32p32.dats $(am__append_3) tests/test-float.dats \
-	tests/test-fixed32p32.dats $(am__append_6) \
-	list-ats-dependencies.dats
+	tostrptr_fixed32p32.dats $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
+	tests/test-float.dats tests/test-fixed32p32.dats \
+	tests/test-exrat.dats list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) \
 	fixed32p32_square_root_dats.c tostrptr_fixed32p32_dats.c \
-	$(am__append_4) $(TESTS) list-ats-dependencies \
+	$(EXRAT_SUPPORT_DATS_C) $(TESTS) list-ats-dependencies \
 	list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC)
@@ -800,14 +793,9 @@ LDADD = $(CODE_COVERAGE_LIBS)
 # ATS2 libraries go here.
 #
 lib_LTLIBRARIES = libats2-xprelude.la
-
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/provide_array.dats
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/convolution.dats
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/array_spow_unsplit.dats
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/min-size.dats
-nobase_dist_pkginclude_HEADERS = $(MISCELLANEOUS_EXTRAS) \
+nobase_dist_pkginclude_HEADERS = $(MISCELLANEOUS_EXTRAS)
+nobase_nodist_pkginclude_HEADERS = $(INTEGER_SRC) $(FLOAT_SRC) \
 	$(FIXED32P32_SRC) $(am__append_1)
-nobase_nodist_pkginclude_HEADERS = $(INTEGER_SRC) $(FLOAT_SRC)
 dist_libats2_xprelude_la_SOURCES = fixed32p32_multiplication.c \
 	fixed32p32_division.c
 nodist_libats2_xprelude_la_SOURCES = $(INTEGER_SATS_C) \
@@ -860,11 +848,12 @@ FIXED32P32_DATS_C = xprelude/DATS/fixed32p32_dats.c
 FIXED32P32_SRC = $(FIXED32P32_SATS) $(FIXED32P32_DATS) $(FIXED32P32_CATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@ENABLE_EXRAT_TRUE@EXRAT_SATS = xprelude/SATS/exrat.sats
-@ENABLE_EXRAT_TRUE@EXRAT_DATS = xprelude/DATS/exrat.dats
-@ENABLE_EXRAT_TRUE@EXRAT_CATS = xprelude/CATS/exrat.cats
-@ENABLE_EXRAT_TRUE@EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
-@ENABLE_EXRAT_TRUE@EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
+EXRAT_SATS = xprelude/SATS/exrat.sats
+EXRAT_DATS = xprelude/DATS/exrat.dats
+EXRAT_CATS = xprelude/CATS/exrat.cats
+EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
+EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
+EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
 @ENABLE_EXRAT_TRUE@EXRAT_SUPPORT_DATS = exrat-support.dats
 @ENABLE_EXRAT_TRUE@EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
 

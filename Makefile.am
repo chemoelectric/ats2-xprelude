@@ -184,11 +184,6 @@ MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude_sats.hats
 MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude_dats.hats
 MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude.hats
 
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/provide_array.dats
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/convolution.dats
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/array_spow_unsplit.dats
-# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/min-size.dats
-
 nobase_dist_pkginclude_HEADERS += $(MISCELLANEOUS_EXTRAS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -240,7 +235,7 @@ EXTRA_DIST += $(addsuffix .m4, $(FIXED32P32_SRC))
 BUILT_SOURCES += $(FIXED32P32_SRC)
 CLEANFILES += $(FIXED32P32_SRC)
 
-nobase_dist_pkginclude_HEADERS += $(FIXED32P32_SRC)
+nobase_nodist_pkginclude_HEADERS += $(FIXED32P32_SRC)
 
 EXTRA_DIST += fixed32p32_square_root.dats
 CLEANFILES += fixed32p32_square_root_dats.c
@@ -257,29 +252,33 @@ nodist_libats2_xprelude_la_SOURCES += tostrptr_fixed32p32_dats.c
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if ENABLE_EXRAT
-
 EXRAT_SATS = xprelude/SATS/exrat.sats
 EXRAT_DATS = xprelude/DATS/exrat.dats
 EXRAT_CATS = xprelude/CATS/exrat.cats
 EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
 EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
 
+EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
+#EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC))
+#BUILT_SOURCES += $(EXRAT_SRC)
+#CLEANFILES += $(EXRAT_SRC)
+EXTRA_DIST += $(EXRAT_SRC)
+
+if ENABLE_EXRAT
+
 EXRAT_SUPPORT_DATS = exrat-support.dats
 EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
 
-nobase_dist_pkginclude_HEADERS += $(EXRAT_SATS)
-nobase_dist_pkginclude_HEADERS += $(EXRAT_DATS)
-nobase_dist_pkginclude_HEADERS += $(EXRAT_CATS)
+nobase_nodist_pkginclude_HEADERS += $(EXRAT_SRC)
 
 nodist_libats2_xprelude_la_SOURCES += $(EXRAT_SATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(EXRAT_DATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(EXRAT_SUPPORT_DATS_C)
 
+endif ENABLE_EXRAT
+
 EXTRA_DIST += $(EXRAT_SUPPORT_DATS)
 CLEANFILES += $(EXRAT_SUPPORT_DATS_C)
-
-endif ENABLE_EXRAT
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -300,26 +299,24 @@ xats-c-clean:
 TEST_CFLAGS = $(AM_CFLAGS) $(ATS_MEMALLOC_CFLAGS) -D$(ATS_MEMALLOC)
 TEST_LIBS = libats2-xprelude.la $(GMP_LIBS) -lm $(ATS_MEMALLOC_LIBS)
 
-TESTS += tests/test-float
 EXTRA_DIST += tests/test-float.dats
+TESTS += tests/test-float
 nodist_tests_test_float_SOURCES = tests/test-float_tests.c
 tests_test_float_CFLAGS = $(TEST_CFLAGS)
 tests_test_float_LDADD = $(TEST_LIBS)
 
-TESTS += tests/test-fixed32p32
 EXTRA_DIST += tests/test-fixed32p32.dats
+TESTS += tests/test-fixed32p32
 nodist_tests_test_fixed32p32_SOURCES = tests/test-fixed32p32_tests.c
 tests_test_fixed32p32_CFLAGS = $(TEST_CFLAGS)
 tests_test_fixed32p32_LDADD = $(TEST_LIBS)
 
-if ENABLE_EXRAT
-
-TESTS += tests/test-exrat
 EXTRA_DIST += tests/test-exrat.dats
+if ENABLE_EXRAT
+TESTS += tests/test-exrat
 nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
 tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
 tests_test_exrat_LDADD = $(TEST_LIBS)
-
 endif ENABLE_EXRAT
 
 EXTRA_PROGRAMS += $(TESTS)
