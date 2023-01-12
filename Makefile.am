@@ -294,6 +294,12 @@ xats-c-clean:
 TEST_CFLAGS = $(AM_CFLAGS) $(ATS_MEMALLOC_CFLAGS) -D$(ATS_MEMALLOC)
 TEST_LIBS = libats2-xprelude.la $(GMP_LIBS) -lm $(ATS_MEMALLOC_LIBS)
 
+EXTRA_DIST += tests/test-integer.dats
+TESTS += tests/test-integer
+nodist_tests_test_integer_SOURCES = tests/test-integer_tests.c
+tests_test_integer_CFLAGS = $(TEST_CFLAGS)
+tests_test_integer_LDADD = $(TEST_LIBS)
+
 EXTRA_DIST += tests/test-float.dats
 TESTS += tests/test-float
 nodist_tests_test_float_SOURCES = tests/test-float_tests.c

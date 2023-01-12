@@ -51,12 +51,12 @@ AM_CONDITIONAL([DEPENDENCY_TRACKING],
   [test x"${enable_dependency_tracking}" != xno])
 
 AC_ARG_ENABLE([exrat],
-  [AS_HELP_STRING([--enable-exrat=yes|no],
+  [AS_HELP_STRING([--enable-exrat],
       [enable garbage-collected exact rational types;
         requires https://gmplib.org/
-        [there is no default; you must choose]])],
+        [default=yes]])],
   [],
-  [AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])])
+  [enable_exrat=yes])
 if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
   AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])
 fi
@@ -96,7 +96,7 @@ PKG_INSTALLDIR
 
 if test x"${enable_exrat}" = xyes; then
   PKG_CHECK_MODULES([GMP],[gmp],,
-    [AC_MSG_ERROR([GNU Multiple Precision Arithmetic Library is needed but was not found])])
+    [AC_MSG_ERROR([GNU Multiple Precision Arithmetic Library not found; consider --enable-exrat=no])])
 fi
 
 # Use Boehm GC for tests, if it is present.

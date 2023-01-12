@@ -89,6 +89,18 @@ m4_foreachq(`UINT1',`uintbases',
 ')dnl
 ')dnl
 
+macdef g0i2i x = g0int2int ,(x)
+macdef g1i2i x = g1int2int ,(x)
+
+macdef g0i2u x = g0int2uint ,(x)
+macdef g1i2u x = g1int2uint ,(x)
+
+macdef g0u2i x = g0uint2int ,(x)
+macdef g1u2i x = g1uint2int ,(x)
+
+macdef g0u2u x = g0uint2uint ,(x)
+macdef g1u2u x = g1uint2uint ,(x)
+
 (*------------------------------------------------------------------*)
 (* Comparisons. *)
 
@@ -242,6 +254,36 @@ m4_foreachq(`UINT',`uintbases',
 `
 fn g0uint_add_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
 fn g1uint_add_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i + j) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Subtraction. *)
+
+m4_foreachq(`INT',`intbases',
+`
+fn g0int_sub_`'INT : m4_g0int_binary(INT) = "mac#%"
+fn g1int_sub_`'INT : {i, j : int} m4_g1int_binary(INT, i, j, i - j) = "mac#%"
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn g0uint_sub_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
+fn g1uint_sub_`'UINT : {i, j : int | j <= i} m4_g1uint_binary(UINT, i, j, i - j) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Multiplication. *)
+
+m4_foreachq(`INT',`intbases',
+`
+fn g0int_mul_`'INT : m4_g0int_binary(INT) = "mac#%"
+fn g1int_mul_`'INT : {i, j : int} m4_g1int_binary(INT, i, j, i * j) = "mac#%"
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn g0uint_mul_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
+fn g1uint_mul_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i * j) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)

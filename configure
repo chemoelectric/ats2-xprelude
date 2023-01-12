@@ -1518,9 +1518,8 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-exrat=yes|no   enable garbage-collected exact rational types;
-                          requires https://gmplib.org/ [there is no default;
-                          you must choose]
+  --enable-exrat          enable garbage-collected exact rational types;
+                          requires https://gmplib.org/ [default=yes]
   --enable-cross-guesses={conservative|risky}
                           specify policy for cross-compilation guesses
   --enable-code-coverage  Whether to enable code coverage support
@@ -13382,7 +13381,7 @@ if test ${enable_exrat+y}
 then :
   enableval=$enable_exrat;
 else $as_nop
-  as_fn_error $? "please specify --enable-exrat=yes or --enable-exrat=no" "$LINENO" 5
+  enable_exrat=yes
 fi
 
 if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
@@ -19913,11 +19912,11 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GMP_PKG_ERRORS" >&5
 
-	as_fn_error $? "GNU Multiple Precision Arithmetic Library is needed but was not found" "$LINENO" 5
+	as_fn_error $? "GNU Multiple Precision Arithmetic Library not found; consider --enable-exrat=no" "$LINENO" 5
 elif test $pkg_failed = untried; then
      	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	as_fn_error $? "GNU Multiple Precision Arithmetic Library is needed but was not found" "$LINENO" 5
+	as_fn_error $? "GNU Multiple Precision Arithmetic Library not found; consider --enable-exrat=no" "$LINENO" 5
 else
 	GMP_CFLAGS=$pkg_cv_GMP_CFLAGS
 	GMP_LIBS=$pkg_cv_GMP_LIBS

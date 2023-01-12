@@ -150,18 +150,21 @@ m4_foreachq(`N',`0,1',
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Addition. *)
+(* Binary operations. *)
 
+m4_foreachq(`BINOP',`add,sub,mul',
+`
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
-`implement g`'N`int_add'<intb2k(INT)> = g`'N`int_add_'INT
+`implement g`'N`'int_`'BINOP<intb2k(INT)> = g`'N`'int_`'BINOP`'_`'INT
 ')
 ')dnl
 
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
-`implement g`'N`uint_add'<uintb2k(UINT)> = g`'N`uint_add_'UINT
+`implement g`'N`'uint_`'BINOP<uintb2k(UINT)> = g`'N`'uint_`'BINOP`'_`'UINT
 ')
+')dnl
 ')dnl
 
 (*------------------------------------------------------------------*)

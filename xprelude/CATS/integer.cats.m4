@@ -251,15 +251,16 @@ ats2_xprelude_g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Addition. */
+/* Binary operations. */
 
-m4_foreachq(`N',`0,1',
+m4_foreachq(`BINOP',`add,sub,mul',
+`m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
 ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_add_`'INT (intb2c(INT) i, intb2c(INT) j)
+ats2_xprelude_g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
-  return (i + j);
+  return (i ats_binop_c(BINOP) j);
 }
 ')
 ')dnl
@@ -268,11 +269,12 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
 ats2_xprelude_inline uintb2c(UINT)
-ats2_xprelude_g`'N`'uint_add_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
-  return (i + j);
+  return (i ats_binop_c(BINOP) j);
 }
 ')
+')dnl
 ')dnl
 
 /*------------------------------------------------------------------*/
