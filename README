@@ -18,3 +18,6 @@ THIS PROJECT IS A WORK IN PROGRESS.
   implementation will be ats2-timsort. I suppose ats2-quicksorts may
   also be made available as choices. And the prelude’s own sort
   implementations.)
+
+* Also possible: C complex types, treated in ATS as floating point
+  types.
