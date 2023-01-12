@@ -50,6 +50,16 @@ fi
 AM_CONDITIONAL([DEPENDENCY_TRACKING],
   [test x"${enable_dependency_tracking}" != xno])
 
+AC_ARG_ENABLE([exrat],
+  [AS_HELP_STRING([--enable-exrat=yes|no],
+      [enable exact rational types; requires https://gmplib.org/
+        [there is no default; you must choose]])],
+  [],
+  [AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])])
+if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
+  AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])
+fi
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -83,8 +93,10 @@ PKG_INSTALLDIR
 #
 # Checks for libraries.
 
-PKG_CHECK_MODULES([GMP],[gmp],,
-  [AC_MSG_ERROR([GNU Multiple Precision Arithmetic Library is needed but was not found])])
+if test x"${enable_exrat}" = xyes; then
+  PKG_CHECK_MODULES([GMP],[gmp],,
+    [AC_MSG_ERROR([GNU Multiple Precision Arithmetic Library is needed but was not found])])
+fi
 
 # Use Boehm GC for tests, if it is present.
 have_bdwgc=yes
@@ -120,6 +132,8 @@ fi
 # Checks for library functions.
 
 #--------------------------------------------------------------------------
+
+AM_CONDITIONAL([ENABLE_EXRAT],[test x"${enable_exrat}" = xyes])
 
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"

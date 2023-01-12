@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Thu Jan 12 10:03:36 CST 2023
+# from AX_AM_MACROS_STATIC on Thu Jan 12 10:37:46 CST 2023
 
 
 
@@ -113,9 +113,17 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS =
-EXTRA_PROGRAMS = $(am__EXEEXT_1) list-ats-dependencies$(EXEEXT)
+EXTRA_PROGRAMS = $(am__EXEEXT_2) list-ats-dependencies$(EXEEXT)
 TESTS = tests/test-float$(EXEEXT) tests/test-fixed32p32$(EXEEXT) \
-	tests/test-exrat$(EXEEXT)
+	$(am__EXEEXT_1)
+@ENABLE_EXRAT_TRUE@am__append_1 = $(EXRAT_SATS) $(EXRAT_DATS) \
+@ENABLE_EXRAT_TRUE@	$(EXRAT_CATS)
+@ENABLE_EXRAT_TRUE@am__append_2 = $(EXRAT_SATS_C) $(EXRAT_DATS_C) \
+@ENABLE_EXRAT_TRUE@	$(EXRAT_SUPPORT_DATS_C)
+@ENABLE_EXRAT_TRUE@am__append_3 = $(EXRAT_SUPPORT_DATS)
+@ENABLE_EXRAT_TRUE@am__append_4 = $(EXRAT_SUPPORT_DATS_C)
+@ENABLE_EXRAT_TRUE@am__append_5 = tests/test-exrat
+@ENABLE_EXRAT_TRUE@am__append_6 = tests/test-exrat.dats
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -138,8 +146,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(nobase_dist_pkginclude_HEADERS) \
-	$(am__DIST_COMMON)
+	$(am__configure_deps) \
+	$(am__nobase_dist_pkginclude_HEADERS_DIST) $(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
@@ -147,8 +155,9 @@ CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = list-ats-dependencies.dats common-macros.m4 \
 	ats2-xprelude-macros.m4
 CONFIG_CLEAN_VPATH_FILES =
-am__EXEEXT_1 = tests/test-float$(EXEEXT) \
-	tests/test-fixed32p32$(EXEEXT) tests/test-exrat$(EXEEXT)
+@ENABLE_EXRAT_TRUE@am__EXEEXT_1 = tests/test-exrat$(EXEEXT)
+am__EXEEXT_2 = tests/test-float$(EXEEXT) \
+	tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_1)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(pkgincludedir)" \
 	"$(DESTDIR)$(pkgincludedir)"
@@ -192,14 +201,15 @@ am__objects_3 = xprelude/SATS/float_sats.lo
 am__objects_4 = xprelude/DATS/float_dats.lo
 am__objects_5 = xprelude/SATS/fixed32p32_sats.lo
 am__objects_6 = xprelude/DATS/fixed32p32_dats.lo
-am__objects_7 = xprelude/SATS/exrat_sats.lo
-am__objects_8 = xprelude/DATS/exrat_dats.lo
-am__objects_9 = exrat-support_dats.lo
+@ENABLE_EXRAT_TRUE@am__objects_7 = xprelude/SATS/exrat_sats.lo
+@ENABLE_EXRAT_TRUE@am__objects_8 = xprelude/DATS/exrat_dats.lo
+@ENABLE_EXRAT_TRUE@am__objects_9 = exrat-support_dats.lo
+@ENABLE_EXRAT_TRUE@am__objects_10 = $(am__objects_7) $(am__objects_8) \
+@ENABLE_EXRAT_TRUE@	$(am__objects_9)
 nodist_libats2_xprelude_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
 	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
 	$(am__objects_6) fixed32p32_square_root_dats.lo \
-	tostrptr_fixed32p32_dats.lo $(am__objects_7) $(am__objects_8) \
-	$(am__objects_9)
+	tostrptr_fixed32p32_dats.lo $(am__objects_10)
 libats2_xprelude_la_OBJECTS = $(dist_libats2_xprelude_la_OBJECTS) \
 	$(nodist_libats2_xprelude_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -209,12 +219,12 @@ am__v_lt_1 =
 nodist_list_ats_dependencies_OBJECTS = list_ats_dependencies-list-ats-dependencies_depsprog.$(OBJEXT)
 list_ats_dependencies_OBJECTS =  \
 	$(nodist_list_ats_dependencies_OBJECTS)
-nodist_tests_test_exrat_OBJECTS =  \
-	tests/test_exrat-test-exrat_tests.$(OBJEXT)
+@ENABLE_EXRAT_TRUE@nodist_tests_test_exrat_OBJECTS = tests/test_exrat-test-exrat_tests.$(OBJEXT)
 tests_test_exrat_OBJECTS = $(nodist_tests_test_exrat_OBJECTS)
 am__DEPENDENCIES_2 = libats2-xprelude.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
-tests_test_exrat_DEPENDENCIES = $(am__DEPENDENCIES_2)
+@ENABLE_EXRAT_TRUE@tests_test_exrat_DEPENDENCIES =  \
+@ENABLE_EXRAT_TRUE@	$(am__DEPENDENCIES_2)
 tests_test_exrat_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(tests_test_exrat_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
@@ -308,6 +318,12 @@ am__can_run_installinfo = \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 DATA = $(nodist_pkgconfig_DATA)
+am__nobase_dist_pkginclude_HEADERS_DIST =  \
+	xprelude/HATS/xprelude_sats.hats \
+	xprelude/HATS/xprelude_dats.hats xprelude/HATS/xprelude.hats \
+	xprelude/SATS/fixed32p32.sats xprelude/DATS/fixed32p32.dats \
+	xprelude/CATS/fixed32p32.cats xprelude/SATS/exrat.sats \
+	xprelude/DATS/exrat.dats xprelude/CATS/exrat.cats
 HEADERS = $(nobase_dist_pkginclude_HEADERS) \
 	$(nobase_nodist_pkginclude_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
@@ -762,12 +778,12 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	COPYING INSTALL README AUTHORS $(addsuffix .m4, \
 	$(INTEGER_SRC)) $(addsuffix .m4, $(FLOAT_SRC)) \
 	fixed32p32_square_root.dats tostrptr_fixed32p32.dats \
-	$(EXRAT_SUPPORT_DATS) tests/test-float.dats \
-	tests/test-fixed32p32.dats tests/test-exrat.dats \
+	$(am__append_3) tests/test-float.dats \
+	tests/test-fixed32p32.dats $(am__append_6) \
 	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(INTEGER_SRC) $(FLOAT_SRC) fixed32p32_square_root_dats.c \
-	tostrptr_fixed32p32_dats.c $(EXRAT_SUPPORT_DATS_C) $(TESTS) \
+	tostrptr_fixed32p32_dats.c $(am__append_4) $(TESTS) \
 	list-ats-dependencies list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(INTEGER_SRC) $(FLOAT_SRC)
@@ -790,7 +806,7 @@ lib_LTLIBRARIES = libats2-xprelude.la
 # MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/min-size.dats
 nobase_dist_pkginclude_HEADERS = $(MISCELLANEOUS_EXTRAS) \
 	$(FIXED32P32_SATS) $(FIXED32P32_DATS) $(FIXED32P32_CATS) \
-	$(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
+	$(am__append_1)
 nobase_nodist_pkginclude_HEADERS = $(INTEGER_SRC) $(FLOAT_SRC)
 dist_libats2_xprelude_la_SOURCES = fixed32p32_multiplication.c \
 	fixed32p32_division.c
@@ -798,7 +814,7 @@ nodist_libats2_xprelude_la_SOURCES = $(INTEGER_SATS_C) \
 	$(INTEGER_DATS_C) $(FLOAT_SATS_C) $(FLOAT_DATS_C) \
 	$(FIXED32P32_SATS_C) $(FIXED32P32_DATS_C) \
 	fixed32p32_square_root_dats.c tostrptr_fixed32p32_dats.c \
-	$(EXRAT_SATS_C) $(EXRAT_DATS_C) $(EXRAT_SUPPORT_DATS_C)
+	$(am__append_2)
 libats2_xprelude_la_LIBADD = $(GMP_LIBS) lib/libgnu.la
 nodist_pkgconfig_DATA = 
 CODE_COVERAGE_IGNORE_PATTERN = /usr/include/* /usr/include/*/* \
@@ -843,13 +859,13 @@ FIXED32P32_SATS_C = xprelude/SATS/fixed32p32_sats.c
 FIXED32P32_DATS_C = xprelude/DATS/fixed32p32_dats.c
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-EXRAT_SATS = xprelude/SATS/exrat.sats
-EXRAT_DATS = xprelude/DATS/exrat.dats
-EXRAT_CATS = xprelude/CATS/exrat.cats
-EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
-EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
-EXRAT_SUPPORT_DATS = exrat-support.dats
-EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
+@ENABLE_EXRAT_TRUE@EXRAT_SATS = xprelude/SATS/exrat.sats
+@ENABLE_EXRAT_TRUE@EXRAT_DATS = xprelude/DATS/exrat.dats
+@ENABLE_EXRAT_TRUE@EXRAT_CATS = xprelude/CATS/exrat.cats
+@ENABLE_EXRAT_TRUE@EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
+@ENABLE_EXRAT_TRUE@EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
+@ENABLE_EXRAT_TRUE@EXRAT_SUPPORT_DATS = exrat-support.dats
+@ENABLE_EXRAT_TRUE@EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
 
 #--------------------------------------------------------------------------
 #
@@ -863,9 +879,9 @@ tests_test_float_LDADD = $(TEST_LIBS)
 nodist_tests_test_fixed32p32_SOURCES = tests/test-fixed32p32_tests.c
 tests_test_fixed32p32_CFLAGS = $(TEST_CFLAGS)
 tests_test_fixed32p32_LDADD = $(TEST_LIBS)
-nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
-tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
-tests_test_exrat_LDADD = $(TEST_LIBS)
+@ENABLE_EXRAT_TRUE@nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
+@ENABLE_EXRAT_TRUE@tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
+@ENABLE_EXRAT_TRUE@tests_test_exrat_LDADD = $(TEST_LIBS)
 nodist_list_ats_dependencies_SOURCES =  \
 	list-ats-dependencies_depsprog.c
 list_ats_dependencies_CPPFLAGS = $(AM_CPPFLAGS) -DATS_MEMALLOC_LIBC

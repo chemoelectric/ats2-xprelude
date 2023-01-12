@@ -254,6 +254,8 @@ nodist_libats2_xprelude_la_SOURCES += tostrptr_fixed32p32_dats.c
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+if ENABLE_EXRAT
+
 EXRAT_SATS = xprelude/SATS/exrat.sats
 EXRAT_DATS = xprelude/DATS/exrat.dats
 EXRAT_CATS = xprelude/CATS/exrat.cats
@@ -273,6 +275,8 @@ nodist_libats2_xprelude_la_SOURCES += $(EXRAT_SUPPORT_DATS_C)
 
 EXTRA_DIST += $(EXRAT_SUPPORT_DATS)
 CLEANFILES += $(EXRAT_SUPPORT_DATS_C)
+
+endif ENABLE_EXRAT
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -305,11 +309,15 @@ nodist_tests_test_fixed32p32_SOURCES = tests/test-fixed32p32_tests.c
 tests_test_fixed32p32_CFLAGS = $(TEST_CFLAGS)
 tests_test_fixed32p32_LDADD = $(TEST_LIBS)
 
+if ENABLE_EXRAT
+
 TESTS += tests/test-exrat
 EXTRA_DIST += tests/test-exrat.dats
 nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
 tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
 tests_test_exrat_LDADD = $(TEST_LIBS)
+
+endif ENABLE_EXRAT
 
 EXTRA_PROGRAMS += $(TESTS)
 

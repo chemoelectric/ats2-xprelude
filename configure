@@ -668,6 +668,8 @@ LTLIBOBJS
 LIBOBJS
 GNU_MAKE
 GNU
+ENABLE_EXRAT_FALSE
+ENABLE_EXRAT_TRUE
 ATS_MEMALLOC_LIBS
 ATS_MEMALLOC_CFLAGS
 ATS_MEMALLOC
@@ -845,6 +847,7 @@ with_aix_soname
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
+enable_exrat
 enable_cross_guesses
 with_gcov
 enable_code_coverage
@@ -1515,6 +1518,9 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-exrat=yes|no   enable exact rational types; requires
+                          https://gmplib.org/ [there is no default; you must
+                          choose]
   --enable-cross-guesses={conservative|risky}
                           specify policy for cross-compilation guesses
   --enable-code-coverage  Whether to enable code coverage support
@@ -13371,6 +13377,18 @@ else
 fi
 
 
+# Check whether --enable-exrat was given.
+if test ${enable_exrat+y}
+then :
+  enableval=$enable_exrat;
+else $as_nop
+  as_fn_error $? "please specify --enable-exrat=yes or --enable-exrat=no" "$LINENO" 5
+fi
+
+if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
+  as_fn_error $? "please specify --enable-exrat=yes or --enable-exrat=no" "$LINENO" 5
+fi
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -19835,6 +19853,7 @@ pkgconfigdir=$with_pkgconfigdir
 #
 # Checks for libraries.
 
+if test x"${enable_exrat}" = xyes; then
 
 pkg_failed=no
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for GMP" >&5
@@ -19905,6 +19924,7 @@ else
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
+fi
 fi
 
 # Use Boehm GC for tests, if it is present.
@@ -20013,6 +20033,15 @@ fi
 # Checks for library functions.
 
 #--------------------------------------------------------------------------
+
+ if test x"${enable_exrat}" = xyes; then
+  ENABLE_EXRAT_TRUE=
+  ENABLE_EXRAT_FALSE='#'
+else
+  ENABLE_EXRAT_TRUE='#'
+  ENABLE_EXRAT_FALSE=
+fi
+
 
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
@@ -20368,6 +20397,10 @@ fi
 
 if test -z "${CODE_COVERAGE_ENABLED_TRUE}" && test -z "${CODE_COVERAGE_ENABLED_FALSE}"; then
   as_fn_error $? "conditional \"CODE_COVERAGE_ENABLED\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_EXRAT_TRUE}" && test -z "${ENABLE_EXRAT_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_EXRAT\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
