@@ -1518,9 +1518,9 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-exrat=yes|no   enable exact rational types; requires
-                          https://gmplib.org/ [there is no default; you must
-                          choose]
+  --enable-exrat=yes|no   enable garbage-collected exact rational types;
+                          requires https://gmplib.org/ [there is no default;
+                          you must choose]
   --enable-cross-guesses={conservative|risky}
                           specify policy for cross-compilation guesses
   --enable-code-coverage  Whether to enable code coverage support

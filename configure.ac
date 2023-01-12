@@ -52,7 +52,8 @@ AM_CONDITIONAL([DEPENDENCY_TRACKING],
 
 AC_ARG_ENABLE([exrat],
   [AS_HELP_STRING([--enable-exrat=yes|no],
-      [enable exact rational types; requires https://gmplib.org/
+      [enable garbage-collected exact rational types;
+        requires https://gmplib.org/
         [there is no default; you must choose]])],
   [],
   [AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])])
