@@ -15,17 +15,21 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_PACKNAME "ats2-xprelude.fixed32p32"
-#define ATS_EXTERN_PREFIX "ats2_poly_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 %{#
 #include "xprelude/CATS/fixed32p32.cats"
 %}
 
+staload "xprelude/SATS/integer.sats"
 staload "xprelude/SATS/float.sats"
 
-tkindef fixed32p32_kind = "ats2_poly_fixed32p32"
+(*------------------------------------------------------------------*)
+
+tkindef fixed32p32_kind = "ats2_xprelude_fixed32p32"
 stadef fix32p32knd = fixed32p32_kind
 typedef fixed32p32 = g0float fix32p32knd
 
@@ -64,34 +68,15 @@ overload tostring_fixed32p32 with tostring_fixed32p32_assumed_decimal_places
 (* The difference between 1 and the least value greater than 1. *)
 fn g0float_epsilon_fixed32p32 : () -<> fixed32p32 = "mac#%"
 
-fn g0int2float_int8_fixed32p32 : int8 -<> fixed32p32 = "mac#%"
-fn g0int2float_int16_fixed32p32 : int16 -<> fixed32p32 = "mac#%"
-fn g0int2float_int32_fixed32p32 : int32 -<> fixed32p32 = "mac#%"
-fn g0int2float_int64_fixed32p32 : int64 -<> fixed32p32 = "mac#%"
-fn g0int2float_sint_fixed32p32 : sint -<> fixed32p32 = "mac#%"
-fn g0int2float_int_fixed32p32 : int -<> fixed32p32 = "mac#%"
-fn g0int2float_lint_fixed32p32 : lint -<> fixed32p32 = "mac#%"
-fn g0int2float_llint_fixed32p32 : llint -<> fixed32p32 = "mac#%"
-fn g0int2float_ssize_fixed32p32 : ssize_t -<> fixed32p32 = "mac#%"
+m4_foreachq(`INT',`intbases',
+`fn g0int2float_`'INT`'_fixed32p32 : m4_g0int(INT) -<> fixed32p32 = "mac#%"
+fn g0float2int_fixed32p32_`'INT : fixed32p32 -<> m4_g0int(INT) = "mac#%"
+')dnl
 
-fn g0float2int_fixed32p32_int8 : fixed32p32 -<> int8 = "mac#%"
-fn g0float2int_fixed32p32_int16 : fixed32p32 -<> int16 = "mac#%"
-fn g0float2int_fixed32p32_int32 : fixed32p32 -<> int32 = "mac#%"
-fn g0float2int_fixed32p32_int64 : fixed32p32 -<> int64 = "mac#%"
-fn g0float2int_fixed32p32_sint : fixed32p32 -<> sint = "mac#%"
-fn g0float2int_fixed32p32_int : fixed32p32 -<> int = "mac#%"
-fn g0float2int_fixed32p32_lint : fixed32p32 -<> lint = "mac#%"
-fn g0float2int_fixed32p32_llint : fixed32p32 -<> llint = "mac#%"
-fn g0float2int_fixed32p32_ssize : fixed32p32 -<> ssize_t = "mac#%"
-
-fn g0float2float_float_fixed32p32 : float -<> fixed32p32 = "mac#%"
-fn g0float2float_double_fixed32p32 : double -<> fixed32p32 = "mac#%"
-fn g0float2float_ldouble_fixed32p32 : ldouble -<> fixed32p32 = "mac#%"
-
-fn g0float2float_fixed32p32_float : fixed32p32 -<> float = "mac#%"
-fn g0float2float_fixed32p32_double : fixed32p32 -<> double = "mac#%"
-fn g0float2float_fixed32p32_ldouble : fixed32p32 -<> ldouble = "mac#%"
-
+m4_foreachq(`FLT',`conventional_floattypes',
+`fn g0float2float_`'FLT`'_fixed32p32 : m4_g0float(FLT) -<> fixed32p32 = "mac#%"
+fn g0float2float_fixed32p32_`'FLT : fixed32p32 -<> m4_g0float(FLT) = "mac#%"
+')dnl
 fn g0float2float_fixed32p32_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 
 fn g0float_sgn_fixed32p32 : g0float_sgn_type fix32p32knd = "mac#%"
@@ -137,3 +122,9 @@ fn g0float_ceil_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 fn g0float_trunc_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 
 fn g0float_sqrt_fixed32p32 : fixed32p32 -<> fixed32p32
+
+(*------------------------------------------------------------------*)
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:

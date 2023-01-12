@@ -18,10 +18,10 @@
 
 (* Extensions to (and bug fixes for) the prelude. *)
 
-#ifndef ATS2_POLY__XPRELUDE_HATS__HEADER_GUARD__ #then
-#define ATS2_POLY__XPRELUDE_HATS__HEADER_GUARD__ 1
+#ifndef ATS2_XPRELUDE__XPRELUDE_HATS__HEADER_GUARD__ #then
+#define ATS2_XPRELUDE__XPRELUDE_HATS__HEADER_GUARD__ 1
 
 #include "xprelude/HATS/xprelude_sats.hats"
 #include "xprelude/HATS/xprelude_dats.hats"
 
-#endif (* ATS2_POLY__XPRELUDE_HATS__HEADER_GUARD__ *)
+#endif (* ATS2_XPRELUDE__XPRELUDE_HATS__HEADER_GUARD__ *)

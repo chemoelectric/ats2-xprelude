@@ -17,21 +17,21 @@
 */
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
-#ifndef ATS2_POLY_CATS__INTEGER_CATS__HEADER_GUARD__
-#define ATS2_POLY_CATS__INTEGER_CATS__HEADER_GUARD__
+#ifndef ATS2_XPRELUDE_CATS__INTEGER_CATS__HEADER_GUARD__
+#define ATS2_XPRELUDE_CATS__INTEGER_CATS__HEADER_GUARD__
 
 #include <stdint.h>
 #include <`inttypes'.h>
 
-#ifndef ats2_poly_inline
-#define ats2_poly_inline ATSinline ()
+#ifndef ats2_xprelude_inline
+#define ats2_xprelude_inline ATSinline ()
 #endif
 
 /*------------------------------------------------------------------*/
 /* intmax_t and uintmax_t */
 
-typedef intmax_t ats2_poly_intmax;
-typedef uintmax_t ats2_poly_uintmax;
+typedef intmax_t ats2_xprelude_intmax;
+typedef uintmax_t ats2_xprelude_uintmax;
 
 /*------------------------------------------------------------------*/
 /* Type conversions. */
@@ -40,8 +40,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT1',`intbases',
 `m4_foreachq(`INT2',`intbases',
 `
-ats2_poly_inline intb2c(INT2)
-ats2_poly_g`'N`'int2int_`'INT1`_'INT2 (intb2c(INT1) i)
+ats2_xprelude_inline intb2c(INT2)
+ats2_xprelude_g`'N`'int2int_`'INT1`_'INT2 (intb2c(INT1) i)
 {
   return (intb2c(INT2)) i;
 }
@@ -53,8 +53,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT1',`intbases',
 `m4_foreachq(`UINT2',`uintbases',
 `
-ats2_poly_inline uintb2c(UINT2)
-ats2_poly_g`'N`'int2uint_`'INT1`_'UINT2 (intb2c(INT1) i)
+ats2_xprelude_inline uintb2c(UINT2)
+ats2_xprelude_g`'N`'int2uint_`'INT1`_'UINT2 (intb2c(INT1) i)
 {
   return (uintb2c(UINT2)) i;
 }
@@ -66,8 +66,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT1',`uintbases',
 `m4_foreachq(`INT2',`intbases',
 `
-ats2_poly_inline intb2c(INT2)
-ats2_poly_g`'N`'uint2int_`'UINT1`_'INT2 (uintb2c(UINT1) i)
+ats2_xprelude_inline intb2c(INT2)
+ats2_xprelude_g`'N`'uint2int_`'UINT1`_'INT2 (uintb2c(UINT1) i)
 {
   return (intb2c(INT2)) i;
 }
@@ -79,8 +79,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT1',`uintbases',
 `m4_foreachq(`UINT2',`uintbases',
 `
-ats2_poly_inline uintb2c(UINT2)
-ats2_poly_g`'N`'uint2uint_`'UINT1`_'UINT2 (uintb2c(UINT1) i)
+ats2_xprelude_inline uintb2c(UINT2)
+ats2_xprelude_g`'N`'uint2uint_`'UINT1`_'UINT2 (uintb2c(UINT1) i)
 {
   return (uintb2c(UINT2)) i;
 }
@@ -95,8 +95,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `m4_foreachq(`OP',`comparisons',
 `
-ats2_poly_inline atstype_bool
-ats2_poly_g`'N`'int_`'OP`_'INT (intb2c(INT) i, intb2c(INT) j)
+ats2_xprelude_inline atstype_bool
+ats2_xprelude_g`'N`'int_`'OP`_'INT (intb2c(INT) i, intb2c(INT) j)
 {
   return (i ats_cmp_c(OP) j);
 }
@@ -108,8 +108,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `m4_foreachq(`OP',`comparisons',
 `
-ats2_poly_inline atstype_bool
-ats2_poly_g`'N`'uint_`'OP`_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+ats2_xprelude_inline atstype_bool
+ats2_xprelude_g`'N`'uint_`'OP`_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
   return (i ats_cmp_c(OP) j);
 }
@@ -124,8 +124,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `m4_foreachq(`OP',`comparisons',
 `
-ats2_poly_inline atstype_bool
-`ats2_poly_g'N`int_is'OP`z_'INT (intb2c(INT) i)
+ats2_xprelude_inline atstype_bool
+`ats2_xprelude_g'N`int_is'OP`z_'INT (intb2c(INT) i)
 {
   return (i ats_cmp_c(OP) 0);
 }
@@ -137,8 +137,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `m4_foreachq(`OP',`gt,eq,neq',
 `
-ats2_poly_inline atstype_bool
-`ats2_poly_g'N`uint_is'OP`z_'UINT (uintb2c(UINT) i)
+ats2_xprelude_inline atstype_bool
+`ats2_xprelude_g'N`uint_is'OP`z_'UINT (uintb2c(UINT) i)
 {
   return (i ats_cmp_c(OP) 0);
 }
@@ -152,8 +152,8 @@ ats2_poly_inline atstype_bool
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_poly_inline intb2c(INT)
-ats2_poly_g`'N`'int_neg_`'INT (intb2c(INT) i)
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_neg_`'INT (intb2c(INT) i)
 {
   return (-i);
 }
@@ -166,8 +166,8 @@ ats2_poly_g`'N`'int_neg_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_poly_inline intb2c(INT)
-ats2_poly_g`'N`'int_abs_`'INT (intb2c(INT) i)
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_abs_`'INT (intb2c(INT) i)
 {
   return (i < 0) ? (-i) : i;
 }
@@ -180,14 +180,14 @@ ats2_poly_g`'N`'int_abs_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_poly_inline intb2c(INT)
-ats2_poly_g`'N`'int_succ_`'INT (intb2c(INT) i)
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_succ_`'INT (intb2c(INT) i)
 {
   return (i + 1);
 }
 
-ats2_poly_inline intb2c(INT)
-ats2_poly_g`'N`'int_pred_`'INT (intb2c(INT) i)
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_pred_`'INT (intb2c(INT) i)
 {
   return (i - 1);
 }
@@ -197,14 +197,14 @@ ats2_poly_g`'N`'int_pred_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_poly_inline uintb2c(UINT)
-ats2_poly_g`'N`'uint_succ_`'UINT (uintb2c(UINT) i)
+ats2_xprelude_inline uintb2c(UINT)
+ats2_xprelude_g`'N`'uint_succ_`'UINT (uintb2c(UINT) i)
 {
   return (i + 1);
 }
 
-ats2_poly_inline uintb2c(UINT)
-ats2_poly_g`'N`'uint_pred_`'UINT (uintb2c(UINT) i)
+ats2_xprelude_inline uintb2c(UINT)
+ats2_xprelude_g`'N`'uint_pred_`'UINT (uintb2c(UINT) i)
 {
   return (i - 1);
 }
@@ -231,8 +231,8 @@ ats2_poly_g`'N`'uint_pred_`'UINT (uintb2c(UINT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_poly_inline intb2c(INT)
-ats2_poly_g`'N`'int_half_`'INT (intb2c(INT) i)
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_half_`'INT (intb2c(INT) i)
 {
   return (i / 2);
 }
@@ -242,8 +242,8 @@ ats2_poly_g`'N`'int_half_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_poly_inline uintb2c(UINT)
-ats2_poly_g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
+ats2_xprelude_inline uintb2c(UINT)
+ats2_xprelude_g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
 {
   return (i >> 1);
 }
@@ -256,8 +256,8 @@ ats2_poly_g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_poly_inline intb2c(INT)
-ats2_poly_g`'N`'int_add_`'INT (intb2c(INT) i, intb2c(INT) j)
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_add_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
   return (i + j);
 }
@@ -267,8 +267,8 @@ ats2_poly_g`'N`'int_add_`'INT (intb2c(INT) i, intb2c(INT) j)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_poly_inline uintb2c(UINT)
-ats2_poly_g`'N`'uint_add_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+ats2_xprelude_inline uintb2c(UINT)
+ats2_xprelude_g`'N`'uint_add_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
   return (i + j);
 }
@@ -277,7 +277,7 @@ ats2_poly_g`'N`'uint_add_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 
 /*------------------------------------------------------------------*/
 
-#endif /* ATS2_POLY_CATS__INTEGER_CATS__HEADER_GUARD__ */
+#endif /* ATS2_XPRELUDE_CATS__INTEGER_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

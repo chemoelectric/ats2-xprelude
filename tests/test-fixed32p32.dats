@@ -16,7 +16,7 @@
   <https://www.gnu.org/licenses/>.
 *)
 
-#define ATS_EXTERN_PREFIX "ats2_poly_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
@@ -29,7 +29,7 @@ staload _ = "xprelude/DATS/fixed32p32.dats"
 %{^
 
 static atstype_bool
-ats2_poly_test_integer_division_add_back (void)
+ats2_xprelude_test_integer_division_add_back (void)
 {
   /* Test the ‘Add back’ branch of long division. The test case was
      found by random search, and expected results were computed with
@@ -64,7 +64,7 @@ ats2_poly_test_integer_division_add_back (void)
 
   uint32_t q[2];
   uint32_t r[3];
-  ats2_poly_integer_division (4, u, 3, v, 2, q, r);
+  ats2_xprelude_integer_division (4, u, 3, v, 2, q, r);
   for (int i = 1; i != -1; i -= 1)
     {
       //printf("%08lx\n", (unsigned long) q[i]);

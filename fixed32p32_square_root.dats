@@ -19,7 +19,7 @@
 #define ATS_DYNLOADFLAG 0
 
 #define ATS_PACKNAME "ats2-xprelude.fixed32p32_square_root"
-#define ATS_EXTERN_PREFIX "ats2_poly_fixed32p32_square_root_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_fixed32p32_square_root_"
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
@@ -36,9 +36,9 @@ staload _ = "xprelude/DATS/fixed32p32.dats"
 
 #define MASK ((UINT64_C(1) << 32) - 1)
 
-static inline ats2_poly_fixed32p32
-ats2_poly_fixed32p32_square_root__sqrt_initial_estimate
-  (ats2_poly_fixed32p32 x)
+static inline ats2_xprelude_fixed32p32
+ats2_xprelude_fixed32p32_square_root__sqrt_initial_estimate
+  (ats2_xprelude_fixed32p32 x)
 {
   /* Use as initial estimate 2**(floor((log2(n) / 2)) + 1), where n is
      x rounded up. The initial estimate should not be smaller than the
@@ -54,7 +54,7 @@ ats2_poly_fixed32p32_square_root__sqrt_initial_estimate
     ((CHAR_BIT * sizeof (unsigned long)) - 32);
   int bitsize = 32 - num_lz;
 
-  return ((ats2_poly_fixed32p32) 1) << (((bitsize - 1) >> 1) + 33);
+  return ((ats2_xprelude_fixed32p32) 1) << (((bitsize - 1) >> 1) + 33);
 }
 
 %}

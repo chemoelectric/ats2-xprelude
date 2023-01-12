@@ -235,9 +235,12 @@ FIXED32P32_CATS = xprelude/CATS/fixed32p32.cats
 FIXED32P32_SATS_C = xprelude/SATS/fixed32p32_sats.c
 FIXED32P32_DATS_C = xprelude/DATS/fixed32p32_dats.c
 
-nobase_dist_pkginclude_HEADERS += $(FIXED32P32_SATS)
-nobase_dist_pkginclude_HEADERS += $(FIXED32P32_DATS)
-nobase_dist_pkginclude_HEADERS += $(FIXED32P32_CATS)
+FIXED32P32_SRC = $(FIXED32P32_SATS) $(FIXED32P32_DATS) $(FIXED32P32_CATS)
+EXTRA_DIST += $(addsuffix .m4, $(FIXED32P32_SRC))
+BUILT_SOURCES += $(FIXED32P32_SRC)
+CLEANFILES += $(FIXED32P32_SRC)
+
+nobase_dist_pkginclude_HEADERS += $(FIXED32P32_SRC)
 
 EXTRA_DIST += fixed32p32_square_root.dats
 CLEANFILES += fixed32p32_square_root_dats.c

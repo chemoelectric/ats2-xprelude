@@ -15,11 +15,12 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_DYNLOADFLAG 0
 
 #define ATS_PACKNAME "ats2-xprelude.fixed32p32"
-#define ATS_EXTERN_PREFIX "ats2_poly_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
@@ -61,34 +62,15 @@ tostring_fixed32p32_assumed_decimal_places x =
 
 implement g0float_epsilon<fix32p32knd> = g0float_epsilon_fixed32p32
 
-implement g0int2float<int8knd,fix32p32knd> = g0int2float_int8_fixed32p32
-implement g0int2float<int16knd,fix32p32knd> = g0int2float_int16_fixed32p32
-implement g0int2float<int32knd,fix32p32knd> = g0int2float_int32_fixed32p32
-implement g0int2float<int64knd,fix32p32knd> = g0int2float_int64_fixed32p32
-implement g0int2float<sintknd,fix32p32knd> = g0int2float_sint_fixed32p32
-implement g0int2float<intknd,fix32p32knd> = g0int2float_int_fixed32p32
-implement g0int2float<lintknd,fix32p32knd> = g0int2float_lint_fixed32p32
-implement g0int2float<llintknd,fix32p32knd> = g0int2float_llint_fixed32p32
-implement g0int2float<ssizeknd,fix32p32knd> = g0int2float_ssize_fixed32p32
+m4_foreachq(`INT',`intbases',
+`implement g0int2float<intb2k(INT),fix32p32knd> = g0int2float_`'INT`'_fixed32p32
+implement g0float2int<fix32p32knd,intb2k(INT)> = g0float2int_fixed32p32_`'INT
+')dnl
 
-implement g0float2int<fix32p32knd,int8knd> = g0float2int_fixed32p32_int8
-implement g0float2int<fix32p32knd,int16knd> = g0float2int_fixed32p32_int16
-implement g0float2int<fix32p32knd,int32knd> = g0float2int_fixed32p32_int32
-implement g0float2int<fix32p32knd,int64knd> = g0float2int_fixed32p32_int64
-implement g0float2int<fix32p32knd,sintknd> = g0float2int_fixed32p32_sint
-implement g0float2int<fix32p32knd,intknd> = g0float2int_fixed32p32_int
-implement g0float2int<fix32p32knd,lintknd> = g0float2int_fixed32p32_lint
-implement g0float2int<fix32p32knd,llintknd> = g0float2int_fixed32p32_llint
-implement g0float2int<fix32p32knd,ssizeknd> = g0float2int_fixed32p32_ssize
-
-implement g0float2float<fltknd,fix32p32knd> = g0float2float_float_fixed32p32
-implement g0float2float<dblknd,fix32p32knd> = g0float2float_double_fixed32p32
-implement g0float2float<ldblknd,fix32p32knd> = g0float2float_ldouble_fixed32p32
-
-implement g0float2float<fix32p32knd,fltknd> = g0float2float_fixed32p32_float
-implement g0float2float<fix32p32knd,dblknd> = g0float2float_fixed32p32_double
-implement g0float2float<fix32p32knd,ldblknd> = g0float2float_fixed32p32_ldouble
-
+m4_foreachq(`FLT',`conventional_floattypes',
+`implement g0float2float<floatt2k(FLT),fix32p32knd> = g0float2float_`'FLT`'_fixed32p32
+implement g0float2float<fix32p32knd,floatt2k(FLT)> = g0float2float_fixed32p32_`'FLT
+')dnl
 implement g0float2float<fix32p32knd,fix32p32knd> = g0float2float_fixed32p32_fixed32p32
 
 implement g0float_sgn<fix32p32knd> = g0float_sgn_fixed32p32
@@ -179,3 +161,7 @@ g0float_npow<fix32p32knd> (x, n) =
   _g0float_npow<fix32p32knd> (x, n)
 
 (*------------------------------------------------------------------*)
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:

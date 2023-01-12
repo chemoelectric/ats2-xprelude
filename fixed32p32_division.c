@@ -25,7 +25,7 @@
 #include <assert.h>
 
 static void
-_ats2_poly_short_division (size_t n_u, uint32_t u[n_u],
+_ats2_xprelude_short_division (size_t n_u, uint32_t u[n_u],
                            uint32_t v,
                            uint32_t *q, uint32_t *r)
 {
@@ -45,7 +45,7 @@ _ats2_poly_short_division (size_t n_u, uint32_t u[n_u],
 }
 
 static void
-_ats2_poly_long_division (uint32_t *x, uint32_t *y, 
+_ats2_xprelude_long_division (uint32_t *x, uint32_t *y, 
                           uint32_t *q, uint32_t *r,
                           size_t m, size_t n)
 {
@@ -167,7 +167,7 @@ _ats2_poly_long_division (uint32_t *x, uint32_t *y,
 }
 
 void
-ats2_poly_integer_division (size_t n_x, uint32_t x[n_x],
+ats2_xprelude_integer_division (size_t n_x, uint32_t x[n_x],
                             size_t n_y, uint32_t y[n_y],
                             size_t n_q, uint32_t q[n_q],
                             uint32_t *r)
@@ -182,13 +182,13 @@ ats2_poly_integer_division (size_t n_x, uint32_t x[n_x],
   size_t m = n_x - n;
 
   if (n == 1)
-    _ats2_poly_short_division (n_x, x, y[0], q, r);
+    _ats2_xprelude_short_division (n_x, x, y[0], q, r);
   else
-    _ats2_poly_long_division (x, y, q, r, m, n);
+    _ats2_xprelude_long_division (x, y, q, r, m, n);
 }
 
 int64_t
-ats2_poly_fixed32p32_division (int64_t x, int64_t y)
+ats2_xprelude_fixed32p32_division (int64_t x, int64_t y)
 {
   int is_negative = (x < 0) ^ (y < 0);
   uint64_t xmagn = (x < 0) ? -x : x;
@@ -202,7 +202,7 @@ ats2_poly_fixed32p32_division (int64_t x, int64_t y)
   u[2] = (uint32_t) (xmagn >> 32);
   v[0] = (uint32_t) ymagn;
   v[1] = (uint32_t) (ymagn >> 32);
-  ats2_poly_integer_division (3, u, 2, v, 2, q, NULL);
+  ats2_xprelude_integer_division (3, u, 2, v, 2, q, NULL);
   uint64_t quotient = ((uint64_t) q[0]) | (((uint64_t) q[1]) << 32);
 
   return (is_negative) ? -((int64_t) quotient) : ((int64_t) quotient);

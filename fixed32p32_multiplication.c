@@ -21,7 +21,7 @@
 #define MASK ((UINT64_C(1) << 32) - 1)
 
 int64_t
-ats2_poly_fixed32p32_multiplication (int64_t x, int64_t y)
+ats2_xprelude_fixed32p32_multiplication (int64_t x, int64_t y)
 {
   typedef uint64_t t;
 

@@ -18,7 +18,7 @@
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_PACKNAME "ats2-xprelude.integer"
-#define ATS_EXTERN_PREFIX "ats2_poly_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 (******************************************************************
   Some integer support that is not included in the Postiats
@@ -32,14 +32,14 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 (*------------------------------------------------------------------*)
 (* intmax_t and uintmax_t. *)
 
-tkindef intmax_kind = "ats2_poly_intmax"
+tkindef intmax_kind = "ats2_xprelude_intmax"
 stadef intmaxknd = intmax_kind
 typedef intmax0 = g0int intmaxknd
 typedef intmax1 (i : int) = g1int (intmaxknd, i)
 stadef intmax = intmax1 // 2nd-select
 stadef intmax = intmax0 // 1st-select
 
-tkindef uintmax_kind = "ats2_poly_uintmax"
+tkindef uintmax_kind = "ats2_xprelude_uintmax"
 stadef uintmaxknd = uintmax_kind
 typedef uintmax0 = g0uint uintmaxknd
 typedef uintmax1 (i : int) = g1uint (uintmaxknd, i)

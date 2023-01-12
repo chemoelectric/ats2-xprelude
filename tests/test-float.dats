@@ -16,7 +16,7 @@
   <https://www.gnu.org/licenses/>.
 *)
 
-#define ATS_EXTERN_PREFIX "ats2_poly_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"

@@ -16,7 +16,7 @@
   <https://www.gnu.org/licenses/>.
 *)
 
-#define ATS_EXTERN_PREFIX "ats2_poly_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
@@ -37,19 +37,19 @@ macdef d2ex = g0float2float<dblknd,exratknd>
    used. *)
 macdef int64_to_exrat_32bit (x) =
   $extfcall (exrat,
-             "ats2_poly_g0int2float_int64_exrat_32bit",
+             "ats2_xprelude_g0int2float_int64_exrat_32bit",
              ,(x))
 macdef llint_to_exrat_32bit (x) =
   $extfcall (exrat,
-             "ats2_poly_g0int2float_llint_exrat_32bit",
+             "ats2_xprelude_g0int2float_llint_exrat_32bit",
              ,(x))
 macdef fixed2exrat_32bit (x) =
   $extfcall (exrat,
-             "ats2_poly_g0float2float_fixed32p32_exrat_32bit",
+             "ats2_xprelude_g0float2float_fixed32p32_exrat_32bit",
              ,(x))
 macdef exrat2fixed_32bit (x) =
   $extfcall (fixed32p32,
-             "ats2_poly_g0float2float_exrat_fixed32p32_32bit",
+             "ats2_xprelude_g0float2float_exrat_fixed32p32_32bit",
              ,(x))
 
 implement

@@ -20,7 +20,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_DYNLOADFLAG 0
 
 #define ATS_PACKNAME "ats2-xprelude.integer"
-#define ATS_EXTERN_PREFIX "ats2_poly_"
+#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 #include "share/atspre_staload.hats"
 
