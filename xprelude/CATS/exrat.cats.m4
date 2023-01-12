@@ -1,5 +1,5 @@
 /*
-  Copyright © 2022 Barry Schwartz
+  Copyright © 2022, 2023 Barry Schwartz
 
   This program is free software: you can redistribute it and/or
   modify it under the terms of the GNU General Public License, as
@@ -15,6 +15,7 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 */
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #ifndef ATS2_XPRELUDE_CATS__EXRAT_CATS__HEADER_GUARD__
 #define ATS2_XPRELUDE_CATS__EXRAT_CATS__HEADER_GUARD__
@@ -229,3 +230,8 @@ ats2_xprelude_exrat ats2_xprelude_exrat_div_exp2 (ats2_xprelude_exrat,
                                           atstype_ulint);
 
 #endif /* ATS2_XPRELUDE_CATS__EXRAT_CATS__HEADER_GUARD__ */
+dnl
+dnl local variables:
+dnl mode: C
+dnl end:
+dnl

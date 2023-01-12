@@ -15,6 +15,8 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+(*------------------------------------------------------------------*)
 
 #define ATS_DYNLOADFLAG 0
 
@@ -148,3 +150,9 @@ implement g0float_isgtz<exratknd> x = (g0float_sgn_exrat x > 0)
 implement g0float_isgtez<exratknd> x = (g0float_sgn_exrat x >= 0)
 implement g0float_iseqz<exratknd> x = (g0float_sgn_exrat x = 0)
 implement g0float_isneqz<exratknd> x = (g0float_sgn_exrat x <> 0)
+
+(*------------------------------------------------------------------*)
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:

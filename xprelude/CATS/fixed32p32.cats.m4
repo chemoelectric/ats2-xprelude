@@ -370,3 +370,4 @@ dnl
 dnl local variables:
 dnl mode: C
 dnl end:
+dnl

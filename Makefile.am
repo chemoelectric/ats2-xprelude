@@ -259,10 +259,9 @@ EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
 EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
 
 EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
-#EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC))
-#BUILT_SOURCES += $(EXRAT_SRC)
-#CLEANFILES += $(EXRAT_SRC)
-EXTRA_DIST += $(EXRAT_SRC)
+EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC))
+BUILT_SOURCES += $(EXRAT_SRC)
+CLEANFILES += $(EXRAT_SRC)
 
 if ENABLE_EXRAT
 

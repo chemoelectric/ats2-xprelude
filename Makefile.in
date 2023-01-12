@@ -764,23 +764,22 @@ AUTOMAKE_OPTIONS = foreign subdir-objects -Wno-portability
 @CODE_COVERAGE_ENABLED_TRUE@code_coverage_sanitize = $(subst -,_,$(subst .,_,$(1)))
 @CODE_COVERAGE_ENABLED_TRUE@AM_DISTCHECK_CONFIGURE_FLAGS := $(AM_DISTCHECK_CONFIGURE_FLAGS) --disable-code-coverage
 SUBDIRS = lib
-#EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC))
-#BUILT_SOURCES += $(EXRAT_SRC)
-#CLEANFILES += $(EXRAT_SRC)
 EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	COPYING INSTALL README AUTHORS $(addsuffix .m4, \
 	$(INTEGER_SRC)) $(addsuffix .m4, $(FLOAT_SRC)) $(addsuffix \
 	.m4, $(FIXED32P32_SRC)) fixed32p32_square_root.dats \
-	tostrptr_fixed32p32.dats $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
-	tests/test-float.dats tests/test-fixed32p32.dats \
-	tests/test-exrat.dats list-ats-dependencies.dats
+	tostrptr_fixed32p32.dats $(addsuffix .m4, $(EXRAT_SRC)) \
+	$(EXRAT_SUPPORT_DATS) tests/test-float.dats \
+	tests/test-fixed32p32.dats tests/test-exrat.dats \
+	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) \
 	fixed32p32_square_root_dats.c tostrptr_fixed32p32_dats.c \
-	$(EXRAT_SUPPORT_DATS_C) $(TESTS) list-ats-dependencies \
-	list-ats-dependencies_depsprog.c
+	$(EXRAT_SRC) $(EXRAT_SUPPORT_DATS_C) $(TESTS) \
+	list-ats-dependencies list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
-BUILT_SOURCES = $(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC)
+BUILT_SOURCES = $(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) \
+	$(EXRAT_SRC)
 AM_M4FLAGS = 
 AM_CPPFLAGS = -I$(builddir) -I$(srcdir) -I$(builddir)/lib \
 	-I$(srcdir)/lib -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime/

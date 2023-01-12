@@ -15,6 +15,7 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_PACKNAME "ats2-xprelude.exrat"
 #define ATS_EXTERN_PREFIX "ats2_xprelude_"
@@ -217,3 +218,7 @@ fn exrat_is_odd : exrat -<> bool = "mac#%"
 fn exrat_ffs : exrat -<> ulint = "mac#%"
 
 (*------------------------------------------------------------------*)
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:
