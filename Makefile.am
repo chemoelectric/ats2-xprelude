@@ -1,0 +1,345 @@
+#
+# Copyright © 2022, 2023 Barry Schwartz
+#
+# This program is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License, as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received copies of the GNU General Public License
+# along with this program. If not, see
+# <https://www.gnu.org/licenses/>.
+#
+
+.DELETE_ON_ERROR:
+
+ACLOCAL_AMFLAGS = -I m4 --install
+AUTOMAKE_OPTIONS =
+AUTOMAKE_OPTIONS += foreign
+AUTOMAKE_OPTIONS += subdir-objects
+AUTOMAKE_OPTIONS += -Wno-portability
+
+include $(top_srcdir)/aminclude_static.am
+@GNU@ include $(top_srcdir)/silent-rules.mk
+@GNU@ -include ats-dependencies/*.mk
+
+SUBDIRS = lib
+
+EXTRA_DIST =
+MOSTLYCLEANFILES =
+CLEANFILES =
+DISTCLEANFILES =
+BUILT_SOURCES =
+AM_M4FLAGS =
+AM_CPPFLAGS =
+AM_CFLAGS =
+AM_LDFLAGS =
+LDADD =
+bin_PROGRAMS =
+lib_LTLIBRARIES =
+EXTRA_PROGRAMS =
+TESTS =
+
+nobase_dist_pkginclude_HEADERS =
+nobase_nodist_pkginclude_HEADERS =
+dist_libats2_xprelude_la_SOURCES =
+nodist_libats2_xprelude_la_SOURCES =
+libats2_xprelude_la_LIBADD =
+nodist_pkgconfig_DATA =
+
+EXTRA_DIST += autogen.sh
+EXTRA_DIST += m4/gnulib-cache.m4
+EXTRA_DIST += $(srcdir)/silent-rules.mk
+EXTRA_DIST += COPYING
+EXTRA_DIST += INSTALL
+EXTRA_DIST += README
+EXTRA_DIST += AUTHORS
+
+DISTCLEANFILES += Makefile
+DISTCLEANFILES += GNUmakefile
+
+AM_CPPFLAGS += -I$(builddir)
+AM_CPPFLAGS += -I$(srcdir)
+AM_CPPFLAGS += -I$(builddir)/lib
+AM_CPPFLAGS += -I$(srcdir)/lib
+AM_CPPFLAGS += -I$(PATSHOME)
+AM_CPPFLAGS += -I$(PATSHOME)/ccomp/runtime/
+
+AM_CFLAGS += $(ITP_CFLAGS)
+AM_CFLAGS += $(GMP_CFLAGS)
+
+LDADD += $(CODE_COVERAGE_LIBS)
+
+CODE_COVERAGE_IGNORE_PATTERN =
+CODE_COVERAGE_IGNORE_PATTERN += /usr/include/*
+CODE_COVERAGE_IGNORE_PATTERN += /usr/include/*/*
+CODE_COVERAGE_IGNORE_PATTERN += $(PATSHOME)/ccomp/runtime/*
+CODE_COVERAGE_IGNORE_PATTERN += $(PATSHOME)/prelude/CATS/*
+
+clean-local: code-coverage-clean tests-clean xats-c-clean
+distclean-local: code-coverage-dist-clean ats-includes-distclean
+
+#--------------------------------------------------------------------------
+
+TOTAL_M4FLAGS =
+TOTAL_M4FLAGS += $(AM_M4FLAGS)
+TOTAL_M4FLAGS += $(M4FLAGS)
+TOTAL_M4FLAGS += $(XM4FLAGS)
+
+%: %.m4 common-macros.m4 ats2-xprelude-macros.m4
+	@$(MKDIR_P) $(@D)
+	$(call v,M4)$(M4) $(TOTAL_M4FLAGS) $(<) > $(@)
+
+#--------------------------------------------------------------------------
+
+PATSOPT_DEPS =
+
+AM_PATSOPTFLAGS =
+AM_PATSOPTFLAGS += -IATS $(builddir)
+AM_PATSOPTFLAGS += -IATS $(srcdir)
+AM_PATSOPTFLAGS += $(ITP_PATSOPTFLAGS)
+
+TOTAL_PATSOPTFLAGS =
+TOTAL_PATSOPTFLAGS += $(AM_PATSOPTFLAGS)
+TOTAL_PATSOPTFLAGS += $(PATSOPTFLAGS)
+TOTAL_PATSOPTFLAGS += $(XPATSOPTFLAGS)
+
+TESTS_PATSOPTFLAGS =
+TESTS_PATSOPTFLAGS += -IATS $(builddir)/tests
+TESTS_PATSOPTFLAGS += -IATS $(srcdir)/tests
+
+@GNU@ define write-dependencies-file =
+@GNU@	$(MKDIR_P) ats-dependencies && \
+@GNU@		echo $(1): $(shell ./list-ats-dependencies $(2)) \
+@GNU@			> ats-dependencies/`echo $(@) | $(SED) 's|/|_057_|g'`.mk
+@GNU@ endef
+
+.PHONY: ats-includes-distclean
+ats-includes-distclean:
+	-rm -f -R ats-dependencies
+
+if DEPENDENCY_TRACKING
+
+%_sats.c: %.sats $(PATSOPT_DEPS) list-ats-dependencies
+	@$(call write-dependencies-file,$(@),$(<))
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) -s $(<)
+
+%_dats.c: %.dats $(PATSOPT_DEPS) list-ats-dependencies
+	@$(call write-dependencies-file,$(@),$(<))
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) -d $(<)
+
+%_tests.c: %.dats $(PATSOPT_DEPS) list-ats-dependencies
+	@$(call write-dependencies-file,$(@),$(<))
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) \
+			$(TESTS_PATSOPTFLAGS) -d $(<)
+
+else !DEPENDENCY_TRACKING
+
+%_sats.c: %.sats $(PATSOPT_DEPS)
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) -s $(<)
+
+%_dats.c: %.dats $(PATSOPT_DEPS)
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) -d $(<)
+
+%_tests.c: %.dats $(PATSOPT_DEPS)
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) \
+			$(TESTS_PATSOPTFLAGS) -d $(<)
+
+endif !DEPENDENCY_TRACKING
+
+%_genprog.c: %.dats $(PATSOPT_DEPS)
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) -d $(<)
+
+%_depsprog.c: %.dats $(PATSOPT_DEPS)
+	@$(MKDIR_P) $(@D)
+	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) -d $(<)
+
+#--------------------------------------------------------------------------
+#
+# ATS2 libraries go here.
+#
+
+lib_LTLIBRARIES += libats2-xprelude.la
+
+libats2_xprelude_la_LIBADD += $(GMP_LIBS)
+libats2_xprelude_la_LIBADD += lib/libgnu.la
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+MISCELLANEOUS_EXTRAS =
+
+MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude_sats.hats
+MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude_dats.hats
+MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude.hats
+
+# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/provide_array.dats
+# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/convolution.dats
+# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/array_spow_unsplit.dats
+# MISCELLANEOUS_EXTRAS += xprelude/DATS/INCLUDE/min-size.dats
+
+nobase_dist_pkginclude_HEADERS += $(MISCELLANEOUS_EXTRAS)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+INTEGER_SATS = xprelude/SATS/integer.sats
+INTEGER_DATS = xprelude/DATS/integer.dats
+INTEGER_CATS = xprelude/CATS/integer.cats
+INTEGER_SATS_C = xprelude/SATS/integer_sats.c
+INTEGER_DATS_C = xprelude/DATS/integer_dats.c
+
+INTEGER_SRC = $(INTEGER_SATS) $(INTEGER_DATS) $(INTEGER_CATS)
+EXTRA_DIST += $(addsuffix .m4, $(INTEGER_SRC))
+BUILT_SOURCES += $(INTEGER_SRC)
+CLEANFILES += $(INTEGER_SRC)
+
+nobase_nodist_pkginclude_HEADERS += $(INTEGER_SRC)
+
+nodist_libats2_xprelude_la_SOURCES += $(INTEGER_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(INTEGER_DATS_C)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+FLOAT_SATS = xprelude/SATS/float.sats
+FLOAT_DATS = xprelude/DATS/float.dats
+FLOAT_CATS = xprelude/CATS/float.cats
+FLOAT_SATS_C = xprelude/SATS/float_sats.c
+FLOAT_DATS_C = xprelude/DATS/float_dats.c
+
+FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
+EXTRA_DIST += $(addsuffix .m4, $(FLOAT_SRC))
+BUILT_SOURCES += $(FLOAT_SRC)
+CLEANFILES += $(FLOAT_SRC)
+
+nobase_nodist_pkginclude_HEADERS += $(FLOAT_SRC)
+
+nodist_libats2_xprelude_la_SOURCES += $(FLOAT_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(FLOAT_DATS_C)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+FIXED32P32_SATS = xprelude/SATS/fixed32p32.sats
+FIXED32P32_DATS = xprelude/DATS/fixed32p32.dats
+FIXED32P32_CATS = xprelude/CATS/fixed32p32.cats
+FIXED32P32_SATS_C = xprelude/SATS/fixed32p32_sats.c
+FIXED32P32_DATS_C = xprelude/DATS/fixed32p32_dats.c
+
+nobase_dist_pkginclude_HEADERS += $(FIXED32P32_SATS)
+nobase_dist_pkginclude_HEADERS += $(FIXED32P32_DATS)
+nobase_dist_pkginclude_HEADERS += $(FIXED32P32_CATS)
+
+EXTRA_DIST += fixed32p32_square_root.dats
+CLEANFILES += fixed32p32_square_root_dats.c
+
+EXTRA_DIST += tostrptr_fixed32p32.dats
+CLEANFILES += tostrptr_fixed32p32_dats.c
+
+nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_DATS_C)
+dist_libats2_xprelude_la_SOURCES += fixed32p32_multiplication.c
+dist_libats2_xprelude_la_SOURCES += fixed32p32_division.c
+nodist_libats2_xprelude_la_SOURCES += fixed32p32_square_root_dats.c
+nodist_libats2_xprelude_la_SOURCES += tostrptr_fixed32p32_dats.c
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+EXRAT_SATS = xprelude/SATS/exrat.sats
+EXRAT_DATS = xprelude/DATS/exrat.dats
+EXRAT_CATS = xprelude/CATS/exrat.cats
+EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
+EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
+
+EXRAT_SUPPORT_DATS = exrat-support.dats
+EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
+
+nobase_dist_pkginclude_HEADERS += $(EXRAT_SATS)
+nobase_dist_pkginclude_HEADERS += $(EXRAT_DATS)
+nobase_dist_pkginclude_HEADERS += $(EXRAT_CATS)
+
+nodist_libats2_xprelude_la_SOURCES += $(EXRAT_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(EXRAT_DATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(EXRAT_SUPPORT_DATS_C)
+
+EXTRA_DIST += $(EXRAT_SUPPORT_DATS)
+CLEANFILES += $(EXRAT_SUPPORT_DATS_C)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Make %.o files depend on %.c files.
+$(foreach source_file, \
+	$(nodist_libats2_xprelude_la_SOURCES), \
+	$(eval $(patsubst %.c,%.$(OBJEXT),$(source_file)): $(source_file)))
+
+xats-c-clean:
+	-rm -f xprelude/SATS/*_sats.c
+	-rm -f xprelude/DATS/*_dats.c
+
+#--------------------------------------------------------------------------
+#
+# Tests go here.
+#
+
+TEST_CFLAGS = $(AM_CFLAGS) $(ATS_MEMALLOC_CFLAGS) -D$(ATS_MEMALLOC)
+TEST_LIBS = libats2-xprelude.la $(GMP_LIBS) -lm $(ATS_MEMALLOC_LIBS)
+
+TESTS += tests/test-float
+EXTRA_DIST += tests/test-float.dats
+nodist_tests_test_float_SOURCES = tests/test-float_tests.c
+tests_test_float_CFLAGS = $(TEST_CFLAGS)
+tests_test_float_LDADD = $(TEST_LIBS)
+
+TESTS += tests/test-fixed32p32
+EXTRA_DIST += tests/test-fixed32p32.dats
+nodist_tests_test_fixed32p32_SOURCES = tests/test-fixed32p32_tests.c
+tests_test_fixed32p32_CFLAGS = $(TEST_CFLAGS)
+tests_test_fixed32p32_LDADD = $(TEST_LIBS)
+
+TESTS += tests/test-exrat
+EXTRA_DIST += tests/test-exrat.dats
+nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
+tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
+tests_test_exrat_LDADD = $(TEST_LIBS)
+
+EXTRA_PROGRAMS += $(TESTS)
+
+tests-clean:
+	-rm -f tests/*.$(OBJEXT)
+	-rm -f $(addsuffix _tests.c,$(TESTS))
+CLEANFILES += $(TESTS)
+
+#--------------------------------------------------------------------------
+#
+# Computation of dependencies.
+#
+
+EXTRA_PROGRAMS += list-ats-dependencies
+EXTRA_DIST += list-ats-dependencies.dats
+CLEANFILES += list-ats-dependencies
+CLEANFILES += list-ats-dependencies_depsprog.c
+
+nodist_list_ats_dependencies_SOURCES =
+nodist_list_ats_dependencies_SOURCES += list-ats-dependencies_depsprog.c
+list_ats_dependencies_CPPFLAGS =
+list_ats_dependencies_CPPFLAGS += $(AM_CPPFLAGS)
+list_ats_dependencies_CPPFLAGS += -DATS_MEMALLOC_LIBC
+list_ats_dependencies_DEPENDENCIES =
+list_ats_dependencies_DEPENDENCIES += list-ats-dependencies.dats
+list_ats_dependencies_LDADD =
+list_ats_dependencies_LDADD += -L'$(PATSHOME)/ccomp/atslib/lib'
+list_ats_dependencies_LDADD += -latslib
+
+#--------------------------------------------------------------------------
+# local variables:
+# coding: utf-8
+# end:

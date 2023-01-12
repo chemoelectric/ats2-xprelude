@@ -1,0 +1,176 @@
+divert(-1)
+
+Copyright © 2022, 2023 Barry Schwartz
+
+This program is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License, as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received copies of the GNU General Public License
+along with this program. If not, see
+<https://www.gnu.org/licenses/>.
+
+/*------------------------------------------------------------------*/
+/* Comparisons. */
+
+m4_define(`comparisons',`lt,lte,gt,gte,eq,neq')
+
+m4_define(`ats_cmp_dynamic',
+  `m4_if($1,`lt',`<',
+         $1,`lte',`<=',
+         $1,`gt',`>',
+         $1,`gte',`>=',
+         $1,`eq',`=',
+         $1,`neq',`<>')')
+
+m4_define(`ats_cmp_static',
+  `m4_if($1,`lt',`<',
+         $1,`lte',`<=',
+         $1,`gt',`>',
+         $1,`gte',`>=',
+         $1,`eq',`==',
+         $1,`neq',`!=')')
+
+m4_define(`ats_cmp_c',
+  `m4_if($1,`lt',`<',
+         $1,`lte',`<=',
+         $1,`gt',`>',
+         $1,`gte',`>=',
+         $1,`eq',`==',
+         $1,`neq',`!=')')
+
+/*------------------------------------------------------------------*/
+/* Integer kinds. */
+
+m4_define(`conventional_intbases',
+  `sint,int,lint,llint,int8,int16,int32,int64,ssize,intptr,intmax')
+
+m4_define(`conventional_uintbases',
+  `m4_shift(m4_foreachq(`X',`conventional_intbases',
+                        `,int2uintbase(X)'))')
+
+m4_define(`intbases',`conventional_intbases')
+m4_define(`uintbases',
+  `m4_shift(m4_foreachq(`X',`intbases',`,int2uintbase(X)'))')
+
+m4_define(`int2uintbase',`m4_if($1,`ssize',`size',`u$1')')
+m4_define(`intb2k',`$1knd')
+m4_define(`uintb2k',`$1knd')
+m4_define(`intb2t',`m4_if($1,`ssize',`ssize_t',`$1')')
+m4_define(`uintb2t',`m4_if($1,`size',`size_t',`$1')')
+m4_define(`intt2b',`m4_if($1,`ssize_t',`ssize',`$1')')
+m4_define(`uintt2b',`m4_if($1,`size_t',`size',`$1')')
+m4_define(`intb2c',`m4_if($1,`intmax',`ats2_poly_intmax',
+                          `atstype_$1')')
+m4_define(`uintb2c',`m4_if($1,`uintmax',`ats2_poly_uintmax',
+                           `atstype_$1')')
+
+m4_define(`intkinds',
+  `m4_shift(m4_foreachq(`X',`intbases',`,intb2k(X)'))')
+m4_define(`uintkinds',
+  `m4_shift(m4_foreachq(`X',`uintbases',`,uintb2k(X)'))')
+
+m4_define(`inttypes',
+  `m4_shift(m4_foreachq(`X',`intbases',`,intb2t(X)'))')
+m4_define(`uinttypes',
+  `m4_shift(m4_foreachq(`X',`uintbases',`,uintb2t(X)'))')
+
+m4_define(`intt2k',`intb2k(intt2b($1))')
+m4_define(`uintt2k',`uintb2k(uintt2b($1))')
+
+/* A string beginning "tk" is presumed to be a typekind already. */
+m4_define(`int_tk',
+  `m4_if(m4_substr(`$1',0,2),`tk',`$1',`intb2k(`$1')')')
+m4_define(`uint_tk',
+  `m4_if(m4_substr(`$1',0,2),`tk',`$1',`uintb2k(`$1')')')
+
+m4_define(`m4_g0int',`g0int int_tk($1)')
+m4_define(`m4_g0uint',`g0uint uint_tk($1)')
+m4_define(`m4_g1int',`g1int (int_tk($1), $2)')
+m4_define(`m4_g1uint',`g1uint (uint_tk($1), $2)')
+
+m4_define(`m4_g0int_comparison',`(m4_g0int($1), m4_g0int($1)) -<> bool')
+m4_define(`m4_g0uint_comparison',`(m4_g0uint($1), m4_g0uint($1)) -<> bool')
+m4_define(`m4_g1int_comparison',`(m4_g1int($1, $2), m4_g1int($1, $3)) -<> bool ($4)')
+m4_define(`m4_g1uint_comparison',`(m4_g1uint($1, $2), m4_g1uint($1, $3)) -<> bool ($4)')
+
+m4_define(`m4_g0int_compare0',`m4_g0int($1) -<> bool')
+m4_define(`m4_g0uint_compare0',`m4_g0uint($1) -<> bool')
+m4_define(`m4_g1int_compare0',`m4_g1int($1, $2) -<> bool ($3)')
+m4_define(`m4_g1uint_compare0',`m4_g1uint($1, $2) -<> bool ($3)')
+
+m4_define(`m4_g0int_unary',`m4_g0int($1) -<> m4_g0int($1)')
+m4_define(`m4_g0uint_unary',`m4_g0uint($1) -<> m4_g0uint($1)')
+m4_define(`m4_g1int_unary',`m4_g1int($1, $2) -<> m4_g1int($1, $3)')
+m4_define(`m4_g1uint_unary',`m4_g1uint($1, $2) -<> m4_g1uint($1, $3)')
+
+m4_define(`m4_g0int_binary',`(m4_g0int($1), m4_g0int($1)) -<> m4_g0int($1)')
+m4_define(`m4_g0uint_binary',`(m4_g0uint($1), m4_g0uint($1)) -<> m4_g0uint($1)')
+m4_define(`m4_g1int_binary',`(m4_g1int($1, $2), m4_g1int($1, $3)) -<> m4_g1int($1, $4)')
+m4_define(`m4_g1uint_binary',`(m4_g1uint($1, $2), m4_g1uint($1, $3)) -<> m4_g1uint($1, $4)')
+
+/*------------------------------------------------------------------*/
+/* Floating point kinds. */
+
+m4_define(`conventional_floattypes',`float,double,ldouble')
+m4_define(`conventional_floatkinds',`fltknd,dblknd,ldblknd')
+
+m4_define(`floattypes',`conventional_floattypes,fixed32p32,exrat')
+m4_define(`floatkinds',`conventional_floatkinds,fix32p32knd,exratknd')
+
+m4_define(`floatk2t',
+`m4_if($1,`fltknd',`float',
+       $1,`dblknd',`double',
+       $1,`ldblknd',`ldouble',
+       $1,`fix32p32knd',`fixed32p32',
+       $1,`exratknd',`exrat',
+       $1)')
+
+m4_define(`floatt2k',
+`m4_if($1,`float',`fltknd',
+       $1,`double',`dblknd',
+       $1,`ldouble',`ldblknd',
+       $1,`fixed32p32',`fix32p32knd',
+       $1,`exrat',`exratknd',
+       $1)')
+
+m4_define(`floatt2c',`m4_if($1,`fixed32p32',`ats2_poly_fixed32p32',
+                            $1,`exrat',`ats2_poly_exrat',
+                            `atstype_$1')')
+
+/*------------------------------------------------------------------*/
+/* Floating point operations. */
+
+m4_define(`trunc_ops',`round,nearbyint,rint,floor,ceil,trunc')
+
+m4_define(`radical_ops',`sqrt,cbrt')
+m4_define(`pow_ops',`pow')
+m4_define(`exp_ops',`exp,exp2')
+m4_define(`log_ops',`log,log2,log10')
+
+m4_define(`sign_ops',`fabs')
+
+m4_define(`trig_ops',`sin,cos,tan,asin,acos,atan')
+m4_define(`trig2_ops',`atan2')
+
+m4_define(`unary_ops',`trunc_ops,
+                       radical_ops,exp_ops,log_ops,
+                       sign_ops,trig_ops')
+m4_define(`binary_ops',`pow_ops,trig2_ops')
+m4_define(`trinary_ops',`fma')
+
+/*------------------------------------------------------------------*/
+/* Polynomial kinds. */
+
+m4_define(`polylong',`monomial,bernstein,scaled_bernstein,spower')
+m4_define(`polyshort',`mono,bern,sbern,spow')
+
+/*------------------------------------------------------------------*/
+
+divert`'dnl
