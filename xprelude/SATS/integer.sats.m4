@@ -38,6 +38,7 @@ typedef intmax0 = g0int intmaxknd
 typedef intmax1 (i : int) = g1int (intmaxknd, i)
 stadef intmax = intmax1 // 2nd-select
 stadef intmax = intmax0 // 1st-select
+stadef Intmax = [i : int] intmax1 i
 
 tkindef uintmax_kind = "ats2_xprelude_uintmax"
 stadef uintmaxknd = uintmax_kind
@@ -45,6 +46,7 @@ typedef uintmax0 = g0uint uintmaxknd
 typedef uintmax1 (i : int) = g1uint (uintmaxknd, i)
 stadef uintmax = uintmax1 // 2nd-select
 stadef uintmax = uintmax0 // 1st-select
+stadef uIntmax = [i : nat] uintmax1 i
 
 (*------------------------------------------------------------------*)
 
