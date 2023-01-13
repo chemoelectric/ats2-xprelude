@@ -21,3 +21,7 @@ THIS PROJECT IS A WORK IN PROGRESS.
 
 * Also possible: C complex types, treated in ATS as floating point
   types.
+
+* Also possible: moving my ‘bisection iterators’ here. They use the
+  exact rationals and can be used to do adaptive algorithms without
+  non-tail recursion.
