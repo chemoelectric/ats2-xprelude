@@ -228,6 +228,71 @@ test8 () : void =
   in
   end
 
+fn
+test9 () : void =
+  let
+    #define MAXVAL 100
+
+    infixl ( / ) div rem divrem
+    macdef div = g0int_eucliddiv
+    macdef rem = g0int_euclidrem
+    macdef divrem = g0int_eucliddivrem
+
+    var n : int
+  in
+    for (n := ~MAXVAL; n <= MAXVAL; n := succ n)
+      let
+        var d : int
+      in
+        for (d := ~MAXVAL; d <= MAXVAL;
+             d := (if d = ~1 then 1 else succ d))
+          let
+            val q1 = n div d
+            and r1 = n rem d
+            and @(q2, r2) = n divrem d
+            val- true = q1 = q2
+            val- true = r1 = r2
+            val- true = isgtez r1
+            val- true = r1 < abs d
+            val- true = n = r1 + (q1 * d)
+          in
+          end
+      end
+  end
+
+fn
+test10 () : void =
+  let
+    #define MAXVAL 100
+
+    infixl ( / ) div rem divrem
+    macdef div = g1int_eucliddiv
+    macdef rem = g1int_euclidrem
+    macdef divrem = g1int_eucliddivrem
+
+    var n : Int
+  in
+    for (n := ~MAXVAL; n <= MAXVAL; n := succ n)
+      let
+        var d : Int
+      in
+        for (d := ~MAXVAL; d <= MAXVAL;
+             d := (if d = ~1 then 1 else succ d))
+          let
+            val () = assertloc (isneqz d)
+            val q1 = n div d
+            and r1 = n rem d
+            and @(q2, r2) = n divrem d
+            val- true = q1 = q2
+            val- true = r1 = r2
+            val- true = isgtez r1
+            val- true = r1 < abs d
+            val- true = n = r1 + (q1 * d)
+          in
+          end
+      end
+  end
+
 implement
 main () =
   begin
@@ -239,5 +304,7 @@ main () =
     test6 ();
     test7 ();
     test8 ();
+    test9 ();
+    test10 ();
     0
   end
