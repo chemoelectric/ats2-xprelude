@@ -43,5 +43,13 @@ THIS PROJECT IS A WORK IN PROGRESS.
 * Also possible: gcd and lcm operations.
 
 * Also possible: ‘lldouble’ as a type that could be larger than
-  ldouble. In particular, on AMD64, this could be _Float128 (which GCC
-  supports via its own libraries).
+  ldouble. In particular, on AMD64, this could be _Float128, which GCC
+  supports on that platform (although via a library rather than
+  hardware). ¶ Note: Some seem to believe that, with GCC on AMD64,
+  ldouble is a 128-bit floating point type. It is not; it is an 80-bit
+  type that goes back to the 8087. The 80 bits *are* stored in 128
+  bits of space, but that is for alignment, and such alignment is
+  required by the AMD64 ABI. ¶ By the way, on 32-bit x86, ‘ldouble’
+  similarly is more efficiently accessed when it is aligned on 128-bit
+  boundaries. However, the ABI for x86 was designed for older
+  processors, such as 80386, and specifies 96-bit boundaries.
