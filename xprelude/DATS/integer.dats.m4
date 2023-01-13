@@ -168,7 +168,7 @@ m4_foreachq(`N',`0,1',
 (*------------------------------------------------------------------*)
 (* Binary operations. *)
 
-m4_foreachq(`BINOP',`add,sub,mul,div,mod',
+m4_foreachq(`BINOP',`add,sub,mul,div,mod,min,max',
 `
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',

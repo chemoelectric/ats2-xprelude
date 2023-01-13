@@ -368,6 +368,25 @@ fn g1int_euclidrem_`'INT : $d2ctype (g1int_euclidrem<intb2k(INT)>) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* min and max. *)
+
+m4_foreachq(`INT',`intbases',
+`
+fn g0int_min_`'INT : m4_g0int_binary(INT) = "mac#%"
+fn g1int_min_`'INT : {i, j : int} m4_g1int_binary(INT, i, j, i \min j) = "mac#%"
+fn g0int_max_`'INT : m4_g0int_binary(INT) = "mac#%"
+fn g1int_max_`'INT : {i, j : int} m4_g1int_binary(INT, i, j, i \max j) = "mac#%"
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn g0uint_min_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
+fn g1uint_min_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \min j) = "mac#%"
+fn g0uint_max_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
+fn g1uint_max_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \max j) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

@@ -300,6 +300,19 @@ test10 () : void =
       end
   end
 
+fn
+test11 () : void =
+  let
+    val- true : Bool = min (3, 4) = 3
+    val- true : bool = min (3L, 3L) = 3L
+    val- true : bool = min (4LL, 3LL) = 3LL
+
+    val- true : Bool = max (3U, 4U) = 4U
+    val- true : bool = max (4UL, 4UL) = 4UL
+    val- true : bool = max (4ULL, 3ULL) = 4ULL
+  in
+  end
+
 implement
 main () =
   begin
@@ -313,5 +326,6 @@ main () =
     test8 ();
     test9 ();
     test10 ();
+    test11 ();
     0
   end

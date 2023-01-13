@@ -304,6 +304,38 @@ ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 ')dnl
 ')dnl
 
+#undef _ats2_xprelude_min
+#undef _ats2_xprelude_max
+#define _ats2_xprelude_min(x, y) (((x) < (y)) ? (x) : (y))
+#define _ats2_xprelude_max(x, y) (((y) < (x)) ? (x) : (y))
+
+m4_foreachq(`BINOP',`min,max',
+`m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
+{
+  return _ats2_xprelude_`'BINOP (i, j);
+}
+')dnl
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`UINT',`uintbases',
+`
+ats2_xprelude_inline uintb2c(UINT)
+ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+{
+  return _ats2_xprelude_`'BINOP (i, j);
+}
+')
+')dnl
+')dnl
+
+#undef _ats2_xprelude_min
+#undef _ats2_xprelude_max
+
 /*------------------------------------------------------------------*/
 /* Euclidean division with remainder always positive. */
 
