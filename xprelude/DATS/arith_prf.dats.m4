@@ -48,6 +48,17 @@ eucliddiv_div {n, d} () =
   in
   end
 
+primplement
+euclidrem_mod {n, d} () =
+  let
+    prval pf1 = eucliddiv_istot {n, d} ()
+    prval pf2 = divmod_istot {n, d} ()
+    prval () = eucliddiv_divmod (pf1, pf2)
+    prval () = eucliddiv_mul_elim pf1
+    prval () = divmod_mul_elim pf2
+  in
+  end
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

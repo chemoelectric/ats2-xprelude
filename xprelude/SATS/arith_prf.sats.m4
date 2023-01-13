@@ -22,6 +22,24 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 (*------------------------------------------------------------------*)
+(* Lemmas for division that return more information than do their
+   equivalents in the prelude. *)
+
+(* The prelude’s version of divmod_mul_elim does not assert that r =
+   (x \nmod_int_int y), although that is implied by the rest of the
+   result. *)
+praxi
+divmod_mul_elim :
+  {x, y : int | 0 <= x; 0 < y}
+  {q, r : int}
+  DIVMOD (x, y, q, r) -<prf>
+    [0 <= q; 0 <= r; r < y;
+     q == (x \ndiv_int_int y);
+     r == (x \nmod_int_int y);
+     x == (q * y) + r]
+     void
+
+(*------------------------------------------------------------------*)
 (*
 
   EUCLIDEAN DIVISION, with remainder always positive:
@@ -100,7 +118,7 @@ in (* local *)
     {n, d : nat | d != 0}
     () -<prf> [n div d == (n \ndiv_int_int d)] void
 
-  praxi
+  prfn
   euclidrem_mod :
     {n, d : nat | d != 0}
     () -<prf> [n rem d == n mod d] void
