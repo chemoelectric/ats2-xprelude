@@ -184,6 +184,14 @@ m4_foreachq(`N',`0,1',
 ')dnl
 ')dnl
 
+m4_foreachq(`INT',`intbases',
+`implement g1int_nmod<intb2k(INT)> = g1int_nmod_`'INT
+')dnl
+
+implement {tk}
+nmod_g1int_int1 (x, y) =
+  g1i2i (g1int_nmod (x, g1i2i y))
+
 (*------------------------------------------------------------------*)
 (* Euclidean division with remainder always positive. *)
 

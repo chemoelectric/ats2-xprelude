@@ -304,6 +304,15 @@ ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 ')dnl
 ')dnl
 
+m4_foreachq(`INT',`intbases',
+`
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g1int_nmod_`'INT (intb2c(INT) i, intb2c(INT) j)
+{
+  return (i % j);
+}
+')dnl
+
 #undef _ats2_xprelude_min
 #undef _ats2_xprelude_max
 #define _ats2_xprelude_min(x, y) (((x) < (y)) ? (x) : (y))

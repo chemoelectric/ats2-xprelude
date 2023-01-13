@@ -226,6 +226,16 @@ test8 () : void =
     val- true = 23L mod 3L = 2L
     val- true = 23LL % 3LL = 2LL
 
+    val- true : Bool = (23L \nmod 3L) = 2L
+    val- true = nmod ((g1i2i 23) : [n : nat] intmax n, 3) = 2
+
+    val n : intmax 23 = g1i2i 23
+    val @(pf | r) = nmod2_g1int_int1 (n, 3)
+    prval [r : int] EQINT () = eqint_make_gint r
+    prval () = divmod_mul_elim pf
+    prval () = prop_verify {r == 2} ()
+    val- true = r = 2
+
     val- true = 1U + 2U + 3U + 4U = 10
     val- true : Bool = 10U - 2U - 3U - 4U = 1U
     val- true = 1U * 2U * 3U * 4U = 24

@@ -306,7 +306,31 @@ fn g1uint_mul_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i * j) = "mac#%
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Division. *)
+(* Division.
+
+   The g1 versions of mod and nmod here have stronger postconditions
+   than those in the prelude. *)
+
+fn {tk : tkind}
+g1int_nmod :
+  {i, j : int | 0 <= i; 0 < j}
+  (m4_g1int(tk, i), m4_g1int(tk, j)) -<>
+    [r : nat | r < j; r == (i \nmod_int_int j)]
+    m4_g1int(tk, r)
+
+fn {tk : tkind}
+g1uint_mod :
+  {i, j : int | 0 < j}
+  (m4_g1uint(tk, i), m4_g1uint(tk, j)) -<>
+    [r : nat | r < j; r == (i \nmod_int_int j)]
+    m4_g1uint(tk, r)
+
+(* Set the precedences of the following overloads a little higher than
+   the equivalent overloads in the prelude (which has had bugs that we
+   are working around). *)
+overload nmod with g1int_nmod of 22
+overload nmod with nmod_g1int_int1 of 23
+overload mod with g1uint_mod of 21
 
 m4_foreachq(`INT',`intbases',
 `
@@ -314,17 +338,17 @@ fn g0int_div_`'INT : m4_g0int_binary(INT) = "mac#%"
 fn g1int_div_`'INT : {i, j : int | j != 0} m4_g1int_binary(INT, i, j, i \idiv_int_int j) = "mac#%"
 
 fn g0int_mod_`'INT : m4_g0int_binary(INT) = "mac#%"
+fn g1int_nmod_`'INT : $d2ctype (g1int_nmod<intb2k(INT)>) = "mac#%"
 ')dnl
 
 m4_foreachq(`UINT',`uintbases',
 `
 fn g0uint_div_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
-fn g1uint_div_`'UINT : {i, j : int | j > 0} (m4_g1uint(UINT, i), m4_g1uint(UINT, j)) -<>
+fn g1uint_div_`'UINT : {i, j : int | 0 < j} (m4_g1uint(UINT, i), m4_g1uint(UINT, j)) -<>
   [q : nat | q == (i \ndiv_int_int j)] m4_g1uint(UINT, q) = "mac#%"
 
 fn g0uint_mod_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
-fn g1uint_mod_`'UINT : {i, j : int | j > 0} (m4_g1uint(UINT, i), m4_g1uint(UINT, j)) -<>
-  [r : nat | r < j; r == (i \nmod_int_int j)] m4_g1uint(UINT, r) = "mac#%"
+fn g1uint_mod_`'UINT : $d2ctype (g1uint_mod<uintb2k(UINT)>) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)
