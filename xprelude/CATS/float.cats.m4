@@ -99,21 +99,21 @@ m4_foreachq(`AOP',`binary_ops',
 `
 ats2_xprelude_inline atstype_float
 ats2_xprelude_g0float_`'AOP`'_float (atstype_float x,
-                                 atstype_float y)
+                                     atstype_float y)
 {
   return AOP`'f (x, y);
 }
 
 ats2_xprelude_inline atstype_double
 ats2_xprelude_g0float_`'AOP`'_double (atstype_double x,
-                                  atstype_double y)
+                                      atstype_double y)
 {
   return AOP (x, y);
 }
 
 ats2_xprelude_inline atstype_ldouble
 ats2_xprelude_g0float_`'AOP`'_ldouble (atstype_ldouble x,
-                                   atstype_ldouble y)
+                                       atstype_ldouble y)
 {
   return AOP`'l (x, y);
 }
@@ -123,24 +123,24 @@ m4_foreachq(`TOP',`trinary_ops',
 `
 ats2_xprelude_inline atstype_float
 ats2_xprelude_g0float_`'TOP`'_float (atstype_float x,
-                                 atstype_float y,
-                                 atstype_float z)
+                                     atstype_float y,
+                                     atstype_float z)
 {
   return TOP`'f (x, y, z);
 }
 
 ats2_xprelude_inline atstype_double
 ats2_xprelude_g0float_`'TOP`'_double (atstype_double x,
-                                  atstype_double y,
-                                  atstype_double z)
+                                      atstype_double y,
+                                      atstype_double z)
 {
   return TOP (x, y, z);
 }
 
 ats2_xprelude_inline atstype_ldouble
 ats2_xprelude_g0float_`'TOP`'_ldouble (atstype_ldouble x,
-                                   atstype_ldouble y,
-                                   atstype_ldouble z)
+                                       atstype_ldouble y,
+                                       atstype_ldouble z)
 {
   return TOP`'l (x, y, z);
 }

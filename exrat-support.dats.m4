@@ -701,7 +701,7 @@ ats2_xprelude_g0float_eq_exrat (floatt2c(exrat) x,
                                 floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  return mpq_equal (x[0], y[0]);
+  return (mpq_equal (x[0], y[0])) ? atsbool_true : atsbool_false;
 }
 
 atstype_bool
@@ -709,7 +709,7 @@ ats2_xprelude_g0float_neq_exrat (floatt2c(exrat) x,
                                  floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  return !(mpq_equal (x[0], y[0]));
+  return (!(mpq_equal (x[0], y[0]))) ? atsbool_true : atsbool_false;
 }
 
 atstype_bool
@@ -717,7 +717,7 @@ ats2_xprelude_g0float_lt_exrat (floatt2c(exrat) x,
                                 floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) < 0);
+  return (mpq_cmp (x[0], y[0]) < 0) ? atsbool_true : atsbool_false;
 }
 
 atstype_bool
@@ -725,7 +725,7 @@ ats2_xprelude_g0float_lte_exrat (floatt2c(exrat) x,
                                  floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) <= 0);
+  return (mpq_cmp (x[0], y[0]) <= 0) ? atsbool_true : atsbool_false;
 }
 
 atstype_bool
@@ -733,7 +733,7 @@ ats2_xprelude_g0float_gt_exrat (floatt2c(exrat) x,
                                 floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) > 0);
+  return (mpq_cmp (x[0], y[0]) > 0) ? atsbool_true : atsbool_false;
 }
 
 atstype_bool
@@ -741,7 +741,7 @@ ats2_xprelude_g0float_gte_exrat (floatt2c(exrat) x,
                                  floatt2c(exrat) y)
 {
   ats2_xprelude_exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) >= 0);
+  return (mpq_cmp (x[0], y[0]) >= 0) ? atsbool_true : atsbool_false;
 }
 
 atstype_int

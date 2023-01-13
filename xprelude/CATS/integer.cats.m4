@@ -98,7 +98,7 @@ m4_foreachq(`N',`0,1',
 ats2_xprelude_inline atstype_bool
 ats2_xprelude_g`'N`'int_`'OP`_'INT (intb2c(INT) i, intb2c(INT) j)
 {
-  return (i ats_cmp_c(OP) j);
+  return (i ats_cmp_c(OP) j) ? atsbool_true : atsbool_false;
 }
 ')
 ')
@@ -111,7 +111,7 @@ m4_foreachq(`N',`0,1',
 ats2_xprelude_inline atstype_bool
 ats2_xprelude_g`'N`'uint_`'OP`_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
-  return (i ats_cmp_c(OP) j);
+  return (i ats_cmp_c(OP) j) ? atsbool_true : atsbool_false;
 }
 ')
 ')
@@ -127,7 +127,7 @@ m4_foreachq(`N',`0,1',
 ats2_xprelude_inline atstype_bool
 `ats2_xprelude_g'N`int_is'OP`z_'INT (intb2c(INT) i)
 {
-  return (i ats_cmp_c(OP) 0);
+  return (i ats_cmp_c(OP) 0) ? atsbool_true : atsbool_false;
 }
 ')
 ')
@@ -140,7 +140,7 @@ m4_foreachq(`N',`0,1',
 ats2_xprelude_inline atstype_bool
 `ats2_xprelude_g'N`uint_is'OP`z_'UINT (uintb2c(UINT) i)
 {
-  return (i ats_cmp_c(OP) 0);
+  return (i ats_cmp_c(OP) 0) ? atsbool_true : atsbool_false;
 }
 ')
 ')

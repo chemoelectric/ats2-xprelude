@@ -46,19 +46,19 @@ typedef mpq_t ats2_xprelude_mpq_t;
 typedef ats2_xprelude_mpq_t *ats2_xprelude_exrat;
 
 atsvoid_t0ype ats2_xprelude_fprint_exrat (atstype_ref fref,
-                                      ats2_xprelude_exrat x);
+                                          ats2_xprelude_exrat x);
 atsvoid_t0ype ats2_xprelude_print_exrat (ats2_xprelude_exrat x);
 atsvoid_t0ype ats2_xprelude_prerr_exrat (ats2_xprelude_exrat x);
 
 ats2_xprelude_exrat ats2_xprelude_g0float_exrat_make_ulint_ulint (atstype_ulint,
-                                                          atstype_ulint);
+                                                                  atstype_ulint);
 ats2_xprelude_exrat ats2_xprelude_g0float_exrat_make_lint_ulint (atstype_lint,
-                                                         atstype_ulint);
+                                                                 atstype_ulint);
 
 atsvoid_t0ype ats2_xprelude__g0float_exrat_make_from_string (atstype_string s,
-                                                         atstype_int base,
-                                                         atstype_ref p_y,
-                                                         atstype_ref p_status);
+                                                             atstype_int base,
+                                                             atstype_ref p_y,
+                                                             atstype_ref p_status);
 
 atstype_string ats2_xprelude_tostrptr_exrat_given_base (ats2_xprelude_exrat, int);
 atstype_string ats2_xprelude_tostring_exrat_given_base (ats2_xprelude_exrat, int);
@@ -144,39 +144,39 @@ ats2_xprelude_exrat ats2_xprelude_g0float_succ_exrat (ats2_xprelude_exrat x);
 ats2_xprelude_exrat ats2_xprelude_g0float_pred_exrat (ats2_xprelude_exrat x);
 
 ats2_xprelude_exrat ats2_xprelude_g0float_add_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y);
+                                                     ats2_xprelude_exrat y);
 ats2_xprelude_exrat ats2_xprelude_g0float_sub_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y);
+                                                     ats2_xprelude_exrat y);
 
 ats2_xprelude_exrat ats2_xprelude_g0float_min_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y);
+                                                     ats2_xprelude_exrat y);
 ats2_xprelude_exrat ats2_xprelude_g0float_max_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y);
+                                                     ats2_xprelude_exrat y);
 
 atstype_bool ats2_xprelude_g0float_eq_exrat (ats2_xprelude_exrat x,
-                                         ats2_xprelude_exrat y);
+                                             ats2_xprelude_exrat y);
 atstype_bool ats2_xprelude_g0float_neq_exrat (ats2_xprelude_exrat x,
-                                          ats2_xprelude_exrat y);
+                                              ats2_xprelude_exrat y);
 atstype_bool ats2_xprelude_g0float_lt_exrat (ats2_xprelude_exrat x,
-                                         ats2_xprelude_exrat y);
+                                             ats2_xprelude_exrat y);
 atstype_bool ats2_xprelude_g0float_lte_exrat (ats2_xprelude_exrat x,
-                                          ats2_xprelude_exrat y);
+                                              ats2_xprelude_exrat y);
 atstype_bool ats2_xprelude_g0float_gt_exrat (ats2_xprelude_exrat x,
-                                         ats2_xprelude_exrat y);
+                                             ats2_xprelude_exrat y);
 atstype_bool ats2_xprelude_g0float_gte_exrat (ats2_xprelude_exrat x,
-                                          ats2_xprelude_exrat y);
+                                              ats2_xprelude_exrat y);
 
 atstype_int ats2_xprelude_g0float_compare_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y);
+                                                 ats2_xprelude_exrat y);
 
 ats2_xprelude_exrat ats2_xprelude_g0float_mul_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y);
+                                                     ats2_xprelude_exrat y);
 ats2_xprelude_exrat ats2_xprelude_g0float_div_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y);
+                                                     ats2_xprelude_exrat y);
 
 ats2_xprelude_exrat ats2_xprelude_g0float_fma_exrat (ats2_xprelude_exrat x,
-                                             ats2_xprelude_exrat y,
-                                             ats2_xprelude_exrat z);
+                                                     ats2_xprelude_exrat y,
+                                                     ats2_xprelude_exrat z);
 
 ats2_xprelude_exrat ats2_xprelude_g0float_round_exrat (ats2_xprelude_exrat x);
 ats2_xprelude_exrat ats2_xprelude_g0float_nearbyint_exrat (ats2_xprelude_exrat x);
@@ -191,7 +191,7 @@ ats2_xprelude_g0float_rint_exrat (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat ats2_xprelude_g0float_npow_exrat (ats2_xprelude_exrat x,
-                                              atstype_int n);
+                                                      atstype_int n);
 
 ats2_xprelude_exrat ats2_xprelude_exrat_numerator (ats2_xprelude_exrat x);
 ats2_xprelude_exrat ats2_xprelude_exrat_denominator (ats2_xprelude_exrat x);
@@ -225,9 +225,9 @@ ats2_xprelude_exrat_ffs (ats2_xprelude_exrat x)
 }
 
 ats2_xprelude_exrat ats2_xprelude_exrat_mul_exp2 (ats2_xprelude_exrat,
-                                          atstype_ulint);
+                                                  atstype_ulint);
 ats2_xprelude_exrat ats2_xprelude_exrat_div_exp2 (ats2_xprelude_exrat,
-                                          atstype_ulint);
+                                                  atstype_ulint);
 
 #endif /* ATS2_XPRELUDE_CATS__EXRAT_CATS__HEADER_GUARD__ */
 dnl

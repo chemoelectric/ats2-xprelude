@@ -196,42 +196,42 @@ ats2_xprelude_inline atstype_bool
 ats2_xprelude_g0float_eq_fixed32p32 (ats2_xprelude_fixed32p32 x,
                                      ats2_xprelude_fixed32p32 y)
 {
-  return (x == y);
+  return (x == y) ? atsbool_true : atsbool_false;
 }
 
 ats2_xprelude_inline atstype_bool
 ats2_xprelude_g0float_neq_fixed32p32 (ats2_xprelude_fixed32p32 x,
                                       ats2_xprelude_fixed32p32 y)
 {
-  return (x != y);
+  return (x != y) ? atsbool_true : atsbool_false;
 }
 
 ats2_xprelude_inline atstype_bool
 ats2_xprelude_g0float_lt_fixed32p32 (ats2_xprelude_fixed32p32 x,
                                      ats2_xprelude_fixed32p32 y)
 {
-  return (x < y);
+  return (x < y) ? atsbool_true : atsbool_false;
 }
 
 ats2_xprelude_inline atstype_bool
 ats2_xprelude_g0float_lte_fixed32p32 (ats2_xprelude_fixed32p32 x,
                                       ats2_xprelude_fixed32p32 y)
 {
-  return (x <= y);
+  return (x <= y) ? atsbool_true : atsbool_false;
 }
 
 ats2_xprelude_inline atstype_bool
 ats2_xprelude_g0float_gt_fixed32p32 (ats2_xprelude_fixed32p32 x,
                                      ats2_xprelude_fixed32p32 y)
 {
-  return (x > y);
+  return (x > y) ? atsbool_true : atsbool_false;
 }
 
 ats2_xprelude_inline atstype_bool
 ats2_xprelude_g0float_gte_fixed32p32 (ats2_xprelude_fixed32p32 x,
                                       ats2_xprelude_fixed32p32 y)
 {
-  return (x >= y);
+  return (x >= y) ? atsbool_true : atsbool_false;
 }
 
 ats2_xprelude_inline atstype_int
