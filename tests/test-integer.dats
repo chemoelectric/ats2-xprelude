@@ -215,10 +215,16 @@ test8 () : void =
     val- true = 1 + 2 + 3 + 4 = 10
     val- true = 1 - 2 - 3 - 4 = ~8
     val- true = 1 * 2 * 3 * 4 = 24
+    val- true = 23 / 3 = 7
+    val- true = 23L mod 3L = 2L
+    val- true = 23LL % 3LL = 2LL
 
     val- true = 1U + 2U + 3U + 4U = 10
     val- true : Bool = 10U - 2U - 3U - 4U = 1U
     val- true = 1U * 2U * 3U * 4U = 24
+    val- true = 23U / 3U = 7U
+    val- true = 23UL mod 3UL = 2UL
+    val- true = 23ULL % 3ULL = 2ULL
   in
   end
 

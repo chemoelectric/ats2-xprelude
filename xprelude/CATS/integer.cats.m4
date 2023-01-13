@@ -253,15 +253,17 @@ ats2_xprelude_g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
 /*------------------------------------------------------------------*/
 /* Binary operations. */
 
-m4_foreachq(`BINOP',`add,sub,mul',
+m4_foreachq(`BINOP',`add,sub,mul,div,mod',
 `m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
+`m4_if(BINOP`'N,`mod1',`',dnl  /* Skip g1int_mod */
 `
 ats2_xprelude_inline intb2c(INT)
 ats2_xprelude_g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
   return (i ats_binop_c(BINOP) j);
 }
+')dnl
 ')
 ')dnl
 

@@ -152,11 +152,12 @@ m4_foreachq(`N',`0,1',
 (*------------------------------------------------------------------*)
 (* Binary operations. *)
 
-m4_foreachq(`BINOP',`add,sub,mul',
+m4_foreachq(`BINOP',`add,sub,mul,div,mod',
 `
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
-`implement g`'N`'int_`'BINOP<intb2k(INT)> = g`'N`'int_`'BINOP`'_`'INT
+`m4_if(BINOP`'N,`mod1',`',dnl  /* Skip g1int_mod */
+`implement g`'N`'int_`'BINOP<intb2k(INT)> = g`'N`'int_`'BINOP`'_`'INT')
 ')
 ')dnl
 

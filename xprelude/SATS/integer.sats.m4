@@ -289,6 +289,28 @@ fn g1uint_mul_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i * j) = "mac#%
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Division. *)
+
+m4_foreachq(`INT',`intbases',
+`
+fn g0int_div_`'INT : m4_g0int_binary(INT) = "mac#%"
+fn g1int_div_`'INT : {i, j : int | j != 0} m4_g1int_binary(INT, i, j, i / j) = "mac#%"
+
+fn g0int_mod_`'INT : m4_g0int_binary(INT) = "mac#%"
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn g0uint_div_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
+fn g1uint_div_`'UINT : {i, j : int | j > 0} (m4_g1uint(UINT, i), m4_g1uint(UINT, j)) -<>
+  [q : nat | q == (i \ndiv_int_int j)] m4_g1uint(UINT, q) = "mac#%"
+
+fn g0uint_mod_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
+fn g1uint_mod_`'UINT : {i, j : int | j > 0} (m4_g1uint(UINT, i), m4_g1uint(UINT, j)) -<>
+  [r : nat | r < j] m4_g1uint(UINT, r) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS
