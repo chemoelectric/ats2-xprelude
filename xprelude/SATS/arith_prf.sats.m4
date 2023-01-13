@@ -121,7 +121,7 @@ in (* local *)
   prfn
   euclidrem_mod :
     {n, d : nat | d != 0}
-    () -<prf> [n rem d == n mod d] void
+    () -<prf> [n rem d == (n \nmod_int_int d)] void
 
 end (* local *)
 
