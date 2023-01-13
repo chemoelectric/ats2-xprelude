@@ -34,6 +34,51 @@ typedef intmax_t ats2_xprelude_intmax;
 typedef uintmax_t ats2_xprelude_uintmax;
 
 /*------------------------------------------------------------------*/
+/* Printing. */
+
+m4_foreachq(`INT',`intbases',
+`
+ats2_xprelude_inline atsvoid_t0ype
+ats2_xprelude_fprint_`'INT (atstype_ref out, intb2c(INT) x)
+{
+  (void) fprintf ((FILE *) out, "%jd", (intmax_t) x);
+}
+
+ats2_xprelude_inline atsvoid_t0ype
+ats2_xprelude_print_`'INT (intb2c(INT) x)
+{
+  (void) fprintf (stdout, "%jd", (intmax_t) x);
+}
+
+ats2_xprelude_inline atsvoid_t0ype
+ats2_xprelude_prerr_`'INT (intb2c(INT) x)
+{
+  (void) fprintf (stderr, "%jd", (intmax_t) x);
+}
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+ats2_xprelude_inline atsvoid_t0ype
+ats2_xprelude_fprint_`'UINT (atstype_ref out, uintb2c(UINT) x)
+{
+  (void) fprintf ((FILE *) out, "%ju", (uintmax_t) x);
+}
+
+ats2_xprelude_inline atsvoid_t0ype
+ats2_xprelude_print_`'UINT (uintb2c(UINT) x)
+{
+  (void) fprintf (stdout, "%jd", (uintmax_t) x);
+}
+
+ats2_xprelude_inline atsvoid_t0ype
+ats2_xprelude_prerr_`'UINT (uintb2c(UINT) x)
+{
+  (void) fprintf (stderr, "%jd", (uintmax_t) x);
+}
+')dnl
+
+/*------------------------------------------------------------------*/
 /* Type conversions. */
 
 m4_foreachq(`N',`0,1',

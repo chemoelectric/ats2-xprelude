@@ -22,7 +22,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 (******************************************************************
   Some integer support that is not included in the Postiats
-  prelude.
+  prelude, or that shadows what is in the prelude.
 *******************************************************************)
 
 %{#
@@ -51,13 +51,30 @@ stadef uintmax = uintmax0 // 1st-select
 stadef uIntmax = [i : nat] uintmax1 i
 
 (*------------------------------------------------------------------*)
+(* Printing. *)
 
-(*
-  
-  Functions below that *are* already in the prelude might harmlessly
-  be shadowed.
+(* I give the overloads precedence 1, so they will take precedence
+   over overloads of precedence 0 in the prelude. *)
 
-*)
+m4_foreachq(`INT',`intbases',
+`
+fn fprint_`'INT : fprint_type (m4_g0int(INT)) = "mac#%"
+fn print_`'INT : m4_g0int(INT) -> void = "mac#%"
+fn prerr_`'INT : m4_g0int(INT) -> void = "mac#%"
+overload fprint with fprint_`'INT of 1
+overload print with print_`'INT of 1
+overload prerr with prerr_`'INT of 1
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn fprint_`'UINT : fprint_type (m4_g0uint(UINT)) = "mac#%"
+fn print_`'UINT : m4_g0uint(UINT) -> void = "mac#%"
+fn prerr_`'UINT : m4_g0uint(UINT) -> void = "mac#%"
+overload fprint with fprint_`'UINT of 1
+overload print with print_`'UINT of 1
+overload prerr with prerr_`'UINT of 1
+')dnl
 
 (*------------------------------------------------------------------*)
 (* Type conversions. *)

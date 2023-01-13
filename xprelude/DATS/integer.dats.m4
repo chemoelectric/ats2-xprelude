@@ -28,6 +28,17 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload "xprelude/SATS/integer.sats"
 
 (*------------------------------------------------------------------*)
+(* Printing. *)
+
+m4_foreachq(`INT',`intbases',
+`implement fprint_val<m4_g0int(INT)> (outf, i) = fprint_`'INT (outf, i)
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`implement fprint_val<m4_g0uint(UINT)> (outf, i) = fprint_`'UINT (outf, i)
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Type conversions. *)
 
 m4_foreachq(`N',`0,1',
