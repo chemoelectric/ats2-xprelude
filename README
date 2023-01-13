@@ -38,7 +38,7 @@ THIS PROJECT IS A WORK IN PROGRESS.
   exact rationals and can be used to do adaptive algorithms without
   non-tail recursion.
 
-* Also possible: gcd operations.
+* Also possible: gcd and lcm operations.
 
 * Also possible: ‘lldouble’ as a type that could be larger than
   ldouble. In particular, on AMD64, this could be _Float128 (which GCC
