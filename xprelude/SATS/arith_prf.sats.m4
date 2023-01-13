@@ -115,12 +115,12 @@ in (* local *)
 
   prfn
   eucliddiv_div :
-    {n, d : nat | d != 0}
+    {n, d : int | 0 <= n; 0 < d}
     () -<prf> [n div d == (n \ndiv_int_int d)] void
 
   prfn
   euclidrem_mod :
-    {n, d : nat | d != 0}
+    {n, d : int | 0 <= n; 0 < d}
     () -<prf> [n rem d == (n \nmod_int_int d)] void
 
 end (* local *)
