@@ -348,6 +348,8 @@ m4_foreachq(`INT',`intbases',
 `
 fn g0int_eucliddiv_`'INT : $d2ctype (g0int_eucliddiv<intb2k(INT)>) = "mac#%"
 fn g1int_eucliddiv_`'INT : $d2ctype (g1int_eucliddiv<intb2k(INT)>) = "mac#%"
+fn g0int_euclidrem_`'INT : $d2ctype (g0int_euclidrem<intb2k(INT)>) = "mac#%"
+fn g1int_euclidrem_`'INT : $d2ctype (g1int_euclidrem<intb2k(INT)>) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)

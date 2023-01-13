@@ -24,6 +24,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #include "share/atspre_staload.hats"
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload "xprelude/SATS/integer.sats"
 
 (*------------------------------------------------------------------*)
@@ -171,28 +172,30 @@ m4_foreachq(`N',`0,1',
 (*------------------------------------------------------------------*)
 (* Euclidean division with remainder always positive. *)
 
-m4_foreachq(`N',`0,1',
-`
 implement {tk : tkind}
-g`'N`'int_euclidrem (n, d) =
+g0int_eucliddivrem (n, d) =
   let
-    val q = g`'N`'int_eucliddiv<tk> (n, d)
+    val q0 = g0int_div (n, d)
+    val r0 = g0int_mod (n, d)
   in
-    n - (q * d)
+    if iseqz r0 then
+      @(q0, r0)
+    else if isgtez n then
+      @(q0, r0)
+    else if isltz d then
+      @(succ q0, r0 - d)
+    else
+      @(pred q0, r0 + d)
   end
 
 implement {tk : tkind}
-g`'N`'int_eucliddivrem (n, d) =
-  let
-    val q = g`'N`'int_eucliddiv<tk> (n, d)
-  in
-    @(q, n - (q * d))
-  end
-')dnl
+g1int_eucliddivrem (n, d) =
+  $UN.cast (g0int_eucliddivrem (g0ofg1 n, g0ofg1 d))
 
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `implement g`'N`'int_eucliddiv<intb2k(INT)> = g`'N`'int_eucliddiv_`'INT
+implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
 ')
 ')dnl
 
