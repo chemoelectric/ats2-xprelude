@@ -5,6 +5,15 @@ THIS PROJECT IS A WORK IN PROGRESS.
 
 * Expanded support for integer types, and workarounds for bugs.
 
+    ** I have worked around bugs in g1 versions of comparisons with
+       zero.
+
+    ** I have tightened the postconditions of g1 versions of mod and
+       nmod.
+
+    ** I have added ‘true Euclidean division’ of signed integers,
+       where the remainder is always non-negative.
+
 * Expanded support for floating point, and workarounds for bugs.
 
 * 32+32-bit fixed point, treated as if it were floating point.
@@ -25,3 +34,9 @@ THIS PROJECT IS A WORK IN PROGRESS.
 * Also possible: moving my ‘bisection iterators’ here. They use the
   exact rationals and can be used to do adaptive algorithms without
   non-tail recursion.
+
+* Also possible: gcd operations.
+
+* Also possible: ‘lldouble’ as a type that could be larger than
+  ldouble. In particular, on AMD64, this could be _Float128 (which GCC
+  supports via its own libraries).
