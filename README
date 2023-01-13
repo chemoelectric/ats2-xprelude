@@ -19,11 +19,13 @@ THIS PROJECT IS A WORK IN PROGRESS.
 
 * Expanded support for floating point, and workarounds for bugs.
 
-* 32+32-bit fixed point, treated as if it were floating point.
+* 32+32-bit fixed point, treated as if it were floating point
+  (g0float).
 
 * Optionally: exact rationals (via the GNU Multiple Precision
-  Arithmetic Library)--garbage-collected, and treated as if they were
-  floating point.
+  Arithmetic Library). These are a nonlinear type (for garbage
+  collection), and are treated as if they were floating point
+  (g0float).
 
 * Planned but not yet added: sorting by default algorithms that you do
   not have to think about. (For array sorting, the preferred
