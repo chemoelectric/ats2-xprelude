@@ -194,12 +194,27 @@ m4_foreachq(`UINT',`uintbases',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* ‘qsort-style’ comparison. *)
+
+m4_foreachq(`INT',`intbases',
+`
+fn g0int_compare_`'INT : (m4_g0int(INT), m4_g0int(INT)) -<> `i'nt = "mac#%"
+fn g1int_compare_`'INT : {i, j : int} (m4_g1int(INT, i), m4_g1int(INT, j)) -<> `i'nt (sgn (i - j)) = "mac#%"
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn g0uint_compare_`'UINT : (m4_g0uint(UINT), m4_g0uint(UINT)) -<> `i'nt = "mac#%"
+fn g1uint_compare_`'UINT : {i, j : int} (m4_g1uint(UINT, i), m4_g1uint(UINT, j)) -<> `i'nt (sgn (i - j)) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Negation. *)
 
 m4_foreachq(`INT',`intbases',
 `
-fn `g0int_neg_'INT : m4_g0int_unary(INT) = "mac#%"
-fn `g1int_neg_'INT : {i : int} m4_g1int_unary(INT, i, ~i) = "mac#%"
+fn g0int_neg_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_neg_`'INT : {i : int} m4_g1int_unary(INT, i, ~i) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)
@@ -207,8 +222,8 @@ fn `g1int_neg_'INT : {i : int} m4_g1int_unary(INT, i, ~i) = "mac#%"
 
 m4_foreachq(`INT',`intbases',
 `
-fn `g0int_abs_'INT : m4_g0int_unary(INT) = "mac#%"
-fn `g1int_abs_'INT : {i : int} m4_g1int_unary(INT, i, abs i) = "mac#%"
+fn g0int_abs_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_abs_`'INT : {i : int} m4_g1int_unary(INT, i, abs i) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)
@@ -216,18 +231,18 @@ fn `g1int_abs_'INT : {i : int} m4_g1int_unary(INT, i, abs i) = "mac#%"
 
 m4_foreachq(`INT',`intbases',
 `
-fn `g0int_succ_'INT : m4_g0int_unary(INT) = "mac#%"
-fn `g1int_succ_'INT : {i : int} m4_g1int_unary(INT, i, i + 1) = "mac#%"
-fn `g0int_pred_'INT : m4_g0int_unary(INT) = "mac#%"
-fn `g1int_pred_'INT : {i : int} m4_g1int_unary(INT, i, i - 1) = "mac#%"
+fn g0int_succ_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_succ_`'INT : {i : int} m4_g1int_unary(INT, i, i + 1) = "mac#%"
+fn g0int_pred_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_pred_`'INT : {i : int} m4_g1int_unary(INT, i, i - 1) = "mac#%"
 ')dnl
 
 m4_foreachq(`UINT',`uintbases',
 `
-fn `g0uint_succ_'UINT : m4_g0uint(UINT) -<> m4_g0uint(UINT) = "mac#%"
-fn `g1uint_succ_'UINT : {i : int} m4_g1uint_unary(UINT, i, i + 1) = "mac#%"
-fn `g0uint_pred_'UINT : m4_g0uint(UINT) -<> m4_g0uint(UINT) = "mac#%"
-fn `g1uint_pred_'UINT : {i : pos} m4_g1uint_unary(UINT, i, i - 1) = "mac#%"
+fn g0uint_succ_`'UINT : m4_g0uint(UINT) -<> m4_g0uint(UINT) = "mac#%"
+fn g1uint_succ_`'UINT : {i : int} m4_g1uint_unary(UINT, i, i + 1) = "mac#%"
+fn g0uint_pred_`'UINT : m4_g0uint(UINT) -<> m4_g0uint(UINT) = "mac#%"
+fn g1uint_pred_`'UINT : {i : pos} m4_g1uint_unary(UINT, i, i - 1) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)
@@ -235,14 +250,14 @@ fn `g1uint_pred_'UINT : {i : pos} m4_g1uint_unary(UINT, i, i - 1) = "mac#%"
 
 m4_foreachq(`INT',`intbases',
 `
-fn `g0int_half_'INT : m4_g0int_unary(INT) = "mac#%"
-fn `g1int_half_'INT : {i : int} m4_g1int_unary(INT, i, i / 2) = "mac#%"
+fn g0int_half_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_half_`'INT : {i : int} m4_g1int_unary(INT, i, i / 2) = "mac#%"
 ')dnl
 
 m4_foreachq(`UINT',`uintbases',
 `
-fn `g0uint_half_'UINT : m4_g0uint_unary(UINT) = "mac#%"
-fn `g1uint_half_'UINT : {i : int} m4_g1uint_unary(UINT, i, i / 2) = "mac#%"
+fn g0uint_half_`'UINT : m4_g0uint_unary(UINT) = "mac#%"
+fn g1uint_half_`'UINT : {i : int} m4_g1uint_unary(UINT, i, i / 2) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)

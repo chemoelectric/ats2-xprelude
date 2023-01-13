@@ -130,6 +130,13 @@ test3 () : void =
     val- true : Bool = 3U != 4U
     val- false : bool = 3UL != 3UL
     val- true : Bool = 4ULL != 3ULL
+
+    val- true = compare (3, 4) = ((~1) : g0int intknd)
+    val- true = compare (3L, 3L) = (0 : g1int intknd)
+    val- true = compare (4LL, 3LL) = 1
+    val- true = compare (3U, 4U) = ((~1) : g0int intknd)
+    val- true = compare (3UL, 3UL) = (0 : g1int intknd)
+    val- true = compare (4ULL, 3ULL) = 1
   in
   end
 

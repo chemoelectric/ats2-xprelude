@@ -101,6 +101,21 @@ m4_foreachq(`N',`0,1',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* ‘qsort-style’ comparison. *)
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`implement g`'N`'int_compare<intb2k(INT)> = g`'N`'int_compare_`'INT
+')
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`UINT',`uintbases',
+`implement g`'N`'uint_compare<uintb2k(UINT)> = g`'N`'uint_compare_`'UINT
+')
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Negation. *)
 
 m4_foreachq(`N',`0,1',

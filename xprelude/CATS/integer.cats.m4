@@ -147,6 +147,31 @@ ats2_xprelude_inline atstype_bool
 ')dnl
 
 /*------------------------------------------------------------------*/
+/* ‘qsort-style’ comparison. */
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`
+ats2_xprelude_inline intb2c(`i'nt)
+`ats2_xprelude_g'N`int_compare_'INT (intb2c(INT) i, intb2c(INT) j)
+{
+  return (i < j) ? (-1) : ((i == j) ? (0) : (1));
+}
+')
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`UINT',`uintbases',
+`
+ats2_xprelude_inline intb2c(`i'nt)
+`ats2_xprelude_g'N`uint_compare_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+{
+  return (i < j) ? (-1) : ((i == j) ? (0) : (1));
+}
+')
+')dnl
+
+/*------------------------------------------------------------------*/
 /* Negation. */
 
 m4_foreachq(`N',`0,1',
