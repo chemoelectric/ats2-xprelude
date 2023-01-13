@@ -290,7 +290,7 @@ ats2_xprelude_g`'N`'int_eucliddiv_`'INT (intb2c(INT) n, intb2c(INT) d)
 {
   intb2c(INT) q0 = n / d;
   intb2c(INT) r0 = n % d;
-  return (((r0 == 0) * (0 <= n)) ? q0 :
+  return (((r0 == 0) | (0 <= n)) ? q0 :
           ((d < 0) ? (q0 + 1) : (q0 - 1)));
 }
 ')
