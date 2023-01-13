@@ -280,6 +280,23 @@ ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 ')dnl
 
 /*------------------------------------------------------------------*/
+/* Euclidean division with remainder always positive. */
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`
+ats2_xprelude_inline intb2c(INT)
+ats2_xprelude_g`'N`'int_eucliddiv_`'INT (intb2c(INT) n, intb2c(INT) d)
+{
+  intb2c(INT) q0 = n / d;
+  intb2c(INT) r0 = n % d;
+  return (((r0 == 0) * (0 <= n)) ? q0 :
+          ((d < 0) ? (q0 + 1) : (q0 - 1)));
+}
+')
+')dnl
+
+/*------------------------------------------------------------------*/
 
 #endif /* ATS2_XPRELUDE_CATS__INTEGER_CATS__HEADER_GUARD__ */
 dnl

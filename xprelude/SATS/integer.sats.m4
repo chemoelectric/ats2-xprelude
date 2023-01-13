@@ -29,6 +29,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include "xprelude/CATS/integer.cats"
 %}
 
+staload "xprelude/SATS/arith_prf.sats"
+
 (*------------------------------------------------------------------*)
 (* intmax_t and uintmax_t. *)
 
@@ -294,7 +296,7 @@ fn g1uint_mul_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i * j) = "mac#%
 m4_foreachq(`INT',`intbases',
 `
 fn g0int_div_`'INT : m4_g0int_binary(INT) = "mac#%"
-fn g1int_div_`'INT : {i, j : int | j != 0} m4_g1int_binary(INT, i, j, i / j) = "mac#%"
+fn g1int_div_`'INT : {i, j : int | j != 0} m4_g1int_binary(INT, i, j, i \idiv_int_int j) = "mac#%"
 
 fn g0int_mod_`'INT : m4_g0int_binary(INT) = "mac#%"
 ')dnl
@@ -307,7 +309,45 @@ fn g1uint_div_`'UINT : {i, j : int | j > 0} (m4_g1uint(UINT, i), m4_g1uint(UINT,
 
 fn g0uint_mod_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
 fn g1uint_mod_`'UINT : {i, j : int | j > 0} (m4_g1uint(UINT, i), m4_g1uint(UINT, j)) -<>
-  [r : nat | r < j] m4_g1uint(UINT, r) = "mac#%"
+  [r : nat | r < j; r == (i \nmod_int_int j)] m4_g1uint(UINT, r) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Euclidean division with remainder always positive. *)
+
+fn {tk : tkind}
+g0int_eucliddiv :
+  m4_g0int_binary(tk)
+
+fn {tk : tkind}
+g0int_euclidrem :
+  m4_g0int_binary(tk)
+
+fn {tk : tkind}
+g0int_eucliddivrem :
+  (m4_g0int(tk), m4_g0int(tk)) -<> @(m4_g0int(tk), m4_g0int(tk))
+
+fn {tk : tkind}
+g1int_eucliddiv :
+  {i, j : int | j != 0}
+  m4_g1int_binary(tk, i, j, i \eucliddiv j)
+
+fn {tk : tkind}
+g1int_euclidrem :
+  {i, j : int | j != 0}
+  m4_g1int_binary(tk, i, j, i \euclidrem j)
+
+fn {tk : tkind}
+g1int_eucliddivrem :
+  {i, j : int | j != 0}
+  (m4_g1int(tk, i), m4_g1int(tk, j)) -<>
+    @(m4_g1int(tk, i \eucliddiv j),
+      m4_g1int(tk, i \euclidrem j))
+
+m4_foreachq(`INT',`intbases',
+`
+fn g0int_eucliddiv_`'INT : $d2ctype (g0int_eucliddiv<intb2k(INT)>) = "mac#%"
+fn g1int_eucliddiv_`'INT : $d2ctype (g1int_eucliddiv<intb2k(INT)>) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)

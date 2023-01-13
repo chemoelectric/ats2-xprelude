@@ -188,6 +188,23 @@ nobase_dist_pkginclude_HEADERS += $(MISCELLANEOUS_EXTRAS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+ARITH_PRF_SATS = xprelude/SATS/arith_prf.sats
+ARITH_PRF_DATS = xprelude/DATS/arith_prf.dats
+ARITH_PRF_SATS_C = xprelude/SATS/arith_prf_sats.c
+ARITH_PRF_DATS_C = xprelude/DATS/arith_prf_dats.c
+
+ARITH_PRF_SRC = $(ARITH_PRF_SATS) $(ARITH_PRF_DATS)
+EXTRA_DIST += $(addsuffix .m4, $(ARITH_PRF_SRC))
+BUILT_SOURCES += $(ARITH_PRF_SRC)
+CLEANFILES += $(ARITH_PRF_SRC)
+
+nobase_nodist_pkginclude_HEADERS += $(ARITH_PRF_SRC)
+
+nodist_libats2_xprelude_la_SOURCES += $(ARITH_PRF_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(ARITH_PRF_DATS_C)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 INTEGER_SATS = xprelude/SATS/integer.sats
 INTEGER_DATS = xprelude/DATS/integer.dats
 INTEGER_CATS = xprelude/CATS/integer.cats

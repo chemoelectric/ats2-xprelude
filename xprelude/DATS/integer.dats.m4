@@ -169,6 +169,34 @@ m4_foreachq(`N',`0,1',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Euclidean division with remainder always positive. *)
+
+m4_foreachq(`N',`0,1',
+`
+implement {tk : tkind}
+g`'N`'int_euclidrem (n, d) =
+  let
+    val q = g`'N`'int_eucliddiv<tk> (n, d)
+  in
+    n - (q * d)
+  end
+
+implement {tk : tkind}
+g`'N`'int_eucliddivrem (n, d) =
+  let
+    val q = g`'N`'int_eucliddiv<tk> (n, d)
+  in
+    @(q, n - (q * d))
+  end
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`implement g`'N`'int_eucliddiv<intb2k(INT)> = g`'N`'int_eucliddiv_`'INT
+')
+')dnl
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS
