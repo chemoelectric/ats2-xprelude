@@ -178,9 +178,9 @@ g0int_eucliddivrem (n, d) =
     val q0 = g0int_div (n, d)
     val r0 = g0int_mod (n, d)
   in
-    if iseqz r0 then
+    if isgtez n then
       @(q0, r0)
-    else if isgtez n then
+    else if iseqz r0 then
       @(q0, r0)
     else if isltz d then
       @(succ q0, r0 - d)

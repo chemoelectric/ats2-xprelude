@@ -290,8 +290,8 @@ ats2_xprelude_g`'N`'int_eucliddiv_`'INT (intb2c(INT) n, intb2c(INT) d)
 {
   intb2c(INT) q0 = n / d;
   intb2c(INT) r0 = n % d;
-  return ((r0 == 0) ? q0 :
-          (0 <= n) ? q0 :
+  return ((0 <= n) ? q0 :
+          (r0 == 0) ? q0 :
           (d < 0) ? (q0 + 1) :
           (q0 - 1));
 }
@@ -301,8 +301,8 @@ ats2_xprelude_g`'N`'int_euclidrem_`'INT (intb2c(INT) n, intb2c(INT) d)
 {
   intb2c(INT) q0 = n / d;
   intb2c(INT) r0 = n % d;
-  return ((r0 == 0) ? r0 :
-          (0 <= n) ? r0 :
+  return ((0 <= n) ? r0 :
+          (r0 == 0) ? r0 :
           (d < 0) ? (r0 - d) :
           (r0 + d));
 }
