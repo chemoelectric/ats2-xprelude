@@ -39,6 +39,51 @@ m4_foreachq(`UINT',`uintbases',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Conversion to a string. *)
+
+m4_foreachq(`INT',`intbases',
+`
+implement {}
+tostrptr_`'INT i =
+  let
+    #define BUFSZ 160         (* Large enough for a 512-bit number. *)
+    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
+    val _ = $extfcall (int, "snprintf", addr@ buf, BUFSZ - 1,
+                       "%jd", g0int2int<intb2k(INT),intmaxknd> i)
+  in
+    string0_copy ($UN.cast{string} buf)
+  end
+
+implement {}
+tostring_`'INT i =
+  $effmask_wrt strptr2string (tostrptr_`'INT i)
+
+implement tostrptr_val<m4_g0int(INT)> = tostrptr_`'INT
+implement tostring_val<m4_g0int(INT)> = tostring_`'INT
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+implement {}
+tostrptr_`'UINT i =
+  let
+    #define BUFSZ 160         (* Large enough for a 512-bit number. *)
+    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
+    val _ = $extfcall (uint, "snprintf", addr@ buf, BUFSZ - 1,
+                       "%ju", g0uint2uint<uintb2k(UINT),uintmaxknd> i)
+  in
+    string0_copy ($UN.cast{string} buf)
+  end
+
+implement {}
+tostring_`'UINT i =
+  $effmask_wrt strptr2string (tostrptr_`'UINT i)
+
+implement tostrptr_val<m4_g0uint(UINT)> = tostrptr_`'UINT
+implement tostring_val<m4_g0uint(UINT)> = tostring_`'UINT
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Type conversions. *)
 
 m4_foreachq(`N',`0,1',

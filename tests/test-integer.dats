@@ -323,6 +323,27 @@ test11 () : void =
   in
   end
 
+fn
+test12 () : void =
+  let
+    var x = g0int2int<intknd,sintknd> ~123
+    val- true = tostring_val<sint> x = "-123"
+    val- true = tostring_ref<sint> x = "-123"
+
+    var x = g0int2uint<intknd,usintknd> 123
+    val- true = tostring_val<usint> x = "123"
+    val- true = tostring_ref<usint> x = "123"
+
+    var x = g0int2int<intknd,intmaxknd> ~123
+    val- true = tostring_val<intmax> x = "-123"
+    val- true = tostring_ref<intmax> x = "-123"
+
+    var x = g0int2uint<intknd,uintmaxknd> 123
+    val- true = tostring_val<uintmax> x = "123"
+    val- true = tostring_ref<uintmax> x = "123"
+  in
+  end
+
 implement
 main () =
   begin
@@ -337,5 +358,6 @@ main () =
     test9 ();
     test10 ();
     test11 ();
+    test12 ();
     0
   end

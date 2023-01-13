@@ -77,6 +77,21 @@ overload prerr with prerr_`'UINT of 1
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Conversion to a string. *)
+
+m4_foreachq(`INT',`intbases',
+`
+fn {} tostrptr_`'INT : m4_g0int(INT) -< !wrt > Strptr1
+fn {} tostring_`'INT : m4_g0int(INT) -<> string
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn {} tostrptr_`'UINT : m4_g0uint(UINT) -< !wrt > Strptr1
+fn {} tostring_`'UINT : m4_g0uint(UINT) -<> string
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Type conversions. *)
 
 m4_foreachq(`N',`0,1',
