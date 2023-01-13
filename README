@@ -3,7 +3,10 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 
 THIS PROJECT IS A WORK IN PROGRESS.
 
-* Expanded support for integer types, and workarounds for bugs.
+* Expanded support for integer types, and workarounds for
+  bugs. Changes include at least the following:
+
+    - I have added intmax and uintmax.
 
     - I have worked around bugs in g1 versions of comparisons with
       zero.
