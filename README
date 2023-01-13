@@ -53,3 +53,6 @@ THIS PROJECT IS A WORK IN PROGRESS.
   similarly is more efficiently accessed when it is aligned on 128-bit
   boundaries. However, the ABI for x86 was designed for older
   processors, such as 80386, and specifies 96-bit boundaries.
+
+* Also possible: 128-bit integers, using compiler support if possible,
+  otherwise by library code.
