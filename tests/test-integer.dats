@@ -344,6 +344,51 @@ test12 () : void =
   in
   end
 
+fn
+test13 () : void =
+  let
+    val- true : bool = ((0x12345U) \g0uint_lsl 0) = 0x012345U
+    val- true : bool = ((0x12345U) \g0uint_lsl 4) = 0x0123450U
+    val- true : bool = ((0x12345U) \g0uint_lsl 8) = 0x01234500U
+    val- true : bool = ((0x12345U) \g0uint_lsl sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : Bool = ((0x12345U) \g1uint_lsl 0) = 0x012345U
+    val- true : Bool = ((0x12345U) \g1uint_lsl 4) = 0x0123450U
+    val- true : Bool = ((0x12345U) \g1uint_lsl 8) = 0x01234500U
+    val- true : Bool = ((0x12345U) \g1uint_lsl sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : bool = ((0x12345U) << 0) = 0x012345U
+    val- true : bool = ((0x12345U) << 4) = 0x0123450U
+    val- true : bool = ((0x12345U) << 8) = 0x01234500U
+    val- true : bool = ((0x12345U) << sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : Bool = ((0x12345U) << 0) = 0x012345U
+    val- true : Bool = ((0x12345U) << 4) = 0x0123450U
+    val- true : Bool = ((0x12345U) << 8) = 0x01234500U
+    val- true : Bool = ((0x12345U) << sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : bool = ((0x12345U) \g0uint_lsr 0) = 0x012345U
+    val- true : bool = ((0x12345U) \g0uint_lsr 4) = 0x01234U
+    val- true : bool = ((0x12345U) \g0uint_lsr 8) = 0x0123U
+    val- true : bool = ((0x12345U) \g0uint_lsr sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : Bool = ((0x12345U) \g1uint_lsr 0) = 0x012345U
+    val- true : Bool = ((0x12345U) \g1uint_lsr 4) = 0x01234U
+    val- true : Bool = ((0x12345U) \g1uint_lsr 8) = 0x0123U
+    val- true : Bool = ((0x12345U) \g1uint_lsr sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : bool = ((0x12345U) >> 0) = 0x012345U
+    val- true : bool = ((0x12345U) >> 4) = 0x01234U
+    val- true : bool = ((0x12345U) >> 8) = 0x0123U
+    val- true : bool = ((0x12345U) >> sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : Bool = ((0x12345U) >> 0) = 0x012345U
+    val- true : Bool = ((0x12345U) >> 4) = 0x01234U
+    val- true : Bool = ((0x12345U) >> 8) = 0x0123U
+    val- true : Bool = ((0x12345U) >> sz2i (i2sz 8 * sizeof<uint>)) = 0U
+  in
+  end
+
 implement
 main () =
   begin
@@ -359,5 +404,6 @@ main () =
     test10 ();
     test11 ();
     test12 ();
+    test13 ();
     0
   end

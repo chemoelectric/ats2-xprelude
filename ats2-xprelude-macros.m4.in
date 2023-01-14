@@ -17,6 +17,11 @@ along with this program. If not, see
 <https://www.gnu.org/licenses/>.
 
 /*------------------------------------------------------------------*/
+
+m4_define(`my_extern_prefix',`ats2_xprelude_')
+m4_define(`MY_EXTERN_PREFIX',`m4_toupper(my_extern_prefix)')
+
+/*------------------------------------------------------------------*/
 /* Comparisons. */
 
 m4_define(`comparisons',`lt,lte,gt,gte,eq,neq')
@@ -124,6 +129,9 @@ m4_define(`m4_g0int_binary',`(m4_g0int($1), m4_g0int($1)) -<> m4_g0int($1)')
 m4_define(`m4_g0uint_binary',`(m4_g0uint($1), m4_g0uint($1)) -<> m4_g0uint($1)')
 m4_define(`m4_g1int_binary',`(m4_g1int($1, $2), m4_g1int($1, $3)) -<> m4_g1int($1, $4)')
 m4_define(`m4_g1uint_binary',`(m4_g1uint($1, $2), m4_g1uint($1, $3)) -<> m4_g1uint($1, $4)')
+
+m4_define(`m4_g0uint_logical_shift',`(m4_g0uint($1), intGte 0) -<> m4_g0uint($1)')
+m4_define(`m4_g1uint_logical_shift',`(m4_g1uint($1, $2), int $3) -<> m4_g1uint($1, $4)')
 
 /*------------------------------------------------------------------*/
 /* Floating point kinds. */

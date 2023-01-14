@@ -20,7 +20,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_DYNLOADFLAG 0
 
 #define ATS_PACKNAME "ats2-xprelude.integer"
-#define ATS_EXTERN_PREFIX "ats2_xprelude_"
+#define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 #include "share/atspre_staload.hats"
 
@@ -254,6 +254,8 @@ nmod_g1int_int1 (x, y) =
 implement {tk : tkind}
 g0int_eucliddivrem (n, d) =
   let
+    (* The C optimizer most likely will reduce these these two
+       divisions to just one. *)
     val q0 = g0int_div (n, d)
     val r0 = g0int_mod (n, d)
   in
@@ -275,6 +277,16 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `implement g`'N`'int_eucliddiv<intb2k(INT)> = g`'N`'int_eucliddiv_`'INT
 implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
+')
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Logical shifts. *)
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`UINT',`uintbases',
+`implement g`'N`'uint_lsl<uintb2k(UINT)> = g`'N`'uint_lsl_`'UINT
+implement g`'N`'uint_lsr<uintb2k(UINT)> = g`'N`'uint_lsr_`'UINT
 ')
 ')dnl
 

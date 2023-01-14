@@ -1,6 +1,6 @@
 divert(-1)
 
-Copyright © 2021, 2022 Barry Schwartz
+Copyright © 2021–2023 Barry Schwartz
 
 This program is free software: you can redistribute it and/or
 modify it under the terms of the GNU General Public License, as
@@ -58,5 +58,12 @@ m4_define(`_m4_forloop',
 changequote(`[',`]')
 m4_define([m4_singlequote],['])
 changequote([`],['])
+
+m4_define(`m4_tolower',
+  `m4_translit(`$1',`ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                    `abcdefghijklmnopqrstuvwxyz')')
+m4_define(`m4_toupper',
+  `m4_translit(`$1',`abcdefghijklmnopqrstuvwxyz',
+                    `ABCDEFGHIJKLMNOPQRSTUVWXYZ')')
 
 divert`'dnl

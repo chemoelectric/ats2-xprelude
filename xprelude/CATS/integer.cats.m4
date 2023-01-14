@@ -17,41 +17,42 @@
 */
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
-#ifndef ATS2_XPRELUDE_CATS__INTEGER_CATS__HEADER_GUARD__
-#define ATS2_XPRELUDE_CATS__INTEGER_CATS__HEADER_GUARD__
+#ifndef MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__
+#define MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__
 
 #include <stdint.h>
 #include <`inttypes'.h>
+#include <limits.h>
 
-#ifndef ats2_xprelude_inline
-#define ats2_xprelude_inline ATSinline ()
+#ifndef my_extern_prefix`'inline
+#define my_extern_prefix`'inline ATSinline ()
 #endif
 
 /*------------------------------------------------------------------*/
 /* intmax_t and uintmax_t */
 
-typedef intmax_t ats2_xprelude_intmax;
-typedef uintmax_t ats2_xprelude_uintmax;
+typedef intmax_t my_extern_prefix`'intmax;
+typedef uintmax_t my_extern_prefix`'uintmax;
 
 /*------------------------------------------------------------------*/
 /* Printing. */
 
 m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline atsvoid_t0ype
-ats2_xprelude_fprint_`'INT (atstype_ref out, intb2c(INT) x)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'fprint_`'INT (atstype_ref out, intb2c(INT) x)
 {
   (void) fprintf ((FILE *) out, "%jd", (intmax_t) x);
 }
 
-ats2_xprelude_inline atsvoid_t0ype
-ats2_xprelude_print_`'INT (intb2c(INT) x)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'print_`'INT (intb2c(INT) x)
 {
   (void) fprintf (stdout, "%jd", (intmax_t) x);
 }
 
-ats2_xprelude_inline atsvoid_t0ype
-ats2_xprelude_prerr_`'INT (intb2c(INT) x)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'prerr_`'INT (intb2c(INT) x)
 {
   (void) fprintf (stderr, "%jd", (intmax_t) x);
 }
@@ -59,20 +60,20 @@ ats2_xprelude_prerr_`'INT (intb2c(INT) x)
 
 m4_foreachq(`UINT',`uintbases',
 `
-ats2_xprelude_inline atsvoid_t0ype
-ats2_xprelude_fprint_`'UINT (atstype_ref out, uintb2c(UINT) x)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'fprint_`'UINT (atstype_ref out, uintb2c(UINT) x)
 {
   (void) fprintf ((FILE *) out, "%ju", (uintmax_t) x);
 }
 
-ats2_xprelude_inline atsvoid_t0ype
-ats2_xprelude_print_`'UINT (uintb2c(UINT) x)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'print_`'UINT (uintb2c(UINT) x)
 {
   (void) fprintf (stdout, "%jd", (uintmax_t) x);
 }
 
-ats2_xprelude_inline atsvoid_t0ype
-ats2_xprelude_prerr_`'UINT (uintb2c(UINT) x)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'prerr_`'UINT (uintb2c(UINT) x)
 {
   (void) fprintf (stderr, "%jd", (uintmax_t) x);
 }
@@ -85,8 +86,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT1',`intbases',
 `m4_foreachq(`INT2',`intbases',
 `
-ats2_xprelude_inline intb2c(INT2)
-ats2_xprelude_g`'N`'int2int_`'INT1`_'INT2 (intb2c(INT1) i)
+my_extern_prefix`'inline intb2c(INT2)
+my_extern_prefix`'g`'N`'int2int_`'INT1`_'INT2 (intb2c(INT1) i)
 {
   return (intb2c(INT2)) i;
 }
@@ -98,8 +99,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT1',`intbases',
 `m4_foreachq(`UINT2',`uintbases',
 `
-ats2_xprelude_inline uintb2c(UINT2)
-ats2_xprelude_g`'N`'int2uint_`'INT1`_'UINT2 (intb2c(INT1) i)
+my_extern_prefix`'inline uintb2c(UINT2)
+my_extern_prefix`'g`'N`'int2uint_`'INT1`_'UINT2 (intb2c(INT1) i)
 {
   return (uintb2c(UINT2)) i;
 }
@@ -111,8 +112,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT1',`uintbases',
 `m4_foreachq(`INT2',`intbases',
 `
-ats2_xprelude_inline intb2c(INT2)
-ats2_xprelude_g`'N`'uint2int_`'UINT1`_'INT2 (uintb2c(UINT1) i)
+my_extern_prefix`'inline intb2c(INT2)
+my_extern_prefix`'g`'N`'uint2int_`'UINT1`_'INT2 (uintb2c(UINT1) i)
 {
   return (intb2c(INT2)) i;
 }
@@ -124,8 +125,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT1',`uintbases',
 `m4_foreachq(`UINT2',`uintbases',
 `
-ats2_xprelude_inline uintb2c(UINT2)
-ats2_xprelude_g`'N`'uint2uint_`'UINT1`_'UINT2 (uintb2c(UINT1) i)
+my_extern_prefix`'inline uintb2c(UINT2)
+my_extern_prefix`'g`'N`'uint2uint_`'UINT1`_'UINT2 (uintb2c(UINT1) i)
 {
   return (uintb2c(UINT2)) i;
 }
@@ -140,8 +141,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `m4_foreachq(`OP',`comparisons',
 `
-ats2_xprelude_inline atstype_bool
-ats2_xprelude_g`'N`'int_`'OP`_'INT (intb2c(INT) i, intb2c(INT) j)
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g`'N`'int_`'OP`_'INT (intb2c(INT) i, intb2c(INT) j)
 {
   return (i ats_cmp_c(OP) j) ? atsbool_true : atsbool_false;
 }
@@ -153,8 +154,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `m4_foreachq(`OP',`comparisons',
 `
-ats2_xprelude_inline atstype_bool
-ats2_xprelude_g`'N`'uint_`'OP`_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g`'N`'uint_`'OP`_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
   return (i ats_cmp_c(OP) j) ? atsbool_true : atsbool_false;
 }
@@ -169,8 +170,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `m4_foreachq(`OP',`comparisons',
 `
-ats2_xprelude_inline atstype_bool
-`ats2_xprelude_g'N`int_is'OP`z_'INT (intb2c(INT) i)
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g`'N`'int_is`'OP`z_'INT (intb2c(INT) i)
 {
   return (i ats_cmp_c(OP) 0) ? atsbool_true : atsbool_false;
 }
@@ -182,8 +183,8 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `m4_foreachq(`OP',`gt,eq,neq',
 `
-ats2_xprelude_inline atstype_bool
-`ats2_xprelude_g'N`uint_is'OP`z_'UINT (uintb2c(UINT) i)
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g`'N`'uint_is`'OP`z_'UINT (uintb2c(UINT) i)
 {
   return (i ats_cmp_c(OP) 0) ? atsbool_true : atsbool_false;
 }
@@ -197,8 +198,8 @@ ats2_xprelude_inline atstype_bool
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(`i'nt)
-`ats2_xprelude_g'N`int_compare_'INT (intb2c(INT) i, intb2c(INT) j)
+my_extern_prefix`'inline intb2c(`i'nt)
+my_extern_prefix`'g`'N`'int_compare_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
   return (i < j) ? (-1) : ((i == j) ? (0) : (1));
 }
@@ -208,8 +209,8 @@ ats2_xprelude_inline intb2c(`i'nt)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_xprelude_inline intb2c(`i'nt)
-`ats2_xprelude_g'N`uint_compare_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+my_extern_prefix`'inline intb2c(`i'nt)
+my_extern_prefix`'g`'N`'uint_compare_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
   return (i < j) ? (-1) : ((i == j) ? (0) : (1));
 }
@@ -222,8 +223,8 @@ ats2_xprelude_inline intb2c(`i'nt)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_neg_`'INT (intb2c(INT) i)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_neg_`'INT (intb2c(INT) i)
 {
   return (-i);
 }
@@ -236,8 +237,8 @@ ats2_xprelude_g`'N`'int_neg_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_abs_`'INT (intb2c(INT) i)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_abs_`'INT (intb2c(INT) i)
 {
   return (i < 0) ? (-i) : i;
 }
@@ -250,14 +251,14 @@ ats2_xprelude_g`'N`'int_abs_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_succ_`'INT (intb2c(INT) i)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_succ_`'INT (intb2c(INT) i)
 {
   return (i + 1);
 }
 
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_pred_`'INT (intb2c(INT) i)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_pred_`'INT (intb2c(INT) i)
 {
   return (i - 1);
 }
@@ -267,14 +268,14 @@ ats2_xprelude_g`'N`'int_pred_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_xprelude_inline uintb2c(UINT)
-ats2_xprelude_g`'N`'uint_succ_`'UINT (uintb2c(UINT) i)
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_succ_`'UINT (uintb2c(UINT) i)
 {
   return (i + 1);
 }
 
-ats2_xprelude_inline uintb2c(UINT)
-ats2_xprelude_g`'N`'uint_pred_`'UINT (uintb2c(UINT) i)
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_pred_`'UINT (uintb2c(UINT) i)
 {
   return (i - 1);
 }
@@ -301,8 +302,8 @@ ats2_xprelude_g`'N`'uint_pred_`'UINT (uintb2c(UINT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_half_`'INT (intb2c(INT) i)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_half_`'INT (intb2c(INT) i)
 {
   return (i / 2);
 }
@@ -312,8 +313,8 @@ ats2_xprelude_g`'N`'int_half_`'INT (intb2c(INT) i)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_xprelude_inline uintb2c(UINT)
-ats2_xprelude_g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
 {
   return (i >> 1);
 }
@@ -328,8 +329,8 @@ m4_foreachq(`BINOP',`add,sub,mul,div,mod',
 `m4_foreachq(`INT',`intbases',
 `m4_if(BINOP`'N,`mod1',`',dnl  /* Skip g1int_mod */
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
   return (i ats_binop_c(BINOP) j);
 }
@@ -340,8 +341,8 @@ ats2_xprelude_g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_xprelude_inline uintb2c(UINT)
-ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
   return (i ats_binop_c(BINOP) j);
 }
@@ -351,26 +352,26 @@ ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 
 m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g1int_nmod_`'INT (intb2c(INT) i, intb2c(INT) j)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g1int_nmod_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
   return (i % j);
 }
 ')dnl
 
-#undef _ats2_xprelude_min
-#undef _ats2_xprelude_max
-#define _ats2_xprelude_min(x, y) (((x) < (y)) ? (x) : (y))
-#define _ats2_xprelude_max(x, y) (((y) < (x)) ? (x) : (y))
+#undef _`'my_extern_prefix`'min
+#undef _`'my_extern_prefix`'max
+#define _`'my_extern_prefix`'min(x, y) (((x) < (y)) ? (x) : (y))
+#define _`'my_extern_prefix`'max(x, y) (((y) < (x)) ? (x) : (y))
 
 m4_foreachq(`BINOP',`min,max',
 `m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
-  return _ats2_xprelude_`'BINOP (i, j);
+  return _`'my_extern_prefix`'`'BINOP (i, j);
 }
 ')dnl
 ')dnl
@@ -378,17 +379,17 @@ ats2_xprelude_g`'N`'int_`'BINOP`'_`'INT (intb2c(INT) i, intb2c(INT) j)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `
-ats2_xprelude_inline uintb2c(UINT)
-ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
-  return _ats2_xprelude_`'BINOP (i, j);
+  return _`'my_extern_prefix`'`'BINOP (i, j);
 }
 ')
 ')dnl
 ')dnl
 
-#undef _ats2_xprelude_min
-#undef _ats2_xprelude_max
+#undef _`'my_extern_prefix`'min
+#undef _`'my_extern_prefix`'max
 
 /*------------------------------------------------------------------*/
 /* Euclidean division with remainder always positive. */
@@ -396,22 +397,28 @@ ats2_xprelude_g`'N`'uint_`'BINOP`'_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_eucliddiv_`'INT (intb2c(INT) n, intb2c(INT) d)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_eucliddiv_`'INT (intb2c(INT) n, intb2c(INT) d)
 {
+  /* The C optimizer most likely will reduce these these two divisions
+     to just one. */
   intb2c(INT) q0 = n / d;
   intb2c(INT) r0 = n % d;
+
   return ((0 <= n) ? q0 :
           (r0 == 0) ? q0 :
           (d < 0) ? (q0 + 1) :
           (q0 - 1));
 }
 
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g`'N`'int_euclidrem_`'INT (intb2c(INT) n, intb2c(INT) d)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_euclidrem_`'INT (intb2c(INT) n, intb2c(INT) d)
 {
+  /* The C optimizer most likely will reduce these these two divisions
+     to just one. */
   intb2c(INT) q0 = n / d;
   intb2c(INT) r0 = n % d;
+
   return ((0 <= n) ? r0 :
           (r0 == 0) ? r0 :
           (d < 0) ? (r0 - d) :
@@ -421,8 +428,28 @@ ats2_xprelude_g`'N`'int_euclidrem_`'INT (intb2c(INT) n, intb2c(INT) d)
 ')dnl
 
 /*------------------------------------------------------------------*/
+/* Logical shifts. */
 
-#endif /* ATS2_XPRELUDE_CATS__INTEGER_CATS__HEADER_GUARD__ */
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`UINT',`uintbases',
+`
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_lsl_`'UINT (uintb2c(UINT) n, atstype_int i)
+{
+  return (i < CHAR_BIT * sizeof n) ? (n << i) : 0;
+}
+
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_lsr_`'UINT (uintb2c(UINT) n, atstype_int i)
+{
+  return (i < CHAR_BIT * sizeof n) ? (n >> i) : 0;
+}
+')
+')dnl
+
+/*------------------------------------------------------------------*/
+
+#endif /* MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

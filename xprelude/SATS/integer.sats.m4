@@ -18,7 +18,7 @@
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_PACKNAME "ats2-xprelude.integer"
-#define ATS_EXTERN_PREFIX "ats2_xprelude_"
+#define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 (******************************************************************
   Some integer support that is not included in the Postiats
@@ -440,6 +440,36 @@ fn g0uint_min_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
 fn g1uint_min_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \min j) = "mac#%"
 fn g0uint_max_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
 fn g1uint_max_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \max j) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Logical shifts. *)
+
+(* I have added the g1 versions. Also I have made the shifts safe
+   against the second argument being large: they return zero. C
+   standards leave the behavior implementation-defined. *)
+
+fn {tk : tkind}
+g1uint_lsl :
+  {i, j : int | 0 <= j}
+  m4_g1uint_logical_shift(tk, i, j, i \lsl_int_int j)
+
+fn {tk : tkind}
+g1uint_lsr :
+  {i, j : int | 0 <= j}
+  m4_g1uint_logical_shift(tk, i, j, i \lsr_int_int j)
+
+(* These overloads have precedences one greater than the precedences
+   of g0uint_lsl and g0uint_lsr. *)
+overload << with g1uint_lsl of 11
+overload >> with g1uint_lsr of 11
+
+m4_foreachq(`UINT',`uintbases',
+`
+fn g0uint_lsl_`'UINT : m4_g0uint_logical_shift(UINT) = "mac#%"
+fn g1uint_lsl_`'UINT : {i, j : int | 0 <= j} m4_g1uint_logical_shift(UINT, i, j, i \lsl_int_int j) = "mac#%"
+fn g0uint_lsr_`'UINT : m4_g0uint_logical_shift(UINT) = "mac#%"
+fn g1uint_lsr_`'UINT : {i, j : int | 0 <= j} m4_g1uint_logical_shift(UINT, i, j, i \lsr_int_int j) = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)

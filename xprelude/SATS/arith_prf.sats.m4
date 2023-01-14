@@ -126,6 +126,12 @@ in (* local *)
 end (* local *)
 
 (*------------------------------------------------------------------*)
+(* Logical and bitwise operations. *)
+
+stacst lsl_int_int : (int, int) -> int
+stacst lsr_int_int : (int, int) -> int
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS
