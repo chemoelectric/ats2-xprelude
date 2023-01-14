@@ -126,10 +126,13 @@ in (* local *)
 end (* local *)
 
 (*------------------------------------------------------------------*)
-(* Logical and bitwise operations. *)
+(* Bitwise operations. *)
 
 stacst lsl_int_int : (int, int) -> int
 stacst lsr_int_int : (int, int) -> int
+
+stacst asl_int_int : (int, int) -> int
+stacst asr_int_int : (int, int) -> int
 
 (*------------------------------------------------------------------*)
 dnl

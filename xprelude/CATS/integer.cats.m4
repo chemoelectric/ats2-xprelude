@@ -466,6 +466,50 @@ my_extern_prefix`'g`'N`'uint_lsr_`'UINT (uintb2c(UINT) n, atstype_int i)
 ')dnl
 
 /*------------------------------------------------------------------*/
+/* Arithmetic shifts. */
+
+/* One should not really rely on << and >> operators to do arithmetic
+   shifts. The following implementations instead use unsafe unions and
+   logical shifts.
+
+   Unions seemed a safer way to do the conversion between signed and
+   unsigned than did casts. A cast of a negative number to an unsigned
+   representation is allowed (by C standards) to signal an error. */
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_asl_`'INT (intb2c(INT) n, atstype_int i)
+{
+  union {
+    intb2c(INT) i;
+    uintb2c(int2uintbase(INT)) u;
+  } x;
+
+  x.i = n;
+  x.u = my_extern_prefix`'g`'N`'uint_lsl_`'int2uintbase(INT) (x.u, i);
+  return x.i;
+}
+
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
+{
+  union {
+    intb2c(INT) i;
+    uintb2c(int2uintbase(INT)) u;
+  } x;
+
+  x.i = n;
+  /* The bit-complement operations are so we get filling on the
+     left with ones instead of zeros. */
+  x.u = ~my_extern_prefix`'g`'N`'uint_lsr_`'int2uintbase(INT) (~x.u, i);
+  return x.i;
+}
+')
+')dnl
+
+/*------------------------------------------------------------------*/
 
 #endif /* MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__ */
 dnl

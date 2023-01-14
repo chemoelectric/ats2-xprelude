@@ -473,6 +473,45 @@ fn g1uint_lsr_`'UINT : {i, j : int | 0 <= j} m4_g1uint_logical_shift(UINT, i, j,
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Arithmetic shifts. *)
+
+(* I have added the g1 versions.
+
+   The signed << and >> operators of C are not required to do
+   arithmetic shifting, and >> may in fact zero-fill rather than
+   one-fill.
+   
+   Thus we do not use the signed << and >> operators.
+   
+   Our implementation also is compiler dependent: we use an unsafe
+   union to convert between signed and unsigned
+   representations. However, we use the unsigned << and >> operators,
+   which have well defined behavior. *)
+
+fn {tk : tkind}
+g1int_asl :
+  {i, j : int | 0 <= j}
+  m4_g1int_arith_shift(tk, i, j, i \asl_int_int j)
+
+fn {tk : tkind}
+g1int_asr :
+  {i, j : int | 0 <= j}
+  m4_g1int_arith_shift(tk, i, j, i \asr_int_int j)
+
+(* These overloads have precedences one greater than the precedences
+   of g0int_asl and g0int_asr. *)
+overload << with g1int_asl of 1
+overload >> with g1int_asr of 1
+
+m4_foreachq(`INT',`intbases',
+`
+fn g0int_asl_`'INT : m4_g0int_arith_shift(INT) = "mac#%"
+fn g1int_asl_`'INT : {i, j : int | 0 <= j} m4_g1int_arith_shift(INT, i, j, i \asl_int_int j) = "mac#%"
+fn g0int_asr_`'INT : m4_g0int_arith_shift(INT) = "mac#%"
+fn g1int_asr_`'INT : {i, j : int | 0 <= j} m4_g1int_arith_shift(INT, i, j, i \asr_int_int j) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

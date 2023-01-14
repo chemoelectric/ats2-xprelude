@@ -352,15 +352,15 @@ test13 () : void =
     val- true : bool = ((0x12345U) \g0uint_lsl 8) = 0x01234500U
     val- true : bool = ((0x12345U) \g0uint_lsl sz2i (i2sz 8 * sizeof<uint>)) = 0U
 
-    val- true : Bool = ((0x12345U) \g1uint_lsl 0) = 0x012345U
-    val- true : Bool = ((0x12345U) \g1uint_lsl 4) = 0x0123450U
-    val- true : Bool = ((0x12345U) \g1uint_lsl 8) = 0x01234500U
-    val- true : Bool = ((0x12345U) \g1uint_lsl sz2i (i2sz 8 * sizeof<uint>)) = 0U
-
     val- true : bool = ((0x12345U) << 0) = 0x012345U
     val- true : bool = ((0x12345U) << 4) = 0x0123450U
     val- true : bool = ((0x12345U) << 8) = 0x01234500U
     val- true : bool = ((0x12345U) << sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
+    val- true : Bool = ((0x12345U) \g1uint_lsl 0) = 0x012345U
+    val- true : Bool = ((0x12345U) \g1uint_lsl 4) = 0x0123450U
+    val- true : Bool = ((0x12345U) \g1uint_lsl 8) = 0x01234500U
+    val- true : Bool = ((0x12345U) \g1uint_lsl sz2i (i2sz 8 * sizeof<uint>)) = 0U
 
     val- true : Bool = ((0x12345U) << 0) = 0x012345U
     val- true : Bool = ((0x12345U) << 4) = 0x0123450U
@@ -372,20 +372,65 @@ test13 () : void =
     val- true : bool = ((0x12345U) \g0uint_lsr 8) = 0x0123U
     val- true : bool = ((0x12345U) \g0uint_lsr sz2i (i2sz 8 * sizeof<uint>)) = 0U
 
-    val- true : Bool = ((0x12345U) \g1uint_lsr 0) = 0x012345U
-    val- true : Bool = ((0x12345U) \g1uint_lsr 4) = 0x01234U
-    val- true : Bool = ((0x12345U) \g1uint_lsr 8) = 0x0123U
-    val- true : Bool = ((0x12345U) \g1uint_lsr sz2i (i2sz 8 * sizeof<uint>)) = 0U
-
     val- true : bool = ((0x12345U) >> 0) = 0x012345U
     val- true : bool = ((0x12345U) >> 4) = 0x01234U
     val- true : bool = ((0x12345U) >> 8) = 0x0123U
     val- true : bool = ((0x12345U) >> sz2i (i2sz 8 * sizeof<uint>)) = 0U
 
+    val- true : Bool = ((0x12345U) \g1uint_lsr 0) = 0x012345U
+    val- true : Bool = ((0x12345U) \g1uint_lsr 4) = 0x01234U
+    val- true : Bool = ((0x12345U) \g1uint_lsr 8) = 0x0123U
+    val- true : Bool = ((0x12345U) \g1uint_lsr sz2i (i2sz 8 * sizeof<uint>)) = 0U
+
     val- true : Bool = ((0x12345U) >> 0) = 0x012345U
     val- true : Bool = ((0x12345U) >> 4) = 0x01234U
     val- true : Bool = ((0x12345U) >> 8) = 0x0123U
     val- true : Bool = ((0x12345U) >> sz2i (i2sz 8 * sizeof<uint>)) = 0U
+  in
+  end
+
+fn
+test14 () : void =
+  let
+    val- true : bool = (0x12345 \g0int_asl 0) = 0x12345
+    val- true : bool = (0x12345 \g0int_asl 4) = 0x123450
+    val- true : bool = (0x12345 \g0int_asl 8) = 0x1234500
+    val- true : bool = (0x12345 \g0int_asl sz2i (i2sz 8 * sizeof<int>)) = 0
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : bool = (0x12345 \g0int_asl pred i) = $extval (int, "INT_MIN")
+
+    val- true : bool = (0x12345 << 0) = 0x12345
+    val- true : bool = (0x12345 << 4) = 0x123450
+    val- true : bool = (0x12345 << 8) = 0x1234500
+    val- true : bool = (0x12345 << sz2i (i2sz 8 * sizeof<int>)) = 0
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : bool = (0x12345 << pred i) = $extval (int, "INT_MIN")
+
+    val- true : Bool = (0x12345 \g1int_asl 0) = 0x12345
+    val- true : Bool = (0x12345 \g1int_asl 4) = 0x123450
+    val- true : Bool = (0x12345 \g1int_asl 8) = 0x1234500
+    val- true : Bool = (0x12345 \g1int_asl sz2i (i2sz 8 * sizeof<int>)) = 0
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : Bool = (0x12345 \g1int_asl pred i) = $extval (Int, "INT_MIN")
+
+    val- true : Bool = (0x12345 << 0) = 0x12345
+    val- true : Bool = (0x12345 << 4) = 0x123450
+    val- true : Bool = (0x12345 << 8) = 0x1234500
+    val- true : Bool = (0x12345 << sz2i (i2sz 8 * sizeof<int>)) = 0
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : Bool = (0x12345 << pred i) = $extval (Int, "INT_MIN")
+
+    // FIXME: Add tests for right shifts.
+    // FIXME: Add tests for right shifts.
+    // FIXME: Add tests for right shifts.
+    // FIXME: Add tests for right shifts.
+    // FIXME: Add tests for right shifts.
+    // FIXME: Add tests for right shifts.
+    // FIXME: Add tests for right shifts.
   in
   end
 
@@ -405,5 +450,6 @@ main () =
     test11 ();
     test12 ();
     test13 ();
+    test14 ();
     0
   end

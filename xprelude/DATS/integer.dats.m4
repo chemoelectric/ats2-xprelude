@@ -281,12 +281,19 @@ implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Logical shifts. *)
+(* Logical and arithmetic shifts. *)
 
 m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `implement g`'N`'uint_lsl<uintb2k(UINT)> = g`'N`'uint_lsl_`'UINT
 implement g`'N`'uint_lsr<uintb2k(UINT)> = g`'N`'uint_lsr_`'UINT
+')
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`implement g`'N`'int_asl<intb2k(INT)> = g`'N`'int_asl_`'INT
+implement g`'N`'int_asr<intb2k(INT)> = g`'N`'int_asr_`'INT
 ')
 ')dnl
 
