@@ -31,9 +31,14 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 /*------------------------------------------------------------------*/
 /*
 
-  Credit belongs to
-  https://graphics.stanford.edu/~seander/bithacks.html for some of the
-  ideas below.
+  Credit for some of the programming ideas employed below belongs to:
+
+  {{cite web
+   | title       = Bit Twiddling Hacks
+   | url         = https://graphics.stanford.edu/~seander/bithacks.html
+   | date        = 2023-01-14
+   | archiveurl  = http://archive.today/GNADt
+   | archivedate = 2023-01-14 }}
 
 */
 /*------------------------------------------------------------------*/
