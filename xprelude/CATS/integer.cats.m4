@@ -29,6 +29,14 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #endif
 
 /*------------------------------------------------------------------*/
+/*
+
+  Credit belongs to
+  https://graphics.stanford.edu/~seander/bithacks.html for some of the
+  ideas below.
+
+*/
+/*------------------------------------------------------------------*/
 /* intmax_t and uintmax_t */
 
 typedef intmax_t my_extern_prefix`'intmax;
@@ -201,7 +209,7 @@ m4_foreachq(`N',`0,1',
 my_extern_prefix`'inline intb2c(`i'nt)
 my_extern_prefix`'g`'N`'int_compare_`'INT (intb2c(INT) i, intb2c(INT) j)
 {
-  return (i < j) ? (-1) : ((i == j) ? (0) : (1));
+  return (i > j) - (i < j);
 }
 ')
 ')dnl
@@ -212,7 +220,7 @@ m4_foreachq(`N',`0,1',
 my_extern_prefix`'inline intb2c(`i'nt)
 my_extern_prefix`'g`'N`'uint_compare_`'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
-  return (i < j) ? (-1) : ((i == j) ? (0) : (1));
+  return (i > j) - (i < j);
 }
 ')
 ')dnl
