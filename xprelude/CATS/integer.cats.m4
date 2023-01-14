@@ -28,6 +28,11 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define my_extern_prefix`'inline ATSinline ()
 #endif
 
+#ifndef my_extern_prefix`'boolc2ats
+#define my_extern_prefix`'boolc2ats(B) \
+  ((B) ? (atsbool_true) : (atsbool_false))
+#endif
+
 /*------------------------------------------------------------------*/
 /*
 
@@ -157,7 +162,7 @@ m4_foreachq(`N',`0,1',
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'g`'N`'int_`'OP`_'INT (intb2c(INT) i, intb2c(INT) j)
 {
-  return (i ats_cmp_c(OP) j) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (i ats_cmp_c(OP) j);
 }
 ')
 ')
@@ -170,7 +175,7 @@ m4_foreachq(`N',`0,1',
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'g`'N`'uint_`'OP`_'UINT (uintb2c(UINT) i, uintb2c(UINT) j)
 {
-  return (i ats_cmp_c(OP) j) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (i ats_cmp_c(OP) j);
 }
 ')
 ')
@@ -186,7 +191,7 @@ m4_foreachq(`N',`0,1',
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'g`'N`'int_is`'OP`z_'INT (intb2c(INT) i)
 {
-  return (i ats_cmp_c(OP) 0) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (i ats_cmp_c(OP) 0);
 }
 ')
 ')
@@ -199,7 +204,7 @@ m4_foreachq(`N',`0,1',
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'g`'N`'uint_is`'OP`z_'UINT (uintb2c(UINT) i)
 {
-  return (i ats_cmp_c(OP) 0) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (i ats_cmp_c(OP) 0);
 }
 ')
 ')
