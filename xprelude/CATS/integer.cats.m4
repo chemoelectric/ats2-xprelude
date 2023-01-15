@@ -501,9 +501,12 @@ my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
   } x;
 
   x.i = n;
-  /* The bit-complement operations are so we get filling on the
-     left with ones instead of zeros. */
-  x.u = ~my_extern_prefix`'g`'N`'uint_lsr_`'int2uintbase(INT) (~x.u, i);
+  if (n < 0)
+    /* The bit-complement operations are so we get filling on the left
+       with ones instead of zeros. */
+    x.u = ~my_extern_prefix`'g`'N`'uint_lsr_`'int2uintbase(INT) (~x.u, i);
+  else
+    x.u = my_extern_prefix`'g`'N`'uint_lsr_`'int2uintbase(INT) (x.u, i);
   return x.i;
 }
 ')
