@@ -93,10 +93,90 @@ test2 () : void =
   in
   end
 
+fn
+test3 () : void =
+  let
+    (* array_sort, using functions and closures for the
+       comparisons. *)
+    val lst1 = $list (i2mx 2, i2mx 5, i2mx 3, i2mx 4, i2mx 6,
+                      i2mx 1, i2mx 9, i2mx 8, i2mx 7, i2mx 0)
+    val expected = $list (i2mx 0, i2mx 1, i2mx 2, i2mx 3, i2mx 4,
+                          i2mx 5, i2mx 6, i2mx 7, i2mx 8, i2mx 9)
+
+    var arr : @[intmax][10]
+
+    (* function *)
+    val () = array_initize_list<intmax> (arr, 10, lst1)
+    val () = array_sort_fun<intmax> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = list_vt2t (array2list (arr, i2sz 10))
+    val- true = lst2 = expected
+
+    (* cloref *)
+    val closure =
+      lam (x : &intmax, y : &intmax) : int =<cloref>
+        compare<intmaxknd> (x, y)
+    val () = array_initize_list<intmax> (arr, 10, lst1)
+    val () = array_sort_cloref<intmax> (arr, i2sz 10, closure)
+    val lst2 = list_vt2t (array2list (arr, i2sz 10))
+    val- true = lst2 = expected
+
+    (* cloptr *)
+    var closure =
+      lam (x : &intmax, y : &intmax) : int =<cloptr>
+        compare<intmaxknd> (x, y)
+    val () = array_initize_list<intmax> (arr, 10, lst1)
+    val () = array_sort_cloptr<intmax> (arr, i2sz 10, closure)
+    val lst2 = list_vt2t (array2list (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = cloptr_free ($UN.castvwtp0{cloptr0} closure)
+  in
+  end
+
+fn
+test4 () : void =
+  let
+    (* array_stable_sort, using functions and closures for the
+       comparisons. *)
+    val lst1 = $list (i2mx 2, i2mx 5, i2mx 3, i2mx 4, i2mx 6,
+                      i2mx 1, i2mx 9, i2mx 8, i2mx 7, i2mx 0)
+    val expected = $list (i2mx 0, i2mx 1, i2mx 2, i2mx 3, i2mx 4,
+                          i2mx 5, i2mx 6, i2mx 7, i2mx 8, i2mx 9)
+
+    var arr : @[intmax][10]
+
+    (* function *)
+    val () = array_initize_list<intmax> (arr, 10, lst1)
+    val () = array_stable_sort_fun<intmax> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = list_vt2t (array2list (arr, i2sz 10))
+    val- true = lst2 = expected
+
+    (* cloref *)
+    val closure =
+      lam (x : &intmax, y : &intmax) : int =<cloref>
+        compare<intmaxknd> (x, y)
+    val () = array_initize_list<intmax> (arr, 10, lst1)
+    val () = array_stable_sort_cloref<intmax> (arr, i2sz 10, closure)
+    val lst2 = list_vt2t (array2list (arr, i2sz 10))
+    val- true = lst2 = expected
+
+    (* cloptr *)
+    var closure =
+      lam (x : &intmax, y : &intmax) : int =<cloptr>
+        compare<intmaxknd> (x, y)
+    val () = array_initize_list<intmax> (arr, 10, lst1)
+    val () = array_stable_sort_cloptr<intmax> (arr, i2sz 10, closure)
+    val lst2 = list_vt2t (array2list (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = cloptr_free ($UN.castvwtp0{cloptr0} closure)
+  in
+  end
+
 implement
 main () =
   begin
     test1 ();
     test2 ();
+    test3 ();
+    test4 ();
     0
   end

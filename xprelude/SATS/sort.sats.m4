@@ -48,6 +48,61 @@ array_stable_sort :
     void
 
 (*------------------------------------------------------------------*)
+(* Array sorting with functions or closures for the comparison. *)
+
+fn {a : vt@ype}
+array_sort_fun :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   (&a, &a) -<> int) -< !wrt >
+    void
+
+fn {a : vt@ype}
+array_stable_sort_fun :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   (&a, &a) -<> int) -< !wrt >
+    void
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+fn {a : vt@ype}
+array_sort_cloref :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   (&a, &a) -<cloref> int) -< !wrt >
+    void
+
+fn {a : vt@ype}
+array_stable_sort_cloref :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   (&a, &a) -<cloref> int) -< !wrt >
+    void
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+fn {a : vt@ype}
+array_sort_cloptr :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   &((&a, &a) -<cloptr> int)) -< !wrt >
+    void
+
+fn {a : vt@ype}
+array_stable_sort_cloptr :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   &((&a, &a) -<cloptr> int)) -< !wrt >
+    void
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

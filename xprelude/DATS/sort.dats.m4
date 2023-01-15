@@ -28,6 +28,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 staload "xprelude/SATS/sort.sats"
 
+staload UN = "prelude/SATS/unsafe.sats"
+
 m4_if(using_array_timsort,`yes',
   `#include "timsort/HATS/array-timsort.hats"')
 
@@ -99,6 +101,59 @@ array_stable_sort (arr, n) =
     array_copy_from_list_vt<a> (arr, lst)
   end
 ')
+
+(*------------------------------------------------------------------*)
+(* Sorting using a function or closure for the comparisons. *)
+
+m4_foreachq(`STAB',``',`stable_'',
+`
+implement {a}
+array_`'STAB`'sort_fun (arr, n, cmp) =
+  let
+    implement
+    array_sort$cmp<a> (x, y) =
+      cmp (x, y)
+  in
+    array_`'STAB`'sort<a> (arr, n)
+  end
+
+implement {a}
+array_`'STAB`'sort_cloref (arr, n, cmp) =
+  let
+    implement
+    array_sort$cmp<a> (x, y) =
+      cmp (x, y)
+  in
+    array_`'STAB`'sort<a> (arr, n)
+  end
+
+implement {a}
+array_`'STAB`'sort_cloptr (arr, n, cmp) =
+  let
+    extern castfn
+    make_view :
+      {p : addr}
+      ptr p -<>
+        @(((&a, &a) -<cloptr> int) @ p,
+          ((&a, &a) -<cloptr> int) @ p -<lin,prf> void |
+          ptr p)
+
+    val p_cmp = addr@ cmp
+
+    implement
+    array_sort$cmp<a> (x, y) =
+      let
+        val @(view, consume_view | p) = make_view p_cmp
+        macdef cmp = !p
+        val i = cmp (x, y)
+        prval () = consume_view view
+      in
+        i
+      end
+  in
+    array_`'STAB`'sort<a> (arr, n)
+  end
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl
