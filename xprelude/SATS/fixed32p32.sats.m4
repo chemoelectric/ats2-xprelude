@@ -18,7 +18,7 @@
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_PACKNAME "ats2-xprelude.fixed32p32"
-#define ATS_EXTERN_PREFIX "ats2_xprelude_"
+#define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 %{#
 #include "xprelude/CATS/fixed32p32.cats"
@@ -29,7 +29,7 @@ staload "xprelude/SATS/float.sats"
 
 (*------------------------------------------------------------------*)
 
-tkindef fixed32p32_kind = "ats2_xprelude_fixed32p32"
+tkindef fixed32p32_kind = "my_extern_prefix`'fixed32p32"
 stadef fix32p32knd = fixed32p32_kind
 typedef fixed32p32 = g0float fix32p32knd
 

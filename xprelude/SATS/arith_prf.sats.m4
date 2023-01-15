@@ -19,7 +19,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 (*------------------------------------------------------------------*)
 
 #define ATS_PACKNAME "ats2-xprelude.arith_prf"
-#define ATS_EXTERN_PREFIX "ats2_xprelude_"
 
 (*------------------------------------------------------------------*)
 (* Lemmas for division that return more information than do their

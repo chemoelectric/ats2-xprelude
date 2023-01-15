@@ -18,7 +18,7 @@
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_PACKNAME "ats2-xprelude.exrat"
-#define ATS_EXTERN_PREFIX "ats2_xprelude_"
+#define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 %{#
 #include "xprelude/CATS/exrat.cats"
@@ -32,9 +32,9 @@ staload "xprelude/SATS/fixed32p32.sats"
    called by other functions. *)
 fn
 exrat_initialize :
-  () -<> void = "mac#ats2_xprelude_exrat_one_time_initialization"
+  () -<> void = "mac#my_extern_prefix`'exrat_one_time_initialization"
 
-tkindef exrat_kind = "ats2_xprelude_exrat"
+tkindef exrat_kind = "my_extern_prefix`'exrat"
 stadef exratknd = exrat_kind
 typedef exrat = g0float exratknd
 

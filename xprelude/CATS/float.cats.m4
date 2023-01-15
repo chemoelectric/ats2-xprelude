@@ -17,11 +17,11 @@
 */
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
-#ifndef ATS2_XPRELUDE_CATS__FLOAT_CATS__HEADER_GUARD__
-#define ATS2_XPRELUDE_CATS__FLOAT_CATS__HEADER_GUARD__
+#ifndef MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__
+#define MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__
 
-#ifndef ats2_xprelude_inline
-#define ats2_xprelude_inline ATSinline ()
+#ifndef my_extern_prefix`'inline
+#define my_extern_prefix`'inline ATSinline ()
 #endif
 
 #include <float.h>
@@ -31,8 +31,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 m4_foreachq(`INT',`intbases',
 `m4_foreachq(`FLT',`float,double,ldouble',
 `
-ats2_xprelude_inline floatt2c(FLT)
-ats2_xprelude_g0int2float_`'INT`_'FLT (intb2c(INT) x)
+my_extern_prefix`'inline floatt2c(FLT)
+my_extern_prefix`'g0int2float_`'INT`_'FLT (intb2c(INT) x)
 {
   return (floatt2c(FLT)) x;
 }
@@ -42,8 +42,8 @@ ats2_xprelude_g0int2float_`'INT`_'FLT (intb2c(INT) x)
 m4_foreachq(`INT',`intbases',
 `m4_foreachq(`FLT',`float,double,ldouble',
 `
-ats2_xprelude_inline intb2c(INT)
-ats2_xprelude_g0float2int_`'FLT`_'INT (floatt2c(FLT) x)
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g0float2int_`'FLT`_'INT (floatt2c(FLT) x)
 {
   return (intb2c(INT)) x;
 }
@@ -53,22 +53,22 @@ ats2_xprelude_g0float2int_`'FLT`_'INT (floatt2c(FLT) x)
 m4_foreachq(`FLT1',`float,double,ldouble',
 `m4_foreachq(`FLT2',`float,double,ldouble',
 `
-ats2_xprelude_inline floatt2c(FLT2)
-ats2_xprelude_g0float2float_`'FLT1`_'FLT2 (floatt2c(FLT1) x)
+my_extern_prefix`'inline floatt2c(FLT2)
+my_extern_prefix`'g0float2float_`'FLT1`_'FLT2 (floatt2c(FLT1) x)
 {
   return (floatt2c(FLT2)) x;
 }
 ')
 ')dnl
 
-#define ats2_xprelude_g0float_epsilon_float() (FLT_EPSILON)
-#define ats2_xprelude_g0float_epsilon_double() (DBL_EPSILON)
-#define ats2_xprelude_g0float_epsilon_ldouble() (LDBL_EPSILON)
+#define my_extern_prefix`'g0float_epsilon_float() (FLT_EPSILON)
+#define my_extern_prefix`'g0float_epsilon_double() (DBL_EPSILON)
+#define my_extern_prefix`'g0float_epsilon_ldouble() (LDBL_EPSILON)
 
 m4_foreachq(`FLT',`float,double,ldouble',
 `
-ats2_xprelude_inline atstype_int
-ats2_xprelude_g0float_sgn_`'FLT (floatt2c(FLT) x)
+my_extern_prefix`'inline atstype_int
+my_extern_prefix`'g0float_sgn_`'FLT (floatt2c(FLT) x)
 {
   return ((x < 0) ? (-1) : ((x == 0) ? (0) : (1)));
 }
@@ -76,20 +76,20 @@ ats2_xprelude_g0float_sgn_`'FLT (floatt2c(FLT) x)
 
 m4_foreachq(`UOP',`unary_ops',
 `
-ats2_xprelude_inline atstype_float
-ats2_xprelude_g0float_`'UOP`'_float (atstype_float x)
+my_extern_prefix`'inline atstype_float
+my_extern_prefix`'g0float_`'UOP`'_float (atstype_float x)
 {
   return UOP`'f (x);
 }
 
-ats2_xprelude_inline atstype_double
-ats2_xprelude_g0float_`'UOP`'_double (atstype_double x)
+my_extern_prefix`'inline atstype_double
+my_extern_prefix`'g0float_`'UOP`'_double (atstype_double x)
 {
   return UOP (x);
 }
 
-ats2_xprelude_inline atstype_ldouble
-ats2_xprelude_g0float_`'UOP`'_ldouble (atstype_ldouble x)
+my_extern_prefix`'inline atstype_ldouble
+my_extern_prefix`'g0float_`'UOP`'_ldouble (atstype_ldouble x)
 {
   return UOP`'l (x);
 }
@@ -97,22 +97,22 @@ ats2_xprelude_g0float_`'UOP`'_ldouble (atstype_ldouble x)
 
 m4_foreachq(`AOP',`binary_ops',
 `
-ats2_xprelude_inline atstype_float
-ats2_xprelude_g0float_`'AOP`'_float (atstype_float x,
+my_extern_prefix`'inline atstype_float
+my_extern_prefix`'g0float_`'AOP`'_float (atstype_float x,
                                      atstype_float y)
 {
   return AOP`'f (x, y);
 }
 
-ats2_xprelude_inline atstype_double
-ats2_xprelude_g0float_`'AOP`'_double (atstype_double x,
+my_extern_prefix`'inline atstype_double
+my_extern_prefix`'g0float_`'AOP`'_double (atstype_double x,
                                       atstype_double y)
 {
   return AOP (x, y);
 }
 
-ats2_xprelude_inline atstype_ldouble
-ats2_xprelude_g0float_`'AOP`'_ldouble (atstype_ldouble x,
+my_extern_prefix`'inline atstype_ldouble
+my_extern_prefix`'g0float_`'AOP`'_ldouble (atstype_ldouble x,
                                        atstype_ldouble y)
 {
   return AOP`'l (x, y);
@@ -121,24 +121,24 @@ ats2_xprelude_g0float_`'AOP`'_ldouble (atstype_ldouble x,
 
 m4_foreachq(`TOP',`trinary_ops',
 `
-ats2_xprelude_inline atstype_float
-ats2_xprelude_g0float_`'TOP`'_float (atstype_float x,
+my_extern_prefix`'inline atstype_float
+my_extern_prefix`'g0float_`'TOP`'_float (atstype_float x,
                                      atstype_float y,
                                      atstype_float z)
 {
   return TOP`'f (x, y, z);
 }
 
-ats2_xprelude_inline atstype_double
-ats2_xprelude_g0float_`'TOP`'_double (atstype_double x,
+my_extern_prefix`'inline atstype_double
+my_extern_prefix`'g0float_`'TOP`'_double (atstype_double x,
                                       atstype_double y,
                                       atstype_double z)
 {
   return TOP (x, y, z);
 }
 
-ats2_xprelude_inline atstype_ldouble
-ats2_xprelude_g0float_`'TOP`'_ldouble (atstype_ldouble x,
+my_extern_prefix`'inline atstype_ldouble
+my_extern_prefix`'g0float_`'TOP`'_ldouble (atstype_ldouble x,
                                        atstype_ldouble y,
                                        atstype_ldouble z)
 {
@@ -146,7 +146,7 @@ ats2_xprelude_g0float_`'TOP`'_ldouble (atstype_ldouble x,
 }
 ')
 
-#endif /* ATS2_XPRELUDE_CATS__FLOAT_CATS__HEADER_GUARD__ */
+#endif /* MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

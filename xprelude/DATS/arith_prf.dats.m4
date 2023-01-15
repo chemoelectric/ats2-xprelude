@@ -21,9 +21,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_DYNLOADFLAG 0
 
 #define ATS_PACKNAME "ats2-xprelude.arith_prf"
-#define ATS_EXTERN_PREFIX "ats2_xprelude_"
-
-#include "share/atspre_staload.hats"
 
 staload "xprelude/SATS/arith_prf.sats"
 
