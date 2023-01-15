@@ -340,9 +340,34 @@ my_extern_prefix`'g`'N`'uint_half_`'UINT (uintb2c(UINT) i)
 ')dnl
 
 /*------------------------------------------------------------------*/
+/* Logical complement. */
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_lnot_`'INT (intb2c(INT) i)
+{
+  return (~i);
+}
+')
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`UINT',`uintbases',
+`
+my_extern_prefix`'inline uintb2c(UINT)
+my_extern_prefix`'g`'N`'uint_lnot_`'UINT (uintb2c(UINT) i)
+{
+  return (~i);
+}
+')
+')dnl
+
+/*------------------------------------------------------------------*/
 /* Binary operations. */
 
-m4_foreachq(`BINOP',`add,sub,mul,div,mod',
+m4_foreachq(`BINOP',`add,sub,mul,div,mod,land,lor,lxor',
 `m4_foreachq(`N',`0,1',
 `m4_foreachq(`INT',`intbases',
 `m4_if(BINOP`'N,`mod1',`',dnl  /* Skip g1int_mod */

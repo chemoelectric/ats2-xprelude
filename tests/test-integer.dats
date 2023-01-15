@@ -466,6 +466,47 @@ test14 () : void =
   in
   end
 
+fn
+test15 () : void =
+  let
+    val- true : bool = (g0int_lnot 1) = ~2
+    val- true : bool = (6 \g0int_land 3) = 2
+    val- true : bool = (6 \g0int_lor 3) = 7
+    val- true : bool = (6 \g0int_lxor 3) = 5
+    val- true : bool = (lnot 1) = ~2
+    val- true : bool = (6 land 3) = 2
+    val- true : bool = (6 lor 3) = 7
+    val- true : bool = (6 lxor 3) = 5
+
+    val- true : Bool = (g1int_lnot 1) = ~2
+    val- true : Bool = (6 \g1int_land 3) = 2
+    val- true : Bool = (6 \g1int_lor 3) = 7
+    val- true : Bool = (6 \g1int_lxor 3) = 5
+    val- true : Bool = (lnot 1) = ~2
+    val- true : Bool = (6 land 3) = 2
+    val- true : Bool = (6 lor 3) = 7
+    val- true : Bool = (6 lxor 3) = 5
+
+    val- true : bool = (g0uint_lnot 1U) = $extval (uint, "UINT_MAX - 1")
+    val- true : bool = (6U \g0uint_land 3U) = 2
+    val- true : bool = (6U \g0uint_lor 3U) = 7
+    val- true : bool = (6U \g0uint_lxor 3U) = 5
+    val- true : bool = (lnot 1U) = $extval (uint, "UINT_MAX - 1")
+    val- true : bool = (6U land 3U) = 2
+    val- true : bool = (6U lor 3U) = 7
+    val- true : bool = (6U lxor 3U) = 5
+
+    val- true : Bool = (g1uint_lnot 1U) = $extval (uInt, "UINT_MAX - 1")
+    val- true : Bool = (6U \g1uint_land 3U) = 2U
+    val- true : Bool = (6U \g1uint_lor 3U) = 7U
+    val- true : Bool = (6U \g1uint_lxor 3U) = 5U
+    val- true : Bool = (lnot 1U) = $extval (uInt, "UINT_MAX - 1")
+    val- true : Bool = (6U land 3U) = 2U
+    val- true : Bool = (6U lor 3U) = 7U
+    val- true : Bool = (6U lxor 3U) = 5U
+  in
+  end
+
 implement
 main () =
   begin
@@ -483,5 +524,6 @@ main () =
     test12 ();
     test13 ();
     test14 ();
+    test15 ();
     0
   end

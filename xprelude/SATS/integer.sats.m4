@@ -512,6 +512,76 @@ fn g1int_asr_`'INT : {i, j : int | 0 <= j} m4_g1int_arith_shift(INT, i, j, i \as
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Bitwise logical expressions. *)
+
+(* We implement these for both unsigned and signed representations.
+
+   We also add g1 versions.
+
+   Our reasoning for supporting signed integers is: one might as well
+   have bitwise logical operations on signed integers, if one is going
+   to have 8086-style arithmetic shifts. *)
+
+fn {tk : tkind}
+g0int_lnot :
+  m4_g0int_unary(tk)
+
+fn {tk : tkind}
+g1int_lnot :
+  {i : int}
+  m4_g1int_unary(tk, i, signed_lnot_int i)
+
+fn {tk : tkind}
+g1uint_lnot :
+  {i : int}
+  m4_g1uint_unary(tk, i, lnot_int i)
+
+m4_foreachq(`OP',`land,lor,lxor',
+`
+fn {tk : tkind}
+g0int_`'OP :
+  m4_g0int_binary(tk)
+
+fn {tk : tkind}
+g1int_`'OP :
+  {i, j : int}
+  m4_g1int_binary(tk, i, j, i \signed_`'OP`'_int_int j)
+
+fn {tk : tkind}
+g1uint_`'OP :
+  {i, j : int}
+  m4_g1uint_binary(tk, i, j, i \OP`'_int_int j)
+')dnl
+
+(* The g1 overloads have precedences one greater than the precedences
+   of their g0 counterparts. The g0uint overloads are set in the
+   prelude. *)
+overload ~ with g1uint_lnot of 1
+m4_foreachq(`OP',`lnot,land,lor,lxor',
+`overload OP with g0int_`'OP of 0
+overload OP with g1int_`'OP of 1
+overload OP with g1uint_`'OP of 1
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',
+`
+m4_foreachq(`OP',`lnot,land,lor,lxor',
+`fn g`'N`'int_`'OP`'_`'INT : $d2ctype (g`'N`'int_`'OP<intb2k(INT)>) = "mac#%"
+')dnl
+')
+')dnl
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`UINT',`uintbases',
+`
+m4_foreachq(`OP',`lnot,land,lor,lxor',
+`fn g`'N`'uint_`'OP`'_`'UINT : $d2ctype (g`'N`'uint_`'OP<uintb2k(UINT)>) = "mac#%"
+')dnl
+')
+')dnl
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

@@ -134,6 +134,16 @@ stacst lsr_int_int : (int, int) -> int
 stacst asl_int_int : (int, int) -> int
 stacst asr_int_int : (int, int) -> int
 
+stacst lnot_int : int -> int
+stacst land_int_int : (int, int) -> int
+stacst lor_int_int : (int, int) -> int
+stacst lxor_int_int : (int, int) -> int
+
+stacst signed_lnot_int : int -> int
+stacst signed_land_int_int : (int, int) -> int
+stacst signed_lor_int_int : (int, int) -> int
+stacst signed_lxor_int_int : (int, int) -> int
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:
