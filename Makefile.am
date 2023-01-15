@@ -173,7 +173,6 @@ endif !DEPENDENCY_TRACKING
 
 lib_LTLIBRARIES += libats2-xprelude.la
 
-libats2_xprelude_la_LIBADD += $(GMP_LIBS)
 libats2_xprelude_la_LIBADD += lib/libgnu.la
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -292,6 +291,38 @@ endif ENABLE_EXRAT
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+SORT_SATS =
+SORT_DATS =
+SORT_SATS_C =
+SORT_DATS_C =
+
+SORT_SATS += xprelude/SATS/sort.sats
+SORT_DATS += xprelude/DATS/sort.dats
+SORT_SATS_C += xprelude/SATS/sort_sats.c
+SORT_DATS_C += xprelude/DATS/sort_dats.c
+
+SORT_SRC = $(SORT_SATS) $(SORT_DATS)
+EXTRA_DIST += $(addsuffix .m4, $(SORT_SRC))
+BUILT_SOURCES += $(SORT_SRC)
+CLEANFILES += $(SORT_SRC)
+
+nobase_nodist_pkginclude_HEADERS += $(SORT_SRC)
+
+nodist_libats2_xprelude_la_SOURCES += $(SORT_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(SORT_DATS_C)
+
+SORT_HATS =
+SORT_HATS += xprelude/HATS/sort_sats.hats
+SORT_HATS += xprelude/HATS/sort_dats.hats
+SORT_HATS += xprelude/HATS/sort.hats
+EXTRA_DIST += $(addsuffix .m4, $(SORT_HATS))
+BUILT_SOURCES += $(SORT_HATS) 
+CLEANFILES += $(SORT_HATS)
+
+nobase_nodist_pkginclude_HEADERS += $(SORT_HATS)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # Make %.o files depend on %.c files.
 $(foreach source_file, \
 	$(nodist_libats2_xprelude_la_SOURCES), \
@@ -309,7 +340,7 @@ xats-c-clean:
 #
 
 TEST_CFLAGS = $(AM_CFLAGS) $(ATS_MEMALLOC_CFLAGS) -D$(ATS_MEMALLOC)
-TEST_LIBS = libats2-xprelude.la $(GMP_LIBS) -lm $(ATS_MEMALLOC_LIBS)
+TEST_LIBS = libats2-xprelude.la $(LIBS) -lm $(ATS_MEMALLOC_LIBS)
 
 EXTRA_DIST += tests/test-integer.dats
 TESTS += tests/test-integer
@@ -336,6 +367,12 @@ nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
 tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
 tests_test_exrat_LDADD = $(TEST_LIBS)
 endif ENABLE_EXRAT
+
+EXTRA_DIST += tests/test-sort.dats
+TESTS += tests/test-sort
+nodist_tests_test_sort_SOURCES = tests/test-sort_tests.c
+tests_test_sort_CFLAGS = $(TEST_CFLAGS)
+tests_test_sort_LDADD = $(TEST_LIBS)
 
 EXTRA_PROGRAMS += $(TESTS)
 

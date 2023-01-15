@@ -27,11 +27,9 @@ THIS PROJECT IS A WORK IN PROGRESS.
   collection), and are treated as if they were floating point
   (g0float).
 
-* Planned but not yet added: sorting by default algorithms that you do
-  not have to think about. (For array sorting, the preferred
-  implementation will be ats2-timsort. I suppose ats2-quicksorts may
-  also be made available as choices. And the prelude’s own sort
-  implementations.)
+* Sorting, with algorithms selected at the time of installation of
+  this package. Thus you need not think about what algorithm is being
+  used, when you use this package for sorting.
 
 * Also possible: C complex types, treated in ATS as floating point
   types.

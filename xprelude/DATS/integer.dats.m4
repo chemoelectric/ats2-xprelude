@@ -137,6 +137,14 @@ m4_foreachq(`N',`0,1',
 ')
 ')dnl
 
+m4_foreachq(`INT',`intbases',
+`implement gequal_val_val<m4_g0int(INT)> = g0int_eq<intb2k(INT)>
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`implement gequal_val_val<m4_g0uint(UINT)> = g0uint_eq<intb2k(UINT)>
+')dnl
+
 (*------------------------------------------------------------------*)
 (* Comparisons with zero. *)
 
@@ -169,6 +177,14 @@ m4_foreachq(`N',`0,1',
 `m4_foreachq(`UINT',`uintbases',
 `implement g`'N`'uint_compare<uintb2k(UINT)> = g`'N`'uint_compare_`'UINT
 ')
+')dnl
+
+m4_foreachq(`INT',`intbases',
+`implement gcompare_val_val<m4_g0int(INT)> = g0int_compare<intb2k(INT)>
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`implement gcompare_val_val<m4_g0uint(UINT)> = g0uint_compare<intb2k(UINT)>
 ')dnl
 
 (*------------------------------------------------------------------*)

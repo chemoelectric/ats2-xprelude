@@ -675,6 +675,9 @@ ATS_MEMALLOC_CFLAGS
 ATS_MEMALLOC
 BDWGC_LIBS
 BDWGC_CFLAGS
+TIMSORT_PATSOPTFLAGS
+TIMSORT_LIBS
+TIMSORT_CFLAGS
 GMP_LIBS
 GMP_CFLAGS
 pkgconfigdir
@@ -711,8 +714,10 @@ ARFLAGS
 CPP
 DEPENDENCY_TRACKING_FALSE
 DEPENDENCY_TRACKING_TRUE
+PATSOPTFLAGS
 PKGCONFIG_PATSHOME
 PATSHOME
+M4FLAGS
 LT_SYS_LIBRARY_PATH
 OTOOL64
 OTOOL
@@ -848,6 +853,10 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 enable_exrat
+with_array_sort
+with_array_stable_sort
+with_list_sort
+with_list_stable_sort
 enable_cross_guesses
 with_gcov
 enable_code_coverage
@@ -862,8 +871,10 @@ LDFLAGS
 LIBS
 CPPFLAGS
 LT_SYS_LIBRARY_PATH
+M4FLAGS
 PATSHOME
 PKGCONFIG_PATSHOME
+PATSOPTFLAGS
 CPP
 CXX
 CXXFLAGS
@@ -874,6 +885,9 @@ PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
 GMP_CFLAGS
 GMP_LIBS
+TIMSORT_CFLAGS
+TIMSORT_LIBS
+TIMSORT_PATSOPTFLAGS
 BDWGC_CFLAGS
 BDWGC_LIBS
 GNU_MAKE'
@@ -1535,6 +1549,18 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
+  --with-array-sort=timsort|prelude
+                          choose a (possibly unstable) sort implementation for
+                          arrays [default=timsort]
+  --with-array-stable-sort=timsort|prelude
+                          choose a stable sort implementation for arrays
+                          [default=timsort]
+  --with-list-sort=timsort|prelude
+                          choose a (possibly unstable) sort implementation for
+                          linked lists [default=timsort]
+  --with-list-stable-sort=timsort|prelude
+                          choose a stable sort implementation for linked lists
+                          [default=timsort]
   --with-gcov=GCOV        use given GCOV for coverage (GCOV=gcov).
   --with-pkgconfigdir     pkg-config installation directory
                           ['${libdir}/pkgconfig']
@@ -1549,10 +1575,13 @@ Some influential environment variables:
               you have headers in a nonstandard directory <include dir>
   LT_SYS_LIBRARY_PATH
               User-defined run-time library search path.
+  M4FLAGS     m4 macroprocessor flags
   PATSHOME    the home of the ATS2 compiler
   PKGCONFIG_PATSHOME
               The PATSHOME setting to put in the pkg-config file
               [default="${PATSHOME}"]
+  PATSOPTFLAGS
+              ATS2 compiler (patsopt) flags
   CPP         C preprocessor
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
@@ -1564,6 +1593,12 @@ Some influential environment variables:
               path overriding pkg-config's built-in search path
   GMP_CFLAGS  C compiler flags for GMP, overriding pkg-config
   GMP_LIBS    linker flags for GMP, overriding pkg-config
+  TIMSORT_CFLAGS
+              C compiler flags for TIMSORT, overriding pkg-config
+  TIMSORT_LIBS
+              linker flags for TIMSORT, overriding pkg-config
+  TIMSORT_PATSOPTFLAGS
+              value of PATSOPTFLAGS for ats2-timsort, overriding pkg-config
   BDWGC_CFLAGS
               C compiler flags for BDWGC, overriding pkg-config
   BDWGC_LIBS  linker flags for BDWGC, overriding pkg-config
@@ -13360,12 +13395,16 @@ CC=$lt_save_CC
 
 
 
+
+
 if test -z "${PKGCONFIG_PATSHOME}"; then
   PKGCONFIG_PATSHOME="${PATSHOME}"
 fi
 if test -z "${PKGCONFIG_PATSHOME}"; then
   as_fn_error $? "Please set PKGCONFIG_PATSHOME on the configure command line." "$LINENO" 5
 fi
+
+
 
  if test x"${enable_dependency_tracking}" != xno; then
   DEPENDENCY_TRACKING_TRUE=
@@ -13387,6 +13426,74 @@ fi
 if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
   as_fn_error $? "please specify --enable-exrat=yes or --enable-exrat=no" "$LINENO" 5
 fi
+
+
+# Check whether --with-array-sort was given.
+if test ${with_array_sort+y}
+then :
+  withval=$with_array_sort;
+else $as_nop
+  with_array_sort=timsort
+fi
+
+case x"${with_array_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    as_fn_error $? "--with-array-sort=\"${with_array_sort}\" is not an available choice" "$LINENO" 5
+    ;;
+esac
+
+
+# Check whether --with-array-stable-sort was given.
+if test ${with_array_stable_sort+y}
+then :
+  withval=$with_array_stable_sort;
+else $as_nop
+  with_array_stable_sort=timsort
+fi
+
+case x"${with_array_stable_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    as_fn_error $? "--with-array-stable-sort=\"${with_array_stable_sort}\" is not an available choice" "$LINENO" 5
+    ;;
+esac
+
+
+# Check whether --with-list-sort was given.
+if test ${with_list_sort+y}
+then :
+  withval=$with_list_sort;
+else $as_nop
+  with_list_sort=timsort
+fi
+
+case x"${with_list_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    as_fn_error $? "--with-list-sort=\"${with_list_sort}\" is not an available choice" "$LINENO" 5
+    ;;
+esac
+
+
+# Check whether --with-list-stable-sort was given.
+if test ${with_list_stable_sort+y}
+then :
+  withval=$with_list_stable_sort;
+else $as_nop
+  with_list_stable_sort=timsort
+fi
+
+case x"${with_list_stable_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    as_fn_error $? "--with-list-stable-sort=\"${with_list_stable_sort}\" is not an available choice" "$LINENO" 5
+    ;;
+esac
 
 #--------------------------------------------------------------------------
 #
@@ -19926,6 +20033,330 @@ printf "%s\n" "yes" >&6; }
 fi
 fi
 
+timsort_is_used=no
+if test x"${timsort_is_used}" = xno && test x"${with_array_sort}" = xtimsort; then
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for TIMSORT" >&5
+printf %s "checking for TIMSORT... " >&6; }
+
+if test -n "$TIMSORT_CFLAGS"; then
+    pkg_cv_TIMSORT_CFLAGS="$TIMSORT_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_CFLAGS=`$PKG_CONFIG --cflags "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$TIMSORT_LIBS"; then
+    pkg_cv_TIMSORT_LIBS="$TIMSORT_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_LIBS=`$PKG_CONFIG --libs "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        else
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$TIMSORT_PKG_ERRORS" >&5
+
+	as_fn_error $? "ats2-timsort not found; consider --with-array-sort=quicksort" "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "ats2-timsort not found; consider --with-array-sort=quicksort" "$LINENO" 5
+else
+	TIMSORT_CFLAGS=$pkg_cv_TIMSORT_CFLAGS
+	TIMSORT_LIBS=$pkg_cv_TIMSORT_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xno && test x"${with_array_stable_sort}" = xtimsort; then
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for TIMSORT" >&5
+printf %s "checking for TIMSORT... " >&6; }
+
+if test -n "$TIMSORT_CFLAGS"; then
+    pkg_cv_TIMSORT_CFLAGS="$TIMSORT_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_CFLAGS=`$PKG_CONFIG --cflags "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$TIMSORT_LIBS"; then
+    pkg_cv_TIMSORT_LIBS="$TIMSORT_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_LIBS=`$PKG_CONFIG --libs "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        else
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$TIMSORT_PKG_ERRORS" >&5
+
+	as_fn_error $? "ats2-timsort not found; consider --with-array-stable-sort=mergesort" "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "ats2-timsort not found; consider --with-array-stable-sort=mergesort" "$LINENO" 5
+else
+	TIMSORT_CFLAGS=$pkg_cv_TIMSORT_CFLAGS
+	TIMSORT_LIBS=$pkg_cv_TIMSORT_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xno && test x"${with_list_sort}" = xtimsort; then
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for TIMSORT" >&5
+printf %s "checking for TIMSORT... " >&6; }
+
+if test -n "$TIMSORT_CFLAGS"; then
+    pkg_cv_TIMSORT_CFLAGS="$TIMSORT_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_CFLAGS=`$PKG_CONFIG --cflags "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$TIMSORT_LIBS"; then
+    pkg_cv_TIMSORT_LIBS="$TIMSORT_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_LIBS=`$PKG_CONFIG --libs "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        else
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$TIMSORT_PKG_ERRORS" >&5
+
+	as_fn_error $? "ats2-timsort not found; consider --with-list-sort=mergesort" "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "ats2-timsort not found; consider --with-list-sort=mergesort" "$LINENO" 5
+else
+	TIMSORT_CFLAGS=$pkg_cv_TIMSORT_CFLAGS
+	TIMSORT_LIBS=$pkg_cv_TIMSORT_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xno && test x"${with_list_stable_sort}" = xtimsort; then
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for TIMSORT" >&5
+printf %s "checking for TIMSORT... " >&6; }
+
+if test -n "$TIMSORT_CFLAGS"; then
+    pkg_cv_TIMSORT_CFLAGS="$TIMSORT_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_CFLAGS=`$PKG_CONFIG --cflags "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$TIMSORT_LIBS"; then
+    pkg_cv_TIMSORT_LIBS="$TIMSORT_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_LIBS=`$PKG_CONFIG --libs "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        else
+	        TIMSORT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "ats2-timsort" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$TIMSORT_PKG_ERRORS" >&5
+
+	as_fn_error $? "ats2-timsort not found; consider --with-list-stable-sort=mergesort" "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "ats2-timsort not found; consider --with-list-stable-sort=mergesort" "$LINENO" 5
+else
+	TIMSORT_CFLAGS=$pkg_cv_TIMSORT_CFLAGS
+	TIMSORT_LIBS=$pkg_cv_TIMSORT_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xyes; then
+
+if test -n "$TIMSORT_PATSOPTFLAGS"; then
+    pkg_cv_TIMSORT_PATSOPTFLAGS="$TIMSORT_PATSOPTFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-timsort\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-timsort") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIMSORT_PATSOPTFLAGS=`$PKG_CONFIG --variable="PATSOPTFLAGS" "ats2-timsort" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+TIMSORT_PATSOPTFLAGS=$pkg_cv_TIMSORT_PATSOPTFLAGS
+
+if test "x$TIMSORT_PATSOPTFLAGS" = x""
+then :
+
+fi
+fi
+
 # Use Boehm GC for tests, if it is present.
 have_bdwgc=yes
 
@@ -20042,6 +20473,11 @@ else
 fi
 
 
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DARRAY_SORT=${with_array_sort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DARRAY_STABLE_SORT=${with_array_stable_sort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DLIST_SORT=${with_list_sort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DLIST_STABLE_SORT=${with_list_stable_sort}"
+
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
 
@@ -20049,6 +20485,17 @@ CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros=ats2_poly_count_leading_zeros"
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros_l=ats2_poly_count_leading_zeros_l"
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros_ll=ats2_poly_count_leading_zeros_ll"
+
+if test x"${timsort_is_used}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }\$(TIMSORT_PATSOPTFLAGS)"
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(TIMSORT_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(TIMSORT_LIBS)"
+fi
+
+if test x"${enable_exrat}" = xyes; then
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(GMP_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(GMP_LIBS)"
+fi
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (By the way, you often can use ‘$(eval ...)’ as well, but

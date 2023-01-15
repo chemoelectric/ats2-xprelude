@@ -196,5 +196,21 @@ m4_define(`binary_ops',`pow_ops,trig2_ops')
 m4_define(`trinary_ops',`fma')
 
 /*------------------------------------------------------------------*/
+/* Sorting. */
+
+m4_define(`using_array_timsort',
+  `m4_if(ARRAY_SORT,`timsort',`yes',
+         ARRAY_STABLE_SORT,`timsort',`yes',
+         `no')')
+
+m4_define(`actual_array_sort',
+  `m4_if(ARRAY_SORT,`timsort',`array_timsort',
+         `array_quicksort')')
+
+m4_define(`actual_array_cmp',
+  `m4_if(ARRAY_SORT,`timsort',`array_timsort$cmp',
+         `array_quicksort$cmp')')
+
+/*------------------------------------------------------------------*/
 
 divert`'dnl

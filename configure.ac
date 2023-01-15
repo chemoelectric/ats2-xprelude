@@ -36,6 +36,8 @@ AM_SILENT_RULES
 AM_MAINTAINER_MODE
 LT_INIT
 
+AC_ARG_VAR([M4FLAGS],[m4 macroprocessor flags])
+
 AC_ARG_VAR([PATSHOME],[the home of the ATS2 compiler])
 
 AC_ARG_VAR([PKGCONFIG_PATSHOME],
@@ -46,6 +48,8 @@ fi
 if test -z "${PKGCONFIG_PATSHOME}"; then
   AC_MSG_ERROR([Please set PKGCONFIG_PATSHOME on the configure command line.])
 fi
+
+AC_ARG_VAR([PATSOPTFLAGS],[ATS2 compiler (patsopt) flags])
 
 AM_CONDITIONAL([DEPENDENCY_TRACKING],
   [test x"${enable_dependency_tracking}" != xno])
@@ -60,6 +64,58 @@ AC_ARG_ENABLE([exrat],
 if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
   AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])
 fi
+
+AC_ARG_WITH([array-sort],
+  [AS_HELP_STRING([--with-array-sort=timsort|prelude],
+      [choose a (possibly unstable) sort implementation for arrays [default=timsort]])],
+  [],
+  [with_array_sort=timsort])
+case x"${with_array_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    AC_MSG_ERROR([--with-array-sort="${with_array_sort}" is not an available choice])
+    ;;
+esac
+
+AC_ARG_WITH([array-stable-sort],
+  [AS_HELP_STRING([--with-array-stable-sort=timsort|prelude],
+      [choose a stable sort implementation for arrays [default=timsort]])],
+  [],
+  [with_array_stable_sort=timsort])
+case x"${with_array_stable_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    AC_MSG_ERROR([--with-array-stable-sort="${with_array_stable_sort}" is not an available choice])
+    ;;
+esac
+
+AC_ARG_WITH([list-sort],
+  [AS_HELP_STRING([--with-list-sort=timsort|prelude],
+      [choose a (possibly unstable) sort implementation for linked lists [default=timsort]])],
+  [],
+  [with_list_sort=timsort])
+case x"${with_list_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    AC_MSG_ERROR([--with-list-sort="${with_list_sort}" is not an available choice])
+    ;;
+esac
+
+AC_ARG_WITH([list-stable-sort],
+  [AS_HELP_STRING([--with-list-stable-sort=timsort|prelude],
+      [choose a stable sort implementation for linked lists [default=timsort]])],
+  [],
+  [with_list_stable_sort=timsort])
+case x"${with_list_stable_sort}" in
+  xtimsort | xprelude )
+    ;;
+  * )
+    AC_MSG_ERROR([--with-list-stable-sort="${with_list_stable_sort}" is not an available choice])
+    ;;
+esac
 
 #--------------------------------------------------------------------------
 #
@@ -99,6 +155,31 @@ if test x"${enable_exrat}" = xyes; then
     [AC_MSG_ERROR([GNU Multiple Precision Arithmetic Library not found; consider --enable-exrat=no])])
 fi
 
+timsort_is_used=no
+if test x"${timsort_is_used}" = xno && test x"${with_array_sort}" = xtimsort; then
+  PKG_CHECK_MODULES([TIMSORT],[ats2-timsort],,
+    [AC_MSG_ERROR([ats2-timsort not found; consider --with-array-sort=quicksort])])
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xno && test x"${with_array_stable_sort}" = xtimsort; then
+  PKG_CHECK_MODULES([TIMSORT],[ats2-timsort],,
+    [AC_MSG_ERROR([ats2-timsort not found; consider --with-array-stable-sort=mergesort])])
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xno && test x"${with_list_sort}" = xtimsort; then
+  PKG_CHECK_MODULES([TIMSORT],[ats2-timsort],,
+    [AC_MSG_ERROR([ats2-timsort not found; consider --with-list-sort=mergesort])])
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xno && test x"${with_list_stable_sort}" = xtimsort; then
+  PKG_CHECK_MODULES([TIMSORT],[ats2-timsort],,
+    [AC_MSG_ERROR([ats2-timsort not found; consider --with-list-stable-sort=mergesort])])
+  timsort_is_used=yes
+fi
+if test x"${timsort_is_used}" = xyes; then
+  PKG_CHECK_VAR([TIMSORT_PATSOPTFLAGS],[ats2-timsort],[PATSOPTFLAGS])
+fi
+
 # Use Boehm GC for tests, if it is present.
 have_bdwgc=yes
 PKG_CHECK_MODULES([BDWGC],[bdw-gc],,[have_bdwgc=no])
@@ -136,6 +217,11 @@ fi
 
 AM_CONDITIONAL([ENABLE_EXRAT],[test x"${enable_exrat}" = xyes])
 
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DARRAY_SORT=${with_array_sort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DARRAY_STABLE_SORT=${with_array_stable_sort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DLIST_SORT=${with_list_sort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DLIST_STABLE_SORT=${with_list_stable_sort}"
+
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
 
@@ -143,6 +229,17 @@ CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros=ats2_poly_count_leading_zeros"
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros_l=ats2_poly_count_leading_zeros_l"
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros_ll=ats2_poly_count_leading_zeros_ll"
+
+if test x"${timsort_is_used}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }\$(TIMSORT_PATSOPTFLAGS)"
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(TIMSORT_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(TIMSORT_LIBS)"
+fi
+
+if test x"${enable_exrat}" = xyes; then
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(GMP_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(GMP_LIBS)"
+fi
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (By the way, you often can use ‘$(eval ...)’ as well, but
