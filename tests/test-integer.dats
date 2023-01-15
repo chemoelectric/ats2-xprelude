@@ -424,13 +424,45 @@ test14 () : void =
     val () = assertloc (0 < i)
     val- true : Bool = (0x12345 << pred i) = $extval (Int, "INT_MIN")
 
-    // FIXME: Add tests for right shifts.
-    // FIXME: Add tests for right shifts.
-    // FIXME: Add tests for right shifts.
-    // FIXME: Add tests for right shifts.
-    // FIXME: Add tests for right shifts.
-    // FIXME: Add tests for right shifts.
-    // FIXME: Add tests for right shifts.
+    val- true : bool = (0x12345 \g0int_asr 0) = 0x12345
+    val- true : bool = (0x12345 \g0int_asr 4) = 0x1234
+    val- true : bool = (0x12345 \g0int_asr 8) = 0x123
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : bool = (0x12345 \g0int_asr i) = 0
+    val- true : bool = ($extval (int, "INT_MIN") \g0int_asr pred i) = ~1
+    val- true : bool = ($extval (int, "INT_MIN") \g0int_asr i) = ~1
+    val- true : bool = ($extval (int, "INT_MIN") \g0int_asr succ i) = ~1
+
+    val- true : bool = (0x12345 >> 0) = 0x12345
+    val- true : bool = (0x12345 >> 4) = 0x1234
+    val- true : bool = (0x12345 >> 8) = 0x123
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : bool = (0x12345 >> i) = 0
+    val- true : bool = ($extval (int, "INT_MIN") >> pred i) = ~1
+    val- true : bool = ($extval (int, "INT_MIN") >> i) = ~1
+    val- true : bool = ($extval (int, "INT_MIN") >> succ i) = ~1
+
+    val- true : Bool = (0x12345 \g1int_asr 0) = 0x12345
+    val- true : Bool = (0x12345 \g1int_asr 4) = 0x1234
+    val- true : Bool = (0x12345 \g1int_asr 8) = 0x123
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : Bool = (0x12345 \g1int_asr i) = 0
+    val- true : Bool = ($extval (Int, "INT_MIN") \g1int_asr pred i) = ~1
+    val- true : Bool = ($extval (Int, "INT_MIN") \g1int_asr i) = ~1
+    val- true : Bool = ($extval (Int, "INT_MIN") \g1int_asr succ i) = ~1
+
+    val- true : Bool = (0x12345 >> 0) = 0x12345
+    val- true : Bool = (0x12345 >> 4) = 0x1234
+    val- true : Bool = (0x12345 >> 8) = 0x123
+    val i = sz2i (i2sz 8 * sizeof<int>)
+    val () = assertloc (0 < i)
+    val- true : Bool = (0x12345 >> i) = 0
+    val- true : Bool = ($extval (Int, "INT_MIN") >> pred i) = ~1
+    val- true : Bool = ($extval (Int, "INT_MIN") >> i) = ~1
+    val- true : Bool = ($extval (Int, "INT_MIN") >> succ i) = ~1
   in
   end
 
