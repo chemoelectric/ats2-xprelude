@@ -122,6 +122,10 @@ main () =
     val- true = compare (x, i2ex 12345) = 0
     val- true = compare (x, i2ex 12346) < 0
 
+    val- true = gcompare_val_val<exrat> (x, i2ex 12344) > 0
+    val- true = gcompare_val_val<exrat> (x, i2ex 12345) = 0
+    val- true = gcompare_val_val<exrat> (x, i2ex 12346) < 0
+
     val- true = (i2ex 3) ** 0 = i2ex 1
     val- true = (i2ex 3) ** 1 = i2ex 3
     val- true = (i2ex 3) ** 2 = i2ex 9
