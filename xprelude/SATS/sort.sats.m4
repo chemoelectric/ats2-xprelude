@@ -31,7 +31,9 @@ fn {a : vt@ype}
 array_sort$cmp :
   (&a, &a) -<> int
 
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 (* Sorting, possibly unstable. *)
+
 fn {a : vt@ype}
 array_sort :
   {n : int}
@@ -39,7 +41,16 @@ array_sort :
    size_t n) -< !wrt >
     void
 
+fn {a : vt@ype}
+arrayptr_sort :
+  {n : int}
+  (!arrayptr (a, n) >> _,
+   size_t n) -< !wrt >
+    void
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 (* Stable sorting. *)
+
 fn {a : vt@ype}
 array_stable_sort :
   {n : int}
@@ -47,11 +58,22 @@ array_stable_sort :
    size_t n) -< !wrt >
     void
 
+fn {a : vt@ype}
+arrayptr_stable_sort :
+  {n : int}
+  (!arrayptr (a, n) >> _,
+   size_t n) -< !wrt >
+    void
+
 (*------------------------------------------------------------------*)
 (* Array sorting with functions or closures for the comparison. *)
 
+m4_foreachq(`STAB',``',`stable_'',
+`
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
 fn {a : vt@ype}
-array_sort_fun :
+array_`'STAB`'sort_fun :
   {n : int}
   (&array (INV(a), n) >> array (a, n),
    size_t n,
@@ -59,48 +81,47 @@ array_sort_fun :
     void
 
 fn {a : vt@ype}
-array_stable_sort_fun :
+array_`'STAB`'sort_cloref :
   {n : int}
   (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   (&a, &a) -<cloref> int) -< !wrt >
+    void
+
+fn {a : vt@ype}
+array_`'STAB`'sort_cloptr :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n),
+   size_t n,
+   &((&a, &a) -<cloptr> int)) -< !wrt >
+    void
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+fn {a : vt@ype}
+arrayptr_`'STAB`'sort_fun :
+  {n : int}
+  (!arrayptr (a, n) >> _,
    size_t n,
    (&a, &a) -<> int) -< !wrt >
     void
 
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-
 fn {a : vt@ype}
-array_sort_cloref :
+arrayptr_`'STAB`'sort_cloref :
   {n : int}
-  (&array (INV(a), n) >> array (a, n),
+  (!arrayptr (a, n) >> _,
    size_t n,
    (&a, &a) -<cloref> int) -< !wrt >
     void
 
 fn {a : vt@ype}
-array_stable_sort_cloref :
+arrayptr_`'STAB`'sort_cloptr :
   {n : int}
-  (&array (INV(a), n) >> array (a, n),
-   size_t n,
-   (&a, &a) -<cloref> int) -< !wrt >
-    void
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-
-fn {a : vt@ype}
-array_sort_cloptr :
-  {n : int}
-  (&array (INV(a), n) >> array (a, n),
+  (!arrayptr (a, n) >> _,
    size_t n,
    &((&a, &a) -<cloptr> int)) -< !wrt >
     void
-
-fn {a : vt@ype}
-array_stable_sort_cloptr :
-  {n : int}
-  (&array (INV(a), n) >> array (a, n),
-   size_t n,
-   &((&a, &a) -<cloptr> int)) -< !wrt >
-    void
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl

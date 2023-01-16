@@ -22,10 +22,14 @@
 #include "xprelude/HATS/xprelude.hats"
 #include "xprelude/HATS/sort.hats"
 
+staload "xprelude/SATS/fixed32p32.sats"
+staload _ = "xprelude/DATS/fixed32p32.dats"
+
 staload UN = "prelude/SATS/unsafe.sats"
 
 macdef i2mx = g0int2int<intknd,intmaxknd>
 macdef i2ld = g0int2float<intknd,ldblknd>
+macdef i2fx = g0int2float<intknd,fix32p32knd>
 
 fn
 test1 () : void =
@@ -98,6 +102,7 @@ test3 () : void =
   let
     (* array_sort, using functions and closures for the
        comparisons. *)
+
     val lst1 = $list (i2mx 2, i2mx 5, i2mx 3, i2mx 4, i2mx 6,
                       i2mx 1, i2mx 9, i2mx 8, i2mx 7, i2mx 0)
     val expected = $list (i2mx 0, i2mx 1, i2mx 2, i2mx 3, i2mx 4,
@@ -137,6 +142,7 @@ test4 () : void =
   let
     (* array_stable_sort, using functions and closures for the
        comparisons. *)
+
     val lst1 = $list (i2mx 2, i2mx 5, i2mx 3, i2mx 4, i2mx 6,
                       i2mx 1, i2mx 9, i2mx 8, i2mx 7, i2mx 0)
     val expected = $list (i2mx 0, i2mx 1, i2mx 2, i2mx 3, i2mx 4,
@@ -171,6 +177,63 @@ test4 () : void =
   in
   end
 
+fn
+test5 () : void =
+  let
+    (* Some arrayptr_sort and arrayptr_stable_sort tests (without
+       tests of stability). *)
+
+    val lst1 = $list (i2fx 2, i2fx 5, i2fx 3, i2fx 4, i2fx 6,
+                      i2fx 1, i2fx 9, i2fx 8, i2fx 7, i2fx 0)
+    val expected = $list (i2fx 0, i2fx 1, i2fx 2, i2fx 3, i2fx 4,
+                          i2fx 5, i2fx 6, i2fx 7, i2fx 8, i2fx 9)
+
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_sort<fixed32p32> (arr, i2sz 10)
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_stable_sort<fixed32p32> (arr, i2sz 10)
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_sort_fun<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_stable_sort_fun<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_sort_cloref<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_stable_sort_cloref<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+
+    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> compare (x, y)
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_sort_cloptr<fixed32p32> (arr, i2sz 10, closure)
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+    val () = cloptr_free ($UN.castvwtp0{cloptr0} closure)
+  in
+  end
+
 implement
 main () =
   begin
@@ -178,5 +241,6 @@ main () =
     test2 ();
     test3 ();
     test4 ();
+    test5 ();
     0
   end

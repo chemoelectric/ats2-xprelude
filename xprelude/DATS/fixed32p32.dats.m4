@@ -95,9 +95,10 @@ implement g0float_lte<fix32p32knd> = g0float_lte_fixed32p32
 implement g0float_gt<fix32p32knd> = g0float_gt_fixed32p32
 implement g0float_gte<fix32p32knd> = g0float_gte_fixed32p32
 
-implement gequal_val_val<fixed32p32> (x, y) = g0float_eq<fix32p32knd> (x, y)
-
 implement g0float_compare<fix32p32knd> = g0float_compare_fixed32p32
+
+implement gequal_val_val<fixed32p32> = g0float_eq<fix32p32knd>
+implement gcompare_val_val<fixed32p32> = g0float_compare<fix32p32knd>
 
 implement g0float_mul<fix32p32knd> = g0float_mul_fixed32p32
 implement g0float_div<fix32p32knd> = g0float_div_fixed32p32

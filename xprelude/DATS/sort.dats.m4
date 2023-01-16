@@ -103,7 +103,7 @@ array_stable_sort (arr, n) =
 ')
 
 (*------------------------------------------------------------------*)
-(* Sorting using a function or closure for the comparisons. *)
+(* Derivatives of the basic array sorting. *)
 
 m4_foreachq(`STAB',``',`stable_'',
 `
@@ -153,6 +153,29 @@ array_`'STAB`'sort_cloptr (arr, n, cmp) =
   in
     array_`'STAB`'sort<a> (arr, n)
   end
+
+implement {a}
+arrayptr_`'STAB`'sort (arr, n) =
+  let
+    val p = ptrcast arr
+    prval pf = arrayptr_takeout {a} arr
+    val () = array_`'STAB`'sort<a> (!p, n)
+    prval () = arrayptr_addback {a} (pf | arr)
+  in
+  end
+
+m4_foreachq(`CMP',`fun,cloref,cloptr',
+`
+implement {a}
+arrayptr_`'STAB`'sort_`'CMP (arr, n, cmp) =
+  let
+    val p = ptrcast arr
+    prval pf = arrayptr_takeout {a} arr
+    val () = array_`'STAB`'sort_`'CMP<a> (!p, n, cmp)
+    prval () = arrayptr_addback {a} (pf | arr)
+  in
+  end
+')dnl
 ')dnl
 
 (*------------------------------------------------------------------*)

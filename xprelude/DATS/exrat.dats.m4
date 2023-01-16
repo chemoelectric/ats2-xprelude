@@ -111,9 +111,10 @@ implement g0float_lte<exratknd> = g0float_lte_exrat
 implement g0float_gt<exratknd> = g0float_gt_exrat
 implement g0float_gte<exratknd> = g0float_gte_exrat
 
-implement gequal_val_val<exrat> (x, y) = g0float_eq<exratknd> (x, y)
-
 implement g0float_compare<exratknd> = g0float_compare_exrat
+
+implement gequal_val_val<exrat> = g0float_eq<exratknd>
+implement gcompare_val_val<exrat> = g0float_compare<exratknd>
 
 implement g0float_mul<exratknd> = g0float_mul_exrat
 implement g0float_div<exratknd> = g0float_div_exrat
