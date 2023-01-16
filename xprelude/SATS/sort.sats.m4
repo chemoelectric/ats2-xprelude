@@ -31,47 +31,33 @@ fn {a : vt@ype}
 array_sort$cmp :
   (&a, &a) -<> int
 
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Sorting, possibly unstable. *)
+m4_foreachq(`STAB',``',`stable_'',
+`fn {a : vt@ype}
+array_`'STAB`'sort :
+  {n : int}
+  (&array (INV(a), n) >> array (a, n), size_t n) -< !wrt > void
 
 fn {a : vt@ype}
-array_sort :
+arrayptr_`'STAB`'sort :
   {n : int}
-  (&array (INV(a), n) >> array (a, n),
-   size_t n) -< !wrt >
-    void
+  (!arrayptr (a, n) >> _, size_t n) -< !wrt > void
 
 fn {a : vt@ype}
-arrayptr_sort :
+arrayref_`'STAB`'sort :
   {n : int}
-  (!arrayptr (a, n) >> _,
-   size_t n) -< !wrt >
-    void
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Stable sorting. *)
+  (arrayref (a, n), size_t n) -< !refwrt > void
 
 fn {a : vt@ype}
-array_stable_sort :
+arrszref_`'STAB`'sort :
   {n : int}
-  (&array (INV(a), n) >> array (a, n),
-   size_t n) -< !wrt >
-    void
+  arrszref a -< !refwrt > void
 
-fn {a : vt@ype}
-arrayptr_stable_sort :
-  {n : int}
-  (!arrayptr (a, n) >> _,
-   size_t n) -< !wrt >
-    void
-
+')dnl
 (*------------------------------------------------------------------*)
 (* Array sorting with functions or closures for the comparison. *)
 
 m4_foreachq(`STAB',``',`stable_'',
 `
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-
 fn {a : vt@ype}
 array_`'STAB`'sort_fun :
   {n : int}
@@ -95,9 +81,12 @@ array_`'STAB`'sort_cloptr :
    size_t n,
    &((&a, &a) -<cloptr> int)) -< !wrt >
     void
+')dnl
 
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 
+m4_foreachq(`STAB',``',`stable_'',
+`
 fn {a : vt@ype}
 arrayptr_`'STAB`'sort_fun :
   {n : int}
@@ -120,6 +109,61 @@ arrayptr_`'STAB`'sort_cloptr :
   (!arrayptr (a, n) >> _,
    size_t n,
    &((&a, &a) -<cloptr> int)) -< !wrt >
+    void
+')dnl
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+m4_foreachq(`STAB',``',`stable_'',
+`
+fn {a : vt@ype}
+arrayref_`'STAB`'sort_fun :
+  {n : int}
+  (arrayref (a, n),
+   size_t n,
+   (&a, &a) -<> int) -< !refwrt >
+    void
+
+fn {a : vt@ype}
+arrayref_`'STAB`'sort_cloref :
+  {n : int}
+  (arrayref (a, n),
+   size_t n,
+   (&a, &a) -<cloref> int) -< !refwrt >
+    void
+
+fn {a : vt@ype}
+arrayref_`'STAB`'sort_cloptr :
+  {n : int}
+  (arrayref (a, n),
+   size_t n,
+   &((&a, &a) -<cloptr> int)) -< !refwrt >
+    void
+')dnl
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+m4_foreachq(`STAB',``',`stable_'',
+`
+fn {a : vt@ype}
+arrszref_`'STAB`'sort_fun :
+  {n : int}
+  (arrszref a,
+   (&a, &a) -<> int) -< !refwrt >
+    void
+
+fn {a : vt@ype}
+arrszref_`'STAB`'sort_cloref :
+  {n : int}
+  (arrszref a,
+   (&a, &a) -<cloref> int) -< !refwrt >
+    void
+
+fn {a : vt@ype}
+arrszref_`'STAB`'sort_cloptr :
+  {n : int}
+  (arrszref a,
+   &((&a, &a) -<cloptr> int)) -< !refwrt >
     void
 ')dnl
 

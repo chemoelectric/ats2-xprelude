@@ -31,6 +31,51 @@ macdef i2mx = g0int2int<intknd,intmaxknd>
 macdef i2ld = g0int2float<intknd,ldblknd>
 macdef i2fx = g0int2float<intknd,fix32p32knd>
 
+fn {a : t@ype}
+arrayref2list
+          {n   : int}
+          (arr : arrayref (a, n),
+           n   : size_t n)
+    :<!ref> list (a, n) =
+  let
+    fun
+    loop {i : nat | i <= n}
+         .<i>.
+         (i     : size_t i,
+          accum : list (a, n - i))
+        :<!ref> list (a, n) =
+      if iseqz i then
+        accum
+      else
+        loop (pred i, list_cons (arr[pred i], accum))
+
+    prval () = lemma_arrayref_param arr
+  in
+    loop (n, list_nil ())
+  end
+
+fn {a : t@ype}
+arrszref2list
+          (arr : arrszref a)
+    :<!exnref> List0 a =
+  let
+    val n = g1ofg0 (size arr)
+    prval [n : int] EQINT () = eqint_make_guint n
+
+    fun
+    loop {i : nat | i <= n}
+         .<i>.
+         (i     : size_t i,
+          accum : list (a, n - i))
+        :<!exnref> List0 a =
+      if iseqz i then
+        accum
+      else
+        loop (pred i, list_cons (arr[pred i], accum))
+  in
+    loop (n, list_nil ())
+  end
+
 fn
 test1 () : void =
   let
@@ -212,14 +257,16 @@ test5 () : void =
     val- true = lst2 = expected
     val () = arrayptr_free arr
 
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloref> compare (x, y)
     val arr = arrayptr_make_list<fixed32p32> (10, lst1)
-    val () = arrayptr_sort_cloref<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val () = arrayptr_sort_cloref<fixed32p32> (arr, i2sz 10, closure)
     val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
     val- true = lst2 = expected
     val () = arrayptr_free arr
 
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloref> compare (x, y)
     val arr = arrayptr_make_list<fixed32p32> (10, lst1)
-    val () = arrayptr_stable_sort_cloref<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val () = arrayptr_stable_sort_cloref<fixed32p32> (arr, i2sz 10, closure)
     val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
     val- true = lst2 = expected
     val () = arrayptr_free arr
@@ -231,6 +278,132 @@ test5 () : void =
     val- true = lst2 = expected
     val () = arrayptr_free arr
     val () = cloptr_free ($UN.castvwtp0{cloptr0} closure)
+
+    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> compare (x, y)
+    val arr = arrayptr_make_list<fixed32p32> (10, lst1)
+    val () = arrayptr_stable_sort_cloptr<fixed32p32> (arr, i2sz 10, closure)
+    val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
+    val- true = lst2 = expected
+    val () = arrayptr_free arr
+    val () = cloptr_free ($UN.castvwtp0{cloptr0} closure)
+  in
+  end
+
+fn
+test6 () : void =
+  let
+    (* Some arrayref_sort and arrayref_stable_sort tests (without
+       tests of stability). *)
+
+    val lst1 = $list (i2fx 2, i2fx 5, i2fx 3, i2fx 4, i2fx 6,
+                      i2fx 1, i2fx 9, i2fx 8, i2fx 7, i2fx 0)
+    val expected = $list (i2fx 0, i2fx 1, i2fx 2, i2fx 3, i2fx 4,
+                          i2fx 5, i2fx 6, i2fx 7, i2fx 8, i2fx 9)
+
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_sort<fixed32p32> (arr, i2sz 10)
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_stable_sort<fixed32p32> (arr, i2sz 10)
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_sort_fun<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_stable_sort_fun<fixed32p32> (arr, i2sz 10, lam (x, y) => compare (x, y))
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloref> compare (x, y)
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_sort_cloref<fixed32p32> (arr, i2sz 10, closure)
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloref> compare (x, y)
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_stable_sort_cloref<fixed32p32> (arr, i2sz 10, closure)
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+
+    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> compare (x, y)
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_sort_cloptr<fixed32p32> (arr, i2sz 10, closure)
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+    val () = cloptr_free ($UN.castvwtp0 closure)
+
+    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> compare (x, y)
+    val arr = arrayref_make_list<fixed32p32> (10, lst1)
+    val () = arrayref_stable_sort_cloptr<fixed32p32> (arr, i2sz 10, closure)
+    val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
+    val- true = lst2 = expected
+    val () = cloptr_free ($UN.castvwtp0 closure)
+  in
+  end
+
+fn
+test7 () : void =
+  let
+    (* Some arrszref_sort and arrszref_stable_sort tests (without
+       tests of stability). *)
+
+    val lst1 = $list (i2fx 2, i2fx 5, i2fx 3, i2fx 4, i2fx 6,
+                      i2fx 1, i2fx 9, i2fx 8, i2fx 7, i2fx 0)
+    val expected = $list (i2fx 0, i2fx 1, i2fx 2, i2fx 3, i2fx 4,
+                          i2fx 5, i2fx 6, i2fx 7, i2fx 8, i2fx 9)
+
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_sort<fixed32p32> arr
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_stable_sort<fixed32p32> arr
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_sort_fun<fixed32p32> (arr, lam (x, y) => compare (x, y))
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_stable_sort_fun<fixed32p32> (arr, lam (x, y) => compare (x, y))
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloref> compare (x, y)
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_sort_cloref<fixed32p32> (arr, closure)
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloref> compare (x, y)
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_stable_sort_cloref<fixed32p32> (arr, closure)
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+
+    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> compare (x, y)
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_sort_cloptr<fixed32p32> (arr, closure)
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+    val () = cloptr_free ($UN.castvwtp0 closure)
+
+    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> compare (x, y)
+    val arr = arrszref_make_list<fixed32p32> lst1
+    val () = arrszref_stable_sort_cloptr<fixed32p32> (arr, closure)
+    val lst2 = arrszref2list<fixed32p32> arr
+    val- true = lst2 = expected
+    val () = cloptr_free ($UN.castvwtp0 closure)
   in
   end
 
@@ -242,5 +415,7 @@ main () =
     test3 ();
     test4 ();
     test5 ();
+    test6 ();
+    test7 ();
     0
   end

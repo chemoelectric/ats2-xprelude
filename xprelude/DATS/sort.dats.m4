@@ -319,8 +319,74 @@ arrayptr_`'STAB`'sort_`'CMP (arr, n, cmp) =
   in
   end
 ')dnl
+
+implement {a}
+arrayref_`'STAB`'sort (arr, n) =
+  let
+    val @(vbox pf | p) = arrayref_get_viewptr {a} arr
+  in
+    array_`'STAB`'sort<a> (!p, n)
+  end
+
+m4_foreachq(`CMP',`fun,cloref,cloptr',
+`
+implement {a}
+arrayref_`'STAB`'sort_`'CMP (arr, n, cmp) =
+  let
+    val @(vbox pf | p) = arrayref_get_viewptr {a} arr
+  in
+    array_`'STAB`'sort_`'CMP<a> (!p, n, cmp)
+  end
 ')dnl
 
+implement {a}
+arrszref_`'STAB`'sort arr =
+  let
+    extern praxi
+    make_view :
+      {p : addr}
+      {n : int}
+      () -<prf>
+        @(array_v (a, p, n),
+          array_v (a, p, n) -<lin,prf> void)
+
+    val p = arrszref_get_ref {a} arr
+    and n = g1ofg0 (arrszref_get_size {a} arr)
+    prval [p : addr] EQADDR () = eqaddr_make_ptr p
+    prval [n : int] EQINT () = eqint_make_guint n
+
+    prval @(pf, fpf) = make_view {p} {n} ()
+    val () = array_`'STAB`'sort<a> (!p, n)
+    prval () = fpf pf
+  in
+  end
+
+m4_foreachq(`CMP',`fun,cloref,cloptr',
+`
+implement {a}
+arrszref_`'STAB`'sort_`'CMP (arr, cmp) =
+  let
+    extern praxi
+    make_view :
+      {p : addr}
+      {n : int}
+      () -<prf>
+        @(array_v (a, p, n),
+          array_v (a, p, n) -<lin,prf> void)
+
+    val p = arrszref_get_ref {a} arr
+    and n = g1ofg0 (arrszref_get_size {a} arr)
+    prval [p : addr] EQADDR () = eqaddr_make_ptr p
+    prval [n : int] EQINT () = eqint_make_guint n
+
+    prval @(pf, fpf) = make_view {p} {n} ()
+    val () = array_`'STAB`'sort_`'CMP<a> (!p, n, cmp)
+    prval () = fpf pf
+  in
+  end
+')dnl
+
+')dnl
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:
