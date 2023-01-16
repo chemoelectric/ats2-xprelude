@@ -42,25 +42,53 @@ m4_if(WITH_TIMSORT,`yes',
 
 (*------------------------------------------------------------------*)
 
+(*------------------------------------------------------------------*)
+
 #define DEFAULT_SORT 0
 #define PRELUDE_SORT 1
 #define TIMSORT 2
 
-#ifndef ARRAY_SORT #then
-#define ARRAY_SORT DEFAULT_SORT
+#ifndef XPRELUDE_PRELUDE_SORT #then
+  #define XPRELUDE_PRELUDE_SORT 0
+#endif
+#ifndef XPRELUDE_TIMSORT #then
+  #define XPRELUDE_TIMSORT 0
 #endif
 
-#ifndef ARRAY_STABLE_SORT #then
-#define ARRAY_STABLE_SORT DEFAULT_SORT
+#if XPRELUDE_PRELUDE_SORT #then
+  (* Force all sort implementations to be from the prelude. *)
+  #define XPRELUDE_ARRAY_SORT PRELUDE_SORT
+  #define XPRELUDE_ARRAY_STABLE_SORT PRELUDE_SORT
+  #define XPRELUDE_LIST_SORT PRELUDE_SORT
+  #define XPRELUDE_LIST_STABLE_SORT PRELUDE_SORT
+#elif XPRELUDE_TIMSORT #then
+  (* Force all sort implementations to be from ats2-timsort. *)
+  #define XPRELUDE_ARRAY_SORT TIMSORT
+  #define XPRELUDE_ARRAY_STABLE_SORT TIMSORT
+  #define XPRELUDE_LIST_SORT TIMSORT
+  #define XPRELUDE_LIST_STABLE_SORT TIMSORT
 #endif
 
-#ifndef LIST_SORT #then
-#define LIST_SORT DEFAULT_SORT
+#ifndef XPRELUDE_ARRAY_SORT #then
+  #define XPRELUDE_ARRAY_SORT DEFAULT_SORT
 #endif
 
-#ifndef LIST_STABLE_SORT #then
-#define LIST_STABLE_SORT DEFAULT_SORT
+#ifndef XPRELUDE_ARRAY_STABLE_SORT #then
+  #define XPRELUDE_ARRAY_STABLE_SORT DEFAULT_SORT
 #endif
+
+#ifndef XPRELUDE_LIST_SORT #then
+  #define XPRELUDE_LIST_SORT DEFAULT_SORT
+#endif
+
+#ifndef XPRELUDE_LIST_STABLE_SORT #then
+  #define XPRELUDE_LIST_STABLE_SORT DEFAULT_SORT
+#endif
+
+#define ARRAY_SORT XPRELUDE_ARRAY_SORT
+#define ARRAY_STABLE_SORT XPRELUDE_ARRAY_STABLE_SORT
+#define LIST_SORT XPRELUDE_LIST_SORT
+#define LIST_STABLE_SORT XPRELUDE_LIST_STABLE_SORT
 
 m4_if(WITH_TIMSORT,`no',
 `
@@ -109,24 +137,6 @@ m4_if(WITH_TIMSORT,`yes',
 
 (*------------------------------------------------------------------*)
 
-(* #if VERBOSE_XPRELUDE #then *)
-
-(*   #if ARRAY_SORT = PRELUDE_SORT #then *)
-(*     #print "xprelude: array_sort calls array_quicksort\n" *)
-(*   #elif ARRAY_SORT = TIMSORT #then *)
-(*     #print "xprelude: array_sort calls array_timsort\n" *)
-(*   #endif *)
-
-(*   #if ARRAY_STABLE_SORT = PRELUDE_SORT #then *)
-(*     #print "xprelude: array_stable_sort calls list_vt_mergesort\n" *)
-(*   #elif ARRAY_STABLE_SORT = TIMSORT #then *)
-(*     #print "xprelude: array_stable_sort calls array_timsort\n" *)
-(*   #endif *)
-
-(* #endif *)
-
-(*------------------------------------------------------------------*)
-
 implement {a}
 array_sort$cmp (x, y) =
   gcompare_ref_ref<a> (x, y)
@@ -135,15 +145,15 @@ array_sort$cmp (x, y) =
 (* Array sorting, possibly unstable. *)
 
 extern fn {a : vt@ype}
-_array_sort_prelude :
+_array_sort__array_quicksort :
   $d2ctype (array_sort<a>)
 
 extern fn {a : vt@ype}
-_array_sort_timsort :
+_array_sort__array_timsort :
   $d2ctype (array_sort<a>)
 
 implement {a}
-_array_sort_prelude (arr, n) =
+_array_sort__array_quicksort (arr, n) =
   let
     implement
     array_quicksort$cmp<a> (x, y) =
@@ -155,7 +165,7 @@ _array_sort_prelude (arr, n) =
 m4_if(WITH_TIMSORT,`yes',
 `
 implement {a}
-_array_sort_timsort (arr, n) =
+_array_sort__array_timsort (arr, n) =
   let
     implement
     array_timsort$cmp<a> (x, y) =
@@ -172,12 +182,12 @@ array_sort (arr, n) =
       #if VERBOSE_XPRELUDE #then
         #print "xprelude: array_sort calls array_quicksort\n"
       #endif
-      val () = _array_sort_prelude<a> (arr, n)
+      val () = _array_sort__array_quicksort<a> (arr, n)
     #elif ARRAY_SORT = TIMSORT #then
       #if VERBOSE_XPRELUDE #then
         #print "xprelude: array_sort calls array_timsort\n"
       #endif
-      val () = _array_sort_timsort<a> (arr, n)
+      val () = _array_sort__array_timsort<a> (arr, n)
     #endif
   in
   end
@@ -186,15 +196,15 @@ array_sort (arr, n) =
 (* Array sorting, stable. *)
 
 extern fn {a : vt@ype}
-_array_stable_sort_prelude :
+_array_stable_sort__list_vt_mergesort :
   $d2ctype (array_sort<a>)
 
 extern fn {a : vt@ype}
-_array_stable_sort_timsort :
+_array_stable_sort__array_timsort :
   $d2ctype (array_sort<a>)
 
 implement {a}
-_array_stable_sort_prelude (arr, n) =
+_array_stable_sort__list_vt_mergesort (arr, n) =
   let
     implement
     list_vt_mergesort$cmp<a> (x, y) =
@@ -208,7 +218,7 @@ _array_stable_sort_prelude (arr, n) =
 m4_if(WITH_TIMSORT,`yes',
 `
 implement {a}
-_array_stable_sort_timsort (arr, n) =
+_array_stable_sort__array_timsort (arr, n) =
   let
     implement
     array_timsort$cmp<a> (x, y) =
@@ -225,12 +235,12 @@ array_stable_sort (arr, n) =
       #if VERBOSE_XPRELUDE #then
         #print "xprelude: array_stable_sort calls list_vt_mergesort\n"
       #endif
-      val () = _array_stable_sort_prelude<a> (arr, n)
+      val () = _array_stable_sort__list_vt_mergesort<a> (arr, n)
     #elif ARRAY_STABLE_SORT = TIMSORT #then
       #if VERBOSE_XPRELUDE #then
         #print "xprelude: array_stable_sort calls array_timsort\n"
       #endif
-      val () = _array_stable_sort_timsort<a> (arr, n)
+      val () = _array_stable_sort__array_timsort<a> (arr, n)
     #endif
   in
   end
