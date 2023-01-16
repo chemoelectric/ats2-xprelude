@@ -20,7 +20,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS2_XPRELUDE__SORT_SATS_HATS__HEADER_GUARD__ 1
 
 staload "xprelude/SATS/sort.sats"
-m4_if(ARRAY_SORT,`timsort',
+m4_if(WITH_TIMSORT,`yes',
 `staload "timsort/SATS/array-timsort.sats"
 ')dnl
 
