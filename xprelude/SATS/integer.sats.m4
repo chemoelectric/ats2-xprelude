@@ -16,7 +16,6 @@
   <https://www.gnu.org/licenses/>.
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
-
 #define ATS_PACKNAME "ats2-xprelude.integer"
 #define ATS_EXTERN_PREFIX "my_extern_prefix"
 
@@ -358,8 +357,7 @@ g1uint_mod :
     m4_g1uint(tk, r)
 
 (* Set the precedences of the following overloads a little higher than
-   the equivalent overloads in the prelude (which has had bugs that we
-   are working around). *)
+   the equivalent overloads in the prelude. *)
 overload nmod with g1int_nmod of 22
 overload nmod with nmod_g1int_int1 of 23
 overload mod with g1uint_mod of 21

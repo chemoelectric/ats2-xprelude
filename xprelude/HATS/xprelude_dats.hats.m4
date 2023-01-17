@@ -15,13 +15,12 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
-
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 (* Extensions to (and bug fixes for) the prelude. *)
 
-#ifndef ATS2_XPRELUDE__XPRELUDE_HATS__HEADER_GUARD__ #then
-#define ATS2_XPRELUDE__XPRELUDE_HATS__HEADER_GUARD__ 1
-
-#include "xprelude/HATS/xprelude_sats.hats"
-#include "xprelude/HATS/xprelude_dats.hats"
-
-#endif (* ATS2_XPRELUDE__XPRELUDE_HATS__HEADER_GUARD__ *)
+staload _ = "xprelude/DATS/integer.dats"
+staload _ = "xprelude/DATS/float.dats"
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:

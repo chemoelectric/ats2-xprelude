@@ -20,7 +20,9 @@
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
-#include "xprelude/HATS/sort.hats"
+
+staload "xprelude/SATS/sort.sats"
+#include "xprelude/HATS/sort_dats.hats"
 
 staload "xprelude/SATS/fixed32p32.sats"
 staload _ = "xprelude/DATS/fixed32p32.dats"

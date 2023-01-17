@@ -16,13 +16,11 @@
   <https://www.gnu.org/licenses/>.
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
-#ifndef ATS2_XPRELUDE__SORT_HATS__HEADER_GUARD__ #then
-#define ATS2_XPRELUDE__SORT_HATS__HEADER_GUARD__ 1
+(* You might use this include file, if you do not need to assign names
+   to the included SATS files. *)
 
-#include "xprelude/HATS/sort_sats.hats"
+staload "xprelude/SATS/sort.sats"
 #include "xprelude/HATS/sort_dats.hats"
-
-#endif (* ATS2_XPRELUDE__SORT_HATS__HEADER_GUARD__ *)
 dnl
 dnl local variables:
 dnl mode: ATS

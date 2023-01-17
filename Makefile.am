@@ -177,13 +177,17 @@ libats2_xprelude_la_LIBADD += lib/libgnu.la
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-MISCELLANEOUS_EXTRAS =
+XPRELUDE_HATS =
 
-MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude_sats.hats
-MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude_dats.hats
-MISCELLANEOUS_EXTRAS += xprelude/HATS/xprelude.hats
+XPRELUDE_HATS += xprelude/HATS/xprelude_sats.hats
+XPRELUDE_HATS += xprelude/HATS/xprelude_dats.hats
+XPRELUDE_HATS += xprelude/HATS/xprelude.hats
 
-nobase_dist_pkginclude_HEADERS += $(MISCELLANEOUS_EXTRAS)
+EXTRA_DIST += $(addsuffix .m4, $(XPRELUDE_HATS))
+BUILT_SOURCES += $(XPRELUDE_HATS) 
+CLEANFILES += $(XPRELUDE_HATS)
+
+nobase_nodist_pkginclude_HEADERS += $(XPRELUDE_HATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -312,7 +316,6 @@ nodist_libats2_xprelude_la_SOURCES += $(SORT_SATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(SORT_DATS_C)
 
 SORT_HATS =
-SORT_HATS += xprelude/HATS/sort_sats.hats
 SORT_HATS += xprelude/HATS/sort_dats.hats
 SORT_HATS += xprelude/HATS/sort.hats
 EXTRA_DIST += $(addsuffix .m4, $(SORT_HATS))

@@ -15,13 +15,11 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
-
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 (* Extensions to (and bug fixes for) the prelude. *)
 
-#ifndef ATS2_XPRELUDE__XPRELUDE_SATS_HATS__HEADER_GUARD__ #then
-#define ATS2_XPRELUDE__XPRELUDE_SATS_HATS__HEADER_GUARD__ 1
+(* You might use this include file, if you do not need to assign names
+   to the included SATS files. *)
 
 staload "xprelude/SATS/integer.sats"
 staload "xprelude/SATS/float.sats"
-
-#endif (* ATS2_XPRELUDE__XPRELUDE_SATS_HATS__HEADER_GUARD__ *)

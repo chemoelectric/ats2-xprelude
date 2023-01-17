@@ -16,19 +16,16 @@
   <https://www.gnu.org/licenses/>.
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
-#ifndef ATS2_XPRELUDE__SORT_DATS_HATS__HEADER_GUARD__ #then
-#define ATS2_XPRELUDE__SORT_DATS_HATS__HEADER_GUARD__ 1
 
 staload _ = "xprelude/DATS/sort.dats"
 m4_if(WITH_TIMSORT,`yes',
-`#include "timsort/HATS/array-timsort.hats"
+`#include "timsort/HATS/array-timsort_dats.hats"
+#include "timsort/HATS/list-timsort_dats.hats"
 ')dnl
 m4_if(WITH_QUICKSORTS,`yes',
-`#include "quicksorts/HATS/unstable-quicksort.hats"
-#include "quicksorts/HATS/stable-quicksort.hats"
+`#include "quicksorts/HATS/unstable-quicksort_dats.hats"
+#include "quicksorts/HATS/stable-quicksort_dats.hats"
 ')dnl
-
-#endif (* ATS2_XPRELUDE__SORT_DATS_HATS__HEADER_GUARD__ *)
 dnl
 dnl local variables:
 dnl mode: ATS

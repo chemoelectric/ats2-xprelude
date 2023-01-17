@@ -31,11 +31,18 @@ staload "xprelude/SATS/sort.sats"
 staload UN = "prelude/SATS/unsafe.sats"
 
 m4_if(WITH_TIMSORT,`yes',
-`#include "timsort/HATS/array-timsort.hats"
+`
+staload AT = "timsort/SATS/array-timsort.sats"
+staload LT = "timsort/SATS/list-timsort.sats"
+#include "timsort/HATS/array-timsort_dats.hats"
+#include "timsort/HATS/list-timsort_dats.hats"
 ')dnl
 m4_if(WITH_QUICKSORTS,`yes',
-`#include "quicksorts/HATS/unstable-quicksort.hats"
-#include "quicksorts/HATS/stable-quicksort.hats"
+`
+staload UQ = "quicksorts/SATS/unstable-quicksort.sats"
+staload SQ = "quicksorts/SATS/stable-quicksort.sats"
+#include "quicksorts/HATS/unstable-quicksort_dats.hats"
+#include "quicksorts/HATS/stable-quicksort_dats.hats"
 ')dnl
 
 (*------------------------------------------------------------------*)
@@ -242,10 +249,10 @@ implement {a}
 _array_sort__array_timsort (arr, n) =
   let
     implement
-    array_timsort$cmp<a> (x, y) =
+    $AT.array_timsort$cmp<a> (x, y) =
       array_sort$cmp<a> (x, y)
   in
-    array_timsort<a> (arr, n)
+    $AT.array_timsort<a> (arr, n)
   end
 ')dnl
 
@@ -255,10 +262,10 @@ implement {a}
 _array_sort__array_unstable_quicksort (arr, n) =
   let
     implement
-    array_unstable_quicksort$cmp<a> (x, y) =
+    $UQ.array_unstable_quicksort$cmp<a> (x, y) =
       array_sort$cmp<a> (x, y)
   in
-    array_unstable_quicksort<a> (arr, n)
+    $UQ.array_unstable_quicksort<a> (arr, n)
   end
 ')dnl
 
@@ -317,10 +324,10 @@ implement {a}
 _array_stable_sort__array_timsort (arr, n) =
   let
     implement
-    array_timsort$cmp<a> (x, y) =
+    $AT.array_timsort$cmp<a> (x, y) =
       array_sort$cmp<a> (x, y)
   in
-    array_timsort<a> (arr, n)
+    $AT.array_timsort<a> (arr, n)
   end
 ')dnl
 
@@ -330,10 +337,10 @@ implement {a}
 _array_stable_sort__array_stable_quicksort (arr, n) =
   let
     implement
-    array_stable_quicksort$cmp<a> (x, y) =
+    $SQ.array_stable_quicksort$cmp<a> (x, y) =
       array_sort$cmp<a> (x, y)
   in
-    array_stable_quicksort<a> (arr, n)
+    $SQ.array_stable_quicksort<a> (arr, n)
   end
 ')dnl
 
