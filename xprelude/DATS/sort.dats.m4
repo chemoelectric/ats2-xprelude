@@ -33,6 +33,10 @@ staload UN = "prelude/SATS/unsafe.sats"
 m4_if(WITH_TIMSORT,`yes',
 `#include "timsort/HATS/array-timsort.hats"
 ')dnl
+m4_if(WITH_QUICKSORTS,`yes',
+`#include "quicksorts/HATS/unstable-quicksort.hats"
+#include "quicksorts/HATS/stable-quicksort.hats"
+')dnl
 
 (*------------------------------------------------------------------*)
 
@@ -52,6 +56,7 @@ m4_if(WITH_TIMSORT,`yes',
 #define DEFAULT_SORT 0
 #define PRELUDE_SORT 1
 #define TIMSORT 2
+#define QUICKSORTS 3
 
 #ifndef XPRELUDE_SORT #then
   #define XPRELUDE_SORT DEFAULT_SORT
@@ -70,7 +75,7 @@ m4_if(WITH_TIMSORT,`yes',
   #define LIST_STABLE_SORT XPRELUDE_LIST_STABLE_SORT
 #endif
 
-#if XPRELUDE_SORT = 1 #then
+#if XPRELUDE_SORT = PRELUDE_SORT #then
   (* Force all unset sort implementations to be from the prelude. *)
   #ifndef ARRAY_SORT
     #define ARRAY_SORT PRELUDE_SORT
@@ -84,7 +89,7 @@ m4_if(WITH_TIMSORT,`yes',
   #ifndef LIST_STABLE_SORT
     #define LIST_STABLE_SORT PRELUDE_SORT
   #endif
-#elif XPRELUDE_SORT = 2 #then
+#elif XPRELUDE_SORT = TIMSORT #then
   (* Force all unset sort implementations to be from ats2-timsort. *)
   #ifndef ARRAY_SORT
     #define ARRAY_SORT TIMSORT
@@ -97,6 +102,21 @@ m4_if(WITH_TIMSORT,`yes',
   #endif
   #ifndef LIST_STABLE_SORT
     #define LIST_STABLE_SORT TIMSORT
+  #endif
+#elif XPRELUDE_SORT = QUICKSORTS #then
+  (* Force all unset sort implementations to be from
+     ats2-quicksorts. *)
+  #ifndef ARRAY_SORT
+    #define ARRAY_SORT QUICKSORTS
+  #endif
+  #ifndef ARRAY_STABLE_SORT
+    #define ARRAY_STABLE_SORT QUICKSORTS
+  #endif
+  #ifndef LIST_SORT
+    #define LIST_SORT QUICKSORTS
+  #endif
+  #ifndef LIST_STABLE_SORT
+    #define LIST_STABLE_SORT QUICKSORTS
   #endif
 #endif
 
@@ -132,6 +152,24 @@ m4_if(WITH_TIMSORT,`no',
 #endif
 ')dnl
 
+m4_if(WITH_QUICKSORTS,`no',
+`
+(* This package was built without support for ats2-quicksorts, so
+   override requests for those quicksorts. *)
+#if ARRAY_SORT = QUICKSORTS #then
+  #define ARRAY_SORT DEFAULT_SORT
+#endif
+#if ARRAY_STABLE_SORT = QUICKSORTS #then
+  #define ARRAY_STABLE_SORT DEFAULT_SORT
+#endif
+#if LIST_SORT = QUICKSORTS #then
+  #define LIST_SORT DEFAULT_SORT
+#endif
+#if LIST_STABLE_SORT = QUICKSORTS #then
+  #define LIST_STABLE_SORT DEFAULT_SORT
+#endif
+')dnl
+
 m4_if(WITH_TIMSORT,`yes',
 `
 (* Default to timsort. *)
@@ -148,12 +186,16 @@ m4_if(WITH_TIMSORT,`yes',
   #define LIST_STABLE_SORT TIMSORT
 #endif
 ',`
-(* Default to sorting based on the prelude. *)
+(* Default to sorting based on ats2-quicksorts and the prelude. *)
 #if ARRAY_SORT = DEFAULT_SORT #then
-  #define ARRAY_SORT PRELUDE_SORT
+m4_if(`WITH_QUICKSORTS',`yes',
+`  #define ARRAY_SORT QUICKSORTS',
+`  #define ARRAY_SORT PRELUDE_SORT')
 #endif
 #if ARRAY_STABLE_SORT = DEFAULT_SORT #then
-  #define ARRAY_STABLE_SORT PRELUDE_SORT
+m4_if(`WITH_QUICKSORTS',`yes',
+`  #define ARRAY_STABLE_SORT QUICKSORTS',
+`  #define ARRAY_STABLE_SORT PRELUDE_SORT')
 #endif
 #if LIST_SORT = DEFAULT_SORT #then
   #define LIST_SORT PRELUDE_SORT
@@ -180,6 +222,10 @@ extern fn {a : vt@ype}
 _array_sort__array_timsort :
   $d2ctype (array_sort<a>)
 
+extern fn {a : vt@ype}
+_array_sort__array_unstable_quicksort :
+  $d2ctype (array_sort<a>)
+
 implement {a}
 _array_sort__array_quicksort (arr, n) =
   let
@@ -203,6 +249,19 @@ _array_sort__array_timsort (arr, n) =
   end
 ')dnl
 
+m4_if(WITH_QUICKSORTS,`yes',
+`
+implement {a}
+_array_sort__array_unstable_quicksort (arr, n) =
+  let
+    implement
+    array_unstable_quicksort$cmp<a> (x, y) =
+      array_sort$cmp<a> (x, y)
+  in
+    array_unstable_quicksort<a> (arr, n)
+  end
+')dnl
+
 implement {a}
 array_sort (arr, n) =
   let
@@ -216,6 +275,11 @@ array_sort (arr, n) =
         #print "xprelude: array_sort calls array_timsort from ats2-timsort\n"
       #endif
       val () = _array_sort__array_timsort<a> (arr, n)
+    #elif ARRAY_SORT = QUICKSORTS #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: array_sort calls array_unstable_quicksort from ats2-quicksorts\n"
+      #endif
+      val () = _array_sort__array_unstable_quicksort<a> (arr, n)
     #endif
   in
   end
@@ -229,6 +293,10 @@ _array_stable_sort__list_vt_mergesort :
 
 extern fn {a : vt@ype}
 _array_stable_sort__array_timsort :
+  $d2ctype (array_sort<a>)
+
+extern fn {a : vt@ype}
+_array_stable_sort__array_stable_quicksort :
   $d2ctype (array_sort<a>)
 
 implement {a}
@@ -256,6 +324,19 @@ _array_stable_sort__array_timsort (arr, n) =
   end
 ')dnl
 
+m4_if(WITH_QUICKSORTS,`yes',
+`
+implement {a}
+_array_stable_sort__array_stable_quicksort (arr, n) =
+  let
+    implement
+    array_stable_quicksort$cmp<a> (x, y) =
+      array_sort$cmp<a> (x, y)
+  in
+    array_stable_quicksort<a> (arr, n)
+  end
+')dnl
+
 implement {a}
 array_stable_sort (arr, n) =
   let
@@ -269,6 +350,11 @@ array_stable_sort (arr, n) =
         #print "xprelude: array_stable_sort calls array_timsort from ats2-timsort\n"
       #endif
       val () = _array_stable_sort__array_timsort<a> (arr, n)
+    #elif ARRAY_STABLE_SORT = QUICKSORTS #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: array_stable_sort calls array_stable_quicksort from ats2-quicksorts\n"
+      #endif
+      val () = _array_stable_sort__array_stable_quicksort<a> (arr, n)
     #endif
   in
   end

@@ -74,6 +74,15 @@ if test x"${with_ats2_timsort}" != xyes && test x"${with_ats2_timsort}" != xno; 
   AC_MSG_ERROR([please specify --with-ats2-timsort=yes or --with-ats2-timsort=no])
 fi
 
+AC_ARG_WITH([ats2-quicksorts],
+  [AS_HELP_STRING([--with-ats2-quicksorts],
+      [include support for ats2-quicksorts [default=yes]])],
+  [],
+  [with_ats2_quicksorts=yes])
+if test x"${with_ats2_quicksorts}" != xyes && test x"${with_ats2_quicksorts}" != xno; then
+  AC_MSG_ERROR([please specify --with-ats2-quicksorts=yes or --with-ats2-quicksorts=no])
+fi
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -113,9 +122,17 @@ if test x"${enable_exrat}" = xyes; then
 fi
 
 if test x"${with_ats2_timsort}" = xyes; then
-  PKG_CHECK_MODULES([TIMSORT],[ats2-timsort],,
+  PKG_CHECK_MODULES([TIMSORT],[ats2-timsort],
+    [AC_MSG_NOTICE([ats2-timsort was requested and was found. It will be supported.])],
     [AC_MSG_ERROR([ats2-timsort not found; consider --with-ats2-timsort=no])])
   PKG_CHECK_VAR([TIMSORT_PATSOPTFLAGS],[ats2-timsort],[PATSOPTFLAGS])
+fi
+
+if test x"${with_ats2_quicksorts}" = xyes; then
+  PKG_CHECK_MODULES([QUICKSORTS],[ats2-quicksorts],
+    [AC_MSG_NOTICE([ats2-quicksorts was requested and was found. It will be supported.])],
+    [AC_MSG_ERROR([ats2-quicksorts not found; consider --with-ats2-quicksorts=no])])
+  PKG_CHECK_VAR([QUICKSORTS_PATSOPTFLAGS],[ats2-quicksorts],[PATSOPTFLAGS])
 fi
 
 # Use Boehm GC for tests, if it is present.
@@ -156,6 +173,7 @@ fi
 AM_CONDITIONAL([ENABLE_EXRAT],[test x"${enable_exrat}" = xyes])
 
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_TIMSORT=${with_ats2_timsort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_QUICKSORTS=${with_ats2_quicksorts}"
 
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
@@ -169,6 +187,12 @@ if test x"${with_ats2_timsort}" = xyes; then
   PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }\$(TIMSORT_PATSOPTFLAGS)"
   CFLAGS="${CFLAGS}${CFLAGS+ }\$(TIMSORT_CFLAGS)"
   LIBS="${LIBS}${LIBS+ }\$(TIMSORT_LIBS)"
+fi
+
+if test x"${with_ats2_quicksorts}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }\$(QUICKSORTS_PATSOPTFLAGS)"
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(QUICKSORTS_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(QUICKSORTS_LIBS)"
 fi
 
 if test x"${enable_exrat}" = xyes; then

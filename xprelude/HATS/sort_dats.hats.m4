@@ -23,6 +23,10 @@ staload _ = "xprelude/DATS/sort.dats"
 m4_if(WITH_TIMSORT,`yes',
 `#include "timsort/HATS/array-timsort.hats"
 ')dnl
+m4_if(WITH_QUICKSORTS,`yes',
+`#include "quicksorts/HATS/unstable-quicksort.hats"
+#include "quicksorts/HATS/stable-quicksort.hats"
+')dnl
 
 #endif (* ATS2_XPRELUDE__SORT_DATS_HATS__HEADER_GUARD__ *)
 dnl

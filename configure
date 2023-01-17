@@ -675,6 +675,9 @@ ATS_MEMALLOC_CFLAGS
 ATS_MEMALLOC
 BDWGC_LIBS
 BDWGC_CFLAGS
+QUICKSORTS_PATSOPTFLAGS
+QUICKSORTS_LIBS
+QUICKSORTS_CFLAGS
 TIMSORT_PATSOPTFLAGS
 TIMSORT_LIBS
 TIMSORT_CFLAGS
@@ -854,6 +857,7 @@ with_sysroot
 enable_libtool_lock
 enable_exrat
 with_ats2_timsort
+with_ats2_quicksorts
 enable_cross_guesses
 with_gcov
 enable_code_coverage
@@ -885,6 +889,9 @@ GMP_LIBS
 TIMSORT_CFLAGS
 TIMSORT_LIBS
 TIMSORT_PATSOPTFLAGS
+QUICKSORTS_CFLAGS
+QUICKSORTS_LIBS
+QUICKSORTS_PATSOPTFLAGS
 BDWGC_CFLAGS
 BDWGC_LIBS
 GNU_MAKE'
@@ -1547,6 +1554,7 @@ Optional Packages:
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
   --with-ats2-timsort     include support for ats2-timsort [default=yes]
+  --with-ats2-quicksorts  include support for ats2-quicksorts [default=yes]
   --with-gcov=GCOV        use given GCOV for coverage (GCOV=gcov).
   --with-pkgconfigdir     pkg-config installation directory
                           ['${libdir}/pkgconfig']
@@ -1585,6 +1593,12 @@ Some influential environment variables:
               linker flags for TIMSORT, overriding pkg-config
   TIMSORT_PATSOPTFLAGS
               value of PATSOPTFLAGS for ats2-timsort, overriding pkg-config
+  QUICKSORTS_CFLAGS
+              C compiler flags for QUICKSORTS, overriding pkg-config
+  QUICKSORTS_LIBS
+              linker flags for QUICKSORTS, overriding pkg-config
+  QUICKSORTS_PATSOPTFLAGS
+              value of PATSOPTFLAGS for ats2-quicksorts, overriding pkg-config
   BDWGC_CFLAGS
               C compiler flags for BDWGC, overriding pkg-config
   BDWGC_LIBS  linker flags for BDWGC, overriding pkg-config
@@ -13426,6 +13440,19 @@ if test x"${with_ats2_timsort}" != xyes && test x"${with_ats2_timsort}" != xno; 
   as_fn_error $? "please specify --with-ats2-timsort=yes or --with-ats2-timsort=no" "$LINENO" 5
 fi
 
+
+# Check whether --with-ats2-quicksorts was given.
+if test ${with_ats2_quicksorts+y}
+then :
+  withval=$with_ats2_quicksorts;
+else $as_nop
+  with_ats2_quicksorts=yes
+fi
+
+if test x"${with_ats2_quicksorts}" != xyes && test x"${with_ats2_quicksorts}" != xno; then
+  as_fn_error $? "please specify --with-ats2-quicksorts=yes or --with-ats2-quicksorts=no" "$LINENO" 5
+fi
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -20034,7 +20061,8 @@ else
 	TIMSORT_LIBS=$pkg_cv_TIMSORT_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: ats2-timsort was requested and was found. It will be supported." >&5
+printf "%s\n" "$as_me: ats2-timsort was requested and was found. It will be supported." >&6;}
 fi
 
 if test -n "$TIMSORT_PATSOPTFLAGS"; then
@@ -20057,6 +20085,105 @@ fi
 TIMSORT_PATSOPTFLAGS=$pkg_cv_TIMSORT_PATSOPTFLAGS
 
 if test "x$TIMSORT_PATSOPTFLAGS" = x""
+then :
+
+fi
+fi
+
+if test x"${with_ats2_quicksorts}" = xyes; then
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QUICKSORTS" >&5
+printf %s "checking for QUICKSORTS... " >&6; }
+
+if test -n "$QUICKSORTS_CFLAGS"; then
+    pkg_cv_QUICKSORTS_CFLAGS="$QUICKSORTS_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-quicksorts\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-quicksorts") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QUICKSORTS_CFLAGS=`$PKG_CONFIG --cflags "ats2-quicksorts" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$QUICKSORTS_LIBS"; then
+    pkg_cv_QUICKSORTS_LIBS="$QUICKSORTS_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-quicksorts\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-quicksorts") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QUICKSORTS_LIBS=`$PKG_CONFIG --libs "ats2-quicksorts" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        QUICKSORTS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "ats2-quicksorts" 2>&1`
+        else
+	        QUICKSORTS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "ats2-quicksorts" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$QUICKSORTS_PKG_ERRORS" >&5
+
+	as_fn_error $? "ats2-quicksorts not found; consider --with-ats2-quicksorts=no" "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "ats2-quicksorts not found; consider --with-ats2-quicksorts=no" "$LINENO" 5
+else
+	QUICKSORTS_CFLAGS=$pkg_cv_QUICKSORTS_CFLAGS
+	QUICKSORTS_LIBS=$pkg_cv_QUICKSORTS_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: ats2-quicksorts was requested and was found. It will be supported." >&5
+printf "%s\n" "$as_me: ats2-quicksorts was requested and was found. It will be supported." >&6;}
+fi
+
+if test -n "$QUICKSORTS_PATSOPTFLAGS"; then
+    pkg_cv_QUICKSORTS_PATSOPTFLAGS="$QUICKSORTS_PATSOPTFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ats2-quicksorts\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ats2-quicksorts") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QUICKSORTS_PATSOPTFLAGS=`$PKG_CONFIG --variable="PATSOPTFLAGS" "ats2-quicksorts" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+QUICKSORTS_PATSOPTFLAGS=$pkg_cv_QUICKSORTS_PATSOPTFLAGS
+
+if test "x$QUICKSORTS_PATSOPTFLAGS" = x""
 then :
 
 fi
@@ -20179,6 +20306,7 @@ fi
 
 
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_TIMSORT=${with_ats2_timsort}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_QUICKSORTS=${with_ats2_quicksorts}"
 
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
@@ -20192,6 +20320,12 @@ if test x"${with_ats2_timsort}" = xyes; then
   PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }\$(TIMSORT_PATSOPTFLAGS)"
   CFLAGS="${CFLAGS}${CFLAGS+ }\$(TIMSORT_CFLAGS)"
   LIBS="${LIBS}${LIBS+ }\$(TIMSORT_LIBS)"
+fi
+
+if test x"${with_ats2_quicksorts}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }\$(QUICKSORTS_PATSOPTFLAGS)"
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(QUICKSORTS_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(QUICKSORTS_LIBS)"
 fi
 
 if test x"${enable_exrat}" = xyes; then

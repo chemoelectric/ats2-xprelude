@@ -23,6 +23,10 @@ staload "xprelude/SATS/sort.sats"
 m4_if(WITH_TIMSORT,`yes',
 `staload "timsort/SATS/array-timsort.sats"
 ')dnl
+m4_if(WITH_QUICKSORTS,`yes',
+`staload "quicksorts/SATS/unstable-quicksort.sats"
+staload "quicksorts/SATS/stable-quicksort.sats"
+')dnl
 
 #endif (* ATS2_XPRELUDE__SORT_SATS_HATS__HEADER_GUARD__ *)
 dnl
