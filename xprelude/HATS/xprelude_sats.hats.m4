@@ -19,7 +19,15 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 (* Extensions to (and bug fixes for) the prelude. *)
 
 (* You might use this include file, if you do not need to assign names
-   to the included SATS files. *)
+   to the included SATS files.
+
+   However, in the case of these particular SATS files, you probably
+   DO want to include them anonymously. They are overlays for the
+   prelude. *)
 
 staload "xprelude/SATS/integer.sats"
 staload "xprelude/SATS/float.sats"
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:
