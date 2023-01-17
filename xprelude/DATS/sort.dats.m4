@@ -44,54 +44,80 @@ m4_if(WITH_TIMSORT,`yes',
 
 (*------------------------------------------------------------------*)
 
+#undef ARRAY_SORT
+#undef ARRAY_STABLE_SORT
+#undef LIST_SORT
+#undef LIST_STABLE_SORT
+
 #define DEFAULT_SORT 0
 #define PRELUDE_SORT 1
 #define TIMSORT 2
 
-#ifndef XPRELUDE_PRELUDE_SORT #then
-  #define XPRELUDE_PRELUDE_SORT 0
-#endif
-#ifndef XPRELUDE_TIMSORT #then
-  #define XPRELUDE_TIMSORT 0
+#ifndef XPRELUDE_SORT #then
+  #define XPRELUDE_SORT DEFAULT_SORT
 #endif
 
-#if XPRELUDE_PRELUDE_SORT #then
-  (* Force all sort implementations to be from the prelude. *)
-  #define XPRELUDE_ARRAY_SORT PRELUDE_SORT
-  #define XPRELUDE_ARRAY_STABLE_SORT PRELUDE_SORT
-  #define XPRELUDE_LIST_SORT PRELUDE_SORT
-  #define XPRELUDE_LIST_STABLE_SORT PRELUDE_SORT
-#elif XPRELUDE_TIMSORT #then
-  (* Force all sort implementations to be from ats2-timsort. *)
-  #define XPRELUDE_ARRAY_SORT TIMSORT
-  #define XPRELUDE_ARRAY_STABLE_SORT TIMSORT
-  #define XPRELUDE_LIST_SORT TIMSORT
-  #define XPRELUDE_LIST_STABLE_SORT TIMSORT
+#ifdef XPRELUDE_ARRAY_SORT
+  #define ARRAY_SORT XPRELUDE_ARRAY_SORT
+#endif
+#ifdef XPRELUDE_ARRAY_STABLE_SORT
+  #define ARRAY_STABLE_SORT XPRELUDE_ARRAY_STABLE_SORT
+#endif
+#ifdef XPRELUDE_LIST_SORT
+  #define LIST_SORT XPRELUDE_LIST_SORT
+#endif
+#ifdef XPRELUDE_LIST_STABLE_SORT
+  #define LIST_STABLE_SORT XPRELUDE_LIST_STABLE_SORT
 #endif
 
-#ifndef XPRELUDE_ARRAY_SORT #then
-  #define XPRELUDE_ARRAY_SORT DEFAULT_SORT
+#if XPRELUDE_SORT = 1 #then
+  (* Force all unset sort implementations to be from the prelude. *)
+  #ifndef ARRAY_SORT
+    #define ARRAY_SORT PRELUDE_SORT
+  #endif
+  #ifndef ARRAY_STABLE_SORT
+    #define ARRAY_STABLE_SORT PRELUDE_SORT
+  #endif
+  #ifndef LIST_SORT
+    #define LIST_SORT PRELUDE_SORT
+  #endif
+  #ifndef LIST_STABLE_SORT
+    #define LIST_STABLE_SORT PRELUDE_SORT
+  #endif
+#elif XPRELUDE_SORT = 2 #then
+  (* Force all unset sort implementations to be from ats2-timsort. *)
+  #ifndef ARRAY_SORT
+    #define ARRAY_SORT TIMSORT
+  #endif
+  #ifndef ARRAY_STABLE_SORT
+    #define ARRAY_STABLE_SORT TIMSORT
+  #endif
+  #ifndef LIST_SORT
+    #define LIST_SORT TIMSORT
+  #endif
+  #ifndef LIST_STABLE_SORT
+    #define LIST_STABLE_SORT TIMSORT
+  #endif
 #endif
 
-#ifndef XPRELUDE_ARRAY_STABLE_SORT #then
-  #define XPRELUDE_ARRAY_STABLE_SORT DEFAULT_SORT
+(* Anything still unset gets set to the default. *)
+#ifndef ARRAY_SORT #then
+  #define ARRAY_SORT DEFAULT_SORT
 #endif
-
-#ifndef XPRELUDE_LIST_SORT #then
-  #define XPRELUDE_LIST_SORT DEFAULT_SORT
+#ifndef ARRAY_STABLE_SORT #then
+  #define ARRAY_STABLE_SORT DEFAULT_SORT
 #endif
-
-#ifndef XPRELUDE_LIST_STABLE_SORT #then
-  #define XPRELUDE_LIST_STABLE_SORT DEFAULT_SORT
+#ifndef LIST_SORT #then
+  #define LIST_SORT DEFAULT_SORT
 #endif
-
-#define ARRAY_SORT XPRELUDE_ARRAY_SORT
-#define ARRAY_STABLE_SORT XPRELUDE_ARRAY_STABLE_SORT
-#define LIST_SORT XPRELUDE_LIST_SORT
-#define LIST_STABLE_SORT XPRELUDE_LIST_STABLE_SORT
+#ifndef LIST_STABLE_SORT #then
+  #define LIST_STABLE_SORT DEFAULT_SORT
+#endif
 
 m4_if(WITH_TIMSORT,`no',
 `
+(* This package was built without support for timsort, so override
+   requests for timsort. *)
 #if ARRAY_SORT = TIMSORT #then
   #define ARRAY_SORT DEFAULT_SORT
 #endif
@@ -108,6 +134,7 @@ m4_if(WITH_TIMSORT,`no',
 
 m4_if(WITH_TIMSORT,`yes',
 `
+(* Default to timsort. *)
 #if ARRAY_SORT = DEFAULT_SORT #then
   #define ARRAY_SORT TIMSORT
 #endif
@@ -121,6 +148,7 @@ m4_if(WITH_TIMSORT,`yes',
   #define LIST_STABLE_SORT TIMSORT
 #endif
 ',`
+(* Default to sorting based on the prelude. *)
 #if ARRAY_SORT = DEFAULT_SORT #then
   #define ARRAY_SORT PRELUDE_SORT
 #endif
@@ -180,12 +208,12 @@ array_sort (arr, n) =
   let
     #if ARRAY_SORT = PRELUDE_SORT #then
       #if VERBOSE_XPRELUDE #then
-        #print "xprelude: array_sort calls array_quicksort\n"
+        #print "xprelude: array_sort calls array_quicksort from the prelude\n"
       #endif
       val () = _array_sort__array_quicksort<a> (arr, n)
     #elif ARRAY_SORT = TIMSORT #then
       #if VERBOSE_XPRELUDE #then
-        #print "xprelude: array_sort calls array_timsort\n"
+        #print "xprelude: array_sort calls array_timsort from ats2-timsort\n"
       #endif
       val () = _array_sort__array_timsort<a> (arr, n)
     #endif
@@ -233,12 +261,12 @@ array_stable_sort (arr, n) =
   let
     #if ARRAY_STABLE_SORT = PRELUDE_SORT #then
       #if VERBOSE_XPRELUDE #then
-        #print "xprelude: array_stable_sort calls list_vt_mergesort\n"
+        #print "xprelude: array_stable_sort calls list_vt_mergesort from the prelude\n"
       #endif
       val () = _array_stable_sort__list_vt_mergesort<a> (arr, n)
     #elif ARRAY_STABLE_SORT = TIMSORT #then
       #if VERBOSE_XPRELUDE #then
-        #print "xprelude: array_stable_sort calls array_timsort\n"
+        #print "xprelude: array_stable_sort calls array_timsort from ats2-timsort\n"
       #endif
       val () = _array_stable_sort__array_timsort<a> (arr, n)
     #endif
