@@ -85,7 +85,11 @@ fi
 
 AC_ARG_ENABLE([default-sorts],
   [AS_HELP_STRING([--enable-default-sorts=N,N,N,N],
-      [enable the given sorts as defaults [default=1,1,1,1]])],
+      [enable the given sorts as defaults;
+       order is array sort, array stable sort,
+       list sort, list stable sort;
+       choices are 1=prelude, 2=ats2-timsort, 3=ats2-quicksorts
+       [default=1,1,1,1]])],
   [],
   [enable_default_sorts='1,1,1,1'])
 
@@ -201,7 +205,7 @@ Therefore you cannot have a default sort of 3.])
     fi
     ;;
   * )
-    AC_MSG_ERROR(["@S|@{$1}" is not a valid default sort. \
+    AC_MSG_ERROR([\""@S|@{$1}"\" is not a valid default sort. \
 Valid default sorts are 1, 2, and 3.])
     ;;
 esac])

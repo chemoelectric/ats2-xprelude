@@ -1540,7 +1540,10 @@ Optional Features:
   --enable-exrat          enable garbage-collected exact rational types;
                           requires https://gmplib.org/ [default=yes]
   --enable-default-sorts=N,N,N,N
-                          enable the given sorts as defaults [default=1,1,1,1]
+                          enable the given sorts as defaults; order is array
+                          sort, array stable sort, list sort, list stable
+                          sort; choices are 1=prelude, 2=ats2-timsort,
+                          3=ats2-quicksorts [default=1,1,1,1]
   --enable-cross-guesses={conservative|risky}
                           specify policy for cross-compilation guesses
   --enable-code-coverage  Whether to enable code coverage support
@@ -20334,7 +20337,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\"${default_array_sort}\" is not a valid default sort. \
+    as_fn_error $? "\""${default_array_sort}"\" is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac
@@ -20355,7 +20358,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\"${default_array_stable_sort}\" is not a valid default sort. \
+    as_fn_error $? "\""${default_array_stable_sort}"\" is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac
@@ -20376,7 +20379,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\"${default_list_sort}\" is not a valid default sort. \
+    as_fn_error $? "\""${default_list_sort}"\" is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac
@@ -20397,7 +20400,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\"${default_list_stable_sort}\" is not a valid default sort. \
+    as_fn_error $? "\""${default_list_stable_sort}"\" is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac
