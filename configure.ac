@@ -83,6 +83,12 @@ if test x"${with_ats2_quicksorts}" != xyes && test x"${with_ats2_quicksorts}" !=
   AC_MSG_ERROR([please specify --with-ats2-quicksorts=yes or --with-ats2-quicksorts=no])
 fi
 
+AC_ARG_ENABLE([default-sorts],
+  [AS_HELP_STRING([--enable-default-sorts=N,N,N,N],
+      [enable the given sorts as defaults [default=1,1,1,1]])],
+  [],
+  [enable_default_sorts='1,1,1,1'])
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -169,11 +175,52 @@ fi
 # Checks for library functions.
 
 #--------------------------------------------------------------------------
+#
+# Extract the default sort numbers, and check that they are sensible.
+
+default_array_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $1}'`
+default_array_stable_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $2}'`
+default_list_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $3}'`
+default_list_stable_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $4}'`
+
+m4_define([check_default_sort],
+[case "@S|@{$1}" in
+  1 )
+    :
+    ;;
+  2 )
+    if test x"${with_ats2_timsort}" = xno; then
+      AC_MSG_ERROR([This package is configured without ats2-timsort. \
+Therefore you cannot have a default sort of 2.])
+    fi
+    ;;
+  3 )
+    if test x"${with_ats2_quicksorts}" = xno; then
+      AC_MSG_ERROR([This package is configured without ats2-quicksorts. \
+Therefore you cannot have a default sort of 3.])
+    fi
+    ;;
+  * )
+    AC_MSG_ERROR(["@S|@{$1}" is not a valid default sort. \
+Valid default sorts are 1, 2, and 3.])
+    ;;
+esac])
+
+check_default_sort([default_array_sort])
+check_default_sort([default_array_stable_sort])
+check_default_sort([default_list_sort])
+check_default_sort([default_list_stable_sort])
+
+#--------------------------------------------------------------------------
 
 AM_CONDITIONAL([ENABLE_EXRAT],[test x"${enable_exrat}" = xyes])
 
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_TIMSORT=${with_ats2_timsort}"
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_QUICKSORTS=${with_ats2_quicksorts}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_ARRAY_SORT=\"${default_array_sort}\""
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_ARRAY_STABLE_SORT=\"${default_array_stable_sort}\""
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_LIST_SORT=\"${default_list_sort}\""
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_LIST_STABLE_SORT=\"${default_list_stable_sort}\""
 
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"

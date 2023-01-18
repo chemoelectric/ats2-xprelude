@@ -858,6 +858,7 @@ enable_libtool_lock
 enable_exrat
 with_ats2_timsort
 with_ats2_quicksorts
+enable_default_sorts
 enable_cross_guesses
 with_gcov
 enable_code_coverage
@@ -1538,6 +1539,8 @@ Optional Features:
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --enable-exrat          enable garbage-collected exact rational types;
                           requires https://gmplib.org/ [default=yes]
+  --enable-default-sorts=N,N,N,N
+                          enable the given sorts as defaults [default=1,1,1,1]
   --enable-cross-guesses={conservative|risky}
                           specify policy for cross-compilation guesses
   --enable-code-coverage  Whether to enable code coverage support
@@ -13453,6 +13456,15 @@ if test x"${with_ats2_quicksorts}" != xyes && test x"${with_ats2_quicksorts}" !=
   as_fn_error $? "please specify --with-ats2-quicksorts=yes or --with-ats2-quicksorts=no" "$LINENO" 5
 fi
 
+# Check whether --enable-default-sorts was given.
+if test ${enable_default_sorts+y}
+then :
+  enableval=$enable_default_sorts;
+else $as_nop
+  enable_default_sorts='1,1,1,1'
+fi
+
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -20295,6 +20307,102 @@ fi
 # Checks for library functions.
 
 #--------------------------------------------------------------------------
+#
+# Extract the default sort numbers, and check that they are sensible.
+
+default_array_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $1}'`
+default_array_stable_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $2}'`
+default_list_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $3}'`
+default_list_stable_sort=`printf "%s" "${enable_default_sorts}" | ${AWK} -F ',' '{print $4}'`
+
+
+
+case "${default_array_sort}" in
+  1 )
+    :
+    ;;
+  2 )
+    if test x"${with_ats2_timsort}" = xno; then
+      as_fn_error $? "This package is configured without ats2-timsort. \
+Therefore you cannot have a default sort of 2." "$LINENO" 5
+    fi
+    ;;
+  3 )
+    if test x"${with_ats2_quicksorts}" = xno; then
+      as_fn_error $? "This package is configured without ats2-quicksorts. \
+Therefore you cannot have a default sort of 3." "$LINENO" 5
+    fi
+    ;;
+  * )
+    as_fn_error $? "\"${default_array_sort}\" is not a valid default sort. \
+Valid default sorts are 1, 2, and 3." "$LINENO" 5
+    ;;
+esac
+case "${default_array_stable_sort}" in
+  1 )
+    :
+    ;;
+  2 )
+    if test x"${with_ats2_timsort}" = xno; then
+      as_fn_error $? "This package is configured without ats2-timsort. \
+Therefore you cannot have a default sort of 2." "$LINENO" 5
+    fi
+    ;;
+  3 )
+    if test x"${with_ats2_quicksorts}" = xno; then
+      as_fn_error $? "This package is configured without ats2-quicksorts. \
+Therefore you cannot have a default sort of 3." "$LINENO" 5
+    fi
+    ;;
+  * )
+    as_fn_error $? "\"${default_array_stable_sort}\" is not a valid default sort. \
+Valid default sorts are 1, 2, and 3." "$LINENO" 5
+    ;;
+esac
+case "${default_list_sort}" in
+  1 )
+    :
+    ;;
+  2 )
+    if test x"${with_ats2_timsort}" = xno; then
+      as_fn_error $? "This package is configured without ats2-timsort. \
+Therefore you cannot have a default sort of 2." "$LINENO" 5
+    fi
+    ;;
+  3 )
+    if test x"${with_ats2_quicksorts}" = xno; then
+      as_fn_error $? "This package is configured without ats2-quicksorts. \
+Therefore you cannot have a default sort of 3." "$LINENO" 5
+    fi
+    ;;
+  * )
+    as_fn_error $? "\"${default_list_sort}\" is not a valid default sort. \
+Valid default sorts are 1, 2, and 3." "$LINENO" 5
+    ;;
+esac
+case "${default_list_stable_sort}" in
+  1 )
+    :
+    ;;
+  2 )
+    if test x"${with_ats2_timsort}" = xno; then
+      as_fn_error $? "This package is configured without ats2-timsort. \
+Therefore you cannot have a default sort of 2." "$LINENO" 5
+    fi
+    ;;
+  3 )
+    if test x"${with_ats2_quicksorts}" = xno; then
+      as_fn_error $? "This package is configured without ats2-quicksorts. \
+Therefore you cannot have a default sort of 3." "$LINENO" 5
+    fi
+    ;;
+  * )
+    as_fn_error $? "\"${default_list_stable_sort}\" is not a valid default sort. \
+Valid default sorts are 1, 2, and 3." "$LINENO" 5
+    ;;
+esac
+
+#--------------------------------------------------------------------------
 
  if test x"${enable_exrat}" = xyes; then
   ENABLE_EXRAT_TRUE=
@@ -20307,6 +20415,10 @@ fi
 
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_TIMSORT=${with_ats2_timsort}"
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_QUICKSORTS=${with_ats2_quicksorts}"
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_ARRAY_SORT=\"${default_array_sort}\""
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_ARRAY_STABLE_SORT=\"${default_array_stable_sort}\""
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_LIST_SORT=\"${default_list_sort}\""
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_LIST_STABLE_SORT=\"${default_list_stable_sort}\""
 
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"

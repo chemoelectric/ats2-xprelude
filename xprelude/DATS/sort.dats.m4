@@ -177,40 +177,20 @@ m4_if(WITH_QUICKSORTS,`no',
 #endif
 ')dnl
 
-m4_if(WITH_TIMSORT,`yes',
-`
-(* Default to timsort. *)
+(* If anything is left as default, fill it in according to the
+   configure options, which we shall assume make sense. *)
 #if ARRAY_SORT = DEFAULT_SORT #then
-  #define ARRAY_SORT TIMSORT
+  #define ARRAY_SORT DEFAULT_ARRAY_SORT
 #endif
 #if ARRAY_STABLE_SORT = DEFAULT_SORT #then
-  #define ARRAY_STABLE_SORT TIMSORT
+  #define ARRAY_STABLE_SORT DEFAULT_ARRAY_STABLE_SORT
 #endif
 #if LIST_SORT = DEFAULT_SORT #then
-  #define LIST_SORT TIMSORT
+  #define LIST_SORT DEFAULT_LIST_SORT
 #endif
 #if LIST_STABLE_SORT = DEFAULT_SORT #then
-  #define LIST_STABLE_SORT TIMSORT
+  #define LIST_STABLE_SORT DEFAULT_LIST_STABLE_SORT
 #endif
-',`
-(* Default to sorting based on ats2-quicksorts and the prelude. *)
-#if ARRAY_SORT = DEFAULT_SORT #then
-m4_if(`WITH_QUICKSORTS',`yes',
-`  #define ARRAY_SORT QUICKSORTS',
-`  #define ARRAY_SORT PRELUDE_SORT')
-#endif
-#if ARRAY_STABLE_SORT = DEFAULT_SORT #then
-m4_if(`WITH_QUICKSORTS',`yes',
-`  #define ARRAY_STABLE_SORT QUICKSORTS',
-`  #define ARRAY_STABLE_SORT PRELUDE_SORT')
-#endif
-#if LIST_SORT = DEFAULT_SORT #then
-  #define LIST_SORT PRELUDE_SORT
-#endif
-#if LIST_STABLE_SORT = DEFAULT_SORT #then
-  #define LIST_STABLE_SORT PRELUDE_SORT
-#endif
-')dnl
 
 #define LIST_VT_SORT LIST_SORT
 #define LIST_VT_STABLE_SORT LIST_STABLE_SORT
