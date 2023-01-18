@@ -530,6 +530,81 @@ test55 () : void =
     in
     end
 
+  fn
+  test135 () : void =
+    let
+      (* Do list_vt_stable_sort derivatives work? *)
+
+      val lst1 = $list (21, 22, 31, 11, 32, 12, 13, 23, 14, 33)
+      val expected = $list (11, 12, 13, 14, 21, 22, 23, 31, 32, 33)
+
+      macdef cmp (x, y) = compare (,(x) / 10, ,(y) / 10)
+
+      val lst1a = list_copy lst1
+      val lst2 = list_vt2t (list_vt_stable_sort_fun<int> (lst1a, lam (x, y) => cmp (x, y)))
+      val- true = lst2 = expected
+
+      val lst1a = list_copy lst1
+      val closure = lam (x : &int, y : &int) : int =<cloref> cmp (x, y)
+      val lst2 = list_vt2t (list_vt_stable_sort_cloref<int> (lst1a, closure))
+      val- true = lst2 = expected
+
+      val lst1a = list_copy lst1
+      val closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
+      val lst2 = list_vt2t (list_vt_stable_sort_cloptr<int> (lst1a, closure))
+      val- true = lst2 = expected
+      val () = cloptr_free ($UN.castvwtp0 closure)
+    in
+    end
+
+  fn
+  test140 () : void =
+    let
+      (* Do list_sort derivatives work? *)
+
+      val lst1 = $list (2, 5, 3, 4, 6, 1, 9, 8, 7, 0)
+      val expected = $list (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+      macdef cmp (x, y) = compare (,(x), ,(y))
+
+      val lst2 = list_vt2t (list_sort_fun<int> (lst1, lam (x, y) => cmp (x, y)))
+      val- true = lst2 = expected
+
+      val closure = lam (x : int, y : int) : int =<cloref> cmp (x, y)
+      val lst2 = list_vt2t (list_sort_cloref<int> (lst1, closure))
+      val- true = lst2 = expected
+
+      val closure = lam (x : int, y : int) : int =<cloptr> cmp (x, y)
+      val lst2 = list_vt2t (list_sort_cloptr<int> (lst1, closure))
+      val- true = lst2 = expected
+      val () = cloptr_free ($UN.castvwtp0 closure)
+    in
+    end
+
+fn
+test145 () : void =
+  let
+      (* Do list_stable_sort derivatives work? *)
+
+      val lst1 = $list (21, 22, 31, 11, 32, 12, 13, 23, 14, 33)
+      val expected = $list (11, 12, 13, 14, 21, 22, 23, 31, 32, 33)
+
+      macdef cmp (x, y) = compare (,(x) / 10, ,(y) / 10)
+
+      val lst2 = list_vt2t (list_stable_sort_fun<int> (lst1, lam (x, y) => cmp (x, y)))
+      val- true = lst2 = expected
+
+      val closure = lam (x : int, y : int) : int =<cloref> cmp (x, y)
+      val lst2 = list_vt2t (list_stable_sort_cloref<int> (lst1, closure))
+      val- true = lst2 = expected
+
+      val closure = lam (x : int, y : int) : int =<cloptr> cmp (x, y)
+      val lst2 = list_vt2t (list_stable_sort_cloptr<int> (lst1, closure))
+      val- true = lst2 = expected
+      val () = cloptr_free ($UN.castvwtp0 closure)
+  in
+  end
+
 implement
 main () =
   begin
@@ -548,6 +623,8 @@ main () =
     test120 ();
     test125 ();
     test130 ();
-//    test135 ();
+    test135 ();
+    test140 ();
+    test145 ();
     0
   end

@@ -889,6 +889,30 @@ implement {a}
 list_vt_`'STAB`'sort_cloptr (lst, cmp) =
   list_vt_`'STAB`'sort_cloref (lst, $UN.castvwtp1 cmp)
 
+implement {a}
+list_`'STAB`'sort_fun (lst, cmp) =
+  let
+    implement
+    list_sort$cmp<a> (x, y) =
+      cmp (x, y)
+  in
+    list_`'STAB`'sort<a> lst
+  end
+
+implement {a}
+list_`'STAB`'sort_cloref (lst, cmp) =
+  let
+    implement
+    list_sort$cmp<a> (x, y) =
+      cmp (x, y)
+  in
+    list_`'STAB`'sort<a> lst
+  end
+
+implement {a}
+list_`'STAB`'sort_cloptr (lst, cmp) =
+  list_`'STAB`'sort_cloref (lst, $UN.castvwtp1 cmp)
+
 ')dnl
 (*------------------------------------------------------------------*)
 dnl

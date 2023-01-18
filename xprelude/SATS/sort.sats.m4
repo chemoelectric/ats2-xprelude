@@ -218,20 +218,17 @@ list_vt_`'STAB`'sort_cloptr :
    !((&a, &a) -<cloptr> int)) -< !wrt >
     list_vt (a, n)
 
-')dnl
-
-m4_foreachq(`STAB',``',`stable_'',
-`fn {a : t@ype}
+fn {a : t@ype}
 list_`'STAB`'sort_fun :
   {n : int}
-  (list_vt (a, n),
+  (list (a, n),
    (a, a) -<> int) -< !wrt >
     list_vt (a, n)
 
 fn {a : t@ype}
 list_`'STAB`'sort_cloref :
   {n : int}
-  (list_vt (a, n),
+  (list (a, n),
    (a, a) -<cloref> int) -< !wrt >
     list_vt (a, n)
 
