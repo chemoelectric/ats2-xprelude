@@ -78,7 +78,7 @@ array_`'STAB`'sort_cloptr :
   {n : int}
   (&array (INV(a), n) >> array (a, n),
    size_t n,
-   &((&a, &a) -<cloptr> int)) -< !wrt >
+   !((&a, &a) -<cloptr> int)) -< !wrt >
     void
 
 ')dnl
@@ -106,7 +106,7 @@ arrayptr_`'STAB`'sort_cloptr :
   {n : int}
   (!arrayptr (a, n) >> _,
    size_t n,
-   &((&a, &a) -<cloptr> int)) -< !wrt >
+   !((&a, &a) -<cloptr> int)) -< !wrt >
     void
 
 ')dnl
@@ -134,7 +134,7 @@ arrayref_`'STAB`'sort_cloptr :
   {n : int}
   (arrayref (a, n),
    size_t n,
-   &((&a, &a) -<cloptr> int)) -< !refwrt >
+   !((&a, &a) -<cloptr> int)) -< !refwrt >
     void
 
 ')dnl
@@ -159,7 +159,7 @@ fn {a : vt@ype}
 arrszref_`'STAB`'sort_cloptr :
   {n : int}
   (arrszref a,
-   &((&a, &a) -<cloptr> int)) -< !refwrt >
+   !((&a, &a) -<cloptr> int)) -< !refwrt >
     void
 ')dnl
 
@@ -190,7 +190,57 @@ m4_foreachq(`STAB',``',`stable_'',
 `fn {a : t@ype}
 list_`'STAB`'sort :
   {n : int}
-  (list (INV(a), n)) -< !wrt > list (a, n)
+  (list (INV(a), n)) -< !wrt > list_vt (a, n)
+
+')dnl
+(*------------------------------------------------------------------*)
+(* List sorting with functions or closures for the comparison. *)
+
+m4_foreachq(`STAB',``',`stable_'',
+`fn {a : vt@ype}
+list_vt_`'STAB`'sort_fun :
+  {n : int}
+  (list_vt (a, n),
+   (&a, &a) -<> int) -< !wrt >
+    list_vt (a, n)
+
+fn {a : vt@ype}
+list_vt_`'STAB`'sort_cloref :
+  {n : int}
+  (list_vt (a, n),
+   (&a, &a) -<cloref> int) -< !wrt >
+    list_vt (a, n)
+
+fn {a : vt@ype}
+list_vt_`'STAB`'sort_cloptr :
+  {n : int}
+  (list_vt (a, n),
+   !((&a, &a) -<cloptr> int)) -< !wrt >
+    list_vt (a, n)
+
+')dnl
+
+m4_foreachq(`STAB',``',`stable_'',
+`fn {a : t@ype}
+list_`'STAB`'sort_fun :
+  {n : int}
+  (list_vt (a, n),
+   (a, a) -<> int) -< !wrt >
+    list_vt (a, n)
+
+fn {a : t@ype}
+list_`'STAB`'sort_cloref :
+  {n : int}
+  (list_vt (a, n),
+   (a, a) -<cloref> int) -< !wrt >
+    list_vt (a, n)
+
+fn {a : t@ype}
+list_`'STAB`'sort_cloptr :
+  {n : int}
+  (list (a, n),
+   !((a, a) -<cloptr> int)) -< !wrt >
+    list_vt (a, n)
 
 ')dnl
 (*------------------------------------------------------------------*)

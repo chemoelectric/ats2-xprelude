@@ -178,7 +178,7 @@ test20 () : void =
     val- true = lst2 = expected
 
     (* cloptr *)
-    var closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
     val () = array_initize_list<int> (arr, 10, lst1)
     val () = array_sort_cloptr<int> (arr, i2sz 10, closure)
     val lst2 = list_vt2t (array2list (arr, i2sz 10))
@@ -214,7 +214,7 @@ test25 () : void =
     val- true = lst2 = expected
 
     (* cloptr *)
-    var closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
     val () = array_initize_list<int> (arr, 10, lst1)
     val () = array_stable_sort_cloptr<int> (arr, i2sz 10, closure)
     val lst2 = list_vt2t (array2list (arr, i2sz 10))
@@ -254,7 +254,7 @@ test30 () : void =
     val- true = lst2 = expected
     val () = arrayptr_free arr
 
-    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> cmp (x, y)
     val arr = arrayptr_make_list<fixed32p32> (10, lst1)
     val () = arrayptr_sort_cloptr<fixed32p32> (arr, i2sz 10, closure)
     val lst2 = list_vt2t (arrayptr_imake_list<fixed32p32> (arr, i2sz 10))
@@ -293,7 +293,7 @@ test35 () : void =
     val- true = lst2 = expected
     val () = arrayptr_free arr
 
-    var closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
     val arr = arrayptr_make_list<int> (10, lst1)
     val () = arrayptr_stable_sort_cloptr<int> (arr, i2sz 10, closure)
     val lst2 = list_vt2t (arrayptr_imake_list<int> (arr, i2sz 10))
@@ -331,7 +331,7 @@ test40 () : void =
     val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
     val- true = lst2 = expected
 
-    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> cmp (x, y)
     val arr = arrayref_make_list<fixed32p32> (10, lst1)
     val () = arrayref_sort_cloptr<fixed32p32> (arr, i2sz 10, closure)
     val lst2 = arrayref2list<fixed32p32> (arr, i2sz 10)
@@ -366,7 +366,7 @@ test45 () : void =
     val lst2 = arrayref2list<int> (arr, i2sz 10)
     val- true = lst2 = expected
 
-    var closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
     val arr = arrayref_make_list<int> (10, lst1)
     val () = arrayref_stable_sort_cloptr<int> (arr, i2sz 10, closure)
     val lst2 = arrayref2list<int> (arr, i2sz 10)
@@ -403,7 +403,7 @@ test50 () : void =
     val lst2 = arrszref2list<fixed32p32> arr
     val- true = lst2 = expected
 
-    var closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &fixed32p32, y : &fixed32p32) : int =<cloptr> cmp (x, y)
     val arr = arrszref_make_list<fixed32p32> lst1
     val () = arrszref_sort_cloptr<fixed32p32> (arr, closure)
     val lst2 = arrszref2list<fixed32p32> arr
@@ -438,7 +438,7 @@ test55 () : void =
     val lst2 = arrszref2list<int> arr
     val- true = lst2 = expected
 
-    var closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
+    val closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
     val arr = arrszref_make_list<int> lst1
     val () = arrszref_stable_sort_cloptr<int> (arr, closure)
     val lst2 = arrszref2list<int> arr
@@ -470,8 +470,63 @@ test55 () : void =
 
       implement gcompare_ref_ref<int> (x, y) = compare (x / 10, y / 10)
 
-      val lst2 = list_vt2t (list_vt_sort<int> lst1)
+      val lst2 = list_vt2t (list_vt_stable_sort<int> lst1)
       val- true = lst2 = expected
+    in
+    end
+
+  fn
+  test120 () : void =
+    let
+      (* Does list_sort work? *)
+
+      val lst1 = $list (2, 5, 3, 4, 6, 1, 9, 8, 7, 0)
+      val expected = $list (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+      val lst2 = list_vt2t (list_sort<int> lst1)
+      val- true = lst2 = expected
+    in
+    end
+
+  fn
+  test125 () : void =
+    let
+      (* Does list_stable_sort work? *)
+
+      val lst1 = $list (21, 22, 31, 11, 32, 12, 13, 23, 14, 33)
+      val expected = $list (11, 12, 13, 14, 21, 22, 23, 31, 32, 33)
+
+      implement gcompare_val_val<int> (x, y) = compare (x / 10, y / 10)
+
+      val lst2 = list_vt2t (list_stable_sort<int> lst1)
+      val- true = lst2 = expected
+    in
+    end
+
+  fn
+  test130 () : void =
+    let
+      (* Do list_vt_sort derivatives work? *)
+
+      val lst1 = $list (2, 5, 3, 4, 6, 1, 9, 8, 7, 0)
+      val expected = $list (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+      macdef cmp (x, y) = compare (,(x), ,(y))
+
+      val lst1a = list_copy lst1
+      val lst2 = list_vt2t (list_vt_sort_fun<int> (lst1a, lam (x, y) => cmp (x, y)))
+      val- true = lst2 = expected
+
+      val lst1a = list_copy lst1
+      val closure = lam (x : &int, y : &int) : int =<cloref> cmp (x, y)
+      val lst2 = list_vt2t (list_vt_sort_cloref<int> (lst1a, closure))
+      val- true = lst2 = expected
+
+      val lst1a = list_copy lst1
+      val closure = lam (x : &int, y : &int) : int =<cloptr> cmp (x, y)
+      val lst2 = list_vt2t (list_vt_sort_cloptr<int> (lst1a, closure))
+      val- true = lst2 = expected
+      val () = cloptr_free ($UN.castvwtp0 closure)
     in
     end
 
@@ -490,5 +545,9 @@ main () =
     test55 ();
     test110 ();
     test115 ();
+    test120 ();
+    test125 ();
+    test130 ();
+//    test135 ();
     0
   end

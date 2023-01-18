@@ -404,30 +404,7 @@ array_`'STAB`'sort_cloref (arr, n, cmp) =
 
 implement {a}
 array_`'STAB`'sort_cloptr (arr, n, cmp) =
-  let
-    extern castfn
-    make_view :
-      {p : addr}
-      ptr p -<>
-        @(((&a, &a) -<cloptr> int) @ p,
-          ((&a, &a) -<cloptr> int) @ p -<lin,prf> void |
-          ptr p)
-
-    val p_cmp = addr@ cmp
-
-    implement
-    array_sort$cmp<a> (x, y) =
-      let
-        val @(view, consume_view | p) = make_view p_cmp
-        macdef cmp = !p
-        val i = cmp (x, y)
-        prval () = consume_view view
-      in
-        i
-      end
-  in
-    array_`'STAB`'sort<a> (arr, n)
-  end
+  array_`'STAB`'sort_cloref (arr, n, $UN.castvwtp1 cmp)
 
 implement {a}
 arrayptr_`'STAB`'sort (arr, n) =
@@ -867,6 +844,52 @@ list_vt_stable_sort lst =
     retval
   end
 
+(*------------------------------------------------------------------*)
+(* Sorting of non-linear lists. These are done simply by copying the
+   list and sorting the result (which is a list_vt). *)
+
+m4_foreachq(`STAB',``',`stable_'',
+`implement {a}
+list_`'STAB`'sort lst =
+  let
+    implement
+    list_vt_sort$cmp<a> (x, y) =
+      list_sort$cmp<a> (x, y)
+  in
+    list_vt_`'STAB`'sort<a> (list_copy<a> lst)
+  end
+
+')dnl
+(*------------------------------------------------------------------*)
+(* Derivatives of the basic list sorting. *)
+
+m4_foreachq(`STAB',``',`stable_'',
+`
+implement {a}
+list_vt_`'STAB`'sort_fun (lst, cmp) =
+  let
+    implement
+    list_vt_sort$cmp<a> (x, y) =
+      cmp (x, y)
+  in
+    list_vt_`'STAB`'sort<a> lst
+  end
+
+implement {a}
+list_vt_`'STAB`'sort_cloref (lst, cmp) =
+  let
+    implement
+    list_vt_sort$cmp<a> (x, y) =
+      cmp (x, y)
+  in
+    list_vt_`'STAB`'sort<a> lst
+  end
+
+implement {a}
+list_vt_`'STAB`'sort_cloptr (lst, cmp) =
+  list_vt_`'STAB`'sort_cloref (lst, $UN.castvwtp1 cmp)
+
+')dnl
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:
