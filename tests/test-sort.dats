@@ -447,6 +447,34 @@ test55 () : void =
   in
   end
 
+  fn
+  test110 () : void =
+    let
+      (* Does list_vt_sort work? *)
+
+      val lst1 = $list_vt (2, 5, 3, 4, 6, 1, 9, 8, 7, 0)
+      val expected = $list (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+      val lst2 = list_vt2t (list_vt_sort<int> lst1)
+      val- true = lst2 = expected
+    in
+    end
+
+  fn
+  test115 () : void =
+    let
+      (* Does list_vt_stable_sort work? *)
+
+      val lst1 = $list_vt (21, 22, 31, 11, 32, 12, 13, 23, 14, 33)
+      val expected = $list (11, 12, 13, 14, 21, 22, 23, 31, 32, 33)
+
+      implement gcompare_ref_ref<int> (x, y) = compare (x / 10, y / 10)
+
+      val lst2 = list_vt2t (list_vt_sort<int> lst1)
+      val- true = lst2 = expected
+    in
+    end
+
 implement
 main () =
   begin
@@ -460,5 +488,7 @@ main () =
     test45 ();
     test50 ();
     test55 ();
+    test110 ();
+    test115 ();
     0
   end

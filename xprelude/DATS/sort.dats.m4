@@ -53,12 +53,12 @@ staload SQ = "quicksorts/SATS/stable-quicksort.sats"
 
 (*------------------------------------------------------------------*)
 
-(*------------------------------------------------------------------*)
-
 #undef ARRAY_SORT
 #undef ARRAY_STABLE_SORT
 #undef LIST_SORT
+#undef LIST_VT_SORT
 #undef LIST_STABLE_SORT
+#undef LIST_VT_STABLE_SORT
 
 #define DEFAULT_SORT 0
 #define PRELUDE_SORT 1
@@ -212,11 +212,22 @@ m4_if(`WITH_QUICKSORTS',`yes',
 #endif
 ')dnl
 
+#define LIST_VT_SORT LIST_SORT
+#define LIST_VT_STABLE_SORT LIST_STABLE_SORT
+
 (*------------------------------------------------------------------*)
 
 implement {a}
 array_sort$cmp (x, y) =
   gcompare_ref_ref<a> (x, y)
+
+implement {a}
+list_vt_sort$cmp (x, y) =
+  gcompare_ref_ref<a> (x, y)
+
+implement {a}
+list_sort$cmp (x, y) =
+  gcompare_val_val<a> (x, y)
 
 (*------------------------------------------------------------------*)
 (* Array sorting, possibly unstable. *)
@@ -296,15 +307,15 @@ array_sort (arr, n) =
 
 extern fn {a : vt@ype}
 _array_stable_sort__list_vt_mergesort :
-  $d2ctype (array_sort<a>)
+  $d2ctype (array_stable_sort<a>)
 
 extern fn {a : vt@ype}
 _array_stable_sort__array_timsort :
-  $d2ctype (array_sort<a>)
+  $d2ctype (array_stable_sort<a>)
 
 extern fn {a : vt@ype}
 _array_stable_sort__array_stable_quicksort :
-  $d2ctype (array_sort<a>)
+  $d2ctype (array_stable_sort<a>)
 
 implement {a}
 _array_stable_sort__list_vt_mergesort (arr, n) =
@@ -508,6 +519,354 @@ arrszref_`'STAB`'sort_`'CMP (arr, cmp) =
 ')dnl
 
 ')dnl
+(*------------------------------------------------------------------*)
+(* Sorting, possibly unstable, of linear list_vt. *)
+
+extern fn {a : vt@ype}
+_list_vt_sort__list_vt_mergesort :
+  $d2ctype (list_vt_sort<a>)
+
+extern fn {a : vt@ype}
+_list_vt_sort__list_vt_timsort :
+  $d2ctype (list_vt_sort<a>)
+
+extern fn {a : vt@ype}
+_list_vt_sort__array_unstable_quicksort :
+  $d2ctype (list_vt_sort<a>)
+
+implement {a}
+_list_vt_sort__list_vt_mergesort lst =
+  let
+    (* The prelude offers quicksort for lists, but by moving the data
+       into an array, rather than working directly on the list. It
+       seems better to use the mergesort instead. *)
+
+    implement
+    list_vt_mergesort$cmp<a> (x, y) =
+      list_vt_sort$cmp<a> (x, y)
+  in
+    list_vt_mergesort<a> lst
+  end
+
+m4_if(WITH_TIMSORT,`yes',
+`
+implement {a}
+_list_vt_sort__list_vt_timsort lst =
+  let
+    implement
+    $LT.list_vt_timsort$cmp<a> (x, y) =
+      list_vt_sort$cmp<a> (x, y)
+  in
+    $LT.list_vt_timsort<a> lst
+  end
+')dnl
+
+m4_if(WITH_QUICKSORTS,`yes',
+`
+implement {a}
+_list_vt_sort__array_unstable_quicksort lst =
+  let
+    prval () = lemma_list_vt_param lst
+    val n = i2sz (list_vt_length lst)
+    prval [n : int] EQINT () = eqint_make_guint n
+  in
+    if iseqz n then
+      lst
+    else
+      let
+        (* At the time of this writing, there were no list sorts
+           included in ats2-quicksort. So, instead, sort an array of
+           pointers to the nodes. *)
+
+        implement
+        $UQ.array_unstable_quicksort$cmp<ptr> (px, py) =
+          let
+            val lstx = $UN.castvwtp1{List1_vt a} px
+            and lsty = $UN.castvwtp1{List1_vt a} py
+
+            val+ @ list_vt_cons (x, _) = lstx
+            and  @ list_vt_cons (y, _) = lsty
+
+            val cmpval = array_sort$cmp<a> (x, y)
+
+            prval () = fold@ lstx
+            prval () = fold@ lsty
+
+            prval () = $UN.castvwtp0{void} lstx
+            prval () = $UN.castvwtp0{void} lsty
+          in
+            cmpval
+          end
+
+        val @(pf_arr, pfgc_arr | p_arr) = array_ptr_alloc<ptr> n
+        prval [p_arr : addr] EQADDR () = eqaddr_make_ptr p_arr
+
+        fun
+        fill_array_with_pointers_to_list_nodes
+                  {i : nat | i <= n}
+                  .<n - i>.
+                  (pf_lft : array_v (ptr, p_arr, i),
+                   pf_rgt : array_v (ptr?, p_arr + (i * sizeof ptr),
+                                     n - i) |
+                   lst    : !list_vt (a, n - i),
+                   i      : size_t i)
+            :<!wrt> @(array_v (ptr, p_arr, n) | ) =
+          case+ lst of
+          | list_vt_nil () =>
+            let
+              prval () = array_v_unnil pf_rgt
+            in
+              @(pf_lft | )
+            end
+          | @ list_vt_cons (hd, tl) =>
+            let
+              prval @(pf_elem, pf_rgt) = array_v_uncons pf_rgt
+              val p = ptr_add<ptr> (p_arr, i)
+              and elem = $UN.castvwtp1{ptr} lst
+              val () = ptr_set<ptr> (pf_elem | p, elem)
+              prval pf_lft = array_v_extend (pf_lft, pf_elem)
+              val retval =
+                fill_array_with_pointers_to_list_nodes
+                  (pf_lft, pf_rgt | tl, succ i)
+              prval () = fold@ lst
+            in
+              retval
+            end
+
+        fun
+        relink_list_nodes
+                  {i : nat | i <= n}
+                  .<i>.
+                  (arr   : &array (ptr, n),
+                   i     : size_t i,
+                   accum : list_vt (a, n - i))
+            :<!wrt> list_vt (a, n) =
+          if iseqz i then
+            accum
+          else
+            let
+              val i1 = pred i
+              val node = $UN.castvwtp0{List1_vt a} arr[i1]
+              val+ @ list_vt_cons (hd, tl) = node
+              val () =
+                $UN.ptr0_set<list_vt (a, n - i)> (addr@ tl, accum)
+              prval () = fold@ node
+              val node = $UN.castvwtp0{list_vt (a, n - i + 1)} node
+            in
+              relink_list_nodes (arr, i1, node)
+            end
+
+        val @(pf_arr | ) =
+          fill_array_with_pointers_to_list_nodes
+            (array_v_nil (), pf_arr | lst, i2sz 0)
+        val () = $UN.castvwtp0{void} lst
+        val () = $UQ.array_unstable_quicksort<ptr> (!p_arr, n)
+        val retval = relink_list_nodes (!p_arr, n, list_vt_nil ())
+
+        val () = array_ptr_free (pf_arr, pfgc_arr | p_arr)
+      in
+        retval
+      end
+  end
+')dnl
+
+implement {a}
+list_vt_sort lst =
+  let
+    #if LIST_VT_SORT = PRELUDE_SORT #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: list_vt_sort calls list_vt_mergesort from the prelude\n"
+      #endif
+      val retval = _list_vt_sort__list_vt_mergesort<a> lst
+    #elif LIST_VT_SORT = TIMSORT #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: list_vt_sort calls list_vt_timsort from ats2-timsort\n"
+      #endif
+      val retval = _list_vt_sort__list_vt_timsort<a> lst
+    #elif LIST_VT_SORT = QUICKSORTS #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: list_vt_sort calls array_unstable_quicksort from ats2-quicksorts\n"
+      #endif
+      val retval = _list_vt_sort__array_unstable_quicksort<a> lst
+    #endif
+  in
+    retval
+  end
+
+(*------------------------------------------------------------------*)
+(* Stable sorting of linear list_vt. *)
+
+extern fn {a : vt@ype}
+_list_vt_stable_sort__list_vt_mergesort :
+  $d2ctype (list_vt_stable_sort<a>)
+
+extern fn {a : vt@ype}
+_list_vt_stable_sort__list_vt_timsort :
+  $d2ctype (list_vt_stable_sort<a>)
+
+extern fn {a : vt@ype}
+_list_vt_stable_sort__array_stable_quicksort :
+  $d2ctype (list_vt_stable_sort<a>)
+
+implement {a}
+_list_vt_stable_sort__list_vt_mergesort lst =
+  let
+    (* The prelude offers quicksort for lists, but by moving the data
+       into an array, rather than working directly on the list. It
+       seems better to use the mergesort instead. *)
+
+    implement
+    list_vt_mergesort$cmp<a> (x, y) =
+      list_vt_sort$cmp<a> (x, y)
+  in
+    list_vt_mergesort<a> lst
+  end
+
+m4_if(WITH_TIMSORT,`yes',
+`
+implement {a}
+_list_vt_stable_sort__list_vt_timsort lst =
+  let
+    implement
+    $LT.list_vt_timsort$cmp<a> (x, y) =
+      list_vt_sort$cmp<a> (x, y)
+  in
+    $LT.list_vt_timsort<a> lst
+  end
+')dnl
+
+m4_if(WITH_QUICKSORTS,`yes',
+`
+implement {a}
+_list_vt_stable_sort__array_stable_quicksort lst =
+  let
+    prval () = lemma_list_vt_param lst
+    val n = i2sz (list_vt_length lst)
+    prval [n : int] EQINT () = eqint_make_guint n
+  in
+    if iseqz n then
+      lst
+    else
+      let
+        (* At the time of this writing, there were no list sorts
+           included in ats2-quicksort. So, instead, sort an array of
+           pointers to the nodes. *)
+
+        implement
+        $SQ.array_stable_quicksort$cmp<ptr> (px, py) =
+          let
+            val lstx = $UN.castvwtp1{List1_vt a} px
+            and lsty = $UN.castvwtp1{List1_vt a} py
+
+            val+ @ list_vt_cons (x, _) = lstx
+            and  @ list_vt_cons (y, _) = lsty
+
+            val cmpval = array_sort$cmp<a> (x, y)
+
+            prval () = fold@ lstx
+            prval () = fold@ lsty
+
+            prval () = $UN.castvwtp0{void} lstx
+            prval () = $UN.castvwtp0{void} lsty
+          in
+            cmpval
+          end
+
+        val @(pf_arr, pfgc_arr | p_arr) = array_ptr_alloc<ptr> n
+        prval [p_arr : addr] EQADDR () = eqaddr_make_ptr p_arr
+
+        fun
+        fill_array_with_pointers_to_list_nodes
+                  {i : nat | i <= n}
+                  .<n - i>.
+                  (pf_lft : array_v (ptr, p_arr, i),
+                   pf_rgt : array_v (ptr?, p_arr + (i * sizeof ptr),
+                                     n - i) |
+                   lst    : !list_vt (a, n - i),
+                   i      : size_t i)
+            :<!wrt> @(array_v (ptr, p_arr, n) | ) =
+          case+ lst of
+          | list_vt_nil () =>
+            let
+              prval () = array_v_unnil pf_rgt
+            in
+              @(pf_lft | )
+            end
+          | @ list_vt_cons (hd, tl) =>
+            let
+              prval @(pf_elem, pf_rgt) = array_v_uncons pf_rgt
+              val p = ptr_add<ptr> (p_arr, i)
+              and elem = $UN.castvwtp1{ptr} lst
+              val () = ptr_set<ptr> (pf_elem | p, elem)
+              prval pf_lft = array_v_extend (pf_lft, pf_elem)
+              val retval =
+                fill_array_with_pointers_to_list_nodes
+                  (pf_lft, pf_rgt | tl, succ i)
+              prval () = fold@ lst
+            in
+              retval
+            end
+
+        fun
+        relink_list_nodes
+                  {i : nat | i <= n}
+                  .<i>.
+                  (arr   : &array (ptr, n),
+                   i     : size_t i,
+                   accum : list_vt (a, n - i))
+            :<!wrt> list_vt (a, n) =
+          if iseqz i then
+            accum
+          else
+            let
+              val i1 = pred i
+              val node = $UN.castvwtp0{List1_vt a} arr[i1]
+              val+ @ list_vt_cons (hd, tl) = node
+              val () =
+                $UN.ptr0_set<list_vt (a, n - i)> (addr@ tl, accum)
+              prval () = fold@ node
+              val node = $UN.castvwtp0{list_vt (a, n - i + 1)} node
+            in
+              relink_list_nodes (arr, i1, node)
+            end
+
+        val @(pf_arr | ) =
+          fill_array_with_pointers_to_list_nodes
+            (array_v_nil (), pf_arr | lst, i2sz 0)
+        val () = $UN.castvwtp0{void} lst
+        val () = $SQ.array_stable_quicksort<ptr> (!p_arr, n)
+        val retval = relink_list_nodes (!p_arr, n, list_vt_nil ())
+
+        val () = array_ptr_free (pf_arr, pfgc_arr | p_arr)
+      in
+        retval
+      end
+  end
+')dnl
+
+implement {a}
+list_vt_stable_sort lst =
+  let
+    #if LIST_VT_STABLE_SORT = PRELUDE_SORT #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: list_vt_stable_sort calls list_vt_mergesort from the prelude\n"
+      #endif
+      val retval = _list_vt_stable_sort__list_vt_mergesort<a> lst
+    #elif LIST_VT_STABLE_SORT = TIMSORT #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: list_vt_stable_sort calls list_vt_timsort from ats2-timsort\n"
+      #endif
+      val retval = _list_vt_stable_sort__list_vt_timsort<a> lst
+    #elif LIST_VT_STABLE_SORT = QUICKSORTS #then
+      #if VERBOSE_XPRELUDE #then
+        #print "xprelude: list_vt_stable_sort calls array_stable_quicksort from ats2-quicksorts\n"
+      #endif
+      val retval = _list_vt_stable_sort__array_stable_quicksort<a> lst
+    #endif
+  in
+    retval
+  end
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

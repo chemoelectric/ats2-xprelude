@@ -57,8 +57,7 @@ arrszref_`'STAB`'sort :
 (* Array sorting with functions or closures for the comparison. *)
 
 m4_foreachq(`STAB',``',`stable_'',
-`
-fn {a : vt@ype}
+`fn {a : vt@ype}
 array_`'STAB`'sort_fun :
   {n : int}
   (&array (INV(a), n) >> array (a, n),
@@ -81,13 +80,12 @@ array_`'STAB`'sort_cloptr :
    size_t n,
    &((&a, &a) -<cloptr> int)) -< !wrt >
     void
-')dnl
 
+')dnl
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 
 m4_foreachq(`STAB',``',`stable_'',
-`
-fn {a : vt@ype}
+`fn {a : vt@ype}
 arrayptr_`'STAB`'sort_fun :
   {n : int}
   (!arrayptr (a, n) >> _,
@@ -110,13 +108,12 @@ arrayptr_`'STAB`'sort_cloptr :
    size_t n,
    &((&a, &a) -<cloptr> int)) -< !wrt >
     void
-')dnl
 
+')dnl
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 
 m4_foreachq(`STAB',``',`stable_'',
-`
-fn {a : vt@ype}
+`fn {a : vt@ype}
 arrayref_`'STAB`'sort_fun :
   {n : int}
   (arrayref (a, n),
@@ -139,13 +136,12 @@ arrayref_`'STAB`'sort_cloptr :
    size_t n,
    &((&a, &a) -<cloptr> int)) -< !refwrt >
     void
-')dnl
 
+')dnl
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 
 m4_foreachq(`STAB',``',`stable_'',
-`
-fn {a : vt@ype}
+`fn {a : vt@ype}
 arrszref_`'STAB`'sort_fun :
   {n : int}
   (arrszref a,
@@ -167,6 +163,36 @@ arrszref_`'STAB`'sort_cloptr :
     void
 ')dnl
 
+(*------------------------------------------------------------------*)
+(* Linear list_vt sorting. *)
+
+(* The comparison function. Defaults to gcompare_ref_ref<a>. *)
+fn {a : vt@ype}
+list_vt_sort$cmp :
+  (&a, &a) -<> int
+
+m4_foreachq(`STAB',``',`stable_'',
+`fn {a : vt@ype}
+list_vt_`'STAB`'sort :
+  {n : int}
+  (list_vt (INV(a), n)) -< !wrt > list_vt (a, n)
+
+')dnl
+(*------------------------------------------------------------------*)
+(* Non-linear list sorting. *)
+
+(* The comparison function. Defaults to gcompare_val_val<a>. *)
+fn {a : t@ype}
+list_sort$cmp :
+  (a, a) -<> int
+
+m4_foreachq(`STAB',``',`stable_'',
+`fn {a : t@ype}
+list_`'STAB`'sort :
+  {n : int}
+  (list (INV(a), n)) -< !wrt > list (a, n)
+
+')dnl
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:
