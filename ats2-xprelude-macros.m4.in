@@ -177,6 +177,11 @@ m4_define(`m4_g0float',`g0float float_tk($1)')
 /*------------------------------------------------------------------*/
 /* Floating point operations. */
 
+m4_define(`floatt2op',
+`m4_if($1,`float',`$2f',
+       $1,`double',`$2',
+       $1,`ldouble',`$2l')')
+
 m4_define(`trunc_ops',`round,nearbyint,rint,floor,ceil,trunc')
 
 m4_define(`radical_ops',`sqrt,cbrt')

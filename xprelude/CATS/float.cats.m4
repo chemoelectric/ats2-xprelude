@@ -29,7 +29,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include <xprelude/CATS/integer.cats>
 
 m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT',`float,double,ldouble',
+`m4_foreachq(`FLT',`conventional_floattypes',
 `
 my_extern_prefix`'inline floatt2c(FLT)
 my_extern_prefix`'g0int2float_`'INT`_'FLT (intb2c(INT) x)
@@ -40,7 +40,7 @@ my_extern_prefix`'g0int2float_`'INT`_'FLT (intb2c(INT) x)
 ')dnl
 
 m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT',`float,double,ldouble',
+`m4_foreachq(`FLT',`conventional_floattypes',
 `
 my_extern_prefix`'inline intb2c(INT)
 my_extern_prefix`'g0float2int_`'FLT`_'INT (floatt2c(FLT) x)
@@ -50,8 +50,8 @@ my_extern_prefix`'g0float2int_`'FLT`_'INT (floatt2c(FLT) x)
 ')
 ')dnl
 
-m4_foreachq(`FLT1',`float,double,ldouble',
-`m4_foreachq(`FLT2',`float,double,ldouble',
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`FLT2',`conventional_floattypes',
 `
 my_extern_prefix`'inline floatt2c(FLT2)
 my_extern_prefix`'g0float2float_`'FLT1`_'FLT2 (floatt2c(FLT1) x)
@@ -65,86 +65,50 @@ my_extern_prefix`'g0float2float_`'FLT1`_'FLT2 (floatt2c(FLT1) x)
 #define my_extern_prefix`'g0float_epsilon_double() (DBL_EPSILON)
 #define my_extern_prefix`'g0float_epsilon_ldouble() (LDBL_EPSILON)
 
-m4_foreachq(`FLT',`float,double,ldouble',
+m4_foreachq(`FLT',`conventional_floattypes',
 `
 my_extern_prefix`'inline atstype_int
 my_extern_prefix`'g0float_sgn_`'FLT (floatt2c(FLT) x)
 {
-  return ((x < 0) ? (-1) : ((x == 0) ? (0) : (1)));
+  return (x > 0) - (x < 0);
 }
 ')dnl
 
 m4_foreachq(`UOP',`unary_ops',
+`m4_foreachq(`FLT',`conventional_floattypes',
 `
-my_extern_prefix`'inline atstype_float
-my_extern_prefix`'g0float_`'UOP`'_float (atstype_float x)
+my_extern_prefix`'inline floatt2c(FLT)
+my_extern_prefix`'g0float_`'UOP`'_`'FLT (floatt2c(FLT) x)
 {
-  return UOP`'f (x);
-}
-
-my_extern_prefix`'inline atstype_double
-my_extern_prefix`'g0float_`'UOP`'_double (atstype_double x)
-{
-  return UOP (x);
-}
-
-my_extern_prefix`'inline atstype_ldouble
-my_extern_prefix`'g0float_`'UOP`'_ldouble (atstype_ldouble x)
-{
-  return UOP`'l (x);
+  return floatt2op(FLT, UOP) (x);
 }
 ')
+')dnl
 
 m4_foreachq(`AOP',`binary_ops',
+`m4_foreachq(`FLT',`conventional_floattypes',
 `
-my_extern_prefix`'inline atstype_float
-my_extern_prefix`'g0float_`'AOP`'_float (atstype_float x,
-                                     atstype_float y)
+my_extern_prefix`'inline floatt2c(FLT)
+my_extern_prefix`'g0float_`'AOP`'_`'FLT (floatt2c(FLT) x,
+                                         floatt2c(FLT) y)
 {
-  return AOP`'f (x, y);
-}
-
-my_extern_prefix`'inline atstype_double
-my_extern_prefix`'g0float_`'AOP`'_double (atstype_double x,
-                                      atstype_double y)
-{
-  return AOP (x, y);
-}
-
-my_extern_prefix`'inline atstype_ldouble
-my_extern_prefix`'g0float_`'AOP`'_ldouble (atstype_ldouble x,
-                                       atstype_ldouble y)
-{
-  return AOP`'l (x, y);
+  return floatt2op(FLT, AOP) (x, y);
 }
 ')
+')dnl
 
 m4_foreachq(`TOP',`trinary_ops',
+`m4_foreachq(`FLT',`conventional_floattypes',
 `
-my_extern_prefix`'inline atstype_float
-my_extern_prefix`'g0float_`'TOP`'_float (atstype_float x,
-                                     atstype_float y,
-                                     atstype_float z)
+my_extern_prefix`'inline floatt2c(FLT)
+my_extern_prefix`'g0float_`'TOP`'_`'FLT (floatt2c(FLT) x,
+                                         floatt2c(FLT) y,
+                                         floatt2c(FLT) z)
 {
-  return TOP`'f (x, y, z);
-}
-
-my_extern_prefix`'inline atstype_double
-my_extern_prefix`'g0float_`'TOP`'_double (atstype_double x,
-                                      atstype_double y,
-                                      atstype_double z)
-{
-  return TOP (x, y, z);
-}
-
-my_extern_prefix`'inline atstype_ldouble
-my_extern_prefix`'g0float_`'TOP`'_ldouble (atstype_ldouble x,
-                                       atstype_ldouble y,
-                                       atstype_ldouble z)
-{
-  return TOP`'l (x, y, z);
+  return floatt2op(FLT, TOP) (x, y, z);
 }
 ')
+')dnl
 
 #endif /* MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */
 dnl
