@@ -70,23 +70,23 @@ implement {tk} g0float_isgtez x = g0float_gte<tk> (x, g0i2f 0)
 implement {tk} g0float_iseqz x = g0float_eq<tk> (x, g0i2f 0)
 implement {tk} g0float_isneqz x = g0float_neq<tk> (x, g0i2f 0)
 
-m4_foreachq(FLT,`conventional_floattypes',
-`implement gequal_val_val<FLT> (x, y) = (x = y)
+m4_foreachq(FLT1,`conventional_floattypes',
+`implement gequal_val_val<FLT1> (x, y) = (x = y)
 ')dnl
 
-m4_foreachq(FLT,`conventional_floattypes',
-`implement gcompare_val_val<FLT> = g0float_compare<floatt2k(FLT)>
+m4_foreachq(FLT1,`conventional_floattypes',
+`implement gcompare_val_val<FLT1> = g0float_compare<floatt2k(FLT1)>
 ')dnl
 
 m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT',`float,double,ldouble',
-`implement g0int2float<intb2k(INT),floatt2k(FLT)> = g0int2float_`'INT`_'FLT
+`m4_foreachq(`FLT1',`float,double,ldouble',
+`implement g0int2float<intb2k(INT),floatt2k(FLT1)> = g0int2float_`'INT`_'FLT1
 ')
 ')dnl
 
 m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT',`float,double,ldouble',
-`implement g0float2int<floatt2k(FLT),intb2k(INT)> = g0float2int_`'FLT`_'INT
+`m4_foreachq(`FLT1',`float,double,ldouble',
+`implement g0float2int<floatt2k(FLT1),intb2k(INT)> = g0float2int_`'FLT1`_'INT
 ')
 ')dnl
 

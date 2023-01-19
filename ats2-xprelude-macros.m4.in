@@ -143,30 +143,53 @@ m4_define(`m4_g1int_arith_shift',`(m4_g1int($1, $2), int $3) -<> m4_g1int($1, $4
 /* Floating point kinds. */
 
 m4_define(`conventional_floattypes',`float,double,ldouble')
-m4_define(`conventional_floatkinds',`fltknd,dblknd,ldblknd')
-
 m4_define(`floattypes',`conventional_floattypes,fixed32p32,exrat')
-m4_define(`floatkinds',`conventional_floatkinds,fix32p32knd,exratknd')
 
-m4_define(`floatk2t',
-`m4_if($1,`fltknd',`float',
-       $1,`dblknd',`double',
-       $1,`ldblknd',`ldouble',
-       $1,`fix32p32knd',`fixed32p32',
-       $1,`exratknd',`exrat',
-       $1)')
+m4_define(`floatt2k',`$1`'_kind')
 
-m4_define(`floatt2k',
-`m4_if($1,`float',`fltknd',
-       $1,`double',`dblknd',
-       $1,`ldouble',`ldblknd',
-       $1,`fixed32p32',`fix32p32knd',
-       $1,`exrat',`exratknd',
-       $1)')
+m4_define(`floatt2c',
+`m4_if($1,`fixed32p32',`ats2_xprelude_fixed32p32',
+       $1,`exrat',`ats2_xprelude_exrat',
+       `atstype_$1')')
 
-m4_define(`floatt2c',`m4_if($1,`fixed32p32',`ats2_xprelude_fixed32p32',
-                            $1,`exrat',`ats2_xprelude_exrat',
-                            `atstype_$1')')
+m4_define(`floatt2sfx',
+`m4_if($1,`float',`f',
+       $1,`double',`',
+       $1,`ldouble',`l',
+       $1,`float16',`f16',
+       $1,`float16x',`f16x',
+       $1,`float32',`f32',
+       $1,`float32x',`f32x',
+       $1,`float64',`f64',
+       $1,`float64x',`f64x',
+       $1,`float128',`f128',
+       $1,`float128x',`f128x')')
+
+m4_define(`floatt2SFX',
+`m4_if($1,`float',`F',
+       $1,`double',`',
+       $1,`ldouble',`L',
+       $1,`float16',`F16',
+       $1,`float16x',`F16X',
+       $1,`float32',`F32',
+       $1,`float32x',`F32X',
+       $1,`float64',`F64',
+       $1,`float64x',`F64X',
+       $1,`float128',`F128',
+       $1,`float128x',`F128X')')
+
+m4_define(`floatt2PFX',
+`m4_if($1,`float',`FLT',
+       $1,`double',`DBL',
+       $1,`ldouble',`LDBL',
+       $1,`float16',`F16',
+       $1,`float16x',`F16X',
+       $1,`float32',`F32',
+       $1,`float32x',`F32X',
+       $1,`float64',`F64',
+       $1,`float64x',`F64X',
+       $1,`float128',`F128',
+       $1,`float128x',`F128X')')
 
 /* A string beginning "tk" is presumed to be a typekind already. */
 m4_define(`float_tk',
@@ -174,13 +197,15 @@ m4_define(`float_tk',
 
 m4_define(`m4_g0float',`g0float float_tk($1)')
 
+/* How we tell if a floating point type is supported. */
+m4_define(`FLOAT_SUPPORT_CHECK',
+    ``#'if defined floatt2PFX(`$1')_MANT_DIG && 0 < floatt2PFX(`$1')_MANT_DIG')
+m4_define(`END_FLOAT_SUPPORT_CHECK',``#'endif')
+
 /*------------------------------------------------------------------*/
 /* Floating point operations. */
 
-m4_define(`floatt2op',
-`m4_if($1,`float',`$2f',
-       $1,`double',`$2',
-       $1,`ldouble',`$2l')')
+m4_define(`floatt2op',`$2`'floatt2sfx(`$1')')
 
 m4_define(`trunc_ops',`round,nearbyint,rint,floor,ceil,trunc')
 
