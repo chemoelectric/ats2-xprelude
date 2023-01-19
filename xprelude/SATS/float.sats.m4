@@ -61,23 +61,23 @@ overload sgn with g0float_sgn
 (*------------------------------------------------------------------*)
 (* Unary operations. *)
 
-m4_foreachq(uop,`unary_ops',
-`fn {tk : tkind} g0float_`'uop : g0float_uop_type tk
+m4_foreachq(`UOP',`unary_ops',
+`fn {tk : tkind} g0float_`'UOP : g0float_uop_type tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'uop`'_`'FLT1 : g0float_uop_type floatt2k(FLT1) = "mac#%"
+`fn g0float_`'UOP`'_`'FLT1 : g0float_uop_type floatt2k(FLT1) = "mac#%"
 ')dnl
-overload uop with g0float_`'uop
+overload UOP with g0float_`'UOP
 
 ')dnl
 (*------------------------------------------------------------------*)
 (* Binary operations. *)
 
-m4_foreachq(aop,`binary_ops',
-`fn {tk : tkind} g0float_`'aop : g0float_aop_type tk
+m4_foreachq(`AOP',`binary_ops',
+`fn {tk : tkind} g0float_`'AOP : g0float_aop_type tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'aop`'_`'FLT1 : g0float_aop_type floatt2k(FLT1) = "mac#%"
+`fn g0float_`'AOP`'_`'FLT1 : g0float_aop_type floatt2k(FLT1) = "mac#%"
 ')dnl
-overload aop with g0float_`'aop
+overload AOP with g0float_`'AOP
 
 ')dnl
 (*------------------------------------------------------------------*)
@@ -86,12 +86,12 @@ overload aop with g0float_`'aop
 typedef g0float_top_type (tk : tkind) =
   (g0float tk, g0float tk, g0float tk) -<> g0float tk
 
-m4_foreachq(top,`trinary_ops',
-`fn {tk : tkind} g0float_`'top : g0float_top_type tk
+m4_foreachq(`TOP',`trinary_ops',
+`fn {tk : tkind} g0float_`'TOP : g0float_top_type tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'top`'_`'FLT1 : g0float_top_type floatt2k(FLT1) = "mac#%"
+`fn g0float_`'TOP`'_`'FLT1 : g0float_top_type floatt2k(FLT1) = "mac#%"
 ')dnl
-overload top with g0float_`'top
+overload TOP with g0float_`'TOP
 
 ')dnl
 (*------------------------------------------------------------------*)

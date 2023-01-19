@@ -31,34 +31,31 @@ staload "xprelude/SATS/float.sats"
 
 (*------------------------------------------------------------------*)
 
-implement g0float_epsilon<fltknd> = g0float_epsilon_float
-implement g0float_epsilon<dblknd> = g0float_epsilon_double
-implement g0float_epsilon<ldblknd> = g0float_epsilon_ldouble
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_epsilon<floatt2k(FLT1)> = g0float_epsilon_`'FLT1
+')dnl
 
-implement g0float_sgn<fltknd> = g0float_sgn_float
-implement g0float_sgn<dblknd> = g0float_sgn_double
-implement g0float_sgn<ldblknd> = g0float_sgn_ldouble
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_sgn<floatt2k(FLT1)> = g0float_sgn_`'FLT1
+')dnl
 
-m4_foreachq(uop,`unary_ops',
-`
-implement g0float_`'uop`'<fltknd> = g0float_`'uop`'_float
-implement g0float_`'uop`'<dblknd> = g0float_`'uop`'_double
-implement g0float_`'uop`'<ldblknd> = g0float_`'uop`'_ldouble
-')
+m4_foreachq(`UOP',`unary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'UOP`'<floatt2k(FLT1)> = g0float_`'UOP`'_`'FLT1
+')dnl
+')dnl
 
-m4_foreachq(aop,`binary_ops',
-`
-implement g0float_`'aop`'<fltknd> = g0float_`'aop`'_float
-implement g0float_`'aop`'<dblknd> = g0float_`'aop`'_double
-implement g0float_`'aop`'<ldblknd> = g0float_`'aop`'_ldouble
-')
+m4_foreachq(`AOP',`binary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'AOP`'<floatt2k(FLT1)> = g0float_`'AOP`'_`'FLT1
+')dnl
+')dnl
 
-m4_foreachq(top,`trinary_ops',
-`
-implement g0float_`'top`'<fltknd> = g0float_`'top`'_float
-implement g0float_`'top`'<dblknd> = g0float_`'top`'_double
-implement g0float_`'top`'<ldblknd> = g0float_`'top`'_ldouble
-')
+m4_foreachq(`TOP',`trinary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'TOP`'<floatt2k(FLT1)> = g0float_`'TOP`'_`'FLT1
+')dnl
+')dnl
 
 (*------------------------------------------------------------------*)
 (* Implementations of some of the templates in the prelude.         *)
@@ -70,28 +67,28 @@ implement {tk} g0float_isgtez x = g0float_gte<tk> (x, g0i2f 0)
 implement {tk} g0float_iseqz x = g0float_eq<tk> (x, g0i2f 0)
 implement {tk} g0float_isneqz x = g0float_neq<tk> (x, g0i2f 0)
 
-m4_foreachq(FLT1,`conventional_floattypes',
+m4_foreachq(`FLT1',`conventional_floattypes',
 `implement gequal_val_val<FLT1> (x, y) = (x = y)
 ')dnl
 
-m4_foreachq(FLT1,`conventional_floattypes',
+m4_foreachq(`FLT1',`conventional_floattypes',
 `implement gcompare_val_val<FLT1> = g0float_compare<floatt2k(FLT1)>
 ')dnl
 
 m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT1',`float,double,ldouble',
+`m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0int2float<intb2k(INT),floatt2k(FLT1)> = g0int2float_`'INT`_'FLT1
 ')
 ')dnl
 
 m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT1',`float,double,ldouble',
+`m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float2int<floatt2k(FLT1),intb2k(INT)> = g0float2int_`'FLT1`_'INT
 ')
 ')dnl
 
-m4_foreachq(`FLT1',`float,double,ldouble',
-`m4_foreachq(`FLT2',`float,double,ldouble',
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`FLT2',`conventional_floattypes',
 `implement g0float2float<floatt2k(FLT1),floatt2k(FLT2)> = g0float2float_`'FLT1`_'FLT2
 ')dnl
 ')dnl
