@@ -115,11 +115,37 @@ implement tostrptr_val<FLT1> = tostrptr_`'FLT1
 implement tostring_val<FLT1> = tostring_`'FLT1
 
 ')dnl
+
 (*------------------------------------------------------------------*)
+(* Type conversions. *)
+
+m4_foreachq(`INT',`intbases',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0int2float<intb2k(INT),floatt2k(FLT1)> = g0int2float_`'INT`_'FLT1
+')
+')dnl
+
+m4_foreachq(`INT',`intbases',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float2int<floatt2k(FLT1),intb2k(INT)> = g0float2int_`'FLT1`_'INT
+')
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`FLT2',`conventional_floattypes',
+`implement g0float2float<floatt2k(FLT1),floatt2k(FLT2)> = g0float2float_`'FLT1`_'FLT2
+')dnl
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Epsilons. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_epsilon<floatt2k(FLT1)> = g0float_epsilon_`'FLT1
 ')dnl
+
+(*------------------------------------------------------------------*)
+(* Sign and absolute value. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_sgn<floatt2k(FLT1)> = g0float_sgn_`'FLT1
@@ -128,6 +154,9 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_abs<floatt2k(FLT1)> = g0float_abs_`'FLT1
 ')dnl
+
+(*------------------------------------------------------------------*)
+(* Library functions. *)
 
 m4_foreachq(`UOP',`unary_ops',
 `m4_foreachq(`FLT1',`conventional_floattypes',
@@ -148,39 +177,34 @@ m4_foreachq(`TOP',`trinary_ops',
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Implementations of some of the templates in the prelude.         *)
+(* Comparisons. *)
 
-implement {tk} g0float_isltz x = g0float_lt<tk> (x, g0i2f 0)
-implement {tk} g0float_isltez x = g0float_lte<tk> (x, g0i2f 0)
-implement {tk} g0float_isgtz x = g0float_gt<tk> (x, g0i2f 0)
-implement {tk} g0float_isgtez x = g0float_gte<tk> (x, g0i2f 0)
-implement {tk} g0float_iseqz x = g0float_eq<tk> (x, g0i2f 0)
-implement {tk} g0float_isneqz x = g0float_neq<tk> (x, g0i2f 0)
+m4_foreachq(`OP',`comparisons',
+`implement {tk} g0float_is`'OP`'z x = g0float_`'OP<tk> (x, g0i2f 0)
+')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`implement gequal_val_val<FLT1> (x, y) = (x = y)
+`m4_foreachq(`OP',`comparisons',
+`implement g0float_`'OP<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
+')
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`OP',`comparisons',
+`implement g0float_is`'OP`'z<floatt2k(FLT1)> = g0float_is`'OP`'z_`'FLT1
+')
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_compare<floatt2k(FLT1)> = g0float_compare_`'FLT1
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement gequal_val_val<FLT1> = g0float_eq<floatt2k(FLT1)>
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement gcompare_val_val<FLT1> = g0float_compare<floatt2k(FLT1)>
-')dnl
-
-m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0int2float<intb2k(INT),floatt2k(FLT1)> = g0int2float_`'INT`_'FLT1
-')
-')dnl
-
-m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float2int<floatt2k(FLT1),intb2k(INT)> = g0float2int_`'FLT1`_'INT
-')
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`FLT2',`conventional_floattypes',
-`implement g0float2float<floatt2k(FLT1),floatt2k(FLT2)> = g0float2float_`'FLT1`_'FLT2
-')dnl
 ')dnl
 
 (*------------------------------------------------------------------*)

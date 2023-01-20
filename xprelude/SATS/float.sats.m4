@@ -72,6 +72,27 @@ fn {} tostring_`'FLT1 : FLT1 -<> string
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* Type conversions. *)
+
+m4_foreachq(`INT',`intbases',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0int2float_`'INT`_'FLT1 : intb2t(INT) -<> FLT1 = "mac#%"
+')dnl
+
+')dnl
+m4_foreachq(`INT',`intbases',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float2int_`'FLT1`_'INT : FLT1 -<> intb2t(INT) = "mac#%"
+')dnl
+
+')dnl
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`FLT2',`conventional_floattypes',
+`fn g0float2float_`'FLT1`_'FLT2 : FLT1 -<> FLT2 = "mac#%"
+')dnl
+
+')dnl
+(*------------------------------------------------------------------*)
 (* g0float_epsilon: the difference between 1 and the least value
    greater than 1.                                                  *)
 
@@ -142,27 +163,24 @@ overload TOP with g0float_`'TOP
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Some of the following are overlooked in the prelude. (Those that
-   *are* already in the prelude might be shadowed.) *)
+(* Comparisons. *)
 
-m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0int2float_`'INT`_'FLT1 : intb2t(INT) -<> FLT1 = "mac#%"
-')dnl
-
-')dnl
-m4_foreachq(`INT',`intbases',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float2int_`'FLT1`_'INT : FLT1 -<> intb2t(INT) = "mac#%"
-')dnl
-
-')dnl
 m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`FLT2',`conventional_floattypes',
-`fn g0float2float_`'FLT1`_'FLT2 : FLT1 -<> FLT2 = "mac#%"
+`m4_foreachq(`OP',`lt,lte,gt,gte,eq,neq',
+`fn g0float_`'OP`'_`'FLT1 : (FLT1, FLT1) -<> bool = "mac#%"
+')
 ')dnl
 
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`OP',`lt,lte,gt,gte,eq,neq',
+`fn g0float_is`'OP`'z_`'FLT1 : FLT1 -<> bool = "mac#%"
+')
 ')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_compare_`'FLT1 : g0float_compare_type floatt2k(FLT1) = "mac#%"
+')dnl
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

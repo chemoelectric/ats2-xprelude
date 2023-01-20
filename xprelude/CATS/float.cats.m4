@@ -66,6 +66,7 @@ my_extern_prefix`'fprint_ldouble (atstype_ref out, floatt2c(ldouble) x)
 }
 
 /*------------------------------------------------------------------*/
+/* Type conversions. */
 
 m4_foreachq(`INT',`intbases',
 `m4_foreachq(`FLT1',`conventional_floattypes',
@@ -85,9 +86,15 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 ')dnl
 
+/*------------------------------------------------------------------*/
+/* Epsilons. */
+
 m4_foreachq(`FLT1',`conventional_floattypes',
 `#define my_extern_prefix`'g0float_epsilon_`'FLT1`'() (floatt2PFX(FLT1)_EPSILON)
 ')dnl
+
+/*------------------------------------------------------------------*/
+/* Sign. */
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `
@@ -100,59 +107,48 @@ my_extern_prefix`'g0float_sgn_`'FLT1 (floatt2c(FLT1) x)
 END_FLOAT_SUPPORT_CHECK(FLT1)
 ')dnl
 
-/*
-m4_foreachq(`UOP',`unary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`
-FLOAT_SUPPORT_CHECK(FLT1)
-my_extern_prefix`'inline floatt2c(FLT1)
-my_extern_prefix`'g0float_`'UOP`'_`'FLT1 (floatt2c(FLT1) x)
-{
-  return floatt2op(FLT1, UOP) (x);
-}
-END_FLOAT_SUPPORT_CHECK(FLT1)
-')
-')dnl
-*/
-
-m4_foreachq(`OP',`unary_ops,binary_ops,trinary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`#define my_extern_prefix`'g0float_`'OP`'_`'FLT1 floatt2op(FLT1, OP)
-')
-')dnl
-
-/*
-m4_foreachq(`AOP',`binary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`#define my_extern_prefix`'g0float_`'AOP`'_`'FLT1 floatt2op(FLT1, AOP)
-')
-')dnl
-*/
-
-/*
-m4_foreachq(`TOP',`trinary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`
-FLOAT_SUPPORT_CHECK(FLT1)
-my_extern_prefix`'inline floatt2c(FLT1)
-my_extern_prefix`'g0float_`'TOP`'_`'FLT1 (floatt2c(FLT1) x,
-                                          floatt2c(FLT1) y,
-                                          floatt2c(FLT1) z)
-{
-  return floatt2op(FLT1, TOP) (x, y, z);
-}
-END_FLOAT_SUPPORT_CHECK(FLT1)
-')
-')dnl
-*/
-
 /*------------------------------------------------------------------*/
-/* For absolute value, use the C function instead of our own code. */
+/* Absolute value. For absolute value, use the C function instead of
+   our own code. */
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `#define my_extern_prefix`'g0float_abs_`'FLT1 my_extern_prefix`'g0float_fabs_`'FLT1
 ')dnl
 
+/*------------------------------------------------------------------*/
+/* Library functions. */
+
+m4_foreachq(`OP',`unary_ops,binary_ops,trinary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_`'OP`'_`'FLT1 floatt2op(FLT1, OP)
+')dnl
+
+')dnl
+/*------------------------------------------------------------------*/
+/* Comparisons. */
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`FLOAT_SUPPORT_CHECK(FLT1)
+m4_foreachq(`OP',`comparisons',
+`my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_`'OP`'_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
+{
+  return (x ats_cmp_c(OP) y);
+}
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_is`'OP`'z_`'FLT1 (floatt2c(FLT1) x)
+{
+  return (x ats_cmp_c(OP) ((floatt2c(FLT1)) 0));
+}
+')dnl
+my_extern_prefix`'inline atstype_int
+my_extern_prefix`'g0float_compare_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
+{
+  return (x > y) - (x < y);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
+
+')dnl
 /*------------------------------------------------------------------*/
 
 #endif /* MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */
