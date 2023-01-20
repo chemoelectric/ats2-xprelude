@@ -34,6 +34,7 @@ m4_define(`m4_len',defn(`len'))            m4_undefine(`len')
 m4_define(`m4_divnum',defn(`divnum'))      m4_undefine(`divnum')
 m4_define(`m4_eval',defn(`eval'))          m4_undefine(`eval')
 m4_define(`m4_substr',defn(`substr'))      m4_undefine(`substr')
+m4_define(`m4_defn',defn(`defn'))          m4_undefine(`defn')
 
 dnl
 dnl  m4_foreachq(x, `item_1, item_2, ..., item_n', statement)

@@ -204,6 +204,26 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Floating point constants. *)
+
+(* GNU-style constant names. *)
+m4_foreachq(`FLT1',`conventional_floattypes',
+`macdef M_E`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_E)
+macdef M_LOG2E`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LOG2E)
+macdef M_LOG10E`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LOG10E)
+macdef M_LN2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LN2)
+macdef M_LN10`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LN10)
+macdef M_PI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_PI)
+macdef M_PI_2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_PI_2)
+macdef M_PI_4`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_PI_4)
+macdef M_1_PI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_1_PI)
+macdef M_2_PI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_2_PI)
+macdef M_2_SQRTPI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_2_SQRTPI)
+macdef M_SQRT2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_SQRT2)
+macdef M_SQRT1_2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_SQRT1_2)
+
+')dnl
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS
