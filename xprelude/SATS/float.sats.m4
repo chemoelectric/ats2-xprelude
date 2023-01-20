@@ -189,7 +189,13 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Arithmetic. *)
+(* Miscellaneous arithmetic. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`OP',`succ,pred',
+`fn g0float_`'OP`'_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
+')
+')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `m4_foreachq(`OP',`min,max,add,sub,mul,div,mod',

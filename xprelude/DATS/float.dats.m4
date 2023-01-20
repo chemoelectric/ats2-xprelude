@@ -54,6 +54,8 @@ fprint_`'FLT1 (out, x) =
 implement {} print_`'FLT1 x = fprint_`'FLT1 (stdout_ref, x)
 implement {} prerr_`'FLT1 x = fprint_`'FLT1 (stderr_ref, x)
 
+implement fprint_val<FLT1> = fprint_`'FLT1
+
 ')dnl
 (*------------------------------------------------------------------*)
 (* Conversion to a string. *)

@@ -171,9 +171,23 @@ END_FLOAT_SUPPORT_CHECK(FLT1)
 
 ')dnl
 /*------------------------------------------------------------------*/
-/* Arithmetic. */
+/* Miscellaneous arithmetic. */
 
-dnl m4_foreachq(`OP',`min,max,add,sub,mul,div',
+m4_foreachq(`FLT1',`conventional_floattypes',
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_succ_`'FLT1 (floatt2c(FLT1) x)
+{
+  return (x + 1);
+}
+my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_pred_`'FLT1 (floatt2c(FLT1) x)
+{
+  return (x - 1);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
+')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `
