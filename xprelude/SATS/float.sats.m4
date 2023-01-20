@@ -127,6 +127,13 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* g0float_neg: the negative of the number. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_neg_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Unary operations. *)
 
 m4_foreachq(`UOP',`unary_ops',

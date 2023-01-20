@@ -99,7 +99,7 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Sign. */
+/* Sign, absolute value, negative. */
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `
@@ -112,12 +112,28 @@ my_extern_prefix`'g0float_sgn_`'FLT1 (floatt2c(FLT1) x)
 END_FLOAT_SUPPORT_CHECK(FLT1)
 ')dnl
 
-/*------------------------------------------------------------------*/
-/* Absolute value. For absolute value, use the C function instead of
-   our own code. */
+/* Use our own code instead of fabsXXX for absolute value, because
+   libc often does not have support for decimal floating point. */
+m4_foreachq(`FLT1',`conventional_floattypes',
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_abs_`'FLT1 (floatt2c(FLT1) x)
+{
+  return (x < 0) ? (-x) : (x);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
+')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`#define my_extern_prefix`'g0float_abs_`'FLT1 my_extern_prefix`'g0float_fabs_`'FLT1
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_neg_`'FLT1 (floatt2c(FLT1) x)
+{
+  return (-x);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
 ')dnl
 
 /*------------------------------------------------------------------*/

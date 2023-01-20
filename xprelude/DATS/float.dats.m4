@@ -145,7 +145,7 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Sign and absolute value. *)
+(* Sign, absolute value, negative. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_sgn<floatt2k(FLT1)> = g0float_sgn_`'FLT1
@@ -153,6 +153,10 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_abs<floatt2k(FLT1)> = g0float_abs_`'FLT1
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_neg<floatt2k(FLT1)> = g0float_neg_`'FLT1
 ')dnl
 
 (*------------------------------------------------------------------*)
