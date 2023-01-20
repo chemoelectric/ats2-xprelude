@@ -237,23 +237,27 @@ m4_define(`END_FLOAT_SUPPORT_CHECK',``#'endif')
 
 m4_define(`floatt2op',`$2`'floatt2sfx(`$1')')
 
-m4_define(`trunc_ops',`round,nearbyint,rint,floor,ceil,trunc')
-
-m4_define(`radical_ops',`sqrt,cbrt')
-m4_define(`pow_ops',`pow')
-m4_define(`exp_ops',`exp,exp2')
-m4_define(`log_ops',`log,log2,log10')
-
-m4_define(`sign_ops',`fabs')
-
-m4_define(`trig_ops',`sin,cos,tan,asin,acos,atan')
 m4_define(`trig2_ops',`atan2')
 
-m4_define(`unary_ops',`trunc_ops,
-                       radical_ops,exp_ops,log_ops,
-                       sign_ops,trig_ops')
-m4_define(`binary_ops',`pow_ops,trig2_ops')
-m4_define(`trinary_ops',`fma')
+m4_define(`unary_ops',
+          `round,nearbyint,rint,floor,ceil,trunc,roundeven,
+           fabs,nextup,nextdown,
+           fdim,fmin,fmax,fminmag,fmaxmag,
+           sqrt,cbrt,
+           exp,exp2,expm1,
+           log,log2,log10,log1p,logb,
+           sin,cos,tan,asin,acos,atan,
+           sinh,cosh,tanh,asinh,acosh,atanh,
+           erf,erfc,lgamma,tgamma')
+
+m4_define(`binary_ops',
+          `copysign,nextafter,
+           fmod,remainder,
+           pow,hypot,
+           atan2')
+
+m4_define(`trinary_ops',
+          `fma')
 
 /*------------------------------------------------------------------*/
 

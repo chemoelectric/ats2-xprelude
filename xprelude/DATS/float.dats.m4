@@ -208,6 +208,15 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Arithmetic. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`OP',`min,max,add,sub,mul,div,mod',
+`implement g0float_`'OP<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
+')
+')dnl
+
+(*------------------------------------------------------------------*)
 (* An implementation of g0float_npow that doesn’t contain a bug
    there is in the prelude’s implementation. The prelude’s
    implementation unwisely assumes C correctly casts between

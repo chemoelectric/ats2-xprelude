@@ -182,6 +182,15 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Arithmetic. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`OP',`min,max,add,sub,mul,div,mod',
+`fn g0float_`'OP`'_`'FLT1 : (FLT1, FLT1) -<> FLT1 = "mac#%"
+')
+')dnl
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

@@ -28,6 +28,11 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include <math.h>
 #include <xprelude/CATS/integer.cats>
 
+#ifndef my_extern_prefix`'boolc2ats
+#define my_extern_prefix`'boolc2ats(B) \
+  ((B) ? (atsbool_true) : (atsbool_false))
+#endif
+
 /*------------------------------------------------------------------*/
 /*
 
@@ -133,12 +138,12 @@ m4_foreachq(`OP',`comparisons',
 `my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'g0float_`'OP`'_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 {
-  return (x ats_cmp_c(OP) y);
+  return my_extern_prefix`'boolc2ats (x ats_cmp_c(OP) y);
 }
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'g0float_is`'OP`'z_`'FLT1 (floatt2c(FLT1) x)
 {
-  return (x ats_cmp_c(OP) ((floatt2c(FLT1)) 0));
+  return my_extern_prefix`'boolc2ats (x ats_cmp_c(OP) ((floatt2c(FLT1)) 0));
 }
 ')dnl
 my_extern_prefix`'inline atstype_int
@@ -149,6 +154,35 @@ my_extern_prefix`'g0float_compare_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 END_FLOAT_SUPPORT_CHECK(FLT1)
 
 ')dnl
+/*------------------------------------------------------------------*/
+/* Arithmetic. */
+
+dnl m4_foreachq(`OP',`min,max,add,sub,mul,div',
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_min_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
+{
+  return ((x < y) ? x : y);
+}
+my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_max_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
+{
+  return ((x > y) ? x : y);
+}
+m4_foreachq(`OP',`add,sub,mul,div',
+`my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_`'OP`'_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
+{
+  return (x ats_binop_c(OP) y);
+}
+')dnl
+#define my_extern_prefix`'g0float_mod_`'FLT1 my_extern_prefix`'g0float_fmod_`'FLT1
+END_FLOAT_SUPPORT_CHECK(FLT1)
+')dnl
+
 /*------------------------------------------------------------------*/
 
 #endif /* MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */
