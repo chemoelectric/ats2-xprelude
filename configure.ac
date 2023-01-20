@@ -205,7 +205,7 @@ Therefore you cannot have a default sort of 3.])
     fi
     ;;
   * )
-    AC_MSG_ERROR([\""@S|@{$1}"\" is not a valid default sort. \
+    AC_MSG_ERROR([\'"@S|@{$1}"\' is not a valid default sort. \
 Valid default sorts are 1, 2, and 3.])
     ;;
 esac])

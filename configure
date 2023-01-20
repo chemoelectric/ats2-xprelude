@@ -20337,7 +20337,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\""${default_array_sort}"\" is not a valid default sort. \
+    as_fn_error $? "\'\"${default_array_sort}\"\' is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac
@@ -20358,7 +20358,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\""${default_array_stable_sort}"\" is not a valid default sort. \
+    as_fn_error $? "\'\"${default_array_stable_sort}\"\' is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac
@@ -20379,7 +20379,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\""${default_list_sort}"\" is not a valid default sort. \
+    as_fn_error $? "\'\"${default_list_sort}\"\' is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac
@@ -20400,7 +20400,7 @@ Therefore you cannot have a default sort of 3." "$LINENO" 5
     fi
     ;;
   * )
-    as_fn_error $? "\""${default_list_stable_sort}"\" is not a valid default sort. \
+    as_fn_error $? "\'\"${default_list_stable_sort}\"\' is not a valid default sort. \
 Valid default sorts are 1, 2, and 3." "$LINENO" 5
     ;;
 esac

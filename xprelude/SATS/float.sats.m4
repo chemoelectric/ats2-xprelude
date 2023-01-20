@@ -45,10 +45,19 @@ typedef FLT1`' = g0float floatt2k(FLT1)
 (* I give the overloads precedence 1, so they will take precedence
    over overloads of precedence 0 in the prelude. *)
 
-m4_foreachq(`FLT1',`conventional_floattypes',
+m4_foreachq(`FLT1',`regular_floattypes',
 `fn fprint_`'FLT1 : fprint_type FLT1 = "mac#%"
 fn print_`'FLT1 : FLT1 -> void = "mac#%"
 fn prerr_`'FLT1 : FLT1 -> void = "mac#%"
+overload fprint with fprint_`'FLT1 of 1
+overload print with print_`'FLT1 of 1
+overload prerr with prerr_`'FLT1 of 1
+
+')dnl
+m4_foreachq(`FLT1',`extended_floattypes',
+`fn {} fprint_`'FLT1 : fprint_type FLT1
+fn {} print_`'FLT1 : FLT1 -> void
+fn {} prerr_`'FLT1 : FLT1 -> void
 overload fprint with fprint_`'FLT1 of 1
 overload print with print_`'FLT1 of 1
 overload prerr with prerr_`'FLT1 of 1

@@ -33,7 +33,34 @@ staload _ = "xprelude/DATS/integer.dats"
 staload "xprelude/SATS/float.sats"
 
 (*------------------------------------------------------------------*)
+(* Printing. *)
+
+(* Putting printing in a template, rather than in C code, makes it
+   possible to build programs even if some of the ‘strfromXXX’
+   functions are missing from the C libraries. *)
+
+m4_foreachq(`FLT1',`extended_floattypes',
+`implement {}
+fprint_`'FLT1 (out, x) =
+  let
+    #define BUFSZ 128
+    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
+    val _ = $extfcall (int, "strfrom`'floatt2sfx(FLT1)",
+                       addr@ buf, BUFSZ - 1, "%.6f", x)
+    val _ = $extfcall (int, "fprintf", out, "%s", addr@ buf)
+  in
+  end
+
+implement {} print_`'FLT1 x = fprint_`'FLT1 (stdout_ref, x)
+implement {} prerr_`'FLT1 x = fprint_`'FLT1 (stderr_ref, x)
+
+')dnl
+(*------------------------------------------------------------------*)
 (* Conversion to a string. *)
+
+(* Putting conversion to a string in a template, rather than in C
+   code, makes it possible to build programs even if some of the
+   ‘strfromXXX’ functions are missing from the C libraries. *)
 
 implement {}
 tostrptr_float x =
