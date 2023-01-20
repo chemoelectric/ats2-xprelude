@@ -16,6 +16,7 @@
   <https://www.gnu.org/licenses/>.
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+(*------------------------------------------------------------------*)
 
 #define ATS_DYNLOADFLAG 0
 
@@ -24,11 +25,69 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #include "share/atspre_staload.hats"
 
+staload UN = "prelude/SATS/unsafe.sats"
+
 staload "xprelude/SATS/integer.sats"
 staload _ = "xprelude/DATS/integer.dats"
 
 staload "xprelude/SATS/float.sats"
 
+(*------------------------------------------------------------------*)
+(* Conversion to a string. *)
+
+implement {}
+tostrptr_float x =
+  let
+    #define BUFSZ 128
+    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
+    val _ = $extfcall (int, "snprintf", addr@ buf, BUFSZ - 1, "%.6f",
+                       g0float2float<float_kind,double_kind> x)
+  in
+    string0_copy ($UN.cast{string} buf)
+  end
+
+implement {}
+tostrptr_double x =
+  let
+    #define BUFSZ 128
+    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
+    val _ = $extfcall (int, "snprintf", addr@ buf, BUFSZ - 1,
+                       "%.6f", x)
+  in
+    string0_copy ($UN.cast{string} buf)
+  end
+
+implement {}
+tostrptr_ldouble x =
+  let
+    #define BUFSZ 128
+    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
+    val _ = $extfcall (int, "snprintf", addr@ buf, BUFSZ - 1,
+                       "%.6Lf", x)
+  in
+    string0_copy ($UN.cast{string} buf)
+  end
+
+m4_foreachq(`FLT1',`extended_floattypes',
+`implement {}
+tostrptr_`'FLT1 x =
+  let
+    #define BUFSZ 128
+    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
+    val _ = $extfcall (int, "strfrom`'floatt2sfx(FLT1)",
+                       addr@ buf, BUFSZ - 1, "%.6f", x)
+  in
+    string0_copy ($UN.cast{string} buf)
+  end
+
+implement {}
+tostring_`'FLT1 i =
+  $effmask_wrt strptr2string (tostrptr_`'FLT1 i)
+
+implement tostrptr_val<FLT1> = tostrptr_`'FLT1
+implement tostring_val<FLT1> = tostring_`'FLT1
+
+')dnl
 (*------------------------------------------------------------------*)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
@@ -37,6 +96,10 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_sgn<floatt2k(FLT1)> = g0float_sgn_`'FLT1
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_abs<floatt2k(FLT1)> = g0float_abs_`'FLT1
 ')dnl
 
 m4_foreachq(`UOP',`unary_ops',

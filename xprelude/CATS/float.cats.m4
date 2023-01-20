@@ -28,6 +28,76 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include <math.h>
 #include <xprelude/CATS/integer.cats>
 
+/*------------------------------------------------------------------*/
+/* Floating point types one might get with
+   __STDC_WANT_IEC_60559_TYPES_EXT__ */
+
+/* Use #define instead of typedef, so these types do not actually have
+   to exist on the platform. */
+m4_foreachq(`N',`extended_floattypes_suffixes',
+`#define my_extern_prefix`'float`'N _Float`'N
+')dnl
+
+/*------------------------------------------------------------------*/
+/* Printing. */
+
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'fprint_float (atstype_ref out, floatt2c(float) x)
+{
+  (void) fprintf ((FILE *) out, "%.6f", (floatt2c(double)) x);
+}
+
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'fprint_double (atstype_ref out, floatt2c(double) x)
+{
+  (void) fprintf ((FILE *) out, "%.6f", x);
+}
+
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'fprint_ldouble (atstype_ref out, floatt2c(ldouble) x)
+{
+  (void) fprintf ((FILE *) out, "%.6Lf", x);
+}
+
+m4_foreachq(`FLT1',`extended_floattypes',
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'fprint_`'FLT1 (atstype_ref out, floatt2c(FLT1) x)
+{
+  char buf[128];
+  const int bufsz = (sizeof buf / sizeof buf[0]);
+  buf[bufsz - 1] = m4_singlequote\0m4_singlequote;
+  (void) strfrom`'floatt2sfx(FLT1) (buf, bufsz - 1, "%.6f", x);
+  (void) fprintf (out, "%s", buf);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'print_`'FLT1 (floatt2c(FLT1) x)
+{
+  my_extern_prefix`'fprint_`'FLT1 (stdout, x);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'prerr_`'FLT1 (floatt2c(FLT1) x)
+{
+  my_extern_prefix`'fprint_`'FLT1 (stderr, x);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
+')dnl
+
+/*------------------------------------------------------------------*/
+
 m4_foreachq(`INT',`intbases',
 `m4_foreachq(`FLT1',`conventional_floattypes',
 `
@@ -128,6 +198,15 @@ my_extern_prefix`'g0float_`'TOP`'_`'FLT1 (floatt2c(FLT1) x,
 END_FLOAT_SUPPORT_CHECK(FLT1)
 ')
 ')dnl
+
+/*------------------------------------------------------------------*/
+/* For absolute value, use the C function instead of our own code. */
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_abs_`'FLT1 my_extern_prefix`'g0float_fabs_`'FLT1
+')dnl
+
+/*------------------------------------------------------------------*/
 
 #endif /* MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */
 dnl

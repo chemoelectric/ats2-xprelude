@@ -142,14 +142,27 @@ m4_define(`m4_g1int_arith_shift',`(m4_g1int($1, $2), int $3) -<> m4_g1int($1, $4
 /*------------------------------------------------------------------*/
 /* Floating point kinds. */
 
-m4_define(`conventional_floattypes',`float,double,ldouble')
+m4_define(`extended_floattypes_suffixes',`16,16x,32,32x,64,64x,128,128x')
+
+m4_define(`regular_floattypes',`float,double,ldouble')
+m4_define(`extended_floattypes',
+  `float16,float16x,float32,float32x,float64,float64x,float128,float128x')
+m4_define(`conventional_floattypes',`regular_floattypes,extended_floattypes')
 m4_define(`floattypes',`conventional_floattypes,fixed32p32,exrat')
 
 m4_define(`floatt2k',`$1`'_kind')
 
 m4_define(`floatt2c',
-`m4_if($1,`fixed32p32',`ats2_xprelude_fixed32p32',
-       $1,`exrat',`ats2_xprelude_exrat',
+`m4_if($1,`fixed32p32',`my_extern_prefix`'$1',
+       $1,`exrat',`my_extern_prefix`'$1',
+       $1,`float16',`my_extern_prefix`'$1',
+       $1,`float16x',`my_extern_prefix`'$1',
+       $1,`float32',`my_extern_prefix`'$1',
+       $1,`float32x',`my_extern_prefix`'$1',
+       $1,`float64',`my_extern_prefix`'$1',
+       $1,`float64x',`my_extern_prefix`'$1',
+       $1,`float128',`my_extern_prefix`'$1',
+       $1,`float128x',`my_extern_prefix`'$1',
        `atstype_$1')')
 
 m4_define(`floatt2sfx',
@@ -182,14 +195,14 @@ m4_define(`floatt2PFX',
 `m4_if($1,`float',`FLT',
        $1,`double',`DBL',
        $1,`ldouble',`LDBL',
-       $1,`float16',`F16',
-       $1,`float16x',`F16X',
-       $1,`float32',`F32',
-       $1,`float32x',`F32X',
-       $1,`float64',`F64',
-       $1,`float64x',`F64X',
-       $1,`float128',`F128',
-       $1,`float128x',`F128X')')
+       $1,`float16',`FLT16',
+       $1,`float16x',`FLT16X',
+       $1,`float32',`FLT32',
+       $1,`float32x',`FLT32X',
+       $1,`float64',`FLT64',
+       $1,`float64x',`FLT64X',
+       $1,`float128',`FLT128',
+       $1,`float128x',`FLT128X')')
 
 /* A string beginning "tk" is presumed to be a typekind already. */
 m4_define(`float_tk',

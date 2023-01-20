@@ -32,6 +32,40 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 staload "xprelude/SATS/integer.sats"
 
 (*------------------------------------------------------------------*)
+
+m4_foreachq(`FLT1',`extended_floattypes',
+`tkindef FLT1`'_kind = "my_extern_prefix`'FLT1`'"
+typedef FLT1`' = g0float FLT1`'_kind
+
+')dnl
+m4_foreachq(`N',`extended_floattypes_suffixes',
+`stadef flt`'N`'knd = float`'N`'_kind
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Printing. *)
+
+(* I give the overloads precedence 1, so they will take precedence
+   over overloads of precedence 0 in the prelude. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn fprint_`'FLT1 : fprint_type FLT1 = "mac#%"
+fn print_`'FLT1 : FLT1 -> void = "mac#%"
+fn prerr_`'FLT1 : FLT1 -> void = "mac#%"
+overload fprint with fprint_`'FLT1 of 1
+overload print with print_`'FLT1 of 1
+overload prerr with prerr_`'FLT1 of 1
+
+')dnl
+(*------------------------------------------------------------------*)
+(* Conversion to a string. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn {} tostrptr_`'FLT1 : FLT1 -< !wrt > Strptr1
+fn {} tostring_`'FLT1 : FLT1 -<> string
+
+')dnl
+(*------------------------------------------------------------------*)
 (* g0float_epsilon: the difference between 1 and the least value
    greater than 1.                                                  *)
 
@@ -57,6 +91,13 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 overload sgn with g0float_sgn
+
+(*------------------------------------------------------------------*)
+(* g0float_abs: the absolute value of the number. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_abs_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
+')dnl
 
 (*------------------------------------------------------------------*)
 (* Unary operations. *)

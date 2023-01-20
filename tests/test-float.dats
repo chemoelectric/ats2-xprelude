@@ -117,5 +117,11 @@ main0 () =
     val- true = abs (acos 0.0 - 1.57079632675) < 0.000001
     val- true = abs (atan 1.0 - 0.785398163375) < 0.000001
     val- true = abs (atan2 (3.0L, 4.0L) - 0.643501108793284L) < 0.000001L
+
+
+// FIXME: GIVE EXTENDED FLOATING POINT ITS OWN TEST.
+val () = println!(((g0f2f 3.14159) : float128))
+val () = println!(tostring_val<float128> ((g0f2f 3.14159) : float128))
+//    val- true = abs (atan2 (g0f2f 3.0L, g0f2f 4.0L) - g0f2f 0.643501108793284L) < ((g0f2f 0.000001L) : float128)
   in
   end
