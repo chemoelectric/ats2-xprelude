@@ -35,13 +35,10 @@ staload "xprelude/SATS/integer.sats"
 
 m4_foreachq(`FLT1',`extended_floattypes',
 `tkindef FLT1`'_kind = "my_extern_prefix`'FLT1`'"
-typedef FLT1`' = g0float FLT1`'_kind
+stadef floatt2pfx(FLT1)`'knd = FLT1`'_kind
+typedef FLT1`' = g0float floatt2k(FLT1)
 
 ')dnl
-m4_foreachq(`N',`extended_floattypes_suffixes',
-`stadef flt`'N`'knd = float`'N`'_kind
-')dnl
-
 (*------------------------------------------------------------------*)
 (* Printing. *)
 

@@ -34,8 +34,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 /* Use #define instead of typedef, so these types do not actually have
    to exist on the platform. */
-m4_foreachq(`N',`extended_floattypes_suffixes',
-`#define my_extern_prefix`'float`'N _Float`'N
+m4_foreachq(`FLT1',`extended_floattypes',
+`#define floatt2c(FLT1) floatt2C(FLT1)
 ')dnl
 
 /*------------------------------------------------------------------*/
