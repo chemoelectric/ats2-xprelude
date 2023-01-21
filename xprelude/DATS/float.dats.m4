@@ -183,8 +183,10 @@ m4_foreachq(`TOP',`trinary_ops',
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Comparisons. *)
+(* `Comparisons.' *)
 
+(* In case a type has been given no specific implementations of some
+   of the `comparisons' to zero. *)
 m4_foreachq(`OP',`comparisons',
 `implement {tk} g0float_is`'OP`'z x = g0float_`'OP<tk> (x, g0i2f 0)
 ')dnl
@@ -215,6 +217,16 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 
 (*------------------------------------------------------------------*)
 (* Arithmetic. *)
+
+(* In case a type has no specific implementation of succ. *)
+implement {tk}
+g0float_succ x =
+  x + g0i2f 1
+
+(* In case a type has no specific implementation of pred. *)
+implement {tk}
+g0float_pred x =
+  x - g0i2f 1
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `m4_foreachq(`OP',`min,max,add,sub,mul,div,mod,succ,pred',
