@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Fri Jan 20 10:37:49 CST 2023
+# from AX_AM_MACROS_STATIC on Sat Jan 21 15:24:24 CST 2023
 
 
 
@@ -113,14 +113,15 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS =
-EXTRA_PROGRAMS = $(am__EXEEXT_2) list-ats-dependencies$(EXEEXT)
+EXTRA_PROGRAMS = $(am__EXEEXT_3) list-ats-dependencies$(EXEEXT)
 TESTS = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
-	tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_1) \
+	$(am__EXEEXT_1) tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_2) \
 	tests/test-sort$(EXEEXT)
 @ENABLE_EXRAT_TRUE@am__append_1 = $(EXRAT_SRC)
 @ENABLE_EXRAT_TRUE@am__append_2 = $(EXRAT_SATS_C) $(EXRAT_DATS_C) \
 @ENABLE_EXRAT_TRUE@	$(EXRAT_SUPPORT_DATS_C)
-@ENABLE_EXRAT_TRUE@am__append_3 = tests/test-exrat
+@HAVE_FLOAT128_TRUE@am__append_3 = tests/test-float128
+@ENABLE_EXRAT_TRUE@am__append_4 = tests/test-exrat
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -152,9 +153,10 @@ CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = list-ats-dependencies.dats common-macros.m4 \
 	ats2-xprelude-macros.m4
 CONFIG_CLEAN_VPATH_FILES =
-@ENABLE_EXRAT_TRUE@am__EXEEXT_1 = tests/test-exrat$(EXEEXT)
-am__EXEEXT_2 = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
-	tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_1) \
+@HAVE_FLOAT128_TRUE@am__EXEEXT_1 = tests/test-float128$(EXEEXT)
+@ENABLE_EXRAT_TRUE@am__EXEEXT_2 = tests/test-exrat$(EXEEXT)
+am__EXEEXT_3 = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
+	$(am__EXEEXT_1) tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_2) \
 	tests/test-sort$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(pkgincludedir)" \
@@ -249,6 +251,14 @@ tests_test_float_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(tests_test_float_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
+@HAVE_FLOAT128_TRUE@nodist_tests_test_float128_OBJECTS = tests/test_float128-test-float128_tests.$(OBJEXT)
+tests_test_float128_OBJECTS = $(nodist_tests_test_float128_OBJECTS)
+@HAVE_FLOAT128_TRUE@tests_test_float128_DEPENDENCIES =  \
+@HAVE_FLOAT128_TRUE@	$(am__DEPENDENCIES_2)
+tests_test_float128_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(tests_test_float128_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 nodist_tests_test_integer_OBJECTS =  \
 	tests/test_integer-test-integer_tests.$(OBJEXT)
 tests_test_integer_OBJECTS = $(nodist_tests_test_integer_OBJECTS)
@@ -289,6 +299,7 @@ am__depfiles_remade = ./$(DEPDIR)/exrat-support_dats.Plo \
 	tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po \
 	tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po \
 	tests/$(DEPDIR)/test_float-test-float_tests.Po \
+	tests/$(DEPDIR)/test_float128-test-float128_tests.Po \
 	tests/$(DEPDIR)/test_integer-test-integer_tests.Po \
 	tests/$(DEPDIR)/test_sort-test-sort_tests.Po \
 	xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo \
@@ -328,6 +339,7 @@ SOURCES = $(dist_libats2_xprelude_la_SOURCES) \
 	$(nodist_tests_test_exrat_SOURCES) \
 	$(nodist_tests_test_fixed32p32_SOURCES) \
 	$(nodist_tests_test_float_SOURCES) \
+	$(nodist_tests_test_float128_SOURCES) \
 	$(nodist_tests_test_integer_SOURCES) \
 	$(nodist_tests_test_sort_SOURCES)
 DIST_SOURCES = $(dist_libats2_xprelude_la_SOURCES)
@@ -812,8 +824,9 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	$(addsuffix .m4, $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)) \
 	$(addsuffix .m4, $(SORT_SRC)) $(addsuffix .m4, $(SORT_HATS)) \
 	tests/test-integer.dats tests/test-float.dats \
-	tests/test-fixed32p32.dats tests/test-exrat.dats \
-	tests/test-sort.dats list-ats-dependencies.dats
+	tests/test-float128.dats tests/test-fixed32p32.dats \
+	tests/test-exrat.dats tests/test-sort.dats \
+	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(FLOAT_SRC) $(FIXED32P32_SRC) $(EXRAT_SRC) \
@@ -933,6 +946,9 @@ tests_test_integer_LDADD = $(TEST_LIBS)
 nodist_tests_test_float_SOURCES = tests/test-float_tests.c
 tests_test_float_CFLAGS = $(TEST_CFLAGS)
 tests_test_float_LDADD = $(TEST_LIBS)
+@HAVE_FLOAT128_TRUE@nodist_tests_test_float128_SOURCES = tests/test-float128_tests.c
+@HAVE_FLOAT128_TRUE@tests_test_float128_CFLAGS = $(TEST_CFLAGS)
+@HAVE_FLOAT128_TRUE@tests_test_float128_LDADD = $(TEST_LIBS)
 nodist_tests_test_fixed32p32_SOURCES = tests/test-fixed32p32_tests.c
 tests_test_fixed32p32_CFLAGS = $(TEST_CFLAGS)
 tests_test_fixed32p32_LDADD = $(TEST_LIBS)
@@ -1159,6 +1175,12 @@ tests/test_float-test-float_tests.$(OBJEXT): tests/$(am__dirstamp) \
 tests/test-float$(EXEEXT): $(tests_test_float_OBJECTS) $(tests_test_float_DEPENDENCIES) $(EXTRA_tests_test_float_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/test-float$(EXEEXT)
 	$(AM_V_CCLD)$(tests_test_float_LINK) $(tests_test_float_OBJECTS) $(tests_test_float_LDADD) $(LIBS)
+tests/test_float128-test-float128_tests.$(OBJEXT):  \
+	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/test-float128$(EXEEXT): $(tests_test_float128_OBJECTS) $(tests_test_float128_DEPENDENCIES) $(EXTRA_tests_test_float128_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/test-float128$(EXEEXT)
+	$(AM_V_CCLD)$(tests_test_float128_LINK) $(tests_test_float128_OBJECTS) $(tests_test_float128_LDADD) $(LIBS)
 tests/test_integer-test-integer_tests.$(OBJEXT):  \
 	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -1192,6 +1214,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_float-test-float_tests.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_float128-test-float128_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_integer-test-integer_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_sort-test-sort_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo@am__quote@ # am--include-marker
@@ -1292,6 +1315,20 @@ tests/test_float-test-float_tests.obj: tests/test-float_tests.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tests/test-float_tests.c' object='tests/test_float-test-float_tests.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_float_CFLAGS) $(CFLAGS) -c -o tests/test_float-test-float_tests.obj `if test -f 'tests/test-float_tests.c'; then $(CYGPATH_W) 'tests/test-float_tests.c'; else $(CYGPATH_W) '$(srcdir)/tests/test-float_tests.c'; fi`
+
+tests/test_float128-test-float128_tests.o: tests/test-float128_tests.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_float128_CFLAGS) $(CFLAGS) -MT tests/test_float128-test-float128_tests.o -MD -MP -MF tests/$(DEPDIR)/test_float128-test-float128_tests.Tpo -c -o tests/test_float128-test-float128_tests.o `test -f 'tests/test-float128_tests.c' || echo '$(srcdir)/'`tests/test-float128_tests.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) tests/$(DEPDIR)/test_float128-test-float128_tests.Tpo tests/$(DEPDIR)/test_float128-test-float128_tests.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tests/test-float128_tests.c' object='tests/test_float128-test-float128_tests.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_float128_CFLAGS) $(CFLAGS) -c -o tests/test_float128-test-float128_tests.o `test -f 'tests/test-float128_tests.c' || echo '$(srcdir)/'`tests/test-float128_tests.c
+
+tests/test_float128-test-float128_tests.obj: tests/test-float128_tests.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_float128_CFLAGS) $(CFLAGS) -MT tests/test_float128-test-float128_tests.obj -MD -MP -MF tests/$(DEPDIR)/test_float128-test-float128_tests.Tpo -c -o tests/test_float128-test-float128_tests.obj `if test -f 'tests/test-float128_tests.c'; then $(CYGPATH_W) 'tests/test-float128_tests.c'; else $(CYGPATH_W) '$(srcdir)/tests/test-float128_tests.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) tests/$(DEPDIR)/test_float128-test-float128_tests.Tpo tests/$(DEPDIR)/test_float128-test-float128_tests.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tests/test-float128_tests.c' object='tests/test_float128-test-float128_tests.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_float128_CFLAGS) $(CFLAGS) -c -o tests/test_float128-test-float128_tests.obj `if test -f 'tests/test-float128_tests.c'; then $(CYGPATH_W) 'tests/test-float128_tests.c'; else $(CYGPATH_W) '$(srcdir)/tests/test-float128_tests.c'; fi`
 
 tests/test_integer-test-integer_tests.o: tests/test-integer_tests.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_integer_CFLAGS) $(CFLAGS) -MT tests/test_integer-test-integer_tests.o -MD -MP -MF tests/$(DEPDIR)/test_integer-test-integer_tests.Tpo -c -o tests/test_integer-test-integer_tests.o `test -f 'tests/test-integer_tests.c' || echo '$(srcdir)/'`tests/test-integer_tests.c
@@ -1663,6 +1700,13 @@ tests/test-float.log: tests/test-float$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/test-float128.log: tests/test-float128$(EXEEXT)
+	@p='tests/test-float128$(EXEEXT)'; \
+	b='tests/test-float128'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 tests/test-fixed32p32.log: tests/test-fixed32p32$(EXEEXT)
 	@p='tests/test-fixed32p32$(EXEEXT)'; \
 	b='tests/test-fixed32p32'; \
@@ -1971,6 +2015,7 @@ distclean: distclean-recursive
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
 	-rm -f tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po
 	-rm -f tests/$(DEPDIR)/test_float-test-float_tests.Po
+	-rm -f tests/$(DEPDIR)/test_float128-test-float128_tests.Po
 	-rm -f tests/$(DEPDIR)/test_integer-test-integer_tests.Po
 	-rm -f tests/$(DEPDIR)/test_sort-test-sort_tests.Po
 	-rm -f xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo
@@ -2043,6 +2088,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
 	-rm -f tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po
 	-rm -f tests/$(DEPDIR)/test_float-test-float_tests.Po
+	-rm -f tests/$(DEPDIR)/test_float128-test-float128_tests.Po
 	-rm -f tests/$(DEPDIR)/test_integer-test-integer_tests.Po
 	-rm -f tests/$(DEPDIR)/test_sort-test-sort_tests.Po
 	-rm -f xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo

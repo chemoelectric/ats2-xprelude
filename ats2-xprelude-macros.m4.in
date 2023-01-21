@@ -291,7 +291,7 @@ m4_define(`floating_point_constant',
          $1,`decimal32',`$extval ($1,` "$2DF"')',
          $1,`decimal64',`$extval ($1,` "$2DD"')',
          $1,`decimal128',`$extval ($1,` "$2DL"')',
-         `$extval ($1,` "$2'floatt2SFX($1)`"')')')
+         `$extval ($1,` "$2'floatt2sfx($1)`"')')')
 
 m4_define(`list_of_m4_constant',
     `E, LOG2E, LOG10E, LN2, LN10,

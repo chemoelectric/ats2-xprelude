@@ -217,7 +217,7 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (* Arithmetic. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`OP',`min,max,add,sub,mul,div,mod',
+`m4_foreachq(`OP',`min,max,add,sub,mul,div,mod,succ,pred',
 `implement g0float_`'OP<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
 ')
 ')dnl

@@ -362,6 +362,14 @@ nodist_tests_test_float_SOURCES = tests/test-float_tests.c
 tests_test_float_CFLAGS = $(TEST_CFLAGS)
 tests_test_float_LDADD = $(TEST_LIBS)
 
+EXTRA_DIST += tests/test-float128.dats
+if HAVE_FLOAT128
+TESTS += tests/test-float128
+nodist_tests_test_float128_SOURCES = tests/test-float128_tests.c
+tests_test_float128_CFLAGS = $(TEST_CFLAGS)
+tests_test_float128_LDADD = $(TEST_LIBS)
+endif HAVE_FLOAT128
+
 EXTRA_DIST += tests/test-fixed32p32.dats
 TESTS += tests/test-fixed32p32
 nodist_tests_test_fixed32p32_SOURCES = tests/test-fixed32p32_tests.c

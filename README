@@ -19,6 +19,11 @@ THIS PROJECT IS A WORK IN PROGRESS.
 
 * Expanded support for floating point, and workarounds for bugs.
 
+* Support for the following floating point types: float16, float32,
+  float64, float128, float16x float32x, float64x, float128x,
+  decimal32, decimal64, decimal128. Your C compiler and libraries are
+  likely to support some of these but not others.
+
 * 32+32-bit fixed point, treated as if it were floating point
   (g0float).
 
@@ -49,9 +54,6 @@ THIS PROJECT IS A WORK IN PROGRESS.
   similarly is more efficiently accessed when it is aligned on 128-bit
   boundaries. However, the ABI for x86 was designed for older
   processors, such as 80386, and specifies 96-bit boundaries.
-
-* Also possible: more explicit support for floating point types such
-  as _Float128.
 
 * Also possible: 128-bit integers, using compiler support if possible,
   otherwise by library code.

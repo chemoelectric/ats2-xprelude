@@ -670,6 +670,8 @@ GNU_MAKE
 GNU
 ENABLE_EXRAT_FALSE
 ENABLE_EXRAT_TRUE
+HAVE_FLOAT128_FALSE
+HAVE_FLOAT128_TRUE
 ATS_MEMALLOC_LIBS
 ATS_MEMALLOC_CFLAGS
 ATS_MEMALLOC
@@ -2033,6 +2035,63 @@ fi
   as_fn_set_status $ac_retval
 
 } # ac_fn_cxx_try_link
+
+# ac_fn_c_check_type LINENO TYPE VAR INCLUDES
+# -------------------------------------------
+# Tests whether TYPE exists after having included INCLUDES, setting cache
+# variable VAR accordingly.
+ac_fn_c_check_type ()
+{
+  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
+printf %s "checking for $2... " >&6; }
+if eval test \${$3+y}
+then :
+  printf %s "(cached) " >&6
+else $as_nop
+  eval "$3=no"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+$4
+int
+main (void)
+{
+if (sizeof ($2))
+	 return 0;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+$4
+int
+main (void)
+{
+if (sizeof (($2)))
+	    return 0;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+
+else $as_nop
+  eval "$3=yes"
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+eval ac_res=\$$3
+	       { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+printf "%s\n" "$ac_res" >&6; }
+  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
+
+} # ac_fn_c_check_type
 ac_configure_args_raw=
 for ac_arg
 do
@@ -20305,6 +20364,25 @@ fi
 #
 # Checks for typedefs, structures, and compiler characteristics.
 
+ac_fn_c_check_type "$LINENO" "_Float128" "ac_cv_type__Float128" "$ac_includes_default"
+if test "x$ac_cv_type__Float128" = xyes
+then :
+
+fi
+
+ if test x"${ac_cv_type__Float128}" = xyes; then
+  HAVE_FLOAT128_TRUE=
+  HAVE_FLOAT128_FALSE='#'
+else
+  HAVE_FLOAT128_TRUE='#'
+  HAVE_FLOAT128_FALSE=
+fi
+
+if test x"${ac_cv_type__Float128}" = xyes; then
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: _Float128 found. The tests will take this into account." >&5
+printf "%s\n" "$as_me: _Float128 found. The tests will take this into account." >&6;}
+fi
+
 #--------------------------------------------------------------------------
 #
 # Checks for library functions.
@@ -20794,6 +20872,10 @@ fi
 
 if test -z "${CODE_COVERAGE_ENABLED_TRUE}" && test -z "${CODE_COVERAGE_ENABLED_FALSE}"; then
   as_fn_error $? "conditional \"CODE_COVERAGE_ENABLED\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_FLOAT128_TRUE}" && test -z "${HAVE_FLOAT128_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT128\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_EXRAT_TRUE}" && test -z "${ENABLE_EXRAT_FALSE}"; then

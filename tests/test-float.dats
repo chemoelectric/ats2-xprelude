@@ -487,19 +487,5 @@ main () =
     test16 ();
     test17 ();
     test18 ();
-
-    // FIXME: GIVE EXTENDED FLOATING POINT ITS OWN SET OF TESTS, CONDITIONAL ON THEIR INCLUSION.
-    let
-      val () = println!(((g0f2f 3.14159) : float128))
-      val () = println!(tostring_val<float128> ((g0f2f 3.14159) : float128))
-      val () = println!(((g0f2f 3.14159) : float128) < g0i2f 3)
-      val () = println!(((g0f2f 3.14159) : float128) < g0f2f 3.14159)
-      val () = println!(((g0f2f 3.14159) : float128) < g0i2f 4)
-      val () = println!(~((g0f2f 3.14159) : decimal64) = g0f2f ~3.14159)
-      val () = println!(g0float2float<dec32knd,flt32knd> (M_Ed32))
-      val () = println!(g0float2float<flt128knd,flt32knd> (M_PIf128))
-      //    val- true = abs (atan2 (g0f2f 3.0L, g0f2f 4.0L) - g0f2f 0.643501108793284L) < ((g0f2f 0.000001L) : float128)
-    in
-    end;
     0
   end
