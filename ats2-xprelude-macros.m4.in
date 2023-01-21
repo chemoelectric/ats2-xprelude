@@ -233,28 +233,50 @@ m4_define(`FLOAT_SUPPORT_CHECK',
 m4_define(`END_FLOAT_SUPPORT_CHECK',``#'endif')
 
 /*------------------------------------------------------------------*/
-/* Floating point operations. */
+/* Floating point operations. Your libraries might not have all of
+   these, and get access to some you might need to set C preprocessor
+   flags. */
 
 m4_define(`floatt2op',`$2`'floatt2sfx(`$1')')
 
 m4_define(`trig2_ops',`atan2')
 
 m4_define(`unary_ops',
-          `round,nearbyint,rint,floor,ceil,trunc,roundeven,
-           fabs,nextup,nextdown,
-           fdim,fmin,fmax,fminmag,fmaxmag,
-           sqrt,cbrt,
-           exp,exp2,expm1,
-           log,log2,log10,log1p,logb,
-           sin,cos,tan,asin,acos,atan,
-           sinh,cosh,tanh,asinh,acosh,atanh,
-           erf,erfc,lgamma,tgamma')
+          `round, nearbyint, rint, floor, ceil, trunc, roundeven,
+           fabs, nextup, nextdown,
+           fdim, fmin, fmax, fminmag, fmaxmag,
+           sqrt, cbrt,
+           rsqrt, crrsqrt,
+           exp, exp2, exp10,
+           crexp, crexp2, crexp10,
+           expm1, exp2m1, exp10m1,
+           crexpm1, crexp2m1, crexp10m1,
+           log, log2, log10,
+           crlog, crlog2, crlog10,
+           log1p, logp1, log2p1, log10p1,
+           crlog1p, crlogp1, crlog2p1, crlog10p1,
+           logb,
+           sin, cos, tan,
+           crsin, crcos, crtan,
+           asin, acos, atan,
+           crasin, cracos, cratan,
+           sinpi, cospi, tanpi,
+           crsinpi, crcospi, crtanpi,
+           asinpi, acospi, atanpi,
+           crasinpi, cracospi, cratanpi,
+           sinh, cosh, tanh,
+           crsinh, crcosh, crtanh,
+           asinh, acosh, atanh,
+           crasinh, cracosh, cratanh,
+           erf, erfc,
+           lgamma, tgamma')
 
 m4_define(`binary_ops',
-          `copysign,nextafter,
-           fmod,remainder,
-           pow,hypot,
-           atan2')
+          `copysign, nextafter,
+           fmod, remainder,
+           pow, powr, hypot,
+           crpow, crpowr, crhypot,
+           atan2, atan2pi')
 
 m4_define(`trinary_ops',
           `fma')
