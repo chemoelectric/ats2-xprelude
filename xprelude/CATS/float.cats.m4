@@ -70,6 +70,14 @@ my_extern_prefix`'fprint_ldouble (atstype_ref out, floatt2c(ldouble) x)
   (void) fprintf ((FILE *) out, "%.6Lf", x);
 }
 
+m4_foreachq(`FLT1',`regular_floattypes',
+`#define my_extern_prefix`'print_`'FLT1`'(x) my_extern_prefix`'fprint_`'FLT1` '(stdout, x)
+')dnl
+
+m4_foreachq(`FLT1',`regular_floattypes',
+`#define my_extern_prefix`'prerr_`'FLT1`'(x) my_extern_prefix`'fprint_`'FLT1` '(stderr, x)
+')dnl
+
 /*------------------------------------------------------------------*/
 /* Type conversions. */
 
