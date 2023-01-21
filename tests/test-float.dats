@@ -215,6 +215,47 @@ test11 () : void =
 fn
 test12 () : void =
   let
+    val- true = abs (mathconst_E () - $extval (float, "M_E")) < 0.00001F
+    val- true = abs (mathconst_LOG2E () - $extval (float, "M_LOG2E")) < 0.00001F
+    val- true = abs (mathconst_LOG10E () - $extval (float, "M_LOG10E")) < 0.00001F
+    val- true = abs (mathconst_LN2 () - $extval (float, "M_LN2")) < 0.00001F
+    val- true = abs (mathconst_LN10 () - $extval (float, "M_LN10")) < 0.00001F
+    val- true = abs (mathconst_PI () - $extval (float, "M_PI")) < 0.00001F
+    val- true = abs (mathconst_PI_2 () - $extval (float, "M_PI_2")) < 0.00001F
+    val- true = abs (mathconst_PI_4 () - $extval (float, "M_PI_4")) < 0.00001F
+    val- true = abs (mathconst_1_PI () - $extval (float, "M_1_PI")) < 0.00001F
+    val- true = abs (mathconst_2_PI () - $extval (float, "M_2_PI")) < 0.00001F
+    val- true = abs (mathconst_2_SQRTPI () - $extval (float, "M_2_SQRTPI")) < 0.00001F
+    val- true = abs (mathconst_SQRT2 () - $extval (float, "M_SQRT2")) < 0.00001F
+    val- true = abs (mathconst_SQRT1_2 () - $extval (float, "M_SQRT1_2")) < 0.00001F
+
+    val- true = abs (mathconst_E () - $extval (double, "M_E")) < 0.00001
+    val- true = abs (mathconst_LOG2E () - $extval (double, "M_LOG2E")) < 0.00001
+    val- true = abs (mathconst_LOG10E () - $extval (double, "M_LOG10E")) < 0.00001
+    val- true = abs (mathconst_LN2 () - $extval (double, "M_LN2")) < 0.00001
+    val- true = abs (mathconst_LN10 () - $extval (double, "M_LN10")) < 0.00001
+    val- true = abs (mathconst_PI () - $extval (double, "M_PI")) < 0.00001
+    val- true = abs (mathconst_PI_2 () - $extval (double, "M_PI_2")) < 0.00001
+    val- true = abs (mathconst_PI_4 () - $extval (double, "M_PI_4")) < 0.00001
+    val- true = abs (mathconst_1_PI () - $extval (double, "M_1_PI")) < 0.00001
+    val- true = abs (mathconst_2_PI () - $extval (double, "M_2_PI")) < 0.00001
+    val- true = abs (mathconst_2_SQRTPI () - $extval (double, "M_2_SQRTPI")) < 0.00001
+    val- true = abs (mathconst_SQRT2 () - $extval (double, "M_SQRT2")) < 0.00001
+    val- true = abs (mathconst_SQRT1_2 () - $extval (double, "M_SQRT1_2")) < 0.00001
+
+    val- true = abs (mathconst_E () - $extval (ldouble, "M_E")) < 0.00001L
+    val- true = abs (mathconst_LOG2E () - $extval (ldouble, "M_LOG2E")) < 0.00001L
+    val- true = abs (mathconst_LOG10E () - $extval (ldouble, "M_LOG10E")) < 0.00001L
+    val- true = abs (mathconst_LN2 () - $extval (ldouble, "M_LN2")) < 0.00001L
+    val- true = abs (mathconst_LN10 () - $extval (ldouble, "M_LN10")) < 0.00001L
+    val- true = abs (mathconst_PI () - $extval (ldouble, "M_PI")) < 0.00001L
+    val- true = abs (mathconst_PI_2 () - $extval (ldouble, "M_PI_2")) < 0.00001L
+    val- true = abs (mathconst_PI_4 () - $extval (ldouble, "M_PI_4")) < 0.00001L
+    val- true = abs (mathconst_1_PI () - $extval (ldouble, "M_1_PI")) < 0.00001L
+    val- true = abs (mathconst_2_PI () - $extval (ldouble, "M_2_PI")) < 0.00001L
+    val- true = abs (mathconst_2_SQRTPI () - $extval (ldouble, "M_2_SQRTPI")) < 0.00001L
+    val- true = abs (mathconst_SQRT2 () - $extval (ldouble, "M_SQRT2")) < 0.00001L
+    val- true = abs (mathconst_SQRT1_2 () - $extval (ldouble, "M_SQRT1_2")) < 0.00001L
   in
   end
 

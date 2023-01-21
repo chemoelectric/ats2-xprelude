@@ -223,6 +223,16 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Floating point constants. *)
+
+m4_foreachq(`CONST',`list_of_m4_constant',
+`(* m4_constant_comment(CONST) *)
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement mathconst_`'CONST<floatt2k(FLT1)> () = M_`'CONST`'floatt2sfx(FLT1)
+')dnl  
+
+')dnl
+(*------------------------------------------------------------------*)
 (* An implementation of g0float_npow that doesn’t contain a bug
    there is in the prelude’s implementation. The prelude’s
    implementation unwisely assumes C correctly casts between

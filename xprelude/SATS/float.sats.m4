@@ -206,6 +206,15 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (*------------------------------------------------------------------*)
 (* Floating point constants. *)
 
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+(* Generic interface. *)
+
+m4_foreachq(`CONST',`list_of_m4_constant',
+`(* m4_constant_comment(CONST) *)
+fn {tk : tkind} mathconst_`'CONST : () -<> g0float tk
+
+')dnl
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 (* GNU-style constant names (see glibc’s /usr/include/math.h). We
    include decimal floating point versions, using the ISO/IEC TS
    18661-3 numeric-literal suffix notation ‘d32’, ‘d64’, ‘d128’. *)
