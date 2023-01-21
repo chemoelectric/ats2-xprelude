@@ -206,21 +206,15 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (*------------------------------------------------------------------*)
 (* Floating point constants. *)
 
-(* GNU-style constant names. *)
+(* GNU-style constant names (see glibc’s /usr/include/math.h). We
+   include decimal floating point versions, using the ISO/IEC TS
+   18661-3 numeric-literal suffix notation ‘d32’, ‘d64’, ‘d128’. *)
+
+m4_foreachq(`CONST',`list_of_m4_constant',
+`(* m4_constant_comment(CONST) *)
 m4_foreachq(`FLT1',`conventional_floattypes',
-`macdef M_E`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_E)
-macdef M_LOG2E`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LOG2E)
-macdef M_LOG10E`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LOG10E)
-macdef M_LN2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LN2)
-macdef M_LN10`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_LN10)
-macdef M_PI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_PI)
-macdef M_PI_2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_PI_2)
-macdef M_PI_4`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_PI_4)
-macdef M_1_PI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_1_PI)
-macdef M_2_PI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_2_PI)
-macdef M_2_SQRTPI`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_2_SQRTPI)
-macdef M_SQRT2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_SQRT2)
-macdef M_SQRT1_2`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_M_SQRT1_2)
+`macdef M_`'CONST`'floatt2sfx(FLT1) = floating_point_constant(FLT1, m4_constant(CONST))
+')dnl
 
 ')dnl
 (*------------------------------------------------------------------*)
