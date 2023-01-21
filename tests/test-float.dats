@@ -259,6 +259,213 @@ test12 () : void =
   in
   end
 
+fn
+test13 () : void =
+  let
+    val- true = g0float_neg 3.0 = ~3.0
+    val- true = ~ (2.0 + 1.0) = ~3.0
+
+    val- true = fabs 3.0 = 3.0
+    val- true = fabs ~3.0 = 3.0
+    val- true = fabs 3.0 = abs 3.0
+    val- true = fabs ~3.0 = abs ~3.0
+
+    val- true = 1.0 + 2.0 = 3.0
+    val- true = 2.0 + 1.0 = 3.0
+    val- true = 3.0 - 1.0 = 2.0
+    val- true = 1.0 - 3.0 = ~2.0
+    val- true = 3.0 * 2.0 = 6.0
+    val- true = 2.0 * 3.0 = 6.0
+    val- true = 6.0 / 2.0 = 3.0
+    val- true = 6.0 / 3.0 = 2.0
+    val- true = 6.0 mod 2.0 = 0.0
+    val- true = 6.0 mod 3.0 = 0.0
+    val- true = 2.0 * (3.0 / 2.0) = 3.0
+    val- true = 3.0 mod 2.0 = 1.0
+    val- true = 2.0 mod 3.0 = 2.0
+
+    val- true = fma (2.0, 3.0, 1.0) = 7.0
+  in
+  end
+
+fn
+test14 () : void =
+  let
+    val- true = ~3.0 < 3.0
+    val- false = ~3.0 > 3.0
+    val- true = ~3.0 <= 3.0
+    val- false = ~3.0 >= 3.0
+    val- false = ~3.0 = 3.0
+    val- true = ~3.0 <> 3.0
+    val- true = ~3.0 != 3.0
+
+    val- false = 3.0 < ~3.0
+    val- true = 3.0 > ~3.0
+    val- false = 3.0 <= ~3.0
+    val- true = 3.0 >= ~3.0
+    val- false = 3.0 = ~3.0
+    val- true = 3.0 <> ~3.0
+    val- true = 3.0 != ~3.0
+
+    val- false = 3.0 < 3.0
+    val- false = 3.0 > 3.0
+    val- true = 3.0 <= 3.0
+    val- true = 3.0 >= 3.0
+    val- true = 3.0 = 3.0
+    val- false = 3.0 <> 3.0
+    val- false = 3.0 != 3.0
+  in
+  end
+
+fn
+test15 () : void =
+  let
+    val- true = isltz ~3.0
+    val- true = isltez ~3.0
+    val- false = isgtz ~3.0
+    val- false = isgtez ~3.0
+    val- false = iseqz ~3.0
+    val- true = isneqz ~3.0
+
+    val- false = isltz 0.0
+    val- true = isltez 0.0
+    val- false = isgtz 0.0
+    val- true = isgtez 0.0
+    val- true = iseqz 0.0
+    val- false = isneqz 0.0
+
+    val- false = isltz 3.0
+    val- false = isltez 3.0
+    val- true = isgtz 3.0
+    val- true = isgtez 3.0
+    val- false = iseqz 3.0
+    val- true = isneqz 3.0
+  in
+  end
+
+fn
+test16 () : void =
+  let
+    val- true = min (~3.0, 3.0) = ~3.0
+    val- true = min (3.0, ~3.0) = ~3.0
+
+    val- true = max (~3.0, 3.0) = 3.0
+    val- true = max (3.0, ~3.0) = 3.0
+  in
+  end
+
+fn
+test17 () : void =
+  let
+    val- true = succ ~3.0 = ~2.0
+    val- true = succ 3.0 = 4.0
+
+    val- true = pred ~3.0 = ~4.0
+    val- true = pred 3.0 = 2.0
+  in
+  end
+
+fn
+test18 () : void =
+  let
+    val- true = g0float_npow (0.0, 0) = 1.0
+    val- true = g0float_npow (1.0, 0) = 1.0
+    val- true = g0float_npow (2.0, 0) = 1.0
+    val- true = g0float_npow (3.0, 0) = 1.0
+    val- true = g0float_npow (4.0, 0) = 1.0
+
+    val- true = g0float_npow (0.0, 1) = 0.0
+    val- true = g0float_npow (1.0, 1) = 1.0
+    val- true = g0float_npow (2.0, 1) = 2.0
+    val- true = g0float_npow (3.0, 1) = 3.0
+    val- true = g0float_npow (4.0, 1) = 4.0
+
+    val- true = g0float_npow (0.0, 2) = 0.0
+    val- true = g0float_npow (1.0, 2) = 1.0
+    val- true = g0float_npow (2.0, 2) = 4.0
+    val- true = g0float_npow (3.0, 2) = 9.0
+    val- true = g0float_npow (4.0, 2) = 16.0
+
+    val- true = g0float_npow (0.0, 3) = 0.0
+    val- true = g0float_npow (1.0, 3) = 1.0
+    val- true = g0float_npow (2.0, 3) = 8.0
+    val- true = g0float_npow (3.0, 3) = 27.0
+    val- true = g0float_npow (4.0, 3) = 64.0
+
+    val- true = 0.0 ** 0 = 1.0
+    val- true = 1.0 ** 0 = 1.0
+    val- true = 2.0 ** 0 = 1.0
+    val- true = 3.0 ** 0 = 1.0
+    val- true = 4.0 ** 0 = 1.0
+
+    val- true = 0.0 ** 1 = 0.0
+    val- true = 1.0 ** 1 = 1.0
+    val- true = 2.0 ** 1 = 2.0
+    val- true = 3.0 ** 1 = 3.0
+    val- true = 4.0 ** 1 = 4.0
+
+    val- true = 0.0 ** 2 = 0.0
+    val- true = 1.0 ** 2 = 1.0
+    val- true = 2.0 ** 2 = 4.0
+    val- true = 3.0 ** 2 = 9.0
+    val- true = 4.0 ** 2 = 16.0
+
+    val- true = 0.0 ** 3 = 0.0
+    val- true = 1.0 ** 3 = 1.0
+    val- true = 2.0 ** 3 = 8.0
+    val- true = 3.0 ** 3 = 27.0
+    val- true = 4.0 ** 3 = 64.0
+
+    val- true = pow (0.0, 0.0) = 1.0
+    val- true = pow (1.0, 0.0) = 1.0
+    val- true = pow (2.0, 0.0) = 1.0
+    val- true = pow (3.0, 0.0) = 1.0
+    val- true = pow (4.0, 0.0) = 1.0
+
+    val- true = pow (0.0, 1.0) = 0.0
+    val- true = pow (1.0, 1.0) = 1.0
+    val- true = pow (2.0, 1.0) = 2.0
+    val- true = pow (3.0, 1.0) = 3.0
+    val- true = pow (4.0, 1.0) = 4.0
+
+    val- true = pow (0.0, 2.0) = 0.0
+    val- true = pow (1.0, 2.0) = 1.0
+    val- true = pow (2.0, 2.0) = 4.0
+    val- true = pow (3.0, 2.0) = 9.0
+    val- true = pow (4.0, 2.0) = 16.0
+
+    val- true = pow (0.0, 3.0) = 0.0
+    val- true = pow (1.0, 3.0) = 1.0
+    val- true = pow (2.0, 3.0) = 8.0
+    val- true = pow (3.0, 3.0) = 27.0
+    val- true = pow (4.0, 3.0) = 64.0
+
+    val- true = 0.0 ** 0.0 = 1.0
+    val- true = 1.0 ** 0.0 = 1.0
+    val- true = 2.0 ** 0.0 = 1.0
+    val- true = 3.0 ** 0.0 = 1.0
+    val- true = 4.0 ** 0.0 = 1.0
+
+    val- true = 0.0 ** 1.0 = 0.0
+    val- true = 1.0 ** 1.0 = 1.0
+    val- true = 2.0 ** 1.0 = 2.0
+    val- true = 3.0 ** 1.0 = 3.0
+    val- true = 4.0 ** 1.0 = 4.0
+
+    val- true = 0.0 ** 2.0 = 0.0
+    val- true = 1.0 ** 2.0 = 1.0
+    val- true = 2.0 ** 2.0 = 4.0
+    val- true = 3.0 ** 2.0 = 9.0
+    val- true = 4.0 ** 2.0 = 16.0
+
+    val- true = 0.0 ** 3.0 = 0.0
+    val- true = 1.0 ** 3.0 = 1.0
+    val- true = 2.0 ** 3.0 = 8.0
+    val- true = 3.0 ** 3.0 = 27.0
+    val- true = 4.0 ** 3.0 = 64.0
+  in
+  end
+
 implement
 main () =
   begin
@@ -274,6 +481,12 @@ main () =
     test10 ();
     test11 ();
     test12 ();
+    test13 ();
+    test14 ();
+    test15 ();
+    test16 ();
+    test17 ();
+    test18 ();
 
     // FIXME: GIVE EXTENDED FLOATING POINT ITS OWN SET OF TESTS, CONDITIONAL ON THEIR INCLUSION.
     let

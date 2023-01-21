@@ -155,6 +155,8 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 overload AOP with g0float_`'AOP
 
 ')dnl
+overload ** with g0float_pow
+
 (*------------------------------------------------------------------*)
 (* Trinary operations. *)
 
