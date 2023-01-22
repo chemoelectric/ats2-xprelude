@@ -39,6 +39,8 @@ THIS PROJECT IS A WORK IN PROGRESS.
 
 * Sorting, with algorithms selectable via -DATS flag.
 
+---
+
 * Also possible: C complex types, treated in ATS as floating point
   types.
 
