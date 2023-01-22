@@ -100,10 +100,25 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Epsilons. */
+/* Epsilon. */
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `#define my_extern_prefix`'g0float_epsilon_`'FLT1`'() (floatt2PFX(FLT1)_EPSILON)
+')dnl
+
+/*------------------------------------------------------------------*/
+/* Float radix. */
+
+_Static_assert (2 <= FLT_RADIX, "FLT_RADIX is less than 2");
+
+m4_foreachq(`FLT1',`regular_floattypes',
+`#define my_extern_prefix`'g0float_radix_`'FLT1`'() (FLT_RADIX)
+')dnl
+m4_foreachq(`FLT1',`extended_binary_floattypes',
+`#define my_extern_prefix`'g0float_radix_`'FLT1`'() (2)
+')dnl
+m4_foreachq(`FLT1',`extended_decimal_floattypes',
+`#define my_extern_prefix`'g0float_radix_`'FLT1`'() (10)
 ')dnl
 
 /*------------------------------------------------------------------*/

@@ -466,6 +466,15 @@ test18 () : void =
   in
   end
 
+fn
+test19 () : void =
+  let
+    val- true = g0float_radix<fltknd> () = $extval (Int, "FLT_RADIX")
+    val- true = g0float_radix<dblknd> () = $extval (Int, "FLT_RADIX")
+    val- true = g0float_radix<ldblknd> () = $extval (Int, "FLT_RADIX")
+  in
+  end
+
 implement
 main () =
   begin
@@ -487,5 +496,6 @@ main () =
     test16 ();
     test17 ();
     test18 ();
+    test19 ();
     0
   end

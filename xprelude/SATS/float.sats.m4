@@ -96,15 +96,22 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (* g0float_epsilon: the difference between 1 and the least value
    greater than 1.                                                  *)
 
-typedef g0float_epsilon_type (tk : tkind) = () -<> g0float tk
-
-fn {tk : tkind} g0float_epsilon : g0float_epsilon_type tk
+fn {tk : tkind} g0float_epsilon : () -<> g0float tk
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_epsilon_`'FLT1 : g0float_epsilon_type floatt2k(FLT1) = "mac#%"
+`fn g0float_epsilon_`'FLT1 : () -<> g0float floatt2k(FLT1) = "mac#%"
 ')dnl
 
 overload epsilon with g0float_epsilon
+
+(*------------------------------------------------------------------*)
+(* g0float_radix: the radix of the exponent. *)
+
+fn {tk : tkind} g0float_radix : () -<> intGte 2
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_radix_`'FLT1 : () -<> intGte 2 = "mac#%"
+')dnl
 
 (*------------------------------------------------------------------*)
 (* g0float_sgn: the sign of the number. *)

@@ -140,10 +140,17 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Epsilons. *)
+(* Epsilon. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_epsilon<floatt2k(FLT1)> = g0float_epsilon_`'FLT1
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Float radix. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_radix<floatt2k(FLT1)> = g0float_radix_`'FLT1
 ')dnl
 
 (*------------------------------------------------------------------*)

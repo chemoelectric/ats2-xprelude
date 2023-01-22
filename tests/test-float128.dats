@@ -401,6 +401,13 @@ test18 () : void =
   in
   end
 
+fn
+test19 () : void =
+  let
+    val- true = g0float_radix<flt128knd> () = 2
+  in
+  end
+
 implement
 main () =
   begin
@@ -422,5 +429,6 @@ main () =
     test16 ();
     test17 ();
     test18 ();
+    test19 ();
     0
   end

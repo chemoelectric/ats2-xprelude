@@ -142,15 +142,16 @@ m4_define(`m4_g1int_arith_shift',`(m4_g1int($1, $2), int $3) -<> m4_g1int($1, $4
 /*------------------------------------------------------------------*/
 /* Floating point kinds. */
 
-m4_define(`regular_floattypes',`float,double,ldouble')
-m4_define(`extended_floattypes',
-  `float16,float16x,
-   float32,float32x,
-   float64,float64x,
-   float128,float128x,
-   decimal32,decimal64,decimal128')
+m4_define(`regular_floattypes',`float, double, ldouble')
+m4_define(`extended_binary_floattypes', `float16, float16x,
+                                         float32, float32x,
+                                         float64, float64x,
+                                         float128, float128x')
+m4_define(`extended_decimal_floattypes', `decimal32, decimal64, decimal128')
+m4_define(`extended_floattypes',`extended_binary_floattypes,
+                                 extended_decimal_floattypes')
 m4_define(`conventional_floattypes',`regular_floattypes,extended_floattypes')
-m4_define(`floattypes',`conventional_floattypes,fixed32p32,exrat')
+m4_define(`floattypes',`conventional_floattypes, fixed32p32, exrat')
 
 m4_define(`floatt2k',`floatt2pfx(`$1')`'knd')
 
