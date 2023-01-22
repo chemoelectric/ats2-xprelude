@@ -43,11 +43,9 @@ m4_foreachq(`FLT1',`extended_floattypes',
 `implement {}
 fprint_`'FLT1 (out, x) =
   let
-    #define BUFSZ 128
-    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
-    val _ = $extfcall (int, "strfrom`'floatt2sfx(FLT1)",
-                       addr@ buf, BUFSZ - 1, "%.6f", x)
-    val _ = $extfcall (int, "fprintf", out, "%s", addr@ buf)
+    val s = g0float_strfrom<floatt2k(FLT1)> ("%.6f", x)
+    val () = fprint_strptr (out, s)
+    val () = strptr_free s
   in
   end
 
@@ -100,24 +98,20 @@ tostrptr_ldouble x =
 m4_foreachq(`FLT1',`extended_floattypes',
 `implement {}
 tostrptr_`'FLT1 x =
-  let
-    #define BUFSZ 128
-    var buf = @[char][BUFSZ] (m4_singlequote`\0'm4_singlequote)
-    val _ = $extfcall (int, "strfrom`'floatt2sfx(FLT1)",
-                       addr@ buf, BUFSZ - 1, "%.6f", x)
-  in
-    string0_copy ($UN.cast{string} buf)
-  end
+  $effmask_exn g0float_strfrom<floatt2k(FLT1)> ("%.6f", x)
 
-implement {}
+')dnl
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement {}
 tostring_`'FLT1 i =
   $effmask_wrt strptr2string (tostrptr_`'FLT1 i)
 
-implement tostrptr_val<FLT1> = tostrptr_`'FLT1
+')dnl
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement tostrptr_val<FLT1> = tostrptr_`'FLT1
 implement tostring_val<FLT1> = tostring_`'FLT1
 
 ')dnl
-
 (*------------------------------------------------------------------*)
 (* Type conversions. *)
 
