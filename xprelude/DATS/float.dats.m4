@@ -187,6 +187,30 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (*------------------------------------------------------------------*)
 (* Library functions. *)
 
+implement {tk}
+g0float_strfrom (format, x) =
+  let
+    #define BUFSZ 128
+    var buf : @[byte][BUFSZ]
+    val n = g0float_unsafe_strfrom<tk> (buf, i2sz BUFSZ, format, x)
+    val n = g1ofg0 n
+    val () = assertloc (isgtez n)
+  in
+    if n < BUFSZ then
+      string0_copy ($UN.cast{string} buf)
+    else
+      let
+        val n1 = succ (i2sz n)
+        val @(pf_buf, pfgc_buf | p_buf) = array_ptr_alloc<byte> n1
+        val m = g0float_unsafe_strfrom<tk> (!p_buf, n1, format, x)
+        val () = assertloc (m = n)
+        val retval = string0_copy ($UN.cast{string} p_buf)
+        val () = array_ptr_free (pf_buf, pfgc_buf | p_buf)
+      in
+        retval
+      end
+  end
+
 m4_foreachq(`FUNC',`unary_ops, binary_ops, trinary_ops,
                     scalbn, scalbln, ilogb,
                     frexp, modf,

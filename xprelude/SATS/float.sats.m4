@@ -249,7 +249,7 @@ fn {tk : tkind} g0float_scalbln : (g0float tk, lint) -<> g0float tk
 fn {tk : tkind} g0float_ilogb : g0float tk -<> int
 fn {tk : tkind} g0float_frexp : (g0float tk, &int? >> int) -< !wrt > g0float tk
 fn {tk : tkind} g0float_modf : (g0float tk, &g0float tk? >> g0float tk) -< !wrt > g0float tk
-fn {tk : tkind} g0float_unsafe_strfrom : {n : nat} (&array (char?, n) >> array (char, n), size_t n, string, g0float tk) -> int
+fn {tk : tkind} g0float_unsafe_strfrom : {n : nat} (&array (byte?, n) >> array (byte, n), size_t n, string, g0float tk) -> int
 fn {tk : tkind} g0float_unsafe_strto : (ptr, &ptr? >> ptr) -> g0float tk
 
 m4_foreachq(`FLT1',`conventional_floattypes',
@@ -262,6 +262,8 @@ fn g0float_unsafe_strfrom_`'FLT1 : $d2ctype (g0float_unsafe_strfrom<floatt2k(FLT
 fn g0float_unsafe_strto_`'FLT1 : $d2ctype (g0float_unsafe_strto<floatt2k(FLT1)>) = "mac#%"
 
 ')dnl
+fn {tk : tkind} g0float_strfrom : (string, g0float tk) -> Strptr1
+
 (*------------------------------------------------------------------*)
 (* Comparisons. *)
 
