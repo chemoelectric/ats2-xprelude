@@ -557,17 +557,35 @@ test21 () : void =
 fn
 test22 () : void =
   let
-      var p : ptr
-      val x : float = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
-      val- true = abs (x - 1.2345F) <= 0.0000001F
+    typedef c_char_p = $extype"char *"
 
-      var p : ptr
-      val x : double = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
-      val- true = abs (x - 1.2345) <= 0.0000001
+    var p : c_char_p
+    val x : float = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", addr@ p)
+    val- true = abs (x - 1.2345F) <= 0.0000001F
 
-      var p : ptr
-      val x : ldouble = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
-      val- true = abs (x - 1.2345L) <= 0.0000001L
+    var p : c_char_p
+    val x : double = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", addr@ p)
+    val- true = abs (x - 1.2345) <= 0.0000001
+
+    var p : c_char_p
+    val x : ldouble = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", addr@ p)
+    val- true = abs (x - 1.2345L) <= 0.0000001L
+
+    val s : String = "  1.2345"
+    val @(x, j) = g0float_strto<fltknd> (s, i2sz 2)
+    val- true = abs (x - 1.2345F) <= 0.0000001F
+    val- true = string_is_atend (s, j)
+
+    val s : String = "1.2345"
+    val @(x, j) = g0float_strto<dblknd> (s, i2sz 0)
+    val- true = abs (x - 1.2345) <= 0.0000001
+    val- true = string_is_atend (s, j)
+
+    val s : String = "x = 1.2345; /* example */"
+    val @(x, j) = g0float_strto<ldblknd> (s, i2sz 4)
+    val- true = abs (x - 1.2345L) <= 0.0000001L
+    val- true = string_isnot_atend (s, j)
+    val- true = s[j] = ';'
   in
   end
 

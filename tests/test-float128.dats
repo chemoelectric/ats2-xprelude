@@ -441,9 +441,17 @@ test21 () : void =
 fn
 test22 () : void =
   let
-      var p : ptr
-      val x : float128 = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
-      val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
+    typedef c_char_p = $extype"char *"
+
+    var p : c_char_p
+    val x : float128 = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", addr@ p)
+    val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
+
+    val s : String = "x = 1.2345; /* example */"
+    val @(x, j) = g0float_strto<flt128knd> (s, i2sz 4)
+    val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
+    val- true = string_isnot_atend (s, j)
+    val- true = s[j] = ';'
   in
   end
 

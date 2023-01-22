@@ -35,7 +35,7 @@ local
     {p : addr}
     {n : int}
     (!array_v (byte?, p, n) >> array_v (byte, p, n) |
-     ptr p, size_t n) -<cloref1>
+     ptr p, size_t n) -<cloref,!wrt>
       int
 
   fn
@@ -76,7 +76,7 @@ in (* local *)
 
   extern fn
   my_extern_prefix`'apply_unsafe_strfrom :
-    unsafe_strfrom_cloref -> Strptr1 = "ext#%"
+    unsafe_strfrom_cloref -< !exnwrt > Strptr1 = "ext#%"
 
   implement
   my_extern_prefix`'validate_strfrom_format fmt =

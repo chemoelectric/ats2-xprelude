@@ -249,11 +249,22 @@ fn {tk : tkind} g0float_scalbln : (g0float tk, lint) -<> g0float tk
 fn {tk : tkind} g0float_ilogb : g0float tk -<> int
 fn {tk : tkind} g0float_frexp : (g0float tk, &int? >> int) -< !wrt > g0float tk
 fn {tk : tkind} g0float_modf : (g0float tk, &g0float tk? >> g0float tk) -< !wrt > g0float tk
-fn {tk : tkind} g0float_unsafe_strfrom : {n : int} (&array (byte?, n) >> array (byte, n), size_t n, string, g0float tk) -> int
-fn {tk : tkind} g0float_unsafe_strto : (ptr, &ptr? >> ptr) -> g0float tk
+fn {tk : tkind} g0float_unsafe_strfrom : {n : int} (&array (byte?, n) >> array (byte, n), size_t n, string, g0float tk) -< !wrt > int
+fn {tk : tkind} g0float_unsafe_strto : (ptr, ptr) -< !wrt > g0float tk
 
 (* A safer interface to strfromd(3) and its relatives. *)
-fn {tk : tkind} g0float_strfrom : (string, g0float tk) -> Strptr1
+fn {tk : tkind}
+g0float_strfrom :
+  (string, g0float tk) -< !exnwrt > Strptr1
+
+(* A safer interface to strtod(3) and its relatives. *)
+fn {tk : tkind}
+g0float_strto :
+  {n : int}
+  {i : nat | i <= n}
+  (string n, size_t i) -<>
+    [j : nat | j <= n]
+    @(g0float tk, size_t j)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_scalbn_`'FLT1 : $d2ctype (g0float_scalbn<floatt2k(FLT1)>) = "mac#%"

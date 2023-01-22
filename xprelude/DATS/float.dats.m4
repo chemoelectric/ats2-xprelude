@@ -194,14 +194,14 @@ g0float_strfrom (format, x) =
       {p : addr}
       {n : int}
       (!array_v (byte?, p, n) >> array_v (byte, p, n) |
-       ptr p, size_t n) -<cloptr1>
+       ptr p, size_t n) -<cloptr,!wrt>
         int
 
     typedef unsafe_strfrom_cloref =
       {p : addr}
       {n : int}
       (!array_v (byte?, p, n) >> array_v (byte, p, n) |
-       ptr p, size_t n) -<cloref1>
+       ptr p, size_t n) -<cloref,!wrt>
         int
 
     extern fn
@@ -210,7 +210,7 @@ g0float_strfrom (format, x) =
 
     extern fn
     my_extern_prefix`'apply_unsafe_strfrom :
-      unsafe_strfrom_cloref -> Strptr1 = "ext#%"
+      unsafe_strfrom_cloref -< !exnwrt > Strptr1 = "ext#%"
 
     val valid = my_extern_prefix`'validate_strfrom_format format
   in
@@ -224,7 +224,7 @@ g0float_strfrom (format, x) =
       let
         val unsafe_strfrom =
           begin
-            lam (pf_buf | p_buf, size) =<cloptr1>
+            lam (pf_buf | p_buf, size) =>
               g0float_unsafe_strfrom<tk> (!p_buf, size, format, x)
           end : unsafe_strfrom_cloptr
         val clo = $UN.castvwtp1{unsafe_strfrom_cloref} unsafe_strfrom
@@ -233,6 +233,27 @@ g0float_strfrom (format, x) =
       in
         retval
       end
+  end
+
+implement {tk}
+g0float_strto {n} {i} (s, i) =
+  $effmask_all
+  let
+    typedef c_char_p = $extype"char *"
+    var endptr : c_char_p
+
+    val p = $UN.cast{ptr} s
+    val x = g0float_unsafe_strto (ptr_add<byte> (p, i), addr@ endptr)
+    val j = g1ofg0 (ptr0_diff<byte> ($UN.cast{ptr} endptr, p))
+
+    extern praxi
+    assume_bounds :
+      {j : int}
+      ssize_t j -<prf> [0 <= j; j <= n] void
+
+    prval () = assume_bounds j
+  in
+    @(x, g1i2u j)
   end
 
 m4_foreachq(`FUNC',`unary_ops, binary_ops, trinary_ops,
