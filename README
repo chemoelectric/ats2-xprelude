@@ -21,8 +21,9 @@ THIS PROJECT IS A WORK IN PROGRESS.
 
 * Support for the following floating point types: float16, float32,
   float64, float128, float16x float32x, float64x, float128x,
-  decimal32, decimal64, decimal128. Your C compiler and libraries are
-  likely to support some of these but not others.
+  decimal32, decimal64, decimal128, decimal64x, decimal128x. Your C
+  compiler and libraries are likely to support some of these but not
+  others, in varying degrees.
 
 * 32+32-bit fixed point, treated as if it were floating point
   (g0float).

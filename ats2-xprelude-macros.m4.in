@@ -147,7 +147,8 @@ m4_define(`extended_binary_floattypes', `float16, float16x,
                                          float32, float32x,
                                          float64, float64x,
                                          float128, float128x')
-m4_define(`extended_decimal_floattypes', `decimal32, decimal64, decimal128')
+m4_define(`extended_decimal_floattypes', `decimal32, decimal64, decimal128,
+                                          decimal64x, decimal128x')
 m4_define(`extended_floattypes',`extended_binary_floattypes,
                                  extended_decimal_floattypes')
 m4_define(`conventional_floattypes',`regular_floattypes,extended_floattypes')
@@ -169,6 +170,8 @@ m4_define(`floatt2c',
        $1,`decimal32',`my_extern_prefix`'$1',
        $1,`decimal64',`my_extern_prefix`'$1',
        $1,`decimal128',`my_extern_prefix`'$1',
+       $1,`decimal64x',`my_extern_prefix`'$1',
+       $1,`decimal128x',`my_extern_prefix`'$1',
        `atstype_$1')')
 
 m4_define(`floatt2C',
@@ -185,6 +188,8 @@ m4_define(`floatt2C',
        $1,`decimal32',`_Decimal32',
        $1,`decimal64',`_Decimal64',
        $1,`decimal128',`_Decimal128',
+       $1,`decimal64x',`_Decimal64x',
+       $1,`decimal128x',`_Decimal128x',
        `atstype_$1')')
 
 m4_define(`floatt2pfx',
@@ -201,7 +206,9 @@ m4_define(`floatt2pfx',
        $1,`float128x',`flt128x',
        $1,`decimal32',`dec32',
        $1,`decimal64',`dec64',
-       $1,`decimal128',`dec128')')
+       $1,`decimal128',`dec128',
+       $1,`decimal64x',`dec64x',
+       $1,`decimal128x',`dec128x')')
 
 m4_define(`floatt2sfx',
 `m4_if($1,`float',`f',
@@ -217,7 +224,9 @@ m4_define(`floatt2sfx',
        $1,`float128x',`f128x',
        $1,`decimal32',`d32',
        $1,`decimal64',`d64',
-       $1,`decimal128',`d128')')
+       $1,`decimal128',`d128',
+       $1,`decimal64x',`d64x',
+       $1,`decimal128x',`d128x')')
 
 m4_define(`floatt2PFX',`m4_toupper(floatt2pfx(`$1'))')
 m4_define(`floatt2SFX',`m4_toupper(floatt2sfx(`$1'))')
