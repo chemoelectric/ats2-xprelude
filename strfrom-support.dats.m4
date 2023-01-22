@@ -25,9 +25,18 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #include "share/atspre_staload.hats"
 
+staload UN = "prelude/SATS/unsafe.sats"
+
 (*------------------------------------------------------------------*)
 
 local
+
+  typedef unsafe_strfrom_cloref =
+    {p : addr}
+    {n : int}
+    (!array_v (byte?, p, n) >> array_v (byte, p, n) |
+     ptr p, size_t n) -<cloref1>
+      int
 
   fn
   valid_letter (c : char)
@@ -65,6 +74,10 @@ in (* local *)
   my_extern_prefix`'validate_strfrom_format :
     string -<> bool = "ext#%"
 
+  extern fn
+  my_extern_prefix`'apply_unsafe_strfrom :
+    unsafe_strfrom_cloref -> Strptr1 = "ext#%"
+
   implement
   my_extern_prefix`'validate_strfrom_format fmt =
     let
@@ -83,6 +96,30 @@ in (* local *)
       else
         (* Precision is not specified. *)
         (n = i2sz 2 && valid_letter fmt[1])
+    end
+
+  implement
+  my_extern_prefix`'apply_unsafe_strfrom unsafe_strfrom =
+    let
+      #define BUFSZ 128
+      var buf : @[byte][BUFSZ]
+      val n = unsafe_strfrom (view@ buf | addr@ buf, i2sz BUFSZ)
+      val n = g1ofg0 n
+      val () = assertloc (isgtez n)
+    in
+      if n < BUFSZ then
+        string0_copy ($UN.cast{string} buf)
+      else
+        let
+          val n1 = succ (i2sz n)
+          val @(pf_buf, pfgc_buf | p_buf) = array_ptr_alloc<byte> n1
+          val m = unsafe_strfrom (pf_buf | p_buf, n1)
+          val () = assertloc (m = n)
+          val retval = string0_copy ($UN.cast{string} p_buf)
+          val () = array_ptr_free (pf_buf, pfgc_buf | p_buf)
+        in
+          retval
+        end
     end
 
 end (* local *)

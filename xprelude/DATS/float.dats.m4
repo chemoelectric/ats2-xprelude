@@ -190,13 +190,50 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 implement {tk}
 g0float_strfrom (format, x) =
   let
+    vtypedef unsafe_strfrom_cloptr =
+      {p : addr}
+      {n : int}
+      (!array_v (byte?, p, n) >> array_v (byte, p, n) |
+       ptr p, size_t n) -<cloptr1>
+        int
+
+    typedef unsafe_strfrom_cloref =
+      {p : addr}
+      {n : int}
+      (!array_v (byte?, p, n) >> array_v (byte, p, n) |
+       ptr p, size_t n) -<cloref1>
+        int
+
     extern fn
     my_extern_prefix`'validate_strfrom_format :
       string -<> bool = "ext#%"
 
+    extern fn
+    my_extern_prefix`'apply_unsafe_strfrom :
+      unsafe_strfrom_cloref -> Strptr1 = "ext#%"
+
     val valid = my_extern_prefix`'validate_strfrom_format format
   in
-    if valid then
+    if ~valid then
+      let
+        val msg = "g0float_strfrom:invalid_format_string"
+      in
+        $raise IllegalArgExn msg
+      end
+    else
+      let
+        val unsafe_strfrom =
+          begin
+            lam (pf_buf | p_buf, size) =<cloptr1>
+              g0float_unsafe_strfrom<tk> (!p_buf, size, format, x)
+          end : unsafe_strfrom_cloptr
+        val clo = $UN.castvwtp1{unsafe_strfrom_cloref} unsafe_strfrom
+        val retval = my_extern_prefix`'apply_unsafe_strfrom clo
+        val () = cloptr_free ($UN.castvwtp0 unsafe_strfrom)
+      in
+        retval
+      end
+(*
       let
         #define BUFSZ 128
         var buf : @[byte][BUFSZ]
@@ -219,12 +256,7 @@ g0float_strfrom (format, x) =
             retval
           end
       end
-    else
-      let
-        val msg = "g0float_strfrom:invalid_format_string"
-      in
-        $raise IllegalArgExn msg
-      end
+*)
   end
 
 m4_foreachq(`FUNC',`unary_ops, binary_ops, trinary_ops,

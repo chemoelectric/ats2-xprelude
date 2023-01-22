@@ -239,8 +239,8 @@ FLOAT_DATS_C = xprelude/DATS/float_dats.c
 
 FLOAT_SUPPORT_DATS =
 FLOAT_SUPPORT_DATS_C =
-FLOAT_SUPPORT_DATS += validate_strfrom_format.dats
-FLOAT_SUPPORT_DATS_C += validate_strfrom_format_dats.c
+FLOAT_SUPPORT_DATS += strfrom-support.dats
+FLOAT_SUPPORT_DATS_C += strfrom-support_dats.c
 
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
 EXTRA_DIST += $(addsuffix .m4, $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS))

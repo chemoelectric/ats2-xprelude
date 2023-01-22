@@ -200,7 +200,7 @@ am__objects_3 = xprelude/SATS/integer_sats.lo
 am__objects_4 = xprelude/DATS/integer_dats.lo
 am__objects_5 = xprelude/SATS/float_sats.lo
 am__objects_6 = xprelude/DATS/float_dats.lo
-am__objects_7 = validate_strfrom_format_dats.lo
+am__objects_7 = strfrom-support_dats.lo
 am__objects_8 = xprelude/SATS/fixed32p32_sats.lo
 am__objects_9 = xprelude/DATS/fixed32p32_dats.lo
 am__objects_10 = xprelude/SATS/exrat_sats.lo
@@ -297,8 +297,8 @@ am__depfiles_remade = ./$(DEPDIR)/exrat-support_dats.Plo \
 	./$(DEPDIR)/fixed32p32_multiplication.Plo \
 	./$(DEPDIR)/fixed32p32_square_root_dats.Plo \
 	./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po \
+	./$(DEPDIR)/strfrom-support_dats.Plo \
 	./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo \
-	./$(DEPDIR)/validate_strfrom_format_dats.Plo \
 	tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po \
 	tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po \
 	tests/$(DEPDIR)/test_float-test-float_tests.Po \
@@ -910,8 +910,8 @@ FLOAT_DATS = xprelude/DATS/float.dats
 FLOAT_CATS = xprelude/CATS/float.cats
 FLOAT_SATS_C = xprelude/SATS/float_sats.c
 FLOAT_DATS_C = xprelude/DATS/float_dats.c
-FLOAT_SUPPORT_DATS = validate_strfrom_format.dats
-FLOAT_SUPPORT_DATS_C = validate_strfrom_format_dats.c
+FLOAT_SUPPORT_DATS = strfrom-support.dats
+FLOAT_SUPPORT_DATS_C = strfrom-support_dats.c
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1216,8 +1216,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32_multiplication.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32_square_root_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strfrom-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/validate_strfrom_format_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_float-test-float_tests.Po@am__quote@ # am--include-marker
@@ -2018,8 +2018,8 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/fixed32p32_multiplication.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_square_root_dats.Plo
 	-rm -f ./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po
+	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
-	-rm -f ./$(DEPDIR)/validate_strfrom_format_dats.Plo
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
 	-rm -f tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po
 	-rm -f tests/$(DEPDIR)/test_float-test-float_tests.Po
@@ -2092,8 +2092,8 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/fixed32p32_multiplication.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_square_root_dats.Plo
 	-rm -f ./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po
+	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
-	-rm -f ./$(DEPDIR)/validate_strfrom_format_dats.Plo
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
 	-rm -f tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po
 	-rm -f tests/$(DEPDIR)/test_float-test-float_tests.Po
