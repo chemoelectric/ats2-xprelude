@@ -26,7 +26,7 @@ THIS PROJECT IS A WORK IN PROGRESS.
   others, in varying degrees. ¶ Footnote: On AMD64, the ldouble type
   is stored on 128-bit boundaries, but it is NOT a 128-bit floating
   point type. It is an 80-bit floating point type, which is stored on
-  96-bit boundaries on x86. If you want quad precision on AMD64, use
+  32-bit boundaries on x86. If you want quad precision on AMD64, use
   float128 (which requires libraries that come with GCC).
 
 * 32+32-bit fixed point, treated as if it were floating point
