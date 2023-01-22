@@ -190,24 +190,40 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 implement {tk}
 g0float_strfrom (format, x) =
   let
-    #define BUFSZ 128
-    var buf : @[byte][BUFSZ]
-    val n = g0float_unsafe_strfrom<tk> (buf, i2sz BUFSZ, format, x)
-    val n = g1ofg0 n
-    val () = assertloc (isgtez n)
+    extern fn
+    my_extern_prefix`'validate_strfrom_format :
+      string -<> bool = "ext#%"
+
+    val valid = my_extern_prefix`'validate_strfrom_format format
   in
-    if n < BUFSZ then
-      string0_copy ($UN.cast{string} buf)
+    if valid then
+      let
+        #define BUFSZ 128
+        var buf : @[byte][BUFSZ]
+        val n = g0float_unsafe_strfrom<tk> (buf, i2sz BUFSZ,
+                                            format, x)
+        val n = g1ofg0 n
+        val () = assertloc (isgtez n)
+      in
+        if n < BUFSZ then
+          string0_copy ($UN.cast{string} buf)
+        else
+          let
+            val n1 = succ (i2sz n)
+            val @(pf_buf, pfgc_buf | p_buf) = array_ptr_alloc<byte> n1
+            val m = g0float_unsafe_strfrom<tk> (!p_buf, n1, format, x)
+            val () = assertloc (m = n)
+            val retval = string0_copy ($UN.cast{string} p_buf)
+            val () = array_ptr_free (pf_buf, pfgc_buf | p_buf)
+          in
+            retval
+          end
+      end
     else
       let
-        val n1 = succ (i2sz n)
-        val @(pf_buf, pfgc_buf | p_buf) = array_ptr_alloc<byte> n1
-        val m = g0float_unsafe_strfrom<tk> (!p_buf, n1, format, x)
-        val () = assertloc (m = n)
-        val retval = string0_copy ($UN.cast{string} p_buf)
-        val () = array_ptr_free (pf_buf, pfgc_buf | p_buf)
+        val msg = "g0float_strfrom:invalid_format_string"
       in
-        retval
+        $raise IllegalArgExn msg
       end
   end
 

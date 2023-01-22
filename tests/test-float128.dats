@@ -429,10 +429,10 @@ test21 () : void =
   let
       var buf : @[byte][100]
 
-      val m = g0float_unsafe_strfrom (buf, i2sz 100, "%.4f\n", $extval (float128, "1.2345f128"))
+      val m = g0float_unsafe_strfrom (buf, i2sz 100, "%.4f", $extval (float128, "1.2345f128"))
       val- true = $UN.cast{string} buf = "1.2345"
 
-      val s = g0float_strfrom ("%.4f\n", $extval (float128, "1.2345f128"))
+      val s = g0float_strfrom ("%.4f", $extval (float128, "1.2345f128"))
       val- true = s = "1.2345"
       val () = free s
   in

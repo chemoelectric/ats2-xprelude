@@ -237,15 +237,21 @@ FLOAT_CATS = xprelude/CATS/float.cats
 FLOAT_SATS_C = xprelude/SATS/float_sats.c
 FLOAT_DATS_C = xprelude/DATS/float_dats.c
 
+FLOAT_SUPPORT_DATS =
+FLOAT_SUPPORT_DATS_C =
+FLOAT_SUPPORT_DATS += validate_strfrom_format.dats
+FLOAT_SUPPORT_DATS_C += validate_strfrom_format_dats.c
+
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
-EXTRA_DIST += $(addsuffix .m4, $(FLOAT_SRC))
-BUILT_SOURCES += $(FLOAT_SRC)
-CLEANFILES += $(FLOAT_SRC)
+EXTRA_DIST += $(addsuffix .m4, $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS))
+BUILT_SOURCES += $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS)
+CLEANFILES += $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS)
 
 nobase_nodist_pkginclude_HEADERS += $(FLOAT_SRC)
 
 nodist_libats2_xprelude_la_SOURCES += $(FLOAT_SATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(FLOAT_DATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(FLOAT_SUPPORT_DATS_C)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
