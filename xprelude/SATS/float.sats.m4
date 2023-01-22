@@ -114,6 +114,69 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Miscellaneous other floating point parameters. *)
+
+(* FLT_MANT_DIG, etc. *)
+fn {tk : tkind} g0float_mant_dig : () -<> intGte 1
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_mant_dig_`'FLT1 : $d2ctype (g0float_mant_dig<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_DECIMAL_DIG, etc. *)
+fn {tk : tkind} g0float_decimal_dig : () -<> intGte 1
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`fn g0float_decimal_dig_`'FLT1 : $d2ctype (g0float_decimal_dig<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_DIG, etc. *)
+fn {tk : tkind} g0float_dig : () -<> intGte 1
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`fn g0float_dig_`'FLT1 : $d2ctype (g0float_dig<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_MIN_EXP, etc. *)
+fn {tk : tkind} g0float_min_exp : () -<> int
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_min_exp_`'FLT1 : $d2ctype (g0float_min_exp<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_MIN_10_EXP, etc. *)
+fn {tk : tkind} g0float_min_10_exp : () -<> int
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`fn g0float_min_10_exp_`'FLT1 : $d2ctype (g0float_min_10_exp<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_MAX_EXP, etc. *)
+fn {tk : tkind} g0float_max_exp : () -<> int
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_max_exp_`'FLT1 : $d2ctype (g0float_max_exp<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_MAX_10_EXP, etc. *)
+fn {tk : tkind} g0float_max_10_exp : () -<> int
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`fn g0float_max_10_exp_`'FLT1 : $d2ctype (g0float_max_10_exp<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_MAX, etc. *)
+fn {tk : tkind} g0float_max_value : () -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_max_value_`'FLT1 : $d2ctype (g0float_max_value<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_MIN, etc. *)
+fn {tk : tkind} g0float_min_value : () -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_min_value_`'FLT1 : $d2ctype (g0float_min_value<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(* FLT_TRUE_MIN, etc. *)
+fn {tk : tkind} g0float_true_min_value : () -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_true_min_value_`'FLT1 : $d2ctype (g0float_true_min_value<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
 (* g0float_sgn: the sign of the number. *)
 
 typedef g0float_sgn_type (tk : tkind) = g0float tk -<> [s : sgn] int s
@@ -176,6 +239,27 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_`'TOP`'_`'FLT1 : g0float_top_type floatt2k(FLT1) = "mac#%"
 ')dnl
 overload TOP with g0float_`'TOP
+
+')dnl
+(*------------------------------------------------------------------*)
+(* Various other operations. *)
+
+fn {tk : tkind} g0float_scalbn : (g0float tk, int) -<> g0float tk
+fn {tk : tkind} g0float_scalbln : (g0float tk, lint) -<> g0float tk
+fn {tk : tkind} g0float_ilogb : g0float tk -<> int
+fn {tk : tkind} g0float_frexp : (g0float tk, &int? >> int) -< !wrt > g0float tk
+fn {tk : tkind} g0float_modf : (g0float tk, &g0float tk? >> g0float tk) -< !wrt > g0float tk
+fn {tk : tkind} g0float_unsafe_strfrom : {n : nat} (&array (char?, n) >> array (char, n), size_t n, string, g0float tk) -> int
+fn {tk : tkind} g0float_unsafe_strto : (ptr, &ptr? >> ptr) -> g0float tk
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_scalbn_`'FLT1 : $d2ctype (g0float_scalbn<floatt2k(FLT1)>) = "mac#%"
+fn g0float_scalbln_`'FLT1 : $d2ctype (g0float_scalbln<floatt2k(FLT1)>) = "mac#%"
+fn g0float_ilogb_`'FLT1 : $d2ctype (g0float_ilogb<floatt2k(FLT1)>) = "mac#%"
+fn g0float_frexp_`'FLT1 : $d2ctype (g0float_frexp<floatt2k(FLT1)>) = "mac#%"
+fn g0float_modf_`'FLT1 : $d2ctype (g0float_modf<floatt2k(FLT1)>) = "mac#%"
+fn g0float_unsafe_strfrom_`'FLT1 : $d2ctype (g0float_unsafe_strfrom<floatt2k(FLT1)>) = "mac#%"
+fn g0float_unsafe_strto_`'FLT1 : $d2ctype (g0float_unsafe_strto<floatt2k(FLT1)>) = "mac#%"
 
 ')dnl
 (*------------------------------------------------------------------*)

@@ -154,6 +154,22 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Miscellaneous other floating point parameters. *)
+
+m4_foreachq(`PARAM',`mant_dig, min_exp, max_exp,
+                     max_value, min_value, true_min_value',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'PARAM<floatt2k(FLT1)> = g0float_`'PARAM`'_`'FLT1
+')dnl
+
+')dnl
+m4_foreachq(`PARAM',`decimal_dig, dig, min_10_exp, max_10_exp',
+`m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`implement g0float_`'PARAM<floatt2k(FLT1)> = g0float_`'PARAM`'_`'FLT1
+')dnl
+
+')dnl
+(*------------------------------------------------------------------*)
 (* Sign, absolute value, negative. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
@@ -171,24 +187,15 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (*------------------------------------------------------------------*)
 (* Library functions. *)
 
-m4_foreachq(`UOP',`unary_ops',
+m4_foreachq(`FUNC',`unary_ops, binary_ops, trinary_ops,
+                    scalbn, scalbln, ilogb,
+                    frexp, modf,
+                    unsafe_strfrom, unsafe_strto',
 `m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'UOP`'<floatt2k(FLT1)> = g0float_`'UOP`'_`'FLT1
-')dnl
+`implement g0float_`'FUNC`'<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
 ')dnl
 
-m4_foreachq(`AOP',`binary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'AOP`'<floatt2k(FLT1)> = g0float_`'AOP`'_`'FLT1
 ')dnl
-')dnl
-
-m4_foreachq(`TOP',`trinary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'TOP`'<floatt2k(FLT1)> = g0float_`'TOP`'_`'FLT1
-')dnl
-')dnl
-
 (*------------------------------------------------------------------*)
 (* `Comparisons.' *)
 

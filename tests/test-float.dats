@@ -475,6 +475,84 @@ test19 () : void =
   in
   end
 
+fn
+test20 () : void =
+  let
+    val- true = g0float_mant_dig<fltknd> () = $extval (Int, "FLT_MANT_DIG")
+    val- true = g0float_mant_dig<dblknd> () = $extval (Int, "DBL_MANT_DIG")
+    val- true = g0float_mant_dig<ldblknd> () = $extval (Int, "LDBL_MANT_DIG")
+
+    val- true = g0float_decimal_dig<fltknd> () = $extval (Int, "FLT_DECIMAL_DIG")
+    val- true = g0float_decimal_dig<dblknd> () = $extval (Int, "DBL_DECIMAL_DIG")
+    val- true = g0float_decimal_dig<ldblknd> () = $extval (Int, "LDBL_DECIMAL_DIG")
+
+    val- true = g0float_dig<fltknd> () = $extval (Int, "FLT_DIG")
+    val- true = g0float_dig<dblknd> () = $extval (Int, "DBL_DIG")
+    val- true = g0float_dig<ldblknd> () = $extval (Int, "LDBL_DIG")
+
+    val- true = g0float_min_exp<fltknd> () = $extval (Int, "FLT_MIN_EXP")
+    val- true = g0float_min_exp<dblknd> () = $extval (Int, "DBL_MIN_EXP")
+    val- true = g0float_min_exp<ldblknd> () = $extval (Int, "LDBL_MIN_EXP")
+
+    val- true = g0float_min_10_exp<fltknd> () = $extval (Int, "FLT_MIN_10_EXP")
+    val- true = g0float_min_10_exp<dblknd> () = $extval (Int, "DBL_MIN_10_EXP")
+    val- true = g0float_min_10_exp<ldblknd> () = $extval (Int, "LDBL_MIN_10_EXP")
+
+    val- true = g0float_max_exp<fltknd> () = $extval (Int, "FLT_MAX_EXP")
+    val- true = g0float_max_exp<dblknd> () = $extval (Int, "DBL_MAX_EXP")
+    val- true = g0float_max_exp<ldblknd> () = $extval (Int, "LDBL_MAX_EXP")
+
+    val- true = g0float_max_10_exp<fltknd> () = $extval (Int, "FLT_MAX_10_EXP")
+    val- true = g0float_max_10_exp<dblknd> () = $extval (Int, "DBL_MAX_10_EXP")
+    val- true = g0float_max_10_exp<ldblknd> () = $extval (Int, "LDBL_MAX_10_EXP")
+
+    val- true = g0float_max_value<fltknd> () = $extval (float, "FLT_MAX")
+    val- true = g0float_max_value<dblknd> () = $extval (double, "DBL_MAX")
+    val- true = g0float_max_value<ldblknd> () = $extval (ldouble, "LDBL_MAX")
+
+    val- true = g0float_min_value<fltknd> () = $extval (float, "FLT_MIN")
+    val- true = g0float_min_value<dblknd> () = $extval (double, "DBL_MIN")
+    val- true = g0float_min_value<ldblknd> () = $extval (ldouble, "LDBL_MIN")
+
+    val- true = g0float_true_min_value<fltknd> () = $extval (float, "FLT_TRUE_MIN")
+    val- true = g0float_true_min_value<dblknd> () = $extval (double, "DBL_TRUE_MIN")
+    val- true = g0float_true_min_value<ldblknd> () = $extval (ldouble, "LDBL_TRUE_MIN")
+  in
+  end
+
+fn
+test21 () : void =
+  let
+      var buf : @[char][100]
+
+      val m = g0float_unsafe_strfrom (buf, i2sz 100, "%.4f\n", 1.2345F)
+      val- true = $UN.cast{string} buf = "1.2345"
+
+      val m = g0float_unsafe_strfrom (buf, i2sz 100, "%.4f\n", 1.2345)
+      val- true = $UN.cast{string} buf = "1.2345"
+
+      val m = g0float_unsafe_strfrom (buf, i2sz 100, "%.4f\n", 1.2345L)
+      val- true = $UN.cast{string} buf = "1.2345"
+  in
+  end
+
+fn
+test22 () : void =
+  let
+      var p : ptr
+      val x : float = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
+      val- true = abs (x - 1.2345F) <= 0.0000001F
+
+      var p : ptr
+      val x : double = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
+      val- true = abs (x - 1.2345) <= 0.0000001
+
+      var p : ptr
+      val x : ldouble = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
+      val- true = abs (x - 1.2345L) <= 0.0000001L
+  in
+  end
+
 implement
 main () =
   begin
@@ -497,5 +575,8 @@ main () =
     test17 ();
     test18 ();
     test19 ();
+    test20 ();
+    test21 ();
+    test22 ();
     0
   end

@@ -122,6 +122,69 @@ m4_foreachq(`FLT1',`extended_decimal_floattypes',
 ')dnl
 
 /*------------------------------------------------------------------*/
+/* Miscellaneous other floating point parameters. */
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#if defined floatt2PFX(FLT1)_MANT_DIG && 1 <= floatt2PFX(FLT1)_MANT_DIG
+#define my_extern_prefix`'g0float_mant_dig_`'FLT1`'() floatt2PFX(FLT1)_MANT_DIG
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#if defined floatt2PFX(FLT1)_MIN_EXP
+#define my_extern_prefix`'g0float_min_exp_`'FLT1`'() floatt2PFX(FLT1)_MIN_EXP
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#if defined floatt2PFX(FLT1)_MAX_EXP
+#define my_extern_prefix`'g0float_max_exp_`'FLT1`'() floatt2PFX(FLT1)_MAX_EXP
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#if defined floatt2PFX(FLT1)_MAX
+#define my_extern_prefix`'g0float_max_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_MAX))
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#if defined floatt2PFX(FLT1)_MIN
+#define my_extern_prefix`'g0float_min_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_MIN))
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#if defined floatt2PFX(FLT1)_TRUE_MIN
+#define my_extern_prefix`'g0float_true_min_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_TRUE_MIN))
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`#if defined floatt2PFX(FLT1)_DECIMAL_DIG
+#define my_extern_prefix`'g0float_`'decimal_dig_`'FLT1`'() floatt2PFX(FLT1)_DECIMAL_DIG
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`#if defined floatt2PFX(FLT1)_DIG
+#define my_extern_prefix`'g0float_`'dig_`'FLT1`'() floatt2PFX(FLT1)_DIG
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`#if defined floatt2PFX(FLT1)_MIN_10_EXP
+#define my_extern_prefix`'g0float_`'min_10_exp_`'FLT1`'() floatt2PFX(FLT1)_MIN_10_EXP
+#endif
+')dnl
+
+m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
+`#if defined floatt2PFX(FLT1)_MAX_10_EXP
+#define my_extern_prefix`'g0float_`'max_10_exp_`'FLT1`'() floatt2PFX(FLT1)_MAX_10_EXP
+#endif
+')dnl
+
+/*------------------------------------------------------------------*/
 /* Sign, absolute value, negative. */
 
 m4_foreachq(`FLT1',`conventional_floattypes',
@@ -162,12 +225,22 @@ END_FLOAT_SUPPORT_CHECK(FLT1)
 /*------------------------------------------------------------------*/
 /* Library functions. */
 
-m4_foreachq(`OP',`unary_ops,binary_ops,trinary_ops',
+m4_foreachq(`OP',`unary_ops, binary_ops, trinary_ops,
+                  scalbn, scalbln, ilogb,
+                  frexp, modf',
 `m4_foreachq(`FLT1',`conventional_floattypes',
 `#define my_extern_prefix`'g0float_`'OP`'_`'FLT1 floatt2op(FLT1, OP)
 ')dnl
 
 ')dnl
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_unsafe_strfrom_`'FLT1 strfrom`'floatt2sfxd(`FLT1')
+')dnl
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_unsafe_strto_`'FLT1`'(nptr, endptr)dnl
+ strto`'floatt2sfxld(`FLT1')` '((const char *) (nptr), (char **) (endptr))
+')dnl
+
 /*------------------------------------------------------------------*/
 /* Comparisons. */
 

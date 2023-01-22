@@ -231,6 +231,15 @@ m4_define(`floatt2sfx',
 m4_define(`floatt2PFX',`m4_toupper(floatt2pfx(`$1'))')
 m4_define(`floatt2SFX',`m4_toupper(floatt2sfx(`$1'))')
 
+m4_define(`floatt2sfxd',
+`m4_if($1,`double',`d',
+       `floatt2sfx(`$1')')')
+
+m4_define(`floatt2sfxld',
+`m4_if($1,`double',`d',
+       $1,`ldouble',`ld',
+       `floatt2sfx(`$1')')')
+
 /* A string beginning "tk" is presumed to be a typekind already. */
 m4_define(`float_tk',
   `m4_if(m4_substr(`$1',0,2),`tk',`$1',`floatt2k(`$1')')')
@@ -239,7 +248,7 @@ m4_define(`m4_g0float',`g0float float_tk($1)')
 
 /* How we tell if a floating point type is supported. */
 m4_define(`FLOAT_SUPPORT_CHECK',
-    ``#'if defined floatt2PFX(`$1')_MANT_DIG && 0 < floatt2PFX(`$1')_MANT_DIG')
+    ``#'if defined floatt2PFX(`$1')_MANT_DIG && 2 <= floatt2PFX(`$1')_MANT_DIG')
 m4_define(`END_FLOAT_SUPPORT_CHECK',``#'endif')
 
 /*------------------------------------------------------------------*/
@@ -279,14 +288,16 @@ m4_define(`unary_ops',
            asinh, acosh, atanh,
            crasinh, cracosh, cratanh,
            erf, erfc,
-           lgamma, tgamma')
+           lgamma, tgamma,
+           significand')
 
 m4_define(`binary_ops',
           `copysign, nextafter,
            fmod, remainder,
            pow, powr, hypot,
            crpow, crpowr, crhypot,
-           atan2, atan2pi')
+           atan2, atan2pi,
+           scalb')
 
 m4_define(`trinary_ops',
           `fma')

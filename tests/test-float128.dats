@@ -408,6 +408,41 @@ test19 () : void =
   in
   end
 
+fn
+test20 () : void =
+  let
+    val- true = g0float_mant_dig<flt128knd> () = $extval (Int, "FLT128_MANT_DIG")
+    val- true = g0float_decimal_dig<flt128knd> () = $extval (Int, "FLT128_DECIMAL_DIG")
+    val- true = g0float_dig<flt128knd> () = $extval (Int, "FLT128_DIG")
+    val- true = g0float_min_exp<flt128knd> () = $extval (Int, "FLT128_MIN_EXP")
+    val- true = g0float_min_10_exp<flt128knd> () = $extval (Int, "FLT128_MIN_10_EXP")
+    val- true = g0float_max_exp<flt128knd> () = $extval (Int, "FLT128_MAX_EXP")
+    val- true = g0float_max_10_exp<flt128knd> () = $extval (Int, "FLT128_MAX_10_EXP")
+    val- true = g0float_max_value<flt128knd> () = $extval (float128, "FLT128_MAX")
+    val- true = g0float_min_value<flt128knd> () = $extval (float128, "FLT128_MIN")
+    val- true = g0float_true_min_value<flt128knd> () = $extval (float128, "FLT128_TRUE_MIN")
+  in
+  end
+
+fn
+test21 () : void =
+  let
+      var buf : @[char][100]
+
+      val m = g0float_unsafe_strfrom (buf, i2sz 100, "%.4f\n", $extval (float128, "1.2345f128"))
+      val- true = $UN.cast{string} buf = "1.2345"
+  in
+  end
+
+fn
+test22 () : void =
+  let
+      var p : ptr
+      val x : float128 = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", p)
+      val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
+  in
+  end
+
 implement
 main () =
   begin
@@ -430,5 +465,8 @@ main () =
     test17 ();
     test18 ();
     test19 ();
+    test20 ();
+    test21 ();
+    test22 ();
     0
   end
