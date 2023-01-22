@@ -23,7 +23,11 @@ THIS PROJECT IS A WORK IN PROGRESS.
   float64, float128, float16x float32x, float64x, float128x,
   decimal32, decimal64, decimal128, decimal64x, decimal128x. Your C
   compiler and libraries are likely to support some of these but not
-  others, in varying degrees.
+  others, in varying degrees. ¶ Footnote: On AMD64, the ldouble type
+  is stored on 128-bit boundaries, but it is NOT a 128-bit floating
+  point type. It is an 80-bit floating point type, which is stored on
+  96-bit boundaries on x86. If you want quad precision on AMD64, use
+  float128 (which requires libraries that come with GCC).
 
 * 32+32-bit fixed point, treated as if it were floating point
   (g0float).
@@ -44,17 +48,6 @@ THIS PROJECT IS A WORK IN PROGRESS.
 
 * Also possible: gcd and lcm operations.
 
-* Also possible: ‘lldouble’ as a type that could be larger than
-  ldouble. In particular, on AMD64, this could be _Float128, which GCC
-  supports on that platform (although via a library rather than
-  hardware). ¶ Note: Some seem to believe that, with GCC on AMD64,
-  ldouble is a 128-bit floating point type. It is not; it is an 80-bit
-  type that goes back to the 8087. The 80 bits *are* stored in 128
-  bits of space, but that is for alignment, and such alignment is
-  required by the AMD64 ABI. ¶ By the way, on 32-bit x86, ‘ldouble’
-  similarly is more efficiently accessed when it is aligned on 128-bit
-  boundaries. However, the ABI for x86 was designed for older
-  processors, such as 80386, and specifies 96-bit boundaries.
-
 * Also possible: 128-bit integers, using compiler support if possible,
   otherwise by library code.
+
