@@ -16,6 +16,7 @@
   <https://www.gnu.org/licenses/>.
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+(*------------------------------------------------------------------*)
 
 #define ATS_DYNLOADFLAG 0
 
@@ -27,6 +28,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 staload "xprelude/SATS/fixed32p32.sats"
 
+(*------------------------------------------------------------------*)
 
 implement {}
 fprint_fixed32p32 (outf, x) =
@@ -115,51 +117,44 @@ implement g0float_trunc<fix32p32knd> = g0float_trunc_fixed32p32
 implement g0float_sqrt<fix32p32knd> = g0float_sqrt_fixed32p32
 
 (*------------------------------------------------------------------*)
-(* An unsafe cast in the prelude’s implementation of g0float_npow
-   causes it to work incorrectly for fixed32p32. Here is a repaired
-   version.
-   
-   FIXME: REPORT THIS AS A BUG IN THE PRELUDE.
-   FIXME: REPORT THIS AS A BUG IN THE PRELUDE.
-   FIXME: REPORT THIS AS A BUG IN THE PRELUDE.
-   FIXME: REPORT THIS AS A BUG IN THE PRELUDE.
-*)
+(* g0float_npow *)
 
-extern fn {tk : tkind}
-_g0float_npow :
-  (g0float tk, intGte 0) -<> g0float tk
+extern fn _g0float_npow_fixed32p32 : $d2ctype (g0float_npow<fix32p32knd>)
+dnl
+if_COMPILING_IMPLEMENTATIONS(
+`implement _g0float_npow_fixed32p32 (x, n) = g0float_npow<fix32p32knd> (x, n)
+')dnl
 
-implement {tk}
-_g0float_npow (x, n) =
-  let
-    fun
-    loop {n : nat}
-         .<n>.
-         (x     : g0float tk,
-          accum : g0float tk,
-          n     : int n)
-        :<> g0float tk =
-      if 2 <= n then
-        let
-          val nhalf = half n
-          and xsquare = x * x
-        in
-          if nhalf + nhalf = n then
-            loop (xsquare, accum, nhalf)
-          else
-            loop (xsquare, x * accum, nhalf)
-        end
-      else if n <> 0 then
-        x * accum
-      else
-        accum
-  in
-    loop (x, g0i2f 1, n)
-  end
+if_not_COMPILING_IMPLEMENTATIONS(
+`implement {} g0float_npow_fixed32p32 (x, n) = _g0float_npow_fixed32p32 (x, n)
+implement g0float_npow<fix32p32knd> = g0float_npow_fixed32p32<>
+')dnl
+
+(*------------------------------------------------------------------*)
+(* g0float_g0int_pow *)
+
+extern fn
+_g0float_intmax_pow_fixed32p32 :
+  $d2ctype (g0float_g0int_pow<fix32p32knd><intmaxknd>)
+dnl
+if_COMPILING_IMPLEMENTATIONS(
+`implement
+_g0float_intmax_pow_fixed32p32 (x, n) =
+  g0float_g0int_pow<fix32p32knd><intmaxknd> (x, n)
+')dnl
+
+if_not_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`INT',`conventional_intbases',
+`implement
+g0float_g0int_pow_fixed32p32<intb2k(INT)> (x, n) =
+  _g0float_intmax_pow_fixed32p32
+    (x, g0int2int<intb2k(INT),intmaxknd> n)
 
 implement
-g0float_npow<fix32p32knd> (x, n) =
-  _g0float_npow<fix32p32knd> (x, n)
+g0float_g0int_pow<fix32p32knd><intb2k(INT)> =
+  g0float_g0int_pow_fixed32p32<intb2k(INT)>
+')dnl
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl

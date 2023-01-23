@@ -15,6 +15,8 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+(*------------------------------------------------------------------*)
 
 #define ATS_DYNLOADFLAG 0
 
@@ -29,7 +31,7 @@ staload "xprelude/SATS/fixed32p32.sats"
 
 #include <stdio.h>
 #include <stdint.h>
-#include <inttypes.h>
+#include <`inttypes.h'>
 #include <limits.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -143,3 +145,9 @@ ats2_xprelude_tostrptr_fixed32p32_given_decimal_places (ats2_xprelude_fixed32p32
 }
 
 %}
+
+(*------------------------------------------------------------------*)
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:

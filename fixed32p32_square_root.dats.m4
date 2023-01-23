@@ -15,6 +15,8 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+(*------------------------------------------------------------------*)
 
 #define ATS_DYNLOADFLAG 0
 
@@ -26,6 +28,8 @@
 
 staload "xprelude/SATS/fixed32p32.sats"
 staload _ = "xprelude/DATS/fixed32p32.dats"
+
+(*------------------------------------------------------------------*)
 
 %{^
 
@@ -58,6 +62,8 @@ ats2_xprelude_fixed32p32_square_root__sqrt_initial_estimate
 }
 
 %}
+
+(*------------------------------------------------------------------*)
 
 extern fn
 _sqrt_initial_estimate :
@@ -101,3 +107,9 @@ g0float_sqrt_fixed32p32 x =
     in
       $effmask_ntm loop (y0, step y0)
     end
+
+(*------------------------------------------------------------------*)
+dnl
+dnl local variables:
+dnl mode: ATS
+dnl end:

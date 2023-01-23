@@ -226,12 +226,21 @@ main0 () =
     val- true = max (x, y) = y
     val- true = min (x, y) = x
 
+    val- true = g0float_npow (x, 0) = g0i2f 1
+    val- true = g0float_npow (x, 1) = g0i2f ~5
+    val- true = g0float_npow (x, 2) = g0i2f 25
+    val- true = g0float_npow (x, 3) = g0i2f ~125
+    val- true = g0float_npow (x, 4) = g0i2f 625
+    val- true = g0float_npow (x, 5) = g0i2f ~3125
+
     val- true = x**0 = g0i2f 1
     val- true = x**1 = g0i2f ~5
-    val- true = x**2 = g0i2f 25
-    val- true = x**3 = g0i2f ~125
+    val- true = x**2L = g0i2f 25
+    val- true = x**3LL = g0i2f ~125
     val- true = x**4 = g0i2f 625
     val- true = x**5 = g0i2f ~3125
+
+    val- true = (i2fx 2)**((g0i2i ~3) : sint) = i2fx 1 / i2fx 8
 
     val- true = ((g0f2i (i2fx 0)) : int) = 0
     val- true = ((g0f2i (d2fx 5.2)) : lint) = 5L
