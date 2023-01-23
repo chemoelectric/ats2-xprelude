@@ -21,13 +21,6 @@ include(TOP_SRCDIR`/xprelude/DATS/float.dats.m4')
 
 local
 
-  typedef unsafe_strfrom_cloref =
-    {p : addr}
-    {n : int}
-    (!array_v (byte?, p, n) >> array_v (byte, p, n) |
-     ptr p, size_t n) -<cloref,!wrt>
-      int
-
   fn
   valid_letter (c : char)
       :<> bool =
