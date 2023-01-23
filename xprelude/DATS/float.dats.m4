@@ -207,16 +207,7 @@ m4_if(`compilation_stage',`compiling_strfrom_parts',,
 `implement {tk}
 g0float_strfrom (format, x) =
   let
-(*
-    extern fn
-    my_extern_prefix`'validate_strfrom_format :
-      string -<> bool = "ext#%"
-
-    extern fn
-    my_extern_prefix`'apply_unsafe_strfrom :
-      unsafe_strfrom_cloref -< !exnwrt > Strptr1 = "ext#%"
-*)
-    val valid = (*my_extern_prefix`'*)validate_strfrom_format format
+    val valid = validate_strfrom_format format
   in
     if ~valid then
       let
@@ -232,7 +223,7 @@ g0float_strfrom (format, x) =
               g0float_unsafe_strfrom<tk> (!p_buf, size, format, x)
           end : unsafe_strfrom_cloptr
         val clo = $UN.castvwtp1{unsafe_strfrom_cloref} unsafe_strfrom
-        val retval = (*my_extern_prefix`'*)apply_unsafe_strfrom clo
+        val retval = apply_unsafe_strfrom clo
         val () = cloptr_free ($UN.castvwtp0 unsafe_strfrom)
       in
         retval
