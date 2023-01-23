@@ -333,6 +333,8 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `fn {tki : tkind} g0float_g0int_pow_`'FLT1 : (FLT1, g0int tki) -<> FLT1
 ')dnl
 
+(* Overload ** with g0float_g0int_pow, overriding the overload of
+   g0float_npow. The former template function is more general. *)
 overload ** with g0float_g0int_pow of 1
 
 (*------------------------------------------------------------------*)
