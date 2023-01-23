@@ -370,24 +370,26 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_npow<floatt2k(FLT1)> = g0float_npow_`'FLT1<>
 ')dnl
 
-(* Compiled functions for types we know will be available. *)
+(* Compiled functions for g0float types we know will be available. *)
 m4_foreachq(`FLT1',`regular_floattypes',
 `extern fn _g0float_npow_`'FLT1 : $d2ctype (g0float_npow<floatt2k(FLT1)>)
 ')dnl
 dnl
 if_COMPILING_IMPLEMENTATIONS(
 `m4_foreachq(`FLT1',`regular_floattypes',
-`implement
+`
+implement
 _g0float_npow_`'FLT1 (x, n) =
   _g0float_npow<floatt2k(FLT1)> (x, n)
 ')
 ')dnl
 
-(* Default for g0float_npow_TYPE<> is to use the template. But, for
-   types that we know are available, we override the template with a
-   compiled function. *)
 if_not_COMPILING_IMPLEMENTATIONS(
-`m4_foreachq(`FLT1',`conventional_floattypes',
+`
+(* Default for g0float_npow_TYPE<> is to use the template. But, for
+   g0float types that we know are available, we override the template
+   with a compiled function. *)
+m4_foreachq(`FLT1',`conventional_floattypes',
 `implement {} g0float_npow_`'FLT1 = _g0float_npow<floatt2k(FLT1)>
 ')dnl
 m4_foreachq(`FLT1',`regular_floattypes',
