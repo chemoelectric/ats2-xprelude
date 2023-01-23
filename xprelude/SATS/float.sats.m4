@@ -318,6 +318,12 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')
 ')dnl
 
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`OP',`npow',
+`fn {} g0float_`'OP`'_`'FLT1 : $d2ctype (g0float_`'OP<floatt2k(FLT1)>)
+')dnl
+')dnl
+
 (*------------------------------------------------------------------*)
 (* Floating point constants. *)
 

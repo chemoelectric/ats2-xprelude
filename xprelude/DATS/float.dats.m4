@@ -333,8 +333,10 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 //   FIXME: REPORT THIS AS A BUG IN THE PRELUDE.
 //   FIXME: REPORT THIS AS A BUG IN THE PRELUDE.
 
+extern fn {tk : tkind} _g0float_npow : $d2ctype (g0float_npow<tk>)
+
 implement {tk}
-g0float_npow (x, n) =
+_g0float_npow (x, n) =
   let
     fun
     loop {n : nat}
@@ -361,23 +363,35 @@ g0float_npow (x, n) =
     loop (x, g0i2f 1, n)
   end
 
-m4_foreachq(`FLT1',`regular_floattypes',
-`extern fn g0float_npow_`'FLT1 : $d2ctype (g0float_npow<floatt2k(FLT1)>)
+(* g0float_npow<tk> will use a type-specific template, if one is
+   available. Otherwise it will use the general template. *)
+implement {tk} g0float_npow (x, n) = _g0float_npow (x, n)
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_npow<floatt2k(FLT1)> = g0float_npow_`'FLT1<>
 ')dnl
 
+(* Compiled functions for types we know will be available. *)
+m4_foreachq(`FLT1',`regular_floattypes',
+`extern fn _g0float_npow_`'FLT1 : $d2ctype (g0float_npow<floatt2k(FLT1)>)
+')dnl
+dnl
 if_COMPILING_IMPLEMENTATIONS(
 `m4_foreachq(`FLT1',`regular_floattypes',
-`
-implement
-g0float_npow_`'FLT1 (x, n) =
-  g0float_npow<floatt2k(FLT1)> (x, n)
-
-')dnl
+`implement
+_g0float_npow_`'FLT1 (x, n) =
+  _g0float_npow<floatt2k(FLT1)> (x, n)
+')
 ')dnl
 
+(* Default for g0float_npow_TYPE<> is to use the template. But, for
+   types that we know are available, we override the template with a
+   compiled function. *)
 if_not_COMPILING_IMPLEMENTATIONS(
-`m4_foreachq(`FLT1',`regular_floattypes',
-`implement g0float_npow<floatt2k(FLT1)> = g0float_npow_`'FLT1
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement {} g0float_npow_`'FLT1 = _g0float_npow<floatt2k(FLT1)>
+')dnl
+m4_foreachq(`FLT1',`regular_floattypes',
+`implement g0float_npow_`'FLT1<> = _g0float_npow_`'FLT1
 ')dnl
 ')dnl
 
