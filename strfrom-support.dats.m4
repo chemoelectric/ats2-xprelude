@@ -15,9 +15,8 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
-define(`compilation_stage',`compiling_strfrom_parts')
+
 include(TOP_SRCDIR`/xprelude/DATS/float.dats.m4')
-(*------------------------------------------------------------------*)
 
 local
 

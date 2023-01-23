@@ -98,7 +98,11 @@ TOTAL_M4FLAGS += $(AM_M4FLAGS)
 TOTAL_M4FLAGS += $(M4FLAGS)
 TOTAL_M4FLAGS += $(XM4FLAGS)
 
-%: %.m4 common-macros.m4 ats2-xprelude-macros.m4
+M4DEPS =
+M4DEPS += common-macros.m4
+M4DEPS += ats2-xprelude-macros.m4
+
+%: %.m4 $(M4DEPS)
 	@$(MKDIR_P) $(@D)
 	$(call v,M4)$(M4) $(TOTAL_M4FLAGS) $(<) > $(@)
 
@@ -240,9 +244,22 @@ FLOAT_SATS_C = xprelude/SATS/float_sats.c
 FLOAT_DATS_C = xprelude/DATS/float_dats.c
 
 FLOAT_SUPPORT_DATS =
-FLOAT_SUPPORT_DATS_C =
 FLOAT_SUPPORT_DATS += strfrom-support.dats
+FLOAT_SUPPORT_DATS += float-implementations.dats
+
+FLOAT_SUPPORT_DATS_C =
 FLOAT_SUPPORT_DATS_C += strfrom-support_dats.c
+FLOAT_SUPPORT_DATS_C += float-implementations_dats.c
+
+$(FLOAT_SUPPORT_DATS): $(addsuffix .m4, $(FLOAT_DATS))
+
+@GNU@ define make-float-support-dats =
+@GNU@ $(1): $(addsuffix .m4, $(1)) $(M4DEPS)
+@GNU@	@$$(MKDIR_P) $$(@D)
+@GNU@	$$(call v,M4)$$(M4) -DCOMPILING_IMPLEMENTATIONS=yes $$(TOTAL_M4FLAGS) $$(<) > $$(@)
+@GNU@ endef
+
+$(eval $(call make-float-support-dats, float-implementations.dats))
 
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
 EXTRA_DIST += $(addsuffix .m4, $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS))

@@ -21,6 +21,12 @@ along with this program. If not, see
 m4_define(`my_extern_prefix',`ats2_xprelude_')
 m4_define(`MY_EXTERN_PREFIX',`m4_toupper(my_extern_prefix)')
 
+m4_define(`if_COMPILING_IMPLEMENTATIONS',
+  `m4_if(COMPILING_IMPLEMENTATIONS,`yes',`$1')')
+
+m4_define(`if_not_COMPILING_IMPLEMENTATIONS',
+  `m4_if(COMPILING_IMPLEMENTATIONS,`yes',,`$1')')
+
 /*------------------------------------------------------------------*/
 /* Comparisons. */
 
@@ -301,6 +307,9 @@ m4_define(`binary_ops',
 
 m4_define(`trinary_ops',
           `fma')
+
+m4_define(`floattype_intmax_ops',
+          `compoundn, rootn, pown')
 
 /*------------------------------------------------------------------*/
 /* Floating point constants. */

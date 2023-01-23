@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Sat Jan 21 15:24:24 CST 2023
+# from AX_AM_MACROS_STATIC on Mon Jan 23 09:17:30 CST 2023
 
 
 
@@ -200,7 +200,7 @@ am__objects_3 = xprelude/SATS/integer_sats.lo
 am__objects_4 = xprelude/DATS/integer_dats.lo
 am__objects_5 = xprelude/SATS/float_sats.lo
 am__objects_6 = xprelude/DATS/float_dats.lo
-am__objects_7 = strfrom-support_dats.lo
+am__objects_7 = strfrom-support_dats.lo float-implementations_dats.lo
 am__objects_8 = xprelude/SATS/fixed32p32_sats.lo
 am__objects_9 = xprelude/DATS/fixed32p32_dats.lo
 am__objects_10 = xprelude/SATS/exrat_sats.lo
@@ -296,6 +296,7 @@ am__depfiles_remade = ./$(DEPDIR)/exrat-support_dats.Plo \
 	./$(DEPDIR)/fixed32p32_division.Plo \
 	./$(DEPDIR)/fixed32p32_multiplication.Plo \
 	./$(DEPDIR)/fixed32p32_square_root_dats.Plo \
+	./$(DEPDIR)/float-implementations_dats.Plo \
 	./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po \
 	./$(DEPDIR)/strfrom-support_dats.Plo \
 	./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo \
@@ -876,6 +877,7 @@ nodist_pkgconfig_DATA =
 CODE_COVERAGE_IGNORE_PATTERN = /usr/include/* /usr/include/*/* \
 	$(PATSHOME)/ccomp/runtime/* $(PATSHOME)/prelude/CATS/*
 TOTAL_M4FLAGS = $(AM_M4FLAGS) $(M4FLAGS) $(XM4FLAGS)
+M4DEPS = common-macros.m4 ats2-xprelude-macros.m4
 
 #--------------------------------------------------------------------------
 PATSOPT_DEPS = 
@@ -910,8 +912,9 @@ FLOAT_DATS = xprelude/DATS/float.dats
 FLOAT_CATS = xprelude/CATS/float.cats
 FLOAT_SATS_C = xprelude/SATS/float_sats.c
 FLOAT_DATS_C = xprelude/DATS/float_dats.c
-FLOAT_SUPPORT_DATS = strfrom-support.dats
-FLOAT_SUPPORT_DATS_C = strfrom-support_dats.c
+FLOAT_SUPPORT_DATS = strfrom-support.dats float-implementations.dats
+FLOAT_SUPPORT_DATS_C = strfrom-support_dats.c \
+	float-implementations_dats.c
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1215,6 +1218,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32_division.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32_multiplication.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32_square_root_dats.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/float-implementations_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strfrom-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo@am__quote@ # am--include-marker
@@ -2017,6 +2021,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/fixed32p32_division.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_multiplication.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_square_root_dats.Plo
+	-rm -f ./$(DEPDIR)/float-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po
 	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
@@ -2091,6 +2096,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/fixed32p32_division.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_multiplication.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_square_root_dats.Plo
+	-rm -f ./$(DEPDIR)/float-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po
 	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
@@ -2274,7 +2280,7 @@ code-coverage-capture-hook:
 clean-local: code-coverage-clean tests-clean xats-c-clean
 distclean-local: code-coverage-dist-clean ats-includes-distclean
 
-%: %.m4 common-macros.m4 ats2-xprelude-macros.m4
+%: %.m4 $(M4DEPS)
 	@$(MKDIR_P) $(@D)
 	$(call v,M4)$(M4) $(TOTAL_M4FLAGS) $(<) > $(@)
 
@@ -2324,6 +2330,16 @@ ats-includes-distclean:
 %_depsprog.c: %.dats $(PATSOPT_DEPS)
 	@$(MKDIR_P) $(@D)
 	$(call v,PATSOPT)$(PATSOPT) -o $(@) $(TOTAL_PATSOPTFLAGS) -d $(<)
+
+$(FLOAT_SUPPORT_DATS): $(addsuffix .m4, $(FLOAT_DATS))
+
+@GNU@ define make-float-support-dats =
+@GNU@ $(1): $(addsuffix .m4, $(1)) $(M4DEPS)
+@GNU@	@$$(MKDIR_P) $$(@D)
+@GNU@	$$(call v,M4)$$(M4) -DCOMPILING_IMPLEMENTATIONS=yes $$(TOTAL_M4FLAGS) $$(<) > $$(@)
+@GNU@ endef
+
+$(eval $(call make-float-support-dats, float-implementations.dats))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

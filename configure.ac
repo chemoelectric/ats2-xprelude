@@ -175,6 +175,7 @@ fi
 # Checks for typedefs, structures, and compiler characteristics.
 
 AC_CHECK_TYPE([_Float128])
+
 AM_CONDITIONAL([HAVE_FLOAT128],[test x"${ac_cv_type__Float128}" = xyes])
 if test x"${ac_cv_type__Float128}" = xyes; then
   AC_MSG_NOTICE([_Float128 found. The tests will take this into account.])

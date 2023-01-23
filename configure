@@ -20370,6 +20370,7 @@ then :
 
 fi
 
+
  if test x"${ac_cv_type__Float128}" = xyes; then
   HAVE_FLOAT128_TRUE=
   HAVE_FLOAT128_FALSE='#'

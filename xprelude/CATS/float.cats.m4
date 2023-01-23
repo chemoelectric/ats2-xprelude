@@ -226,6 +226,7 @@ END_FLOAT_SUPPORT_CHECK(FLT1)
 /* Library functions. */
 
 m4_foreachq(`OP',`unary_ops, binary_ops, trinary_ops,
+                  floattype_intmax_ops,
                   scalbn, scalbln, ilogb,
                   frexp, modf',
 `m4_foreachq(`FLT1',`conventional_floattypes',

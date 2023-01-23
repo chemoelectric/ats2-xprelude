@@ -463,6 +463,18 @@ test18 () : void =
     val- true = 2.0 ** 3.0 = 8.0
     val- true = 3.0 ** 3.0 = 27.0
     val- true = 4.0 ** 3.0 = 64.0
+
+    val- true = g0float_npow (0.0F, 3) = 0.0F
+    val- true = g0float_npow (1.0F, 3) = 1.0F
+    val- true = g0float_npow (2.0F, 3) = 8.0F
+    val- true = g0float_npow (3.0F, 3) = 27.0F
+    val- true = g0float_npow (4.0F, 3) = 64.0F
+
+    val- true = g0float_npow (0.0L, 3) = 0.0L
+    val- true = g0float_npow (1.0L, 3) = 1.0L
+    val- true = g0float_npow (2.0L, 3) = 8.0L
+    val- true = g0float_npow (3.0L, 3) = 27.0L
+    val- true = g0float_npow (4.0L, 3) = 64.0L
   in
   end
 

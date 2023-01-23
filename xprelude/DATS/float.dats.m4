@@ -203,8 +203,7 @@ extern fn
 apply_unsafe_strfrom :
   unsafe_strfrom_cloref -< !exnwrt > Strptr1
 
-m4_if(`compilation_stage',`compiling_strfrom_parts',,
-`implement {tk}
+implement {tk}
 g0float_strfrom (format, x) =
   let
     val valid = validate_strfrom_format format
@@ -229,7 +228,6 @@ g0float_strfrom (format, x) =
         retval
       end
   end
-')dnl
 
 implement {tk}
 g0float_strto {n} {i} (s, i) =
@@ -253,6 +251,7 @@ g0float_strto {n} {i} (s, i) =
   end
 
 m4_foreachq(`FUNC',`unary_ops, binary_ops, trinary_ops,
+                    floattype_intmax_ops,
                     scalbn, scalbln, ilogb,
                     frexp, modf,
                     unsafe_strfrom, unsafe_strto',
@@ -361,6 +360,26 @@ g0float_npow (x, n) =
   in
     loop (x, g0i2f 1, n)
   end
+
+m4_foreachq(`FLT1',`regular_floattypes',
+`extern fn g0float_npow_`'FLT1 : $d2ctype (g0float_npow<floatt2k(FLT1)>)
+')dnl
+
+if_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`FLT1',`regular_floattypes',
+`
+implement
+g0float_npow_`'FLT1 (x, n) =
+  g0float_npow<floatt2k(FLT1)> (x, n)
+
+')dnl
+')dnl
+
+if_not_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`FLT1',`regular_floattypes',
+`implement g0float_npow<floatt2k(FLT1)> = g0float_npow_`'FLT1
+')dnl
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl

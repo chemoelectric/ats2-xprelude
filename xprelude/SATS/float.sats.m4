@@ -230,15 +230,23 @@ overload ** with g0float_pow
 (*------------------------------------------------------------------*)
 (* Trinary operations. *)
 
-typedef g0float_top_type (tk : tkind) =
-  (g0float tk, g0float tk, g0float tk) -<> g0float tk
-
 m4_foreachq(`TOP',`trinary_ops',
-`fn {tk : tkind} g0float_`'TOP : g0float_top_type tk
+`fn {tk : tkind} g0float_`'TOP : (g0float tk, g0float tk, g0float tk) -<> g0float tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'TOP`'_`'FLT1 : g0float_top_type floatt2k(FLT1) = "mac#%"
+`fn g0float_`'TOP`'_`'FLT1 : $d2ctype (g0float_`'TOP<floatt2k(FLT1)>) = "mac#%"
 ')dnl
 overload TOP with g0float_`'TOP
+
+')dnl
+(*------------------------------------------------------------------*)
+(* (floating point, intmax) operations. *)
+
+m4_foreachq(`OP',`floattype_intmax_ops',
+`fn {tk : tkind} g0float_`'OP : (g0float tk, intmax) -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_`'FLT1 : $d2ctype (g0float_`'OP<floatt2k(FLT1)>) = "mac#%"
+')dnl
+overload OP with g0float_`'OP
 
 ')dnl
 (*------------------------------------------------------------------*)
