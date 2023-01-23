@@ -181,23 +181,33 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (*------------------------------------------------------------------*)
 (* Library functions. *)
 
-implement {tk}
+vtypedef unsafe_strfrom_cloptr =
+  {p : addr}
+  {n : int}
+  (!array_v (byte?, p, n) >> array_v (byte, p, n) |
+   ptr p, size_t n) -<cloptr,!wrt>
+    int
+
+typedef unsafe_strfrom_cloref =
+  {p : addr}
+  {n : int}
+  (!array_v (byte?, p, n) >> array_v (byte, p, n) |
+   ptr p, size_t n) -<cloref,!wrt>
+    int
+
+extern fn
+validate_strfrom_format :
+  string -<> bool
+
+extern fn
+apply_unsafe_strfrom :
+  unsafe_strfrom_cloref -< !exnwrt > Strptr1
+
+m4_if(`compilation_stage',`compiling_strfrom_parts',,
+`implement {tk}
 g0float_strfrom (format, x) =
   let
-    vtypedef unsafe_strfrom_cloptr =
-      {p : addr}
-      {n : int}
-      (!array_v (byte?, p, n) >> array_v (byte, p, n) |
-       ptr p, size_t n) -<cloptr,!wrt>
-        int
-
-    typedef unsafe_strfrom_cloref =
-      {p : addr}
-      {n : int}
-      (!array_v (byte?, p, n) >> array_v (byte, p, n) |
-       ptr p, size_t n) -<cloref,!wrt>
-        int
-
+(*
     extern fn
     my_extern_prefix`'validate_strfrom_format :
       string -<> bool = "ext#%"
@@ -205,8 +215,8 @@ g0float_strfrom (format, x) =
     extern fn
     my_extern_prefix`'apply_unsafe_strfrom :
       unsafe_strfrom_cloref -< !exnwrt > Strptr1 = "ext#%"
-
-    val valid = my_extern_prefix`'validate_strfrom_format format
+*)
+    val valid = (*my_extern_prefix`'*)validate_strfrom_format format
   in
     if ~valid then
       let
@@ -222,12 +232,13 @@ g0float_strfrom (format, x) =
               g0float_unsafe_strfrom<tk> (!p_buf, size, format, x)
           end : unsafe_strfrom_cloptr
         val clo = $UN.castvwtp1{unsafe_strfrom_cloref} unsafe_strfrom
-        val retval = my_extern_prefix`'apply_unsafe_strfrom clo
+        val retval = (*my_extern_prefix`'*)apply_unsafe_strfrom clo
         val () = cloptr_free ($UN.castvwtp0 unsafe_strfrom)
       in
         retval
       end
   end
+')dnl
 
 implement {tk}
 g0float_strto {n} {i} (s, i) =

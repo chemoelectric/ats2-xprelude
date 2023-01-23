@@ -15,18 +15,8 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 *)
-include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
-(*------------------------------------------------------------------*)
-
-#define ATS_DYNLOADFLAG 0
-
-#define ATS_PACKNAME "ats2-xprelude.float"
-#define ATS_EXTERN_PREFIX "my_extern_prefix"
-
-#include "share/atspre_staload.hats"
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+define(`compilation_stage',`compiling_strfrom_parts')
+include(TOP_SRCDIR`/xprelude/DATS/float.dats.m4')
 (*------------------------------------------------------------------*)
 
 local
@@ -70,16 +60,8 @@ local
 
 in (* local *)
 
-  extern fn
-  my_extern_prefix`'validate_strfrom_format :
-    string -<> bool = "ext#%"
-
-  extern fn
-  my_extern_prefix`'apply_unsafe_strfrom :
-    unsafe_strfrom_cloref -< !exnwrt > Strptr1 = "ext#%"
-
   implement
-  my_extern_prefix`'validate_strfrom_format fmt =
+  validate_strfrom_format fmt =
     let
       val fmt = g1ofg0 fmt
       val n = length fmt
@@ -99,7 +81,7 @@ in (* local *)
     end
 
   implement
-  my_extern_prefix`'apply_unsafe_strfrom unsafe_strfrom =
+  apply_unsafe_strfrom unsafe_strfrom =
     let
       #define BUFSZ 128
       var buf : @[byte][BUFSZ]

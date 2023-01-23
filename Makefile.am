@@ -91,6 +91,8 @@ distclean-local: code-coverage-dist-clean ats-includes-distclean
 
 #--------------------------------------------------------------------------
 
+AM_M4FLAGS += -DTOP_SRCDIR='$(top_srcdir)'
+
 TOTAL_M4FLAGS =
 TOTAL_M4FLAGS += $(AM_M4FLAGS)
 TOTAL_M4FLAGS += $(M4FLAGS)

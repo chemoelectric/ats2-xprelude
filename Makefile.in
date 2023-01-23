@@ -840,7 +840,9 @@ DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) $(FIXED32P32_SRC) \
 	$(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
-AM_M4FLAGS = 
+
+#--------------------------------------------------------------------------
+AM_M4FLAGS = -DTOP_SRCDIR='$(top_srcdir)'
 AM_CPPFLAGS = -I$(builddir) -I$(srcdir) -I$(builddir)/lib \
 	-I$(srcdir)/lib -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime/ \
 	-D__STDC_WANT_IEC_60559_ATTRIBS_EXT__=1 \
@@ -873,8 +875,6 @@ libats2_xprelude_la_LIBADD = lib/libgnu.la
 nodist_pkgconfig_DATA = 
 CODE_COVERAGE_IGNORE_PATTERN = /usr/include/* /usr/include/*/* \
 	$(PATSHOME)/ccomp/runtime/* $(PATSHOME)/prelude/CATS/*
-
-#--------------------------------------------------------------------------
 TOTAL_M4FLAGS = $(AM_M4FLAGS) $(M4FLAGS) $(XM4FLAGS)
 
 #--------------------------------------------------------------------------
