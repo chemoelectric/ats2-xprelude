@@ -324,6 +324,17 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 ')dnl
 
+fn {tk  : tkind}
+   {tki : tkind}
+g0float_g0int_pow :
+  (g0float tk, g0int tki) -<> g0float tk
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn {tki : tkind} g0float_g0int_pow_`'FLT1 : (FLT1, g0int tki) -<> FLT1
+')dnl
+
+overload ** with g0float_g0int_pow of 1
+
 (*------------------------------------------------------------------*)
 (* Floating point constants. *)
 

@@ -455,6 +455,14 @@ test22 () : void =
   in
   end
 
+fn
+test23 () : void =
+  let
+    val- true = g0float_g0int_pow ($extval (float128, "2.0f128"), 3) = $extval (float128, "8.0f128")
+    val- true = g0float_g0int_pow ($extval (float128, "2.0f128"), ~3) = $extval (float128, "0.125f128")
+  in
+  end
+
 implement
 main () =
   begin

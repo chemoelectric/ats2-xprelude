@@ -368,6 +368,8 @@ test17 () : void =
 fn
 test18 () : void =
   let
+    overload ** with g0float_npow of 1000
+
     val- true = g0float_npow (0.0, 0) = 1.0
     val- true = g0float_npow (1.0, 0) = 1.0
     val- true = g0float_npow (2.0, 0) = 1.0
@@ -601,6 +603,45 @@ test22 () : void =
   in
   end
 
+fn
+test23 () : void =
+  let
+    val- true = g0float_g0int_pow (0.0, 0) = 1.0
+    val- true = g0float_g0int_pow (1.0, 0) = 1.0
+    val- true = g0float_g0int_pow (2.0, 0) = 1.0
+    val- true = g0float_g0int_pow (3.0, 0) = 1.0
+    val- true = g0float_g0int_pow (4.0, 0) = 1.0
+
+    val- true = g0float_g0int_pow (0.0F, 1L) = 0.0F
+    val- true = g0float_g0int_pow (1.0F, 1L) = 1.0F
+    val- true = g0float_g0int_pow (2.0F, 1L) = 2.0F
+    val- true = g0float_g0int_pow (3.0F, 1L) = 3.0F
+    val- true = g0float_g0int_pow (4.0F, 1L) = 4.0F
+
+    val- true = g0float_g0int_pow (0.0L, 2LL) = 0.0L
+    val- true = g0float_g0int_pow (1.0L, 2LL) = 1.0L
+    val- true = g0float_g0int_pow (2.0L, 2LL) = 4.0L
+    val- true = g0float_g0int_pow (3.0L, 2LL) = 9.0L
+    val- true = g0float_g0int_pow (4.0L, 2LL) = 16.0L
+
+    val- true = g0float_g0int_pow (0.0, 3) = 0.0
+    val- true = g0float_g0int_pow (1.0, 3) = 1.0
+    val- true = g0float_g0int_pow (2.0, 3) = 8.0
+    val- true = g0float_g0int_pow (3.0, 3) = 27.0
+    val- true = g0float_g0int_pow (4.0, 3) = 64.0
+
+    val- true = g0float_g0int_pow (0.0, ~1) > 1e100
+    val- true = g0float_g0int_pow (1.0, ~1) = 1.0
+    val- true = g0float_g0int_pow (2.0, ~1) = 0.5
+    val- true = g0float_g0int_pow (4.0, ~1) = 0.25
+
+    val- true = g0float_g0int_pow (0.0L, ~2LL) > 1e100L
+    val- true = g0float_g0int_pow (1.0L, ~2LL) = 1.0L
+    val- true = g0float_g0int_pow (2.0L, ~2LL) = 0.25L
+    val- true = g0float_g0int_pow (4.0L, ~2LL) = 0.0625L
+  in
+  end
+
 implement
 main () =
   begin
@@ -626,5 +667,6 @@ main () =
     test20 ();
     test21 ();
     test22 ();
+    test23 ();
     0
   end

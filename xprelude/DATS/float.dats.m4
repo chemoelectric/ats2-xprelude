@@ -398,6 +398,102 @@ m4_foreachq(`FLT1',`regular_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* g0float_g0int_pow: a generalization of g0float_npow. Resembles the
+   function pown(3). *)
+
+extern fn {tk : tkind}
+g0float_intmax_pow :
+  $d2ctype (g0float_g0int_pow<tk><intmaxknd>)
+
+extern fn {tk : tkind}
+_g0float_intmax_pow :
+  $d2ctype (g0float_g0int_pow<tk><intmaxknd>)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`extern fn {} g0float_intmax_pow_`'FLT1 : $d2ctype (g0float_g0int_pow<floatt2k(FLT1)><intmaxknd>)
+')dnl
+
+implement {tk}
+_g0float_intmax_pow (x, n) =
+  let
+    fun
+    loop {n : nat}
+         .<n>.
+         (x     : g0float tk,
+          accum : g0float tk,
+          n     : intmax n)
+        :<> g0float tk =
+      if g1i2i 2 <= n then
+        let
+          val nhalf = half n
+          and xsquare = x * x
+        in
+          if nhalf + nhalf = n then
+            loop (xsquare, accum, nhalf)
+          else
+            loop (xsquare, x * accum, nhalf)
+        end
+      else if isneqz n then
+        x * accum
+      else
+        accum
+
+    val n = g1ofg0 n
+  in
+    if isgtez n then
+      loop (x, g0i2f 1, n)
+    else
+      loop (g0i2f 1 / x, g0i2f 1, ~n)
+  end
+
+(* g0float_intmax_pow<tk> will use a type-specific template, if one
+   is available. Otherwise it will use the general template. *)
+implement {tk} g0float_intmax_pow (x, n) = _g0float_intmax_pow<tk> (x, n)
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_intmax_pow<floatt2k(FLT1)> = g0float_intmax_pow_`'FLT1<>
+')dnl
+
+(* Compiled functions for g0float types we know will be available. *)
+m4_foreachq(`FLT1',`regular_floattypes',
+`extern fn _g0float_intmax_pow_`'FLT1 : $d2ctype (g0float_g0int_pow<floatt2k(FLT1)><intmaxknd>)
+')dnl
+dnl
+if_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`FLT1',`regular_floattypes',
+`
+implement
+_g0float_intmax_pow_`'FLT1 (x, n) =
+  _g0float_intmax_pow<floatt2k(FLT1)> (x, n)
+')
+')dnl
+
+if_not_COMPILING_IMPLEMENTATIONS(
+`
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement {} g0float_intmax_pow_`'FLT1 = _g0float_intmax_pow<floatt2k(FLT1)>
+')dnl
+m4_foreachq(`FLT1',`regular_floattypes',
+`implement g0float_intmax_pow_`'FLT1<> = _g0float_intmax_pow_`'FLT1
+')dnl
+')dnl
+
+implement {tk} {tki}
+g0float_g0int_pow (x, n) =
+  _g0float_intmax_pow<tk> (x, g0int2int<tki,intmaxknd> n)
+
+m4_foreachq(`FLT1',`regular_floattypes',
+`m4_foreachq(`INT',`conventional_intbases',
+`implement g0float_g0int_pow<floatt2k(FLT1)><intb2k(INT)> = g0float_g0int_pow_`'FLT1<intb2k(INT)>
+')dnl
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement {tki}
+g0float_g0int_pow_`'FLT1 (x, n) =
+  g0float_intmax_pow_`'FLT1 (x, g0int2int<tki,intmaxknd> n)
+
+')dnl
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS
