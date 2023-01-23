@@ -260,7 +260,6 @@ FLOAT_SUPPORT_DATS_C += float-implementations_dats.c
 
 strfrom-support_dats.c: $(addsuffix .m4, $(FLOAT_DATS))
 float-implementations_dats.c: $(addsuffix .m4, $(FLOAT_DATS))
-
 $(eval $(call make-compiling-implementations, float-implementations.dats))
 
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
@@ -293,7 +292,6 @@ FIXED32P32_SUPPORT_DATS_C += tostrptr_fixed32p32_dats.c
 FIXED32P32_SUPPORT_DATS_C += fixed32p32-implementations_dats.c
 
 fixed32p32-implementations.dats : $(addsuffix .m4, $(FIXED32P32_DATS))
-
 $(eval $(call make-compiling-implementations, fixed32p32-implementations.dats))
 
 FIXED32P32_SRC = $(FIXED32P32_SATS) $(FIXED32P32_DATS) $(FIXED32P32_CATS)
@@ -317,13 +315,21 @@ EXRAT_CATS = xprelude/CATS/exrat.cats
 EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
 EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
 
-EXRAT_SUPPORT_DATS = exrat-support.dats
-EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
+EXRAT_SUPPORT_DATS =
+EXRAT_SUPPORT_DATS += exrat-support.dats
+EXRAT_SUPPORT_DATS += exrat-implementations.dats
+
+EXRAT_SUPPORT_DATS_C =
+EXRAT_SUPPORT_DATS_C += exrat-support_dats.c
+EXRAT_SUPPORT_DATS_C += exrat-implementations_dats.c
 
 EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
 EXTRA_DIST += $(addsuffix .m4, $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS))
 BUILT_SOURCES += $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)
 CLEANFILES += $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)
+
+exrat-implementations.dats : $(addsuffix .m4, $(EXRAT_DATS))
+$(eval $(call make-compiling-implementations, exrat-implementations.dats))
 
 if ENABLE_EXRAT
 

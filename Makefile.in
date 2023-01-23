@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Mon Jan 23 09:17:30 CST 2023
+# from AX_AM_MACROS_STATIC on Mon Jan 23 16:56:52 CST 2023
 
 
 
@@ -207,7 +207,7 @@ am__objects_10 = fixed32p32_square_root_dats.lo \
 	tostrptr_fixed32p32_dats.lo fixed32p32-implementations_dats.lo
 am__objects_11 = xprelude/SATS/exrat_sats.lo
 am__objects_12 = xprelude/DATS/exrat_dats.lo
-am__objects_13 = exrat-support_dats.lo
+am__objects_13 = exrat-support_dats.lo exrat-implementations_dats.lo
 @ENABLE_EXRAT_TRUE@am__objects_14 = $(am__objects_11) \
 @ENABLE_EXRAT_TRUE@	$(am__objects_12) $(am__objects_13)
 am__objects_15 = xprelude/SATS/sort_sats.lo
@@ -293,7 +293,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/exrat-support_dats.Plo \
+am__depfiles_remade = ./$(DEPDIR)/exrat-implementations_dats.Plo \
+	./$(DEPDIR)/exrat-support_dats.Plo \
 	./$(DEPDIR)/fixed32p32-implementations_dats.Plo \
 	./$(DEPDIR)/fixed32p32_division.Plo \
 	./$(DEPDIR)/fixed32p32_multiplication.Plo \
@@ -937,8 +938,9 @@ EXRAT_DATS = xprelude/DATS/exrat.dats
 EXRAT_CATS = xprelude/CATS/exrat.cats
 EXRAT_SATS_C = xprelude/SATS/exrat_sats.c
 EXRAT_DATS_C = xprelude/DATS/exrat_dats.c
-EXRAT_SUPPORT_DATS = exrat-support.dats
-EXRAT_SUPPORT_DATS_C = exrat-support_dats.c
+EXRAT_SUPPORT_DATS = exrat-support.dats exrat-implementations.dats
+EXRAT_SUPPORT_DATS_C = exrat-support_dats.c \
+	exrat-implementations_dats.c
 EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1220,6 +1222,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exrat-implementations_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exrat-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32-implementations_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32_division.Plo@am__quote@ # am--include-marker
@@ -2024,7 +2027,8 @@ clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f ./$(DEPDIR)/exrat-support_dats.Plo
+		-rm -f ./$(DEPDIR)/exrat-implementations_dats.Plo
+	-rm -f ./$(DEPDIR)/exrat-support_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_division.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_multiplication.Plo
@@ -2100,7 +2104,8 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f ./$(DEPDIR)/exrat-support_dats.Plo
+		-rm -f ./$(DEPDIR)/exrat-implementations_dats.Plo
+	-rm -f ./$(DEPDIR)/exrat-support_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_division.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_multiplication.Plo
@@ -2348,12 +2353,13 @@ ats-includes-distclean:
 
 strfrom-support_dats.c: $(addsuffix .m4, $(FLOAT_DATS))
 float-implementations_dats.c: $(addsuffix .m4, $(FLOAT_DATS))
-
 $(eval $(call make-compiling-implementations, float-implementations.dats))
 
 fixed32p32-implementations.dats : $(addsuffix .m4, $(FIXED32P32_DATS))
-
 $(eval $(call make-compiling-implementations, fixed32p32-implementations.dats))
+
+exrat-implementations.dats : $(addsuffix .m4, $(EXRAT_DATS))
+$(eval $(call make-compiling-implementations, exrat-implementations.dats))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

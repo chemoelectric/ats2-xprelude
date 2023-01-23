@@ -193,6 +193,9 @@ my_extern_prefix`'g0float_rint_exrat (my_extern_prefix`'exrat x)
 my_extern_prefix`'exrat my_extern_prefix`'g0float_npow_exrat (my_extern_prefix`'exrat x,
                                                       atstype_int n);
 
+my_extern_prefix`'exrat ats2_xprelude__g0float_intmax_pow_exrat (floatt2c(exrat) x,
+                                                      intb2c(intmax) n);
+
 my_extern_prefix`'exrat my_extern_prefix`'exrat_numerator (my_extern_prefix`'exrat x);
 my_extern_prefix`'exrat my_extern_prefix`'exrat_denominator (my_extern_prefix`'exrat x);
 

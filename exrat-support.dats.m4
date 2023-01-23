@@ -916,6 +916,46 @@ ats2_xprelude_g0float_npow_exrat (floatt2c(exrat) x,
 }
 
 ats2_xprelude_exrat
+ats2_xprelude__g0float_intmax_pow_exrat (floatt2c(exrat) x,
+                                         intb2c(intmax) n)
+{
+  floatt2c(exrat) z = _ats2_xprelude_exrat_init ();
+
+  mpq_t y;
+  mpq_init (y);
+  if (0 <= n)
+    mpq_set (y, x[0]);
+  else
+    {
+      n = -n;
+      mpq_inv (y, x[0]);
+    }
+
+  mpq_t ysquare;
+  mpq_init (ysquare);
+
+  mpq_t accum;
+  mpq_init (accum);
+  mpq_set (accum, _ats2_xprelude_exrat_one);
+
+  while (2 <= n)
+    {
+      int nhalf = (n >> 1);
+      mpq_mul (ysquare, y, y);
+      if (nhalf + nhalf != n)
+        mpq_mul (accum, accum, y);
+      n = nhalf;
+      mpq_set (y, ysquare);
+    }
+  if (n == 1)
+    mpq_mul (accum, accum, y);
+
+  mpq_set (z[0], accum);
+
+  return z;
+}
+
+ats2_xprelude_exrat
 ats2_xprelude_exrat_numerator (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _ats2_xprelude_exrat_init ();

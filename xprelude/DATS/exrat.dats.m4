@@ -138,6 +138,22 @@ implement g0float_iseqz<exratknd> x = (g0float_sgn_exrat x = 0)
 implement g0float_isneqz<exratknd> x = (g0float_sgn_exrat x <> 0)
 
 (*------------------------------------------------------------------*)
+
+extern fn
+_g0float_intmax_pow_exrat :
+  $d2ctype (g0float_g0int_pow<exratknd><intmaxknd>) = "mac#%"
+
+implement {tki}
+g0float_g0int_pow_exrat (x, n) =
+  _g0float_intmax_pow_exrat (x, g0int2int<tki,intmaxknd> n)
+
+m4_foreachq(`INT',`conventional_intbases',
+`implement
+g0float_g0int_pow<exratknd><intb2k(INT)> =
+  g0float_g0int_pow_exrat<intb2k(INT)>
+
+')dnl
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS
