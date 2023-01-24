@@ -236,6 +236,18 @@ my_extern_prefix`'g0float_neg_`'FLT1 (floatt2c(FLT1) x)
 END_FLOAT_SUPPORT_CHECK(FLT1)
 ')dnl
 
+m4_foreachq(`FLT1',`conventional_floattypes',
+`
+FLOAT_SUPPORT_CHECK(FLT1)
+my_extern_prefix`'inline atsvoid_t0ype
+my_extern_prefix`'g0float_negate_`'FLT1 (atstype_ref px)
+{
+  floatt2c(FLT1) *x = px;
+  *x = -(*x);
+}
+END_FLOAT_SUPPORT_CHECK(FLT1)
+')dnl
+
 /*------------------------------------------------------------------*/
 /* Library functions. */
 

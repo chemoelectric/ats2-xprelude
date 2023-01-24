@@ -535,6 +535,15 @@ test25 () : void =
   in
   end
 
+fn
+test26 () : void =
+  let
+    var x : float128 = g0i2f 5
+    val () = negate x
+    val- true = x = g0i2f ~5
+  in
+  end
+
 implement
 main () =
   begin
@@ -562,6 +571,6 @@ main () =
     test22 ();
     test23 ();
     test24 ();
-    test25 ();
+    test26 ();
     0
   end

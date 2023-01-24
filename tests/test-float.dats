@@ -796,6 +796,23 @@ test25 () : void =
   in
   end
 
+fn
+test26 () : void =
+  let
+    var x = 5.0F
+    val () = negate x
+    val- true = x = ~5.0F
+
+    var x = 5.0
+    val () = negate x
+    val- true = x = ~5.0
+
+    var x = 5.0L
+    val () = negate x
+    val- true = x = ~5.0L
+  in
+  end
+
 implement
 main () =
   begin
@@ -824,5 +841,6 @@ main () =
     test23 ();
     test24 ();
     test25 ();
+    test26 ();
     0
   end

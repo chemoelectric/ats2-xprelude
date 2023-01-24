@@ -253,6 +253,14 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_neg_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
 ')dnl
 
+(* Value-replacement versions. *)
+fn {tk : tkind} g0float_negate : (&g0float tk >> _) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_negate_`'FLT1 : (&FLT1 >> _) -< !wrt > void = "mac#%"
+')dnl
+
+overload negate with g0float_negate
+
 (*------------------------------------------------------------------*)
 (* Unary operations. *)
 

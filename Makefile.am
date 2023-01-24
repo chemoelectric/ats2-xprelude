@@ -198,6 +198,18 @@ libats2_xprelude_la_LIBADD += lib/libgnu.la
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+SYMBOLS_HATS =
+
+SYMBOLS_HATS += xprelude/HATS/symbols.hats
+
+EXTRA_DIST += $(addsuffix .m4, $(SYMBOLS_HATS))
+BUILT_SOURCES += $(SYMBOLS_HATS) 
+CLEANFILES += $(SYMBOLS_HATS)
+
+nobase_nodist_pkginclude_HEADERS += $(SYMBOLS_HATS)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 XPRELUDE_HATS =
 
 XPRELUDE_HATS += xprelude/HATS/xprelude_sats.hats
