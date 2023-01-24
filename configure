@@ -668,6 +668,10 @@ LTLIBOBJS
 LIBOBJS
 GNU_MAKE
 GNU
+WITH_GMP_FALSE
+WITH_GMP_TRUE
+ENABLE_MPFR_FALSE
+ENABLE_MPFR_TRUE
 ENABLE_EXRAT_FALSE
 ENABLE_EXRAT_TRUE
 HAVE_FLOAT128_FALSE
@@ -685,6 +689,8 @@ TIMSORT_LIBS
 TIMSORT_CFLAGS
 GMP_LIBS
 GMP_CFLAGS
+MPFR_LIBS
+MPFR_CFLAGS
 pkgconfigdir
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
@@ -858,6 +864,7 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 enable_exrat
+enable_mpfr
 with_ats2_timsort
 with_ats2_quicksorts
 enable_default_sorts
@@ -887,6 +894,8 @@ CXXCPP
 PKG_CONFIG
 PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
+MPFR_CFLAGS
+MPFR_LIBS
 GMP_CFLAGS
 GMP_LIBS
 TIMSORT_CFLAGS
@@ -1540,7 +1549,10 @@ Optional Features:
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --enable-exrat          enable garbage-collected exact rational types;
-                          requires https://gmplib.org/ [default=yes]
+                          requires https://gmplib.org [default=yes]
+  --enable-mpfr           enable garbage-collected multiple precision floating
+                          point types; requires https://www.mpfr.org
+                          [default=yes]
   --enable-default-sorts=N,N,N,N
                           enable the given sorts as defaults; order is array
                           sort, array stable sort, list sort, list stable
@@ -1593,6 +1605,8 @@ Some influential environment variables:
               directories to add to pkg-config's search path
   PKG_CONFIG_LIBDIR
               path overriding pkg-config's built-in search path
+  MPFR_CFLAGS C compiler flags for MPFR, overriding pkg-config
+  MPFR_LIBS   linker flags for MPFR, overriding pkg-config
   GMP_CFLAGS  C compiler flags for GMP, overriding pkg-config
   GMP_LIBS    linker flags for GMP, overriding pkg-config
   TIMSORT_CFLAGS
@@ -13492,6 +13506,18 @@ if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
   as_fn_error $? "please specify --enable-exrat=yes or --enable-exrat=no" "$LINENO" 5
 fi
 
+# Check whether --enable-mpfr was given.
+if test ${enable_mpfr+y}
+then :
+  enableval=$enable_mpfr;
+else $as_nop
+  enable_mpfr=yes
+fi
+
+if test x"${enable_mpfr}" != xyes && test x"${enable_mpfr}" != xno; then
+  as_fn_error $? "please specify --enable-mpfr=yes or --enable-mpfr=no" "$LINENO" 5
+fi
+
 
 # Check whether --with-ats2-timsort was given.
 if test ${with_ats2_timsort+y}
@@ -19991,6 +20017,83 @@ pkgconfigdir=$with_pkgconfigdir
 #
 # Checks for libraries.
 
+# If one does not have gmp, one will not have mpfr. So, if one has no
+# gmp, one will first get this message, then the you-cannot-do-exrat
+# message.
+if test x"${enable_mpfr}" = xyes; then
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for MPFR" >&5
+printf %s "checking for MPFR... " >&6; }
+
+if test -n "$MPFR_CFLAGS"; then
+    pkg_cv_MPFR_CFLAGS="$MPFR_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mpfr\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "mpfr") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_MPFR_CFLAGS=`$PKG_CONFIG --cflags "mpfr" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$MPFR_LIBS"; then
+    pkg_cv_MPFR_LIBS="$MPFR_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mpfr\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "mpfr") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_MPFR_LIBS=`$PKG_CONFIG --libs "mpfr" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        MPFR_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "mpfr" 2>&1`
+        else
+	        MPFR_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "mpfr" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$MPFR_PKG_ERRORS" >&5
+
+	as_fn_error $? "GNU Multiple Precision Floating-Point Reliable Library not found; consider --enable-mpfr=no" "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "GNU Multiple Precision Floating-Point Reliable Library not found; consider --enable-mpfr=no" "$LINENO" 5
+else
+	MPFR_CFLAGS=$pkg_cv_MPFR_CFLAGS
+	MPFR_LIBS=$pkg_cv_MPFR_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+fi
+
 if test x"${enable_exrat}" = xyes; then
 
 pkg_failed=no
@@ -20494,6 +20597,22 @@ else
   ENABLE_EXRAT_FALSE=
 fi
 
+ if test x"${enable_mpfr}" = xyes; then
+  ENABLE_MPFR_TRUE=
+  ENABLE_MPFR_FALSE='#'
+else
+  ENABLE_MPFR_TRUE='#'
+  ENABLE_MPFR_FALSE=
+fi
+
+ if test x"${enable_exrat}" = xyes || test x"${enable_mpfr}" = xyes; then
+  WITH_GMP_TRUE=
+  WITH_GMP_FALSE='#'
+else
+  WITH_GMP_TRUE='#'
+  WITH_GMP_FALSE=
+fi
+
 
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_TIMSORT=${with_ats2_timsort}"
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_QUICKSORTS=${with_ats2_quicksorts}"
@@ -20522,9 +20641,20 @@ if test x"${with_ats2_quicksorts}" = xyes; then
   LIBS="${LIBS}${LIBS+ }\$(QUICKSORTS_LIBS)"
 fi
 
+if test x"${enable_mpfr}" = xyes; then
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(MPFR_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(MPFR_LIBS)"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_MPFR=yes"
+else
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_MPFR=no"
+fi
+
 if test x"${enable_exrat}" = xyes; then
   CFLAGS="${CFLAGS}${CFLAGS+ }\$(GMP_CFLAGS)"
   LIBS="${LIBS}${LIBS+ }\$(GMP_LIBS)"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_EXRAT=yes"
+else
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_EXRAT=no"
 fi
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
@@ -20881,6 +21011,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_EXRAT_TRUE}" && test -z "${ENABLE_EXRAT_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_EXRAT\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_MPFR_TRUE}" && test -z "${ENABLE_MPFR_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_MPFR\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${WITH_GMP_TRUE}" && test -z "${WITH_GMP_FALSE}"; then
+  as_fn_error $? "conditional \"WITH_GMP\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

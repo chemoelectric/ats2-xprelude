@@ -57,12 +57,23 @@ AM_CONDITIONAL([DEPENDENCY_TRACKING],
 AC_ARG_ENABLE([exrat],
   [AS_HELP_STRING([--enable-exrat],
       [enable garbage-collected exact rational types;
-        requires https://gmplib.org/
+        requires https://gmplib.org
         [default=yes]])],
   [],
   [enable_exrat=yes])
 if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
   AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])
+fi
+
+AC_ARG_ENABLE([mpfr],
+  [AS_HELP_STRING([--enable-mpfr],
+      [enable garbage-collected multiple precision floating point types;
+        requires https://www.mpfr.org
+        [default=yes]])],
+  [],
+  [enable_mpfr=yes])
+if test x"${enable_mpfr}" != xyes && test x"${enable_mpfr}" != xno; then
+  AC_MSG_ERROR([please specify --enable-mpfr=yes or --enable-mpfr=no])
 fi
 
 AC_ARG_WITH([ats2-timsort],
@@ -125,6 +136,14 @@ PKG_INSTALLDIR
 #--------------------------------------------------------------------------
 #
 # Checks for libraries.
+
+# If one does not have gmp, one will not have mpfr. So, if one has no
+# gmp, one will first get this message, then the you-cannot-do-exrat
+# message.
+if test x"${enable_mpfr}" = xyes; then
+  PKG_CHECK_MODULES([MPFR],[mpfr],,
+    [AC_MSG_ERROR([GNU Multiple Precision Floating-Point Reliable Library not found; consider --enable-mpfr=no])])
+fi
 
 if test x"${enable_exrat}" = xyes; then
   PKG_CHECK_MODULES([GMP],[gmp],,
@@ -225,6 +244,8 @@ check_default_sort([default_list_stable_sort])
 #--------------------------------------------------------------------------
 
 AM_CONDITIONAL([ENABLE_EXRAT],[test x"${enable_exrat}" = xyes])
+AM_CONDITIONAL([ENABLE_MPFR],[test x"${enable_mpfr}" = xyes])
+AM_CONDITIONAL([WITH_GMP],[test x"${enable_exrat}" = xyes || test x"${enable_mpfr}" = xyes])
 
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_TIMSORT=${with_ats2_timsort}"
 M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DWITH_QUICKSORTS=${with_ats2_quicksorts}"
@@ -253,9 +274,20 @@ if test x"${with_ats2_quicksorts}" = xyes; then
   LIBS="${LIBS}${LIBS+ }\$(QUICKSORTS_LIBS)"
 fi
 
+if test x"${enable_mpfr}" = xyes; then
+  CFLAGS="${CFLAGS}${CFLAGS+ }\$(MPFR_CFLAGS)"
+  LIBS="${LIBS}${LIBS+ }\$(MPFR_LIBS)"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_MPFR=yes"
+else
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_MPFR=no"
+fi
+
 if test x"${enable_exrat}" = xyes; then
   CFLAGS="${CFLAGS}${CFLAGS+ }\$(GMP_CFLAGS)"
   LIBS="${LIBS}${LIBS+ }\$(GMP_LIBS)"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_EXRAT=yes"
+else
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DENABLE_EXRAT=no"
 fi
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to

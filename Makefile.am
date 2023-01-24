@@ -75,9 +75,6 @@ AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_DFP_EXT__=1
 AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_FUNCS_EXT__=1
 AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_TYPES_EXT__=1
 
-AM_CFLAGS += $(ITP_CFLAGS)
-AM_CFLAGS += $(GMP_CFLAGS)
-
 LDADD += $(CODE_COVERAGE_LIBS)
 
 CODE_COVERAGE_IGNORE_PATTERN =
@@ -123,7 +120,6 @@ PATSOPT_DEPS =
 AM_PATSOPTFLAGS =
 AM_PATSOPTFLAGS += -IATS $(builddir)
 AM_PATSOPTFLAGS += -IATS $(srcdir)
-AM_PATSOPTFLAGS += $(ITP_PATSOPTFLAGS)
 
 TOTAL_PATSOPTFLAGS =
 TOTAL_PATSOPTFLAGS += $(AM_PATSOPTFLAGS)
@@ -333,6 +329,22 @@ nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_SUPPORT_C)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+GMP_SUPPORT_DATS =
+GMP_SUPPORT_DATS += gmp-support.dats
+
+GMP_SUPPORT_DATS_C =
+GMP_SUPPORT_DATS_C += gmp-support_dats.c
+
+EXTRA_DIST += $(addsuffix .m4, $(GMP_SUPPORT_DATS))
+BUILT_SOURCES += $(GMP_SUPPORT_DATS)
+CLEANFILES += $(GMP_SUPPORT_DATS)
+
+if WITH_GMP
+nodist_libats2_xprelude_la_SOURCES += $(GMP_SUPPORT_DATS_C)
+endif WITH_GMP
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 EXRAT_SATS = xprelude/SATS/exrat.sats
 EXRAT_DATS = xprelude/DATS/exrat.dats
 EXRAT_CATS = xprelude/CATS/exrat.cats
@@ -364,6 +376,40 @@ nodist_libats2_xprelude_la_SOURCES += $(EXRAT_DATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(EXRAT_SUPPORT_DATS_C)
 
 endif ENABLE_EXRAT
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+MPFR_SATS = xprelude/SATS/mpfr.sats
+MPFR_DATS = xprelude/DATS/mpfr.dats
+MPFR_CATS = xprelude/CATS/mpfr.cats
+MPFR_SATS_C = xprelude/SATS/mpfr_sats.c
+MPFR_DATS_C = xprelude/DATS/mpfr_dats.c
+
+MPFR_SUPPORT_DATS =
+MPFR_SUPPORT_DATS += mpfr-support.dats
+MPFR_SUPPORT_DATS += mpfr-implementations.dats
+
+MPFR_SUPPORT_DATS_C =
+MPFR_SUPPORT_DATS_C += mpfr-support_dats.c
+MPFR_SUPPORT_DATS_C += mpfr-implementations_dats.c
+
+MPFR_SRC = $(MPFR_SATS) $(MPFR_DATS) $(MPFR_CATS)
+EXTRA_DIST += $(addsuffix .m4, $(MPFR_SRC) $(MPFR_SUPPORT_DATS))
+BUILT_SOURCES += $(MPFR_SRC) $(MPFR_SUPPORT_DATS)
+CLEANFILES += $(MPFR_SRC) $(MPFR_SUPPORT_DATS)
+
+mpfr-implementations.dats : $(addsuffix .m4, $(MPFR_DATS))
+$(eval $(call make-compiling-implementations, mpfr-implementations.dats))
+
+if ENABLE_MPFR
+
+nobase_nodist_pkginclude_HEADERS += $(MPFR_SRC)
+
+nodist_libats2_xprelude_la_SOURCES += $(MPFR_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(MPFR_DATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(MPFR_SUPPORT_DATS_C)
+
+endif ENABLE_MPFR
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -450,6 +496,14 @@ nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
 tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
 tests_test_exrat_LDADD = $(TEST_LIBS)
 endif ENABLE_EXRAT
+
+EXTRA_DIST += tests/test-mpfr.dats
+if ENABLE_MPFR
+TESTS += tests/test-mpfr
+nodist_tests_test_mpfr_SOURCES = tests/test-mpfr_tests.c
+tests_test_mpfr_CFLAGS = $(TEST_CFLAGS)
+tests_test_mpfr_LDADD = $(TEST_LIBS)
+endif ENABLE_MPFR
 
 EXTRA_DIST += tests/test-sort.dats
 TESTS += tests/test-sort

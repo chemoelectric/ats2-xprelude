@@ -38,25 +38,12 @@ staload _ = "xprelude/DATS/fixed32p32.dats"
 #include <`inttypes'.h>
 #include <limits.h>
 
-static void *
-my_extern_prefix`'exrat_support_malloc (size_t alloc_size)
-{
-  return ATS_MALLOC (alloc_size);
-}
+extern atsvoid_t0ype my_extern_prefix`'gmp_support_initialize (void);
 
-static void *
-my_extern_prefix`'exrat_support_realloc (void *p,
-                                          size_t old_size,
-                                          size_t new_size)
-{
-  return ATS_REALLOC (p, new_size);
-}
-
-static void
-my_extern_prefix`'exrat_support_free (void *p, size_t size)
-{
-  return ATS_MFREE (p);
-}
+#ifndef my_extern_prefix`'boolc2ats
+#define my_extern_prefix`'boolc2ats(B) \
+  ((B) ? (atsbool_true) : (atsbool_false))
+#endif
 
 volatile atomic_int my_extern_prefix`'exrat_support_is_initialized = 0;
 
@@ -107,13 +94,14 @@ static my_extern_prefix`'mpq_t _`'my_extern_prefix`'exrat_two_raised_32;
 atsvoid_t0ype
 my_extern_prefix`'exrat_support_initialize (void)
 {
+  /* Initialize exrat support. A ticket-lock is used to ensure this
+     initialization is done but once. */
+
   my_extern_prefix`'exrat_initialization_obtain_lock ();
   if (!atomic_load_explicit (&my_extern_prefix`'exrat_support_is_initialized,
                              memory_order_acquire))
     {
-      mp_set_memory_functions (my_extern_prefix`'exrat_support_malloc,
-                               my_extern_prefix`'exrat_support_realloc,
-                               my_extern_prefix`'exrat_support_free);
+      my_extern_prefix`'gmp_support_initialize ();
 
       mpq_init (_`'my_extern_prefix`'exrat_zero);
       mpq_init (_`'my_extern_prefix`'exrat_one);
@@ -135,8 +123,7 @@ my_extern_prefix`'exrat_support_initialize (void)
 static atsvoid_t0ype
 _`'my_extern_prefix`'fprint_exrat (FILE *outf, floatt2c(exrat) x)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-  gmp_fprintf (outf, "%Qd", x);
+  gmp_fprintf (outf, "%Qd", x[0]);
 }
 
 atsvoid_t0ype
@@ -204,7 +191,6 @@ atstype_string
 my_extern_prefix`'tostrptr_exrat_given_base (floatt2c(exrat) x,
                                          int base)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
   return mpq_get_str (NULL, base, x[0]);
 }
 
@@ -387,8 +373,6 @@ my_extern_prefix`'g0int2float_intmax_exrat (intb2c(intmax) x)
 intb2c(lint)
 my_extern_prefix`'g0float2int_exrat_lint (floatt2c(exrat) x)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-
   mpz_t tmp;
   mpz_init (tmp);
 
@@ -461,7 +445,6 @@ my_extern_prefix`'g0float2float_fixed32p32_exrat_32bit (my_extern_prefix`'fixed3
 floatt2c(double)
 my_extern_prefix`'g0float2float_exrat_double (floatt2c(exrat) x)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
   return mpq_get_d (x[0]);
 }
 
@@ -471,8 +454,6 @@ _`'my_extern_prefix`'g0float2float_exrat_fixed32p32_32bit (floatt2c(exrat) x)
   /* FIXME: I am not certain what happens here if x has the most
             negative fixed-point value. Note, though, that one may
             consider that value an overflow. */
-
-  my_extern_prefix`'exrat_one_time_initialization ();
 
   mpq_t tmp;
   mpq_init (tmp);
@@ -499,8 +480,6 @@ _`'my_extern_prefix`'g0float2float_exrat_fixed32p32_32bit (floatt2c(exrat) x)
 static inline my_extern_prefix`'fixed32p32
 _`'my_extern_prefix`'g0float2float_exrat_fixed32p32_64bit (floatt2c(exrat) x)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-
   mpq_t tmp;
   mpq_init (tmp);
 
@@ -700,55 +679,48 @@ atstype_bool
 my_extern_prefix`'g0float_eq_exrat (floatt2c(exrat) x,
                                 floatt2c(exrat) y)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-  return (mpq_equal (x[0], y[0])) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (mpq_equal (x[0], y[0]));
 }
 
 atstype_bool
 my_extern_prefix`'g0float_neq_exrat (floatt2c(exrat) x,
                                  floatt2c(exrat) y)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-  return (!(mpq_equal (x[0], y[0]))) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (!(mpq_equal (x[0], y[0])));
 }
 
 atstype_bool
 my_extern_prefix`'g0float_lt_exrat (floatt2c(exrat) x,
                                 floatt2c(exrat) y)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) < 0) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (mpq_cmp (x[0], y[0]) < 0);
 }
 
 atstype_bool
 my_extern_prefix`'g0float_lte_exrat (floatt2c(exrat) x,
                                  floatt2c(exrat) y)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) <= 0) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (mpq_cmp (x[0], y[0]) <= 0);
 }
 
 atstype_bool
 my_extern_prefix`'g0float_gt_exrat (floatt2c(exrat) x,
                                 floatt2c(exrat) y)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) > 0) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (mpq_cmp (x[0], y[0]) > 0);
 }
 
 atstype_bool
 my_extern_prefix`'g0float_gte_exrat (floatt2c(exrat) x,
                                  floatt2c(exrat) y)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
-  return (mpq_cmp (x[0], y[0]) >= 0) ? atsbool_true : atsbool_false;
+  return my_extern_prefix`'boolc2ats (mpq_cmp (x[0], y[0]) >= 0);
 }
 
 atstype_int
 my_extern_prefix`'g0float_compare_exrat (floatt2c(exrat) x,
                                      floatt2c(exrat) y)
 {
-  my_extern_prefix`'exrat_one_time_initialization ();
   return (mpq_cmp (x[0], y[0]));
 }
 

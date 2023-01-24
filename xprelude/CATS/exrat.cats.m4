@@ -36,6 +36,9 @@ extern atsvoid_t0ype my_extern_prefix`'exrat_support_initialize (atsvoid_t0ype);
 my_extern_prefix`'inline atsvoid_t0ype
 my_extern_prefix`'exrat_one_time_initialization (void)
 {
+  /* Initialize exrat support. This inline function will be called the
+     first time an exrat is created. */
+
   if (!atomic_load_explicit (&my_extern_prefix`'exrat_support_is_initialized,
                              memory_order_acquire))
     my_extern_prefix`'exrat_support_initialize ();
