@@ -749,6 +749,53 @@ test24 () : void =
   in
   end
 
+fn
+test25 () : void =
+  let
+    val () = println! ()
+    val () = println! ("g0float_mant_dig<fltknd> () = ", g0float_mant_dig<fltknd> ())
+    val () = println! ("g0float_decimal_dig<fltknd> () = ", g0float_decimal_dig<fltknd> ())
+    val () = println! ("g0float_dig<fltknd> () = ", g0float_dig<fltknd> ())
+    val () = println! ("g0float_min_exp<fltknd> () = ", g0float_min_exp<fltknd> ())
+    val () = println! ("g0float_min_10_exp<fltknd> () = ", g0float_min_10_exp<fltknd> ())
+    val () = println! ("g0float_max_exp<fltknd> () = ", g0float_max_exp<fltknd> ())
+    val () = println! ("g0float_max_10_exp<fltknd> () = ", g0float_max_10_exp<fltknd> ())
+    val () = println! ("g0float_max_value<fltknd> () = ", g0float_max_value<fltknd> ())
+    val s = strptr2string (g0float_strfrom ("%.10e", g0float_min_value<fltknd> ()))
+    val () = println! ("g0float_min_value<fltknd> () = ", s)
+    val s = strptr2string (g0float_strfrom ("%.10e", g0float_true_min_value<fltknd> ()))
+    val () = println! ("g0float_true_min_value<fltknd> () = ", s)
+
+    val () = println! ()
+    val () = println! ("g0float_mant_dig<dblknd> () = ", g0float_mant_dig<dblknd> ())
+    val () = println! ("g0float_decimal_dig<dblknd> () = ", g0float_decimal_dig<dblknd> ())
+    val () = println! ("g0float_dig<dblknd> () = ", g0float_dig<dblknd> ())
+    val () = println! ("g0float_min_exp<dblknd> () = ", g0float_min_exp<dblknd> ())
+    val () = println! ("g0float_min_10_exp<dblknd> () = ", g0float_min_10_exp<dblknd> ())
+    val () = println! ("g0float_max_exp<dblknd> () = ", g0float_max_exp<dblknd> ())
+    val () = println! ("g0float_max_10_exp<dblknd> () = ", g0float_max_10_exp<dblknd> ())
+    val () = println! ("g0float_max_value<dblknd> () = ", g0float_max_value<dblknd> ())
+    val s = strptr2string (g0float_strfrom ("%.10e", g0float_min_value<dblknd> ()))
+    val () = println! ("g0float_min_value<dblknd> () = ", s)
+    val s = strptr2string (g0float_strfrom ("%.10e", g0float_true_min_value<dblknd> ()))
+    val () = println! ("g0float_true_min_value<dblknd> () = ", s)
+
+    val () = println! ()
+    val () = println! ("g0float_mant_dig<ldblknd> () = ", g0float_mant_dig<ldblknd> ())
+    val () = println! ("g0float_decimal_dig<ldblknd> () = ", g0float_decimal_dig<ldblknd> ())
+    val () = println! ("g0float_dig<ldblknd> () = ", g0float_dig<ldblknd> ())
+    val () = println! ("g0float_min_exp<ldblknd> () = ", g0float_min_exp<ldblknd> ())
+    val () = println! ("g0float_min_10_exp<ldblknd> () = ", g0float_min_10_exp<ldblknd> ())
+    val () = println! ("g0float_max_exp<ldblknd> () = ", g0float_max_exp<ldblknd> ())
+    val () = println! ("g0float_max_10_exp<ldblknd> () = ", g0float_max_10_exp<ldblknd> ())
+    val () = println! ("g0float_max_value<ldblknd> () = ", g0float_max_value<ldblknd> ())
+    val s = strptr2string (g0float_strfrom ("%.10e", g0float_min_value<ldblknd> ()))
+    val () = println! ("g0float_min_value<ldblknd> () = ", s)
+    val s = strptr2string (g0float_strfrom ("%.10e", g0float_true_min_value<ldblknd> ()))
+    val () = println! ("g0float_true_min_value<ldblknd> () = ", s)
+  in
+  end
+
 implement
 main () =
   begin
@@ -776,5 +823,6 @@ main () =
     test22 ();
     test23 ();
     test24 ();
+    test25 ();
     0
   end
