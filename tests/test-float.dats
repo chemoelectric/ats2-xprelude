@@ -639,6 +639,113 @@ test23 () : void =
     val- true = g0float_g0int_pow (1.0L, ~2LL) = 1.0L
     val- true = g0float_g0int_pow (2.0L, ~2LL) = 0.25L
     val- true = g0float_g0int_pow (4.0L, ~2LL) = 0.0625L
+
+    val- true = (0.0 ** 0) = 1.0
+    val- true = (1.0 ** 0) = 1.0
+    val- true = (2.0 ** 0) = 1.0
+    val- true = (3.0 ** 0) = 1.0
+    val- true = (4.0 ** 0) = 1.0
+
+    val- true = (0.0F ** 1L) = 0.0F
+    val- true = (1.0F ** 1L) = 1.0F
+    val- true = (2.0F ** 1L) = 2.0F
+    val- true = (3.0F ** 1L) = 3.0F
+    val- true = (4.0F ** 1L) = 4.0F
+
+    val- true = (0.0L ** 2LL) = 0.0L
+    val- true = (1.0L ** 2LL) = 1.0L
+    val- true = (2.0L ** 2LL) = 4.0L
+    val- true = (3.0L ** 2LL) = 9.0L
+    val- true = (4.0L ** 2LL) = 16.0L
+
+    val- true = (0.0 ** 3) = 0.0
+    val- true = (1.0 ** 3) = 1.0
+    val- true = (2.0 ** 3) = 8.0
+    val- true = (3.0 ** 3) = 27.0
+    val- true = (4.0 ** 3) = 64.0
+
+    val- true = (0.0 ** ~1) > 1e100
+    val- true = (1.0 ** ~1) = 1.0
+    val- true = (2.0 ** ~1) = 0.5
+    val- true = (4.0 ** ~1) = 0.25
+
+    val- true = (0.0L ** ~2LL) > 1e100L
+    val- true = (1.0L ** ~2LL) = 1.0L
+    val- true = (2.0L ** ~2LL) = 0.25L
+    val- true = (4.0L ** ~2LL) = 0.0625L
+  in
+  end
+
+fn
+test24 () : void =
+  let
+    val- true = huge_val<fltknd> () > 1e30F
+    val- true = huge_val<dblknd> () > 1e100
+    val- true = huge_val<ldblknd> () > 1e100L
+
+    val- true = ~huge_val<fltknd> () < ~1e30F
+    val- true = ~huge_val<dblknd> () < ~1e100
+    val- true = ~huge_val<ldblknd> () < ~1e100L
+
+    val- true = infinity<fltknd> () > 1e30F
+    val- true = infinity<dblknd> () > 1e100
+    val- true = infinity<ldblknd> () > 1e100L
+
+    val- true = ~infinity<fltknd> () < ~1e30F
+    val- true = ~infinity<dblknd> () < ~1e100
+    val- true = ~infinity<ldblknd> () < ~1e100L
+
+    val- true = isfinite (1.2345F)
+    val- true = isfinite (1.2345)
+    val- true = isfinite (1.2345L)
+    val- true = isnormal (1.2345F)
+    val- true = isnormal (1.2345)
+    val- true = isnormal (1.2345L)
+    val- false = isnan (1.2345F)
+    val- false = isnan (1.2345)
+    val- false = isnan (1.2345L)
+    val- false = isinf (1.2345F)
+    val- false = isinf (1.2345)
+    val- false = isinf (1.2345L)
+
+    val- false = isfinite (g0float_nan<fltknd> ())
+    val- false = isfinite (g0float_nan<dblknd> ())
+    val- false = isfinite (g0float_nan<ldblknd> ())
+    val- false = isnormal (g0float_nan<fltknd> ())
+    val- false = isnormal (g0float_nan<dblknd> ())
+    val- false = isnormal (g0float_nan<ldblknd> ())
+    val- true = isnan (g0float_nan<fltknd> ())
+    val- true = isnan (g0float_nan<dblknd> ())
+    val- true = isnan (g0float_nan<ldblknd> ())
+    val- false = isinf (g0float_nan<fltknd> ())
+    val- false = isinf (g0float_nan<dblknd> ())
+    val- false = isinf (g0float_nan<ldblknd> ())
+
+    val- false = isfinite (g0float_snan<fltknd> ())
+    val- false = isfinite (g0float_snan<dblknd> ())
+    val- false = isfinite (g0float_snan<ldblknd> ())
+    val- false = isnormal (g0float_snan<fltknd> ())
+    val- false = isnormal (g0float_snan<dblknd> ())
+    val- false = isnormal (g0float_snan<ldblknd> ())
+    val- true = isnan (g0float_snan<fltknd> ())
+    val- true = isnan (g0float_snan<dblknd> ())
+    val- true = isnan (g0float_snan<ldblknd> ())
+    val- false = isinf (g0float_snan<fltknd> ())
+    val- false = isinf (g0float_snan<dblknd> ())
+    val- false = isinf (g0float_snan<ldblknd> ())
+
+    val- false = isfinite (infinity<fltknd> ())
+    val- false = isfinite (infinity<dblknd> ())
+    val- false = isfinite (infinity<ldblknd> ())
+    val- false = isnormal (infinity<fltknd> ())
+    val- false = isnormal (infinity<dblknd> ())
+    val- false = isnormal (infinity<ldblknd> ())
+    val- false = isnan (infinity<fltknd> ())
+    val- false = isnan (infinity<dblknd> ())
+    val- false = isnan (infinity<ldblknd> ())
+    val- true = isinf (infinity<fltknd> ())
+    val- true = isinf (infinity<dblknd> ())
+    val- true = isinf (infinity<ldblknd> ())
   in
   end
 
@@ -668,5 +775,6 @@ main () =
     test21 ();
     test22 ();
     test23 ();
+    test24 ();
     0
   end

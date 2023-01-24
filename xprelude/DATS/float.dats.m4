@@ -150,7 +150,7 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (*------------------------------------------------------------------*)
 (* Miscellaneous other floating point parameters. *)
 
-m4_foreachq(`PARAM',`mant_dig, min_exp, max_exp,
+m4_foreachq(`PARAM',`huge_val, mant_dig, min_exp, max_exp,
                      max_value, min_value, true_min_value',
 `m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_`'PARAM<floatt2k(FLT1)> = g0float_`'PARAM`'_`'FLT1
@@ -160,6 +160,16 @@ m4_foreachq(`PARAM',`mant_dig, min_exp, max_exp,
 m4_foreachq(`PARAM',`decimal_dig, dig, min_10_exp, max_10_exp',
 `m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
 `implement g0float_`'PARAM<floatt2k(FLT1)> = g0float_`'PARAM`'_`'FLT1
+')dnl
+
+')dnl
+(*------------------------------------------------------------------*)
+(* Infinity and NaN. *)
+
+m4_foreachq(`FUNC',`infinity, nan, snan,
+                    isfinite, isnormal, isnan, isinf',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
 ')dnl
 
 ')dnl

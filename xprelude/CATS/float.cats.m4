@@ -124,66 +124,80 @@ m4_foreachq(`FLT1',`extended_decimal_floattypes',
 /*------------------------------------------------------------------*/
 /* Miscellaneous other floating point parameters. */
 
-m4_foreachq(`FLT1',`conventional_floattypes',
-`#if defined floatt2PFX(FLT1)_MANT_DIG && 1 <= floatt2PFX(FLT1)_MANT_DIG
-#define my_extern_prefix`'g0float_mant_dig_`'FLT1`'() floatt2PFX(FLT1)_MANT_DIG
-#endif
+m4_foreachq(`FLT1',`regular_floattypes',
+`#define my_extern_prefix`'g0float_huge_val_`'FLT1`'() HUGE_VAL`'floatt2SFX(FLT1)
+')dnl
+m4_foreachq(`FLT1',`extended_floattypes',
+`#define my_extern_prefix`'g0float_huge_val_`'FLT1`'() HUGE_VAL_`'floatt2SFX(FLT1)
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`#if defined floatt2PFX(FLT1)_MIN_EXP
-#define my_extern_prefix`'g0float_min_exp_`'FLT1`'() floatt2PFX(FLT1)_MIN_EXP
-#endif
+`#define my_extern_prefix`'g0float_mant_dig_`'FLT1`'() floatt2PFX(FLT1)_MANT_DIG
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`#if defined floatt2PFX(FLT1)_MAX_EXP
-#define my_extern_prefix`'g0float_max_exp_`'FLT1`'() floatt2PFX(FLT1)_MAX_EXP
-#endif
+`#define my_extern_prefix`'g0float_min_exp_`'FLT1`'() floatt2PFX(FLT1)_MIN_EXP
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`#if defined floatt2PFX(FLT1)_MAX
-#define my_extern_prefix`'g0float_max_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_MAX))
-#endif
+`#define my_extern_prefix`'g0float_max_exp_`'FLT1`'() floatt2PFX(FLT1)_MAX_EXP
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`#if defined floatt2PFX(FLT1)_MIN
-#define my_extern_prefix`'g0float_min_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_MIN))
-#endif
+`#define my_extern_prefix`'g0float_max_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_MAX))
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`#if defined floatt2PFX(FLT1)_TRUE_MIN
-#define my_extern_prefix`'g0float_true_min_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_TRUE_MIN))
-#endif
+`#define my_extern_prefix`'g0float_min_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_MIN))
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_true_min_value_`'FLT1`'() ((floatt2c(FLT1)) (floatt2PFX(FLT1)_TRUE_MIN))
 ')dnl
 
 m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
-`#if defined floatt2PFX(FLT1)_DECIMAL_DIG
-#define my_extern_prefix`'g0float_`'decimal_dig_`'FLT1`'() floatt2PFX(FLT1)_DECIMAL_DIG
-#endif
+`#define my_extern_prefix`'g0float_`'decimal_dig_`'FLT1`'() floatt2PFX(FLT1)_DECIMAL_DIG
 ')dnl
 
 m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
-`#if defined floatt2PFX(FLT1)_DIG
-#define my_extern_prefix`'g0float_`'dig_`'FLT1`'() floatt2PFX(FLT1)_DIG
-#endif
+`#define my_extern_prefix`'g0float_`'dig_`'FLT1`'() floatt2PFX(FLT1)_DIG
 ')dnl
 
 m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
-`#if defined floatt2PFX(FLT1)_MIN_10_EXP
-#define my_extern_prefix`'g0float_`'min_10_exp_`'FLT1`'() floatt2PFX(FLT1)_MIN_10_EXP
-#endif
+`#define my_extern_prefix`'g0float_`'min_10_exp_`'FLT1`'() floatt2PFX(FLT1)_MIN_10_EXP
 ')dnl
 
 m4_foreachq(`FLT1',`regular_floattypes, extended_binary_floattypes',
-`#if defined floatt2PFX(FLT1)_MAX_10_EXP
-#define my_extern_prefix`'g0float_`'max_10_exp_`'FLT1`'() floatt2PFX(FLT1)_MAX_10_EXP
-#endif
+`#define my_extern_prefix`'g0float_`'max_10_exp_`'FLT1`'() floatt2PFX(FLT1)_MAX_10_EXP
 ')dnl
 
+/*------------------------------------------------------------------*/
+/* Infinity and NaN. */
+
+/* Positive infinity. */
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_infinity_`'FLT1`'() ((floatt2c(FLT1)) INFINITY)
+')dnl
+
+/* Quiet NaN. */
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_nan_`'FLT1`'() ((floatt2c(FLT1)) NAN)
+')dnl
+
+/* Signaling NaN. */
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_snan_`'FLT1`'() SNAN`'floatt2SFX(FLT1)
+')dnl
+
+/* Classifications. */
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`#define my_extern_prefix`'g0float_isfinite_`'FLT1 isfinite
+#define my_extern_prefix`'g0float_isnormal_`'FLT1 isnormal
+#define my_extern_prefix`'g0float_isnan_`'FLT1 isnan
+#define my_extern_prefix`'g0float_isinf_`'FLT1 isinf
+
+')dnl
 /*------------------------------------------------------------------*/
 /* Sign, absolute value, negative. */
 

@@ -116,6 +116,14 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 (*------------------------------------------------------------------*)
 (* Miscellaneous other floating point parameters. *)
 
+(* HUGE_VAL, etc. *)
+fn {tk : tkind} g0float_huge_val : () -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_huge_val_`'FLT1 : $d2ctype (g0float_huge_val<floatt2k(FLT1)>) = "mac#%"
+')dnl
+
+overload huge_val with g0float_huge_val
+
 (* FLT_MANT_DIG, etc. *)
 fn {tk : tkind} g0float_mant_dig : () -<> intGte 1
 m4_foreachq(`FLT1',`conventional_floattypes',
@@ -175,6 +183,48 @@ fn {tk : tkind} g0float_true_min_value : () -<> g0float tk
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_true_min_value_`'FLT1 : $d2ctype (g0float_true_min_value<floatt2k(FLT1)>) = "mac#%"
 ')dnl
+
+(*------------------------------------------------------------------*)
+(* Infinity and NaN. *)
+
+(* Positive infinity. *)
+fn {tk : tkind} g0float_infinity : () -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_infinity_`'FLT1 : () -<> FLT1 = "mac#%"
+')dnl
+
+overload infinity with g0float_infinity
+
+(* Quiet NaN. *)
+fn {tk : tkind} g0float_nan : () -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_nan_`'FLT1 : () -<> FLT1 = "mac#%"
+')dnl
+
+(* Signaling NaN. *)
+fn {tk : tkind} g0float_snan : () -<> g0float tk
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_snan_`'FLT1 : () -<> FLT1 = "mac#%"
+')dnl
+
+(* Classifications. *)
+
+fn {tk : tkind} g0float_isfinite : g0float tk -<> bool
+fn {tk : tkind} g0float_isnormal : g0float tk -<> bool
+fn {tk : tkind} g0float_isnan : g0float tk -<> bool
+fn {tk : tkind} g0float_isinf : g0float tk -<> bool
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_isfinite_`'FLT1 : FLT1 -<> bool = "mac#%"
+fn g0float_isnormal_`'FLT1 : FLT1 -<> bool = "mac#%"
+fn g0float_isnan_`'FLT1 : FLT1 -<> bool = "mac#%"
+fn g0float_isinf_`'FLT1 : FLT1 -<> bool = "mac#%"
+
+')dnl
+overload isfinite with g0float_isfinite
+overload isnormal with g0float_isnormal
+overload isnan with g0float_isnan
+overload isinf with g0float_isinf
 
 (*------------------------------------------------------------------*)
 (* g0float_sgn: the sign of the number. *)

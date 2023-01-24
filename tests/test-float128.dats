@@ -460,6 +460,39 @@ test23 () : void =
   let
     val- true = g0float_g0int_pow ($extval (float128, "2.0f128"), 3) = $extval (float128, "8.0f128")
     val- true = g0float_g0int_pow ($extval (float128, "2.0f128"), ~3) = $extval (float128, "0.125f128")
+
+    val- true = ($extval (float128, "2.0f128") ** 3) = $extval (float128, "8.0f128")
+    val- true = ($extval (float128, "2.0f128") ** ~3) = $extval (float128, "0.125f128")
+  in
+  end
+
+fn
+test24 () : void =
+  let
+    val- true = huge_val<flt128knd> () > $extval (float128, "1e500f128")
+    val- true = ~huge_val<flt128knd> () < $extval (float128, "-1e500f128")
+    val- true = infinity<flt128knd> () > $extval (float128, "1e500f128")
+    val- true = ~infinity<flt128knd> () < $extval (float128, "-1e500f128")
+
+    val- true = isfinite ($extval (float128, "1.2345f128"))
+    val- true = isnormal ($extval (float128, "1.2345f128"))
+    val- false = isnan ($extval (float128, "1.2345f128"))
+    val- false = isinf ($extval (float128, "1.2345f128"))
+
+    val- false = isfinite (g0float_nan<flt128knd> ())
+    val- false = isnormal (g0float_nan<flt128knd> ())
+    val- true = isnan (g0float_nan<flt128knd> ())
+    val- false = isinf (g0float_nan<flt128knd> ())
+
+    val- false = isfinite (g0float_snan<flt128knd> ())
+    val- false = isnormal (g0float_snan<flt128knd> ())
+    val- true = isnan (g0float_snan<flt128knd> ())
+    val- false = isinf (g0float_snan<flt128knd> ())
+
+    val- false = isfinite (infinity<flt128knd> ())
+    val- false = isnormal (infinity<flt128knd> ())
+    val- false = isnan (infinity<flt128knd> ())
+    val- true = isinf (infinity<flt128knd> ())
   in
   end
 
@@ -488,5 +521,7 @@ main () =
     test20 ();
     test21 ();
     test22 ();
+    test23 ();
+    test24 ();
     0
   end
