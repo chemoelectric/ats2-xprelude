@@ -90,9 +90,9 @@ m4_define(`intb2t',`m4_if($1,`ssize',`ssize_t',`$1')')
 m4_define(`uintb2t',`m4_if($1,`size',`size_t',`$1')')
 m4_define(`intt2b',`m4_if($1,`ssize_t',`ssize',`$1')')
 m4_define(`uintt2b',`m4_if($1,`size_t',`size',`$1')')
-m4_define(`intb2c',`m4_if($1,`intmax',`ats2_xprelude_intmax',
+m4_define(`intb2c',`m4_if($1,`intmax',`my_extern_prefix`'intmax',
                           `atstype_$1')')
-m4_define(`uintb2c',`m4_if($1,`uintmax',`ats2_xprelude_uintmax',
+m4_define(`uintb2c',`m4_if($1,`uintmax',`my_extern_prefix`'uintmax',
                            `atstype_$1')')
 
 m4_define(`intkinds',

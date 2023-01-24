@@ -85,7 +85,7 @@ _fill_decimal_digits (char *buf, uint64_t x0, uint64_t x1,
 }
 
 atstype_string
-ats2_xprelude_tostrptr_fixed32p32_given_decimal_places (ats2_xprelude_fixed32p32 x,
+my_extern_prefix`'tostrptr_fixed32p32_given_decimal_places (my_extern_prefix`'fixed32p32 x,
                                                     int decimal_places)
 {
   int64_t x_as_int64 = (int64_t) x;

@@ -1,5 +1,5 @@
 /*
-  Copyright © 2022 Barry Schwartz
+  Copyright © 2022, 2023 Barry Schwartz
 
   This program is free software: you can redistribute it and/or
   modify it under the terms of the GNU General Public License, as
@@ -15,13 +15,15 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 */
+include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+/*------------------------------------------------------------------*/
 
 #include <stdint.h>
 
 #define MASK ((UINT64_C(1) << 32) - 1)
 
 int64_t
-ats2_xprelude_fixed32p32_multiplication (int64_t x, int64_t y)
+my_extern_prefix`'fixed32p32_multiplication (int64_t x, int64_t y)
 {
   typedef uint64_t t;
 
@@ -49,3 +51,9 @@ ats2_xprelude_fixed32p32_multiplication (int64_t x, int64_t y)
 
   return (is_negative) ? -product : product;
 }
+
+/*------------------------------------------------------------------*/
+dnl
+dnl local variables:
+dnl mode: C
+dnl end:

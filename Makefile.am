@@ -106,6 +106,9 @@ M4DEPS += ats2-xprelude-macros.m4
 	@$(MKDIR_P) $(@D)
 	$(call v,M4)$(M4) $(TOTAL_M4FLAGS) $(<) > $(@)
 
+%.c: %.c.m4 $(M4DEPS)
+	@$(MKDIR_P) $(@D)
+	$(call v,M4)$(M4) $(TOTAL_M4FLAGS) $(<) > $(@)
 
 @GNU@ define make-compiling-implementations =
 @GNU@ $(1): $(addsuffix .m4, $(1)) $(M4DEPS)
@@ -291,21 +294,30 @@ FIXED32P32_SUPPORT_DATS_C += fixed32p32_square_root_dats.c
 FIXED32P32_SUPPORT_DATS_C += tostrptr_fixed32p32_dats.c
 FIXED32P32_SUPPORT_DATS_C += fixed32p32-implementations_dats.c
 
+FIXED32P32_SUPPORT_C =
+FIXED32P32_SUPPORT_C += fixed32p32_multiplication.c
+FIXED32P32_SUPPORT_C += fixed32p32_division.c
+
 fixed32p32-implementations.dats : $(addsuffix .m4, $(FIXED32P32_DATS))
 $(eval $(call make-compiling-implementations, fixed32p32-implementations.dats))
 
 FIXED32P32_SRC = $(FIXED32P32_SATS) $(FIXED32P32_DATS) $(FIXED32P32_CATS)
-EXTRA_DIST += $(addsuffix .m4, $(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS))
-BUILT_SOURCES += $(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS)
-CLEANFILES += $(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS)
+EXTRA_DIST += $(addsuffix .m4, $(FIXED32P32_SRC))
+EXTRA_DIST += $(addsuffix .m4, $(FIXED32P32_SUPPORT_DATS))
+EXTRA_DIST += $(addsuffix .m4, $(FIXED32P32_SUPPORT_C))
+BUILT_SOURCES += $(FIXED32P32_SRC)
+BUILT_SOURCES += $(FIXED32P32_SUPPORT_DATS)
+BUILT_SOURCES += $(FIXED32P32_SUPPORT_C)
+CLEANFILES += $(FIXED32P32_SRC)
+CLEANFILES += $(FIXED32P32_SUPPORT_DATS)
+CLEANFILES += $(FIXED32P32_SUPPORT_C)
 
 nobase_nodist_pkginclude_HEADERS += $(FIXED32P32_SRC)
 
 nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_SATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_DATS_C)
-dist_libats2_xprelude_la_SOURCES += fixed32p32_multiplication.c
-dist_libats2_xprelude_la_SOURCES += fixed32p32_division.c
 nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_SUPPORT_DATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(FIXED32P32_SUPPORT_C)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -33,7 +33,7 @@ staload "xprelude/SATS/arith_prf.sats"
 (*------------------------------------------------------------------*)
 (* intmax_t and uintmax_t. *)
 
-tkindef intmax_kind = "ats2_xprelude_intmax"
+tkindef intmax_kind = "intb2c(intmax)"
 stadef intmaxknd = intmax_kind
 typedef intmax0 = g0int intmaxknd
 typedef intmax1 (i : int) = g1int (intmaxknd, i)
@@ -41,7 +41,7 @@ stadef intmax = intmax1 // 2nd-select
 stadef intmax = intmax0 // 1st-select
 stadef Intmax = [i : int] intmax1 i
 
-tkindef uintmax_kind = "ats2_xprelude_uintmax"
+tkindef uintmax_kind = "uintb2c(uintmax)"
 stadef uintmaxknd = uintmax_kind
 typedef uintmax0 = g0uint uintmaxknd
 typedef uintmax1 (i : int) = g1uint (uintmaxknd, i)

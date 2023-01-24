@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Mon Jan 23 16:56:52 CST 2023
+# from AX_AM_MACROS_STATIC on Mon Jan 23 18:07:22 CST 2023
 
 
 
@@ -191,8 +191,7 @@ am__uninstall_files_from_dir = { \
   }
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libats2_xprelude_la_DEPENDENCIES = lib/libgnu.la
-dist_libats2_xprelude_la_OBJECTS = fixed32p32_multiplication.lo \
-	fixed32p32_division.lo
+dist_libats2_xprelude_la_OBJECTS =
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_1 = xprelude/SATS/arith_prf_sats.lo
 am__objects_2 = xprelude/DATS/arith_prf_dats.lo
@@ -205,18 +204,19 @@ am__objects_8 = xprelude/SATS/fixed32p32_sats.lo
 am__objects_9 = xprelude/DATS/fixed32p32_dats.lo
 am__objects_10 = fixed32p32_square_root_dats.lo \
 	tostrptr_fixed32p32_dats.lo fixed32p32-implementations_dats.lo
-am__objects_11 = xprelude/SATS/exrat_sats.lo
-am__objects_12 = xprelude/DATS/exrat_dats.lo
-am__objects_13 = exrat-support_dats.lo exrat-implementations_dats.lo
-@ENABLE_EXRAT_TRUE@am__objects_14 = $(am__objects_11) \
-@ENABLE_EXRAT_TRUE@	$(am__objects_12) $(am__objects_13)
-am__objects_15 = xprelude/SATS/sort_sats.lo
-am__objects_16 = xprelude/DATS/sort_dats.lo
+am__objects_11 = fixed32p32_multiplication.lo fixed32p32_division.lo
+am__objects_12 = xprelude/SATS/exrat_sats.lo
+am__objects_13 = xprelude/DATS/exrat_dats.lo
+am__objects_14 = exrat-support_dats.lo exrat-implementations_dats.lo
+@ENABLE_EXRAT_TRUE@am__objects_15 = $(am__objects_12) \
+@ENABLE_EXRAT_TRUE@	$(am__objects_13) $(am__objects_14)
+am__objects_16 = xprelude/SATS/sort_sats.lo
+am__objects_17 = xprelude/DATS/sort_dats.lo
 nodist_libats2_xprelude_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
 	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
 	$(am__objects_6) $(am__objects_7) $(am__objects_8) \
-	$(am__objects_9) $(am__objects_10) $(am__objects_14) \
-	$(am__objects_15) $(am__objects_16)
+	$(am__objects_9) $(am__objects_10) $(am__objects_11) \
+	$(am__objects_15) $(am__objects_16) $(am__objects_17)
 libats2_xprelude_la_OBJECTS = $(dist_libats2_xprelude_la_OBJECTS) \
 	$(nodist_libats2_xprelude_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -826,8 +826,9 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	COPYING INSTALL README AUTHORS $(addsuffix .m4, \
 	$(XPRELUDE_HATS)) $(addsuffix .m4, $(ARITH_PRF_SRC)) \
 	$(addsuffix .m4, $(INTEGER_SRC)) $(addsuffix .m4, $(FLOAT_SRC) \
-	$(FLOAT_SUPPORT_DATS)) $(addsuffix .m4, $(FIXED32P32_SRC) \
-	$(FIXED32P32_SUPPORT_DATS)) $(addsuffix .m4, $(EXRAT_SRC) \
+	$(FLOAT_SUPPORT_DATS)) $(addsuffix .m4, $(FIXED32P32_SRC)) \
+	$(addsuffix .m4, $(FIXED32P32_SUPPORT_DATS)) $(addsuffix .m4, \
+	$(FIXED32P32_SUPPORT_C)) $(addsuffix .m4, $(EXRAT_SRC) \
 	$(EXRAT_SUPPORT_DATS)) $(addsuffix .m4, $(SORT_SRC)) \
 	$(addsuffix .m4, $(SORT_HATS)) tests/test-integer.dats \
 	tests/test-float.dats tests/test-float128.dats \
@@ -836,14 +837,15 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 MOSTLYCLEANFILES = 
 CLEANFILES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) $(FIXED32P32_SRC) \
-	$(FIXED32P32_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
-	$(SORT_SRC) $(SORT_HATS) $(TESTS) list-ats-dependencies \
+	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
+	$(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS) \
+	$(TESTS) list-ats-dependencies \
 	list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) $(FIXED32P32_SRC) \
-	$(FIXED32P32_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
-	$(SORT_SRC) $(SORT_HATS)
+	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
+	$(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
 
 #--------------------------------------------------------------------------
 AM_M4FLAGS = -DTOP_SRCDIR='$(top_srcdir)'
@@ -867,14 +869,13 @@ nobase_dist_pkginclude_HEADERS =
 nobase_nodist_pkginclude_HEADERS = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) \
 	$(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) $(am__append_1) \
 	$(SORT_SRC) $(SORT_HATS)
-dist_libats2_xprelude_la_SOURCES = fixed32p32_multiplication.c \
-	fixed32p32_division.c
+dist_libats2_xprelude_la_SOURCES = 
 nodist_libats2_xprelude_la_SOURCES = $(ARITH_PRF_SATS_C) \
 	$(ARITH_PRF_DATS_C) $(INTEGER_SATS_C) $(INTEGER_DATS_C) \
 	$(FLOAT_SATS_C) $(FLOAT_DATS_C) $(FLOAT_SUPPORT_DATS_C) \
 	$(FIXED32P32_SATS_C) $(FIXED32P32_DATS_C) \
-	$(FIXED32P32_SUPPORT_DATS_C) $(am__append_2) $(SORT_SATS_C) \
-	$(SORT_DATS_C)
+	$(FIXED32P32_SUPPORT_DATS_C) $(FIXED32P32_SUPPORT_C) \
+	$(am__append_2) $(SORT_SATS_C) $(SORT_DATS_C)
 libats2_xprelude_la_LIBADD = lib/libgnu.la
 nodist_pkgconfig_DATA = 
 CODE_COVERAGE_IGNORE_PATTERN = /usr/include/* /usr/include/*/* \
@@ -930,6 +931,8 @@ FIXED32P32_SUPPORT_DATS = fixed32p32_square_root.dats \
 	tostrptr_fixed32p32.dats fixed32p32-implementations.dats
 FIXED32P32_SUPPORT_DATS_C = fixed32p32_square_root_dats.c \
 	tostrptr_fixed32p32_dats.c fixed32p32-implementations_dats.c
+FIXED32P32_SUPPORT_C = fixed32p32_multiplication.c \
+	fixed32p32_division.c
 FIXED32P32_SRC = $(FIXED32P32_SATS) $(FIXED32P32_DATS) $(FIXED32P32_CATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2295,6 +2298,10 @@ clean-local: code-coverage-clean tests-clean xats-c-clean
 distclean-local: code-coverage-dist-clean ats-includes-distclean
 
 %: %.m4 $(M4DEPS)
+	@$(MKDIR_P) $(@D)
+	$(call v,M4)$(M4) $(TOTAL_M4FLAGS) $(<) > $(@)
+
+%.c: %.c.m4 $(M4DEPS)
 	@$(MKDIR_P) $(@D)
 	$(call v,M4)$(M4) $(TOTAL_M4FLAGS) $(<) > $(@)
 
