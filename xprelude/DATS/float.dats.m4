@@ -116,8 +116,21 @@ implement tostring_val<FLT1> = tostring_`'FLT1
 (* Value-replacement symbols. For most floating point types, these
    will be equivalent to an operation involving assignment symbols. *)
 
-implement {tk1} {tk2} g0float_float_replace (x, y) = x := g0f2f y
-implement {tk1} {tk2} g0float_int_replace (x, y) = x := g0i2f y
+(* It is safer to have only type-specific implementations of
+   these. Otherwise the implementation may easily be incorrect for
+   ‘boxed’ types such as exrat and mpfr. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`FLT2',`conventional_floattypes',
+`implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> (x, y) = x := g0f2f y
+')dnl
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`INT',`intbases',
+`implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = x := g0i2f y
+')dnl
+')dnl
 
 (*------------------------------------------------------------------*)
 (* Type conversions. *)

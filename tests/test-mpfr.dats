@@ -33,6 +33,12 @@ staload "xprelude/SATS/mpfr.sats"
 staload _ = "xprelude/DATS/mpfr.dats"
 #include "xprelude/HATS/symbols.hats"
 
+(* Significand sizes, in bits. *)
+#define SINGLE_PREC 24
+#define DOUBLE_PREC 53
+#define QUAD_PREC 113
+#define OCTUPLE_PREC 237
+
 (* macdef i2ex = g0int2float<intknd,mpfrknd> *)
 (* macdef f2ex = g0float2float<fltknd,mpfrknd> *)
 (* macdef d2ex = g0float2float<dblknd,mpfrknd> *)
@@ -65,6 +71,24 @@ test1 () : void =
     val () = negate y
     val () = (print_mpfr(y); println!())
     val () = (print_mpfr(~y); println!())
+    val () = println! (mpfr_get_default_prec ())
+    val () = mpfr_set_default_prec QUAD_PREC
+    val () = println! (mpfr_get_default_prec ())
+    val () = mpfr_set_default_prec (i2sz OCTUPLE_PREC)
+    val () = println! (mpfr_get_default_prec ())
+
+    var z = y
+    val () = println! (mpfr_get_prec z)
+    val () = mpfr_set_prec (z, QUAD_PREC)
+    val () = println! (mpfr_get_prec z)
+    val () = println! (mpfr_get_prec y)
+
+    var u = ((g0f2f 1.23456789) : fixed32p32)
+    val () = println! u
+    var v = mpfr_make OCTUPLE_PREC
+    val () = v <- 1.23456789
+    val () = u <- v
+    val () = println! u
   in
   end
 

@@ -16,6 +16,7 @@
   <https://www.gnu.org/licenses/>.
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
+m4_define(`REF',`atstype_ref')
 (*------------------------------------------------------------------*)
 
 #define ATS_DYNLOADFLAG 0
@@ -29,12 +30,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include "xprelude/HATS/xprelude_sats.hats"
 staload "xprelude/SATS/mpfr.sats"
 
-//staload "xprelude/SATS/fixed32p32.sats"
-//staload _ = "xprelude/DATS/fixed32p32.dats"
-
+(*------------------------------------------------------------------*)
 %{
-
-/*------------------------------------------------------------------*/
 
 #include <assert.h>
 #include <stdint.h>
@@ -50,12 +47,6 @@ extern atsvoid_t0ype my_extern_prefix`'gmp_support_initialize (void);
 
 #undef ROUNDING
 #define ROUNDING my_extern_prefix`'mpfr_rnd
-
-#undef DEREF_EXRAT
-#define DEREF_EXRAT(x) `((('floatt2c(exrat)` *) (x))[0])'
-
-#undef DEREF_MPFR
-#define DEREF_MPFR(x) `((('floatt2c(mpfr)` *) (x))[0])'
 
 /*------------------------------------------------------------------*/
 
@@ -166,14 +157,39 @@ _`'my_extern_prefix`'mpfr_init (void)
   return x;
 }
 
-my_extern_prefix`'mpfr
-my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
+/*------------------------------------------------------------------*/
+/* Precision. */
+
+my_extern_prefix`'inline mpfr_prec_t
+_correct_prec (uintb2c(uintmax) prec)
 {
   if (prec < MPFR_PREC_MIN)
     prec = MPFR_PREC_MIN;
   else if (prec > MPFR_PREC_MAX)
     prec = MPFR_PREC_MAX;
-  return _`'my_extern_prefix`'mpfr_init2 ((mpfr_prec_t) prec);
+  return (mpfr_prec_t) prec;
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_set_default_prec_uintmax (uintb2c(uintmax) prec)
+{
+  mpfr_set_default_prec (_correct_prec (prec));
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_set_prec_uintmax (REF(mpfr) xp, uintb2c(uintmax) prec)
+{
+  floatt2c(mpfr) x = DEREF(mpfr, xp);
+  mpfr_set_prec (x[0], _correct_prec (prec));
+}
+
+/*------------------------------------------------------------------*/
+/* Creating new mpfr instances of given precision. */
+
+my_extern_prefix`'mpfr
+my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
+{
+  return _`'my_extern_prefix`'mpfr_init2 (_correct_prec (prec));
 }
 
 /*------------------------------------------------------------------*/
@@ -188,9 +204,9 @@ my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x)
 }
 
 atsvoid_t0ype
-my_extern_prefix`'g0float_negate_mpfr (atstype_ref xp)
+my_extern_prefix`'g0float_negate_mpfr (REF(mpfr) xp)
 {
-  floatt2c(mpfr) x = DEREF_MPFR (xp);
+  floatt2c(mpfr) x = DEREF(mpfr, xp);
   mpfr_neg (x[0], x[0], ROUNDING);
 }
 
@@ -198,92 +214,100 @@ my_extern_prefix`'g0float_negate_mpfr (atstype_ref xp)
 /* Value-replacement symbols. */
 
 atsvoid_t0ype
-my_extern_prefix`'mpfr_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x)
+my_extern_prefix`'mpfr_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set (y[0], x[0], ROUNDING);
 }
 
 atsvoid_t0ype
-_`'my_extern_prefix`'mpfr_intmax_replace (atstype_ref yp, intb2c(intmax) x)
+_`'my_extern_prefix`'mpfr_intmax_replace (REF(mpfr) yp, intb2c(intmax) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_sj (y[0], x, ROUNDING);
 }
 
 atsvoid_t0ype
-my_extern_prefix`'mpfr_float_replace (atstype_ref yp, floatt2c(float) x)
+my_extern_prefix`'mpfr_float_replace (REF(mpfr) yp, floatt2c(float) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_flt (y[0], x, ROUNDING);
 }
 
 atsvoid_t0ype
-my_extern_prefix`'mpfr_double_replace (atstype_ref yp, floatt2c(double) x)
+my_extern_prefix`'mpfr_double_replace (REF(mpfr) yp, floatt2c(double) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_d (y[0], x, ROUNDING);
 }
 
 atsvoid_t0ype
-my_extern_prefix`'mpfr_ldouble_replace (atstype_ref yp, floatt2c(ldouble) x)
+my_extern_prefix`'mpfr_ldouble_replace (REF(mpfr) yp, floatt2c(ldouble) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_ld (y[0], x, ROUNDING);
 }
 
 FLOAT_SUPPORT_CHECK_FOR_MPFR(`float128')
 atsvoid_t0ype
-my_extern_prefix`'mpfr_float128_replace (atstype_ref yp, floatt2c(float128) x)
+my_extern_prefix`'mpfr_float128_replace (REF(mpfr) yp, floatt2c(float128) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_float128 (y[0], x, ROUNDING);
 }
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`float128')
 
 FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal64')
 atsvoid_t0ype
-my_extern_prefix`'mpfr_decimal64_replace (atstype_ref yp, floatt2c(decimal64) x)
+my_extern_prefix`'mpfr_decimal64_replace (REF(mpfr) yp, floatt2c(decimal64) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_decimal64 (y[0], x, ROUNDING);
 }
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal64')
 
 FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal128')
 atsvoid_t0ype
-my_extern_prefix`'mpfr_decimal128_replace (atstype_ref yp, floatt2c(decimal128) x)
+my_extern_prefix`'mpfr_decimal128_replace (REF(mpfr) yp, floatt2c(decimal128) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_decimal128 (y[0], x, ROUNDING);
 }
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal128')
 
 atsvoid_t0ype
-my_extern_prefix`'mpfr_fixed32p32_replace (atstype_ref yp, floatt2c(fixed32p32) x)
+my_extern_prefix`'mpfr_fixed32p32_replace (REF(mpfr) yp, floatt2c(fixed32p32) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_sj_2exp (y[0], x, -32, ROUNDING);
 }
 
 atsvoid_t0ype
-my_extern_prefix`'mpfr_exrat_replace (atstype_ref yp, floatt2c(exrat) x)
+my_extern_prefix`'fixed32p32_mpfr_replace (REF(fixed32p32) yp, floatt2c(mpfr) x)
 {
-  floatt2c(mpfr) y = DEREF_MPFR (yp);
+  MPFR_DECL_INIT (tmp, 64);
+  mpfr_mul_2exp (tmp, x[0], 32, ROUNDING);
+  
+  /* The number should be an integer now, and so the rounding mode
+     does not matter. */
+  *( int64_t * ) yp = (int64_t) mpfr_get_sj (tmp, MPFR_RNDZ);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_exrat_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
   mpfr_set_q (y[0], x[0], ROUNDING);
 }
 
 atsvoid_t0ype
-my_extern_prefix`'exrat_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x)
+my_extern_prefix`'exrat_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x)
 {
-  floatt2c(exrat) y = DEREF_EXRAT (yp);
+  floatt2c(exrat) y = DEREF(exrat, yp);
   mpfr_get_q (y[0], x[0]);
 }
 
-/*------------------------------------------------------------------*/
-
 %}
-
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

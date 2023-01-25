@@ -46,9 +46,6 @@ extern atsvoid_t0ype my_extern_prefix`'gmp_support_initialize (void);
   ((B) ? (atsbool_true) : (atsbool_false))
 #endif
 
-#undef DEREF_EXRAT
-#define DEREF_EXRAT(x) `((('floatt2c(exrat)` *) (x))[0])'
-
 volatile atomic_int my_extern_prefix`'exrat_support_is_initialized = 0;
 
 /* Use unsigned integers, so they will wrap around when they
@@ -180,8 +177,8 @@ my_extern_prefix`'g0float_exrat_make_lint_ulint (intb2c(lint) n,
 atsvoid_t0ype
 my_extern_prefix`'_g0float_exrat_make_from_string (atstype_string s,
                                                atstype_int base,
-                                               atstype_ref p_y,
-                                               atstype_ref p_status)
+                                               REF(exrat) p_y,
+                                               REF(int) p_status)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
   int status = mpq_set_str (y[0], (const char *) s, base);
@@ -959,9 +956,9 @@ my_extern_prefix`'exrat_div_exp2 (floatt2c(exrat) x, atstype_ulint i)
 /* Value-replacement symbols. */
 
 atsvoid_t0ype
-my_extern_prefix`'exrat_exrat_replace (atstype_ref yp, floatt2c(exrat) x)
+my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x)
 {
-  floatt2c(exrat) y = DEREF_EXRAT (yp);
+  floatt2c(exrat) y = DEREF(exrat, yp);
   mpq_set (y[0], x[0]);
 }
 
@@ -977,9 +974,9 @@ my_extern_prefix`'g0float_neg_exrat (floatt2c(exrat) x)
 }
 
 atsvoid_t0ype
-my_extern_prefix`'g0float_negate_exrat (atstype_ref xp)
+my_extern_prefix`'g0float_negate_exrat (REF(exrat) xp)
 {
-  floatt2c(exrat) x = DEREF_EXRAT (xp);
+  floatt2c(exrat) x = DEREF(exrat, xp);
   mpq_neg (x[0], x[0]);
 }
 

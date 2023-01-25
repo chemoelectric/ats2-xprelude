@@ -35,7 +35,34 @@ staload _ = "xprelude/DATS/exrat.dats"
 staload "xprelude/SATS/mpfr.sats"
 
 (*------------------------------------------------------------------*)
-(* Creating new mpfr instances. *)
+(* Precision. *)
+
+extern fn
+mpfr_set_default_prec_uintmax :
+  $d2ctype (mpfr_set_default_prec_guint<uintmaxknd>) = "mac#%"
+
+extern fn
+mpfr_set_prec_uintmax :
+  $d2ctype (mpfr_set_prec_guint<uintmaxknd>) = "mac#%"
+
+implement {tk}
+mpfr_set_default_prec_gint prec =
+  mpfr_set_default_prec_uintmax (g1int2uint<tk,uintmaxknd> prec)
+
+implement {tk}
+mpfr_set_default_prec_guint prec =
+  mpfr_set_default_prec_uintmax (g1uint2uint<tk,uintmaxknd> prec)
+
+implement {tk}
+mpfr_set_prec_gint (x, prec) =
+  mpfr_set_prec_uintmax (x, g1int2uint<tk,uintmaxknd> prec)
+
+implement {tk}
+mpfr_set_prec_guint (x, prec) =
+  mpfr_set_prec_uintmax (x, g1uint2uint<tk,uintmaxknd> prec)
+
+(*------------------------------------------------------------------*)
+(* Creating new mpfr instances of given precision. *)
 
 extern fn
 _mpfr_make_prec_uintmax :
@@ -53,6 +80,7 @@ mpfr_make_prec_guint prec =
 (*------------------------------------------------------------------*)
 (* Value-replacement symbols. *)
 
+extern fn fixed32p32_mpfr_replace : g0float_replace_type (fix32p32knd, mpfr) = "mac#%"
 extern fn exrat_mpfr_replace : g0float_replace_type (exratknd, mpfr) = "mac#%"
 m4_foreachq(`T',`floattypes',
 `extern fn mpfr_`'T`'_replace : g0float_replace_type (mpfrknd, T) = "mac#%"
@@ -61,6 +89,7 @@ m4_foreachq(`INT',`intbases',
 `extern fn mpfr_`'INT`'_replace : g0float_replace_type (mpfrknd, intb2t(INT)) = "mac#%"
 ')dnl
 
+implement g0float_float_replace<fix32p32knd><mpfrknd> = fixed32p32_mpfr_replace
 implement g0float_float_replace<exratknd><mpfrknd> = exrat_mpfr_replace
 implement g0float_float_replace<mpfrknd><mpfrknd> = mpfr_mpfr_replace
 m4_foreachq(`FLT1',`floattypes_without_mpfr',

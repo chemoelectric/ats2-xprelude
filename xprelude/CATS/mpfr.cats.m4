@@ -46,6 +46,7 @@ END_FLOAT_SUPPORT_CHECK(`decimal64')
 extern volatile mpfr_rnd_t my_extern_prefix`'mpfr_rnd;
 
 /*------------------------------------------------------------------*/
+/* One-time initialization of mpfr support. */
 
 extern volatile atomic_int my_extern_prefix`'mpfr_support_is_initialized;
 atsvoid_t0ype my_extern_prefix`'mpfr_support_initialize (atsvoid_t0ype);
@@ -67,27 +68,48 @@ typedef mpfr_t my_extern_prefix`'mpfr_t;
 typedef my_extern_prefix`'mpfr_t *my_extern_prefix`'mpfr;
 
 /*------------------------------------------------------------------*/
+/* Printing. */
 
 atsvoid_t0ype my_extern_prefix`'fprint_mpfr (atstype_ref fref, floatt2c(mpfr));
 atsvoid_t0ype my_extern_prefix`'print_mpfr (floatt2c(mpfr));
 atsvoid_t0ype my_extern_prefix`'prerr_mpfr (floatt2c(mpfr));
 
 /*------------------------------------------------------------------*/
+/* Precision. */
 
-my_extern_prefix`'mpfr my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
+atsvoid_t0ype my_extern_prefix`'mpfr_set_default_prec_uintmax (uintb2c(uintmax) x);
+atsvoid_t0ype my_extern_prefix`'mpfr_set_prec_uintmax (REF(mpfr), uintb2c(uintmax));
+
+my_extern_prefix`'inline intb2c(intmax)
+my_extern_prefix`'mpfr_get_default_prec (void)
+{
+  return (intb2c(intmax)) mpfr_get_default_prec ();
+}
+
+my_extern_prefix`'inline intb2c(intmax)
+my_extern_prefix`'mpfr_get_prec (floatt2c(mpfr) x)
+{
+  return (intb2c(intmax)) mpfr_get_prec (x[0]);
+}
+
+/*------------------------------------------------------------------*/
+/* Creating new mpfr instances of given precision. */
+
+floatt2c(mpfr) my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
 
 /*------------------------------------------------------------------*/
 /* Negation. */
 
 floatt2c(mpfr) my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x);
-atsvoid_t0ype my_extern_prefix`'g0float_negate_mpfr (atstype_ref xp);
+atsvoid_t0ype my_extern_prefix`'g0float_negate_mpfr (REF(mpfr) xp);
 
 /*------------------------------------------------------------------*/
 /* Value-replacement symbols. */
 
-atsvoid_t0ype my_extern_prefix`'mpfr_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x);
-atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (atstype_ref yp, intb2c(intmax) x);
-atsvoid_t0ype my_extern_prefix`'exrat_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x);
+atsvoid_t0ype my_extern_prefix`'mpfr_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x);
+atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (REF(mpfr) yp, intb2c(intmax) x);
+atsvoid_t0ype my_extern_prefix`'fixed32p32_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x);
+atsvoid_t0ype my_extern_prefix`'exrat_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x);
 
 m4_foreachq(`INT',`intbases',
 `#define my_extern_prefix`'mpfr_`'INT`'_replace(x, y)dnl
@@ -95,7 +117,7 @@ m4_foreachq(`INT',`intbases',
 ')dnl
 m4_foreachq(`T',`floattypes_without_mpfr',
 `FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
-atsvoid_t0ype my_extern_prefix`'mpfr_`'T`'_replace (atstype_ref yp, floatt2c(T) x);
+atsvoid_t0ype my_extern_prefix`'mpfr_`'T`'_replace (REF(mpfr) yp, floatt2c(T) x);
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
 ')dnl
 

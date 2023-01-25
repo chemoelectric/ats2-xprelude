@@ -64,7 +64,7 @@ floatt2c(exrat) my_extern_prefix`'g0float_exrat_make_lint_ulint (atstype_lint,
 
 atsvoid_t0ype my_extern_prefix`'_g0float_exrat_make_from_string (atstype_string s,
                                                              atstype_int base,
-                                                             atstype_ref p_y,
+                                                             REF(exrat) p_y,
                                                              atstype_ref p_status);
 
 atstype_string my_extern_prefix`'tostrptr_exrat_given_base (floatt2c(exrat), int);
@@ -240,12 +240,12 @@ floatt2c(exrat) floatt2c(exrat)_div_exp2 (floatt2c(exrat), atstype_ulint);
 /*------------------------------------------------------------------*/
 /* Value-replacement negation. */
 
-atsvoid_t0ype my_extern_prefix`'g0float_negate_exrat (atstype_ref xp);
+atsvoid_t0ype my_extern_prefix`'g0float_negate_exrat (REF(exrat) xp);
 
 /*------------------------------------------------------------------*/
 /* Value-replacement symbols. */
 
-atsvoid_t0ype my_extern_prefix`'exrat_exrat_replace (atstype_ref yp, floatt2c(exrat) x);
+atsvoid_t0ype my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x);
 
 /*------------------------------------------------------------------*/
 

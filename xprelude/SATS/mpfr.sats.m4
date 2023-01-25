@@ -54,9 +54,53 @@ overload print with print_mpfr
 overload prerr with prerr_mpfr
 
 (*------------------------------------------------------------------*)
+(* Precision. *)
 
-(* Create an mpfr of the given precision, initialized to a NaN. The
-   actual precision will be brought to within the C constants
+(* Precision settings will be brought to within the C constants
+   [MPFR_PREC_MIN,MPFR_PREC_MAX]. If the precision of an existing mpfr
+   is altered, the value is set to a NaN.
+
+   Depending on how mpfr was configured, the default precision may or
+   may not be thread-local. *)
+
+fn {tk : tkind}
+mpfr_set_default_prec_gint :
+  {prec : pos}
+  g1int (tk, prec) -< !wrt > void
+
+fn {tk : tkind}
+mpfr_set_default_prec_guint :
+  {prec : pos}
+  g1uint (tk, prec) -< !wrt > void
+
+overload mpfr_set_default_prec with mpfr_set_default_prec_gint
+overload mpfr_set_default_prec with mpfr_set_default_prec_guint
+
+fn {tk : tkind}
+mpfr_set_prec_gint :
+  {prec : pos}
+  (&mpfr >> _, g1int (tk, prec)) -< !wrt > void
+
+fn {tk : tkind}
+mpfr_set_prec_guint :
+  {prec : pos}
+  (&mpfr >> _, g1uint (tk, prec)) -< !wrt > void
+
+overload mpfr_set_prec with mpfr_set_prec_gint
+overload mpfr_set_prec with mpfr_set_prec_guint
+
+fn
+mpfr_get_default_prec :
+  () -< !ref > [prec : pos] intmax prec = "mac#%"
+
+fn
+mpfr_get_prec :
+  mpfr -< !ref > [prec : pos] intmax prec = "mac#%"
+
+(*------------------------------------------------------------------*)
+(* Create an mpfr of the given precision, initialized to a NaN. *)
+
+(* Precision settings will be brought to within the C constants
    [MPFR_PREC_MIN,MPFR_PREC_MAX]. *)
 
 fn {tk : tkind}

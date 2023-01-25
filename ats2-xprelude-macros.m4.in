@@ -33,6 +33,9 @@ m4_define(`if_not_ENABLE_EXRAT',`m4_if(ENABLE_EXRAT,`yes',`$2',`$1')')
 m4_define(`if_ENABLE_MPFR',`m4_if(ENABLE_MPFR,`yes',`$1',`$2')')
 m4_define(`if_not_ENABLE_MPFR',`m4_if(ENABLE_MPFR,`yes',`$2',`$1')')
 
+m4_define(`REF',`atstype_ref /* $1 */ ')
+m4_define(`DEREF',`(((floatt2c(`$1') *) (`$2'))[0])')
+
 /*------------------------------------------------------------------*/
 /* Comparisons. */
 
