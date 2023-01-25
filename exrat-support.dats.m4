@@ -596,14 +596,6 @@ my_extern_prefix`'g0float2float_exrat_ldouble (floatt2c(exrat) x)
 }
 
 my_extern_prefix`'exrat
-my_extern_prefix`'g0float_neg_exrat (floatt2c(exrat) x)
-{
-  floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-  mpq_neg (y[0], x[0]);
-  return y;
-}
-
-my_extern_prefix`'exrat
 my_extern_prefix`'g0float_abs_exrat (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
@@ -964,7 +956,7 @@ my_extern_prefix`'exrat_div_exp2 (floatt2c(exrat) x, atstype_ulint i)
 }
 
 /*------------------------------------------------------------------*/
-/* Replacing a value. */
+/* Value-replacement symbols. */
 
 atsvoid_t0ype
 my_extern_prefix`'exrat_exrat_replace (atstype_ref yp, floatt2c(exrat) x)
@@ -973,6 +965,23 @@ my_extern_prefix`'exrat_exrat_replace (atstype_ref yp, floatt2c(exrat) x)
   mpq_set (y[0], x[0]);
 }
 
+/*------------------------------------------------------------------*/
+/* Negation. */
+
+my_extern_prefix`'exrat
+my_extern_prefix`'g0float_neg_exrat (floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
+  mpq_neg (y[0], x[0]);
+  return y;
+}
+
+atsvoid_t0ype
+my_extern_prefix`'g0float_negate_exrat (atstype_ref xp)
+{
+  floatt2c(exrat) x = DEREF_EXRAT (xp);
+  mpq_neg (x[0], x[0]);
+}
 
 %}
 (*------------------------------------------------------------------*)

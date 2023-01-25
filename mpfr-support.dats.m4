@@ -177,7 +177,25 @@ my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
 }
 
 /*------------------------------------------------------------------*/
-/* Replacing a value. */
+/* Negation. */
+
+floatt2c(mpfr)
+my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) y = _`'my_extern_prefix`'mpfr_init ();
+  mpfr_neg (y[0], x[0], ROUNDING);
+  return y;
+}
+
+atsvoid_t0ype
+my_extern_prefix`'g0float_negate_mpfr (atstype_ref xp)
+{
+  floatt2c(mpfr) x = DEREF_MPFR (xp);
+  mpfr_neg (x[0], x[0], ROUNDING);
+}
+
+/*------------------------------------------------------------------*/
+/* Value-replacement symbols. */
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x)

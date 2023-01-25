@@ -89,45 +89,19 @@ implement g0float2float<exratknd,fix32p32knd> = g0float2float_exrat_fixed32p32
 
 implement g0float2float<exratknd,exratknd> = g0float2float_exrat_exrat
 
-implement g0float_sgn<exratknd> = g0float_sgn_exrat
-
-implement g0float_neg<exratknd> = g0float_neg_exrat
-implement g0float_abs<exratknd> = g0float_abs_exrat
-implement g0float_fabs<exratknd> = g0float_fabs_exrat
-
-implement g0float_succ<exratknd> = g0float_succ_exrat
-implement g0float_pred<exratknd> = g0float_pred_exrat
-
-implement g0float_add<exratknd> = g0float_add_exrat
-implement g0float_sub<exratknd> = g0float_sub_exrat
-
-implement g0float_min<exratknd> = g0float_min_exrat
-implement g0float_max<exratknd> = g0float_max_exrat
-
-implement g0float_eq<exratknd> = g0float_eq_exrat
-implement g0float_neq<exratknd> = g0float_neq_exrat
-implement g0float_lt<exratknd> = g0float_lt_exrat
-implement g0float_lte<exratknd> = g0float_lte_exrat
-implement g0float_gt<exratknd> = g0float_gt_exrat
-implement g0float_gte<exratknd> = g0float_gte_exrat
-
-implement g0float_compare<exratknd> = g0float_compare_exrat
+m4_foreachq(`OP',`sgn,
+                  neg, negate,
+                  abs, fabs,
+                  succ, pred,
+                  add, sub, mul, div, fma, npow,
+                  min, max,
+                  lt, lte, gt, gte, eq, neq, compare,
+                  round, nearbyint, rint, floor, ceil, trunc',
+`implement g0float_`'OP<exratknd> = g0float_`'OP`'_exrat
+')dnl
 
 implement gequal_val_val<exrat> = g0float_eq<exratknd>
 implement gcompare_val_val<exrat> = g0float_compare<exratknd>
-
-implement g0float_mul<exratknd> = g0float_mul_exrat
-implement g0float_div<exratknd> = g0float_div_exrat
-implement g0float_fma<exratknd> = g0float_fma_exrat
-
-implement g0float_round<exratknd> = g0float_round_exrat
-implement g0float_nearbyint<exratknd> = g0float_nearbyint_exrat
-implement g0float_rint<exratknd> = g0float_rint_exrat
-implement g0float_floor<exratknd> = g0float_floor_exrat
-implement g0float_ceil<exratknd> = g0float_ceil_exrat
-implement g0float_trunc<exratknd> = g0float_trunc_exrat
-
-implement g0float_npow<exratknd> = g0float_npow_exrat
 
 (* Optimized comparisons with zero. *)
 implement g0float_isltz<exratknd> x = (g0float_sgn_exrat x < 0)
@@ -156,20 +130,9 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 (*------------------------------------------------------------------*)
 (* Value-replacement symbols. *)
 
-m4_foreachq(`T',`floattypes_without_mpfr',
-`extern fn exrat_`'T`'_replace : g0float_replace_type (exratknd, T) = "mac#%"
-')dnl
-m4_foreachq(`INT',`intbases',
-`extern fn exrat_`'INT`'_replace : g0float_replace_type (exratknd, intb2t(INT)) = "mac#%"
-')dnl
+extern fn exrat_exrat_replace : g0float_replace_type (exratknd, exrat) = "mac#%"
 
 implement g0float_float_replace<exratknd><exratknd> = exrat_exrat_replace
-m4_foreachq(`FLT1',`floattypes_without_exrat',
-`implement g0float_float_replace<exratknd><floatt2k(FLT1)> = exrat_`'FLT1`'_replace
-')dnl
-m4_foreachq(`INT',`intbases',
-`implement g0float_int_replace<exratknd><intb2k(INT)> = exrat_`'INT`'_replace
-')dnl
 
 (*------------------------------------------------------------------*)
 dnl

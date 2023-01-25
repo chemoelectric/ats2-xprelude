@@ -19,12 +19,13 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 (*------------------------------------------------------------------*)
 (* The following symbols are motivated by existence of numeric
    types—such as the floating point representation used by mpfr—that
-   prefer to have their internals manipulated.
+   prefer to have their internals manipulated, rather than be created
+   anew with each operation.
 
    The differ from symbols such as := whose role is to change the
    contents of a storage address, rather than to change the internals
    of the data structure stored there. Symbols such as <- are meant to
-   do either of these things, depending on the type.
+   do EITHER of these things. Which gets done is unspecified.
 
    It seemed prudent to use different symbols, rather than override
    the meanings of the old ones. *)

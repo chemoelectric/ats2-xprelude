@@ -62,6 +62,9 @@ test1 () : void =
     val () = (print_mpfr(x); println!())
     val () = y <- exrat_make (12345, 10)
     val () = (print_mpfr(y); println!())
+    val () = negate y
+    val () = (print_mpfr(y); println!())
+    val () = (print_mpfr(~y); println!())
   in
   end
 

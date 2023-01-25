@@ -53,28 +53,29 @@ mpfr_make_prec_guint prec =
 (*------------------------------------------------------------------*)
 (* Value-replacement symbols. *)
 
+extern fn exrat_mpfr_replace : g0float_replace_type (exratknd, mpfr) = "mac#%"
+m4_foreachq(`T',`floattypes',
+`extern fn mpfr_`'T`'_replace : g0float_replace_type (mpfrknd, T) = "mac#%"
+')dnl
 m4_foreachq(`INT',`intbases',
 `extern fn mpfr_`'INT`'_replace : g0float_replace_type (mpfrknd, intb2t(INT)) = "mac#%"
 ')dnl
-m4_foreachq(`T',`floattypes',
-`extern fn mpfr_`'T`'_replace : g0float_replace_type (mpfrknd, T) = "mac#%"
-extern fn T`'_mpfr_replace : g0float_replace_type (floatt2k(T), mpfr) = "mac#%"
-')dnl
 
+implement g0float_float_replace<exratknd><mpfrknd> = exrat_mpfr_replace
 implement g0float_float_replace<mpfrknd><mpfrknd> = mpfr_mpfr_replace
 m4_foreachq(`FLT1',`floattypes_without_mpfr',
 `implement g0float_float_replace<mpfrknd><floatt2k(FLT1)> = mpfr_`'FLT1`'_replace
-implement g0float_float_replace<floatt2k(FLT1)><mpfrknd> = FLT1`'_mpfr_replace
 ')dnl
 m4_foreachq(`INT',`intbases',
 `implement g0float_int_replace<mpfrknd><intb2k(INT)> = mpfr_`'INT`'_replace
 ')dnl
-// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
-// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
-// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS. But currently have only exrat.
-// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
-// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
-// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
+
+(*------------------------------------------------------------------*)
+(* Miscellaneous implementations for mpfr. *)
+
+m4_foreachq(`OP',`neg, negate',
+`implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl

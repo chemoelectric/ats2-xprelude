@@ -77,8 +77,15 @@ atsvoid_t0ype my_extern_prefix`'prerr_mpfr (floatt2c(mpfr));
 my_extern_prefix`'mpfr my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
 
 /*------------------------------------------------------------------*/
+/* Negation. */
+
+floatt2c(mpfr) my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x);
+atsvoid_t0ype my_extern_prefix`'g0float_negate_mpfr (atstype_ref xp);
+
+/*------------------------------------------------------------------*/
 /* Value-replacement symbols. */
 
+atsvoid_t0ype my_extern_prefix`'mpfr_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x);
 atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (atstype_ref yp, intb2c(intmax) x);
 atsvoid_t0ype my_extern_prefix`'exrat_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x);
 
@@ -86,7 +93,7 @@ m4_foreachq(`INT',`intbases',
 `#define my_extern_prefix`'mpfr_`'INT`'_replace(x, y)dnl
  (_`'my_extern_prefix`'mpfr_intmax_replace ((x), (intb2c(intmax)) (y)))
 ')dnl
-m4_foreachq(`T',`floattypes',
+m4_foreachq(`T',`floattypes_without_mpfr',
 `FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
 atsvoid_t0ype my_extern_prefix`'mpfr_`'T`'_replace (atstype_ref yp, floatt2c(T) x);
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
