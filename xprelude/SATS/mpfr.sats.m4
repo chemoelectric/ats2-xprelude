@@ -25,7 +25,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include "xprelude/HATS/symbols.hats"
 
 staload "xprelude/SATS/fixed32p32.sats"
-if_floattype_enabled(exrat)staload "xprelude/SATS/exrat.sats"
+staload "xprelude/SATS/exrat.sats"
 
 %{#
 #include "xprelude/CATS/mpfr.cats"
@@ -72,19 +72,6 @@ mpfr_make_prec_guint :
 overload mpfr_make_prec with mpfr_make_prec_gint
 overload mpfr_make_prec with mpfr_make_prec_guint
 overload mpfr_make with mpfr_make_prec
-
-(*------------------------------------------------------------------*)
-(* Value-replacement symbols. *)
-
-typedef mpfr_replace_type (a : t@ype) =
-  g0float_replace_type (mpfrknd, a)
-
-m4_foreachq(`INT',`intbases',
-`fn mpfr_`'INT`'_replace : mpfr_replace_type intb2t(INT) = "mac#%"
-')dnl
-m4_foreachq(`T',`floattypes',
-`if_floattype_enabled(T)fn mpfr_`'T`'_replace : mpfr_replace_type T = "mac#%"
-')dnl
 
 (*------------------------------------------------------------------*)
 dnl

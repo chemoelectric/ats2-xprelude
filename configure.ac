@@ -65,15 +65,21 @@ if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
   AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])
 fi
 
+# We make MPFR support require exrat support, to simplify the
+# code. After all, exrat is GMP, and one needs GMP, anyway, if you are
+# using MPFR.
 AC_ARG_ENABLE([mpfr],
   [AS_HELP_STRING([--enable-mpfr],
       [enable garbage-collected multiple precision floating point types;
-        requires https://www.mpfr.org
+        requires https://www.mpfr.org and --enable-exrat=yes
         [default=yes]])],
   [],
   [enable_mpfr=yes])
 if test x"${enable_mpfr}" != xyes && test x"${enable_mpfr}" != xno; then
   AC_MSG_ERROR([please specify --enable-mpfr=yes or --enable-mpfr=no])
+fi
+if test x"${enable_mpfr}" = xyes && test x"${enable_exrat}" = xno; then
+  AC_MSG_ERROR([--enable-mpfr=yes requires --enable-exrat=yes])
 fi
 
 AC_ARG_WITH([ats2-timsort],
@@ -137,9 +143,6 @@ PKG_INSTALLDIR
 #
 # Checks for libraries.
 
-# If one does not have gmp, one will not have mpfr. So, if one has no
-# gmp, one will first get this message, then the you-cannot-do-exrat
-# message.
 if test x"${enable_mpfr}" = xyes; then
   PKG_CHECK_MODULES([MPFR],[mpfr],,
     [AC_MSG_ERROR([GNU Multiple Precision Floating-Point Reliable Library not found; consider --enable-mpfr=no])])

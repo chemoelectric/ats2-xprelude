@@ -31,6 +31,7 @@ staload "xprelude/SATS/exrat.sats"
 staload "xprelude/SATS/fixed32p32.sats"
 staload _ = "xprelude/DATS/fixed32p32.dats"
 
+(*------------------------------------------------------------------*)
 %{
 
 #include <assert.h>
@@ -44,6 +45,9 @@ extern atsvoid_t0ype my_extern_prefix`'gmp_support_initialize (void);
 #define my_extern_prefix`'boolc2ats(B) \
   ((B) ? (atsbool_true) : (atsbool_false))
 #endif
+
+#undef DEREF_EXRAT
+#define DEREF_EXRAT(x) `((('floatt2c(exrat)` *) (x))[0])'
 
 volatile atomic_int my_extern_prefix`'exrat_support_is_initialized = 0;
 
@@ -959,7 +963,19 @@ my_extern_prefix`'exrat_div_exp2 (floatt2c(exrat) x, atstype_ulint i)
   return y;
 }
 
+/*------------------------------------------------------------------*/
+/* Replacing a value. */
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_exrat_replace (atstype_ref yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF_EXRAT (yp);
+  mpq_set (y[0], x[0]);
+}
+
+
 %}
+(*------------------------------------------------------------------*)
 
 extern fn
 _g0float_exrat_make_from_string

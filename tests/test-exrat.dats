@@ -20,6 +20,7 @@
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
+#include "xprelude/HATS/symbols.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -56,8 +57,8 @@ macdef exrat2fixed_32bit (x) =
              "ats2_xprelude_g0float2float_exrat_fixed32p32_32bit",
              ,(x))
 
-implement
-main () =
+fn
+test0 () : void =
   let
     val x : exrat = g0i2f 12345
 
@@ -391,5 +392,11 @@ main () =
     val- true = abs (g0float2float<exratknd,ldblknd> (g0float2float<dblknd,exratknd> (1.234e56)) - 1.234e56L) < 1e49L
     val- true = g0float2float<exratknd,ldblknd> (g0float2float<dblknd,exratknd> (0.0)) = 0.0L
   in
+  end
+
+implement
+main () =
+  begin
+    test0 ();
     0
   end

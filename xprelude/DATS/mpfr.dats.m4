@@ -29,12 +29,13 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 staload "xprelude/SATS/fixed32p32.sats"
 staload _ = "xprelude/DATS/fixed32p32.dats"
 
-if_floattype_enabled(exrat)staload "xprelude/SATS/exrat.sats"
-if_floattype_enabled(exrat)staload _ = "xprelude/DATS/exrat.dats"
+staload "xprelude/SATS/exrat.sats"
+staload _ = "xprelude/DATS/exrat.dats"
 
 staload "xprelude/SATS/mpfr.sats"
 
 (*------------------------------------------------------------------*)
+(* Creating new mpfr instances. *)
 
 extern fn
 _mpfr_make_prec_uintmax :
@@ -50,14 +51,30 @@ mpfr_make_prec_guint prec =
   _mpfr_make_prec_uintmax (g1u2u prec)
 
 (*------------------------------------------------------------------*)
+(* Value-replacement symbols. *)
 
-m4_foreachq(`FLT1',`floattypes',
-`if_floattype_enabled(FLT1)dnl
-implement g0float_float_replace<mpfrknd><floatt2k(FLT1)> = mpfr_`'FLT1`'_replace
+m4_foreachq(`INT',`intbases',
+`extern fn mpfr_`'INT`'_replace : g0float_replace_type (mpfrknd, intb2t(INT)) = "mac#%"
+')dnl
+m4_foreachq(`T',`floattypes',
+`extern fn mpfr_`'T`'_replace : g0float_replace_type (mpfrknd, T) = "mac#%"
+extern fn T`'_mpfr_replace : g0float_replace_type (floatt2k(T), mpfr) = "mac#%"
+')dnl
+
+implement g0float_float_replace<mpfrknd><mpfrknd> = mpfr_mpfr_replace
+m4_foreachq(`FLT1',`floattypes_without_mpfr',
+`implement g0float_float_replace<mpfrknd><floatt2k(FLT1)> = mpfr_`'FLT1`'_replace
+implement g0float_float_replace<floatt2k(FLT1)><mpfrknd> = FLT1`'_mpfr_replace
 ')dnl
 m4_foreachq(`INT',`intbases',
 `implement g0float_int_replace<mpfrknd><intb2k(INT)> = mpfr_`'INT`'_replace
 ')dnl
+// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
+// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
+// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS. But currently have only exrat.
+// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
+// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
+// FIXME: WE NEED *********ALL********** THE REVERSE REPLACEMENTS.
 
 (*------------------------------------------------------------------*)
 dnl

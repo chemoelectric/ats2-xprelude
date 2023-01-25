@@ -48,7 +48,7 @@ extern volatile mpfr_rnd_t my_extern_prefix`'mpfr_rnd;
 /*------------------------------------------------------------------*/
 
 extern volatile atomic_int my_extern_prefix`'mpfr_support_is_initialized;
-extern atsvoid_t0ype my_extern_prefix`'mpfr_support_initialize (atsvoid_t0ype);
+atsvoid_t0ype my_extern_prefix`'mpfr_support_initialize (atsvoid_t0ype);
 
 my_extern_prefix`'inline atsvoid_t0ype
 my_extern_prefix`'mpfr_one_time_initialization (void)
@@ -68,17 +68,19 @@ typedef my_extern_prefix`'mpfr_t *my_extern_prefix`'mpfr;
 
 /*------------------------------------------------------------------*/
 
-extern atsvoid_t0ype my_extern_prefix`'fprint_mpfr (atstype_ref fref, floatt2c(mpfr));
-extern atsvoid_t0ype my_extern_prefix`'print_mpfr (floatt2c(mpfr));
-extern atsvoid_t0ype my_extern_prefix`'prerr_mpfr (floatt2c(mpfr));
+atsvoid_t0ype my_extern_prefix`'fprint_mpfr (atstype_ref fref, floatt2c(mpfr));
+atsvoid_t0ype my_extern_prefix`'print_mpfr (floatt2c(mpfr));
+atsvoid_t0ype my_extern_prefix`'prerr_mpfr (floatt2c(mpfr));
 
 /*------------------------------------------------------------------*/
 
-extern my_extern_prefix`'mpfr my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
+my_extern_prefix`'mpfr my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
 
 /*------------------------------------------------------------------*/
+/* Value-replacement symbols. */
 
-extern atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (atstype_ref yp, intb2c(intmax) x);
+atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (atstype_ref yp, intb2c(intmax) x);
+atsvoid_t0ype my_extern_prefix`'exrat_mpfr_replace (atstype_ref yp, floatt2c(mpfr) x);
 
 m4_foreachq(`INT',`intbases',
 `#define my_extern_prefix`'mpfr_`'INT`'_replace(x, y)dnl
@@ -86,7 +88,7 @@ m4_foreachq(`INT',`intbases',
 ')dnl
 m4_foreachq(`T',`floattypes',
 `FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
-extern atsvoid_t0ype my_extern_prefix`'mpfr_`'T`'_replace (atstype_ref yp, floatt2c(T) x);
+atsvoid_t0ype my_extern_prefix`'mpfr_`'T`'_replace (atstype_ref yp, floatt2c(T) x);
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
 ')dnl
 

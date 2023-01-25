@@ -154,6 +154,24 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* Value-replacement symbols. *)
+
+m4_foreachq(`T',`floattypes_without_mpfr',
+`extern fn exrat_`'T`'_replace : g0float_replace_type (exratknd, T) = "mac#%"
+')dnl
+m4_foreachq(`INT',`intbases',
+`extern fn exrat_`'INT`'_replace : g0float_replace_type (exratknd, intb2t(INT)) = "mac#%"
+')dnl
+
+implement g0float_float_replace<exratknd><exratknd> = exrat_exrat_replace
+m4_foreachq(`FLT1',`floattypes_without_exrat',
+`implement g0float_float_replace<exratknd><floatt2k(FLT1)> = exrat_`'FLT1`'_replace
+')dnl
+m4_foreachq(`INT',`intbases',
+`implement g0float_int_replace<exratknd><intb2k(INT)> = exrat_`'INT`'_replace
+')dnl
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

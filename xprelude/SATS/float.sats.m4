@@ -80,15 +80,15 @@ fn {} tostring_`'FLT1 : FLT1 -<> string
 typedef g0float_replace_type (tk : tkind, a : t@ype) =
   (&g0float tk >> _, a) -< !wrt > void
 
-m4_foreachq(`KIND',`float,int',
-`
 fn {tk1 : tkind}
    {tk2 : tkind}
-g0float_`'KIND`'_replace : g0float_replace_type (tk1, g0`'KIND tk2)
-')dnl
+g0float_float_replace :
+  g0float_replace_type (tk1, g0float tk2)
 
-
-
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0float_int_replace :
+  g0float_replace_type (tk1, g0int tk2)
 
 overload g0float_replace with g0float_float_replace
 overload g0float_replace with g0float_int_replace

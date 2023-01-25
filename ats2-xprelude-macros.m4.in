@@ -164,7 +164,9 @@ m4_define(`extended_decimal_floattypes', `decimal32, decimal64, decimal128,
 m4_define(`extended_floattypes',`extended_binary_floattypes,
                                  extended_decimal_floattypes')
 m4_define(`conventional_floattypes',`regular_floattypes,extended_floattypes')
-m4_define(`floattypes',`conventional_floattypes, fixed32p32, exrat, mpfr')
+m4_define(`floattypes_without_exrat',`conventional_floattypes, fixed32p32')
+m4_define(`floattypes_without_mpfr',`floattypes_without_exrat, exrat')
+m4_define(`floattypes',`floattypes_without_mpfr, mpfr')
 
 m4_define(`floatt2k',`floatt2pfx(`$1')`'knd')
 

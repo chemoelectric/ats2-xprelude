@@ -1551,8 +1551,8 @@ Optional Features:
   --enable-exrat          enable garbage-collected exact rational types;
                           requires https://gmplib.org [default=yes]
   --enable-mpfr           enable garbage-collected multiple precision floating
-                          point types; requires https://www.mpfr.org
-                          [default=yes]
+                          point types; requires https://www.mpfr.org and
+                          --enable-exrat=yes [default=yes]
   --enable-default-sorts=N,N,N,N
                           enable the given sorts as defaults; order is array
                           sort, array stable sort, list sort, list stable
@@ -13506,6 +13506,9 @@ if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
   as_fn_error $? "please specify --enable-exrat=yes or --enable-exrat=no" "$LINENO" 5
 fi
 
+# We make MPFR support require exrat support, to simplify the
+# code. After all, exrat is GMP, and one needs GMP, anyway, if you are
+# using MPFR.
 # Check whether --enable-mpfr was given.
 if test ${enable_mpfr+y}
 then :
@@ -13516,6 +13519,9 @@ fi
 
 if test x"${enable_mpfr}" != xyes && test x"${enable_mpfr}" != xno; then
   as_fn_error $? "please specify --enable-mpfr=yes or --enable-mpfr=no" "$LINENO" 5
+fi
+if test x"${enable_mpfr}" = xyes && test x"${enable_exrat}" = xno; then
+  as_fn_error $? "--enable-mpfr=yes requires --enable-exrat=yes" "$LINENO" 5
 fi
 
 
@@ -20017,9 +20023,6 @@ pkgconfigdir=$with_pkgconfigdir
 #
 # Checks for libraries.
 
-# If one does not have gmp, one will not have mpfr. So, if one has no
-# gmp, one will first get this message, then the you-cannot-do-exrat
-# message.
 if test x"${enable_mpfr}" = xyes; then
 
 pkg_failed=no
