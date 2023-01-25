@@ -269,8 +269,8 @@ FLOAT_SUPPORT_DATS_C =
 FLOAT_SUPPORT_DATS_C += strfrom-support_dats.c
 FLOAT_SUPPORT_DATS_C += float-implementations_dats.c
 
-strfrom-support_dats.c: $(addsuffix .m4, $(FLOAT_DATS))
-float-implementations_dats.c: $(addsuffix .m4, $(FLOAT_DATS))
+strfrom-support.dats: $(addsuffix .m4, $(FLOAT_DATS))
+float-implementations.dats: $(addsuffix .m4, $(FLOAT_DATS))
 $(eval $(call make-compiling-implementations, float-implementations.dats))
 
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
@@ -398,7 +398,7 @@ EXTRA_DIST += $(addsuffix .m4, $(MPFR_SRC) $(MPFR_SUPPORT_DATS))
 BUILT_SOURCES += $(MPFR_SRC) $(MPFR_SUPPORT_DATS)
 CLEANFILES += $(MPFR_SRC) $(MPFR_SUPPORT_DATS)
 
-mpfr-implementations.dats : $(addsuffix .m4, $(MPFR_DATS))
+mpfr-implementations.dats: $(addsuffix .m4, $(MPFR_DATS))
 $(eval $(call make-compiling-implementations, mpfr-implementations.dats))
 
 if ENABLE_MPFR

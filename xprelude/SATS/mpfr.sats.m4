@@ -16,7 +16,6 @@
   <https://www.gnu.org/licenses/>.
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
-m4_define(`EXRAT',`if_not_ENABLE_EXRAT(``/'`/' ')')
 (*------------------------------------------------------------------*)
 
 #define ATS_PACKNAME "ats2-xprelude.mpfr"
@@ -26,7 +25,7 @@ m4_define(`EXRAT',`if_not_ENABLE_EXRAT(``/'`/' ')')
 #include "xprelude/HATS/symbols.hats"
 
 staload "xprelude/SATS/fixed32p32.sats"
-EXRAT`'staload "xprelude/SATS/exrat.sats"
+if_floattype_enabled(exrat)staload "xprelude/SATS/exrat.sats"
 
 %{#
 #include "xprelude/CATS/mpfr.cats"
@@ -75,32 +74,17 @@ overload mpfr_make_prec with mpfr_make_prec_guint
 overload mpfr_make with mpfr_make_prec
 
 (*------------------------------------------------------------------*)
+(* Value-replacement symbols. *)
 
-typedef mpfr_replace_type (a : t@ype) = (&mpfr >> _, a) -< !wrt > void
-
-m4_foreachq(`INT',`intbases',
-`fn mpfr_replace_`'intb2t(INT) : mpfr_replace_type intb2t(INT) = "mac#%"
-')dnl
-
-m4_foreachq(`UINT',`uintbases',
-`fn mpfr_replace_`'uintb2t(UINT) : mpfr_replace_type uintb2t(UINT) = "mac#%"
-')dnl
-
-m4_foreachq(`T',`floattypes',
-`m4_if(T,`exrat',EXRAT)`'fn mpfr_replace_`'T : mpfr_replace_type T = "mac#%"
-')dnl
+typedef mpfr_replace_type (a : t@ype) =
+  g0float_replace_type (mpfrknd, a)
 
 m4_foreachq(`INT',`intbases',
-`overload <- with mpfr_replace_`'intb2t(INT) of 1
+`fn mpfr_`'INT`'_replace : mpfr_replace_type intb2t(INT) = "mac#%"
 ')dnl
-
-m4_foreachq(`UINT',`uintbases',
-`overload <- with mpfr_replace_`'uintb2t(UINT) of 1
-')dnl
-
 m4_foreachq(`T',`floattypes',
-`m4_if(T,`mpfr',,`m4_if(T,`exrat',EXRAT)`'overload <- with mpfr_replace_`'T of 1
-')')dnl
+`if_floattype_enabled(T)fn mpfr_`'T`'_replace : mpfr_replace_type T = "mac#%"
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl

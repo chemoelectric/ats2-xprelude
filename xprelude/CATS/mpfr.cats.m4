@@ -78,22 +78,15 @@ extern my_extern_prefix`'mpfr my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c
 
 /*------------------------------------------------------------------*/
 
-extern atsvoid_t0ype _`'my_extern_prefix`'mpfr_replace_intmax (atstype_ref yp, intb2c(intmax) x);
-extern atsvoid_t0ype _`'my_extern_prefix`'mpfr_replace_uintmax (atstype_ref yp, uintb2c(uintmax) x);
+extern atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (atstype_ref yp, intb2c(intmax) x);
 
 m4_foreachq(`INT',`intbases',
-`#define my_extern_prefix`'mpfr_replace_`'INT`'(x, y)dnl
- (_`'my_extern_prefix`'mpfr_replace_intmax ((x), (intb2c(intmax)) (y)))
+`#define my_extern_prefix`'mpfr_`'INT`'_replace(x, y)dnl
+ (_`'my_extern_prefix`'mpfr_intmax_replace ((x), (intb2c(intmax)) (y)))
 ')dnl
-
-m4_foreachq(`UINT',`uintbases',
-`#define my_extern_prefix`'mpfr_replace_`'UINT`'(x, y)dnl
- (_`'my_extern_prefix`'mpfr_replace_uintmax ((x), (uintb2c(uintmax)) (y)))
-')dnl
-
 m4_foreachq(`T',`floattypes',
 `FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
-extern atsvoid_t0ype my_extern_prefix`'mpfr_replace_`'T (atstype_ref yp, floatt2c(T) x);
+extern atsvoid_t0ype my_extern_prefix`'mpfr_`'T`'_replace (atstype_ref yp, floatt2c(T) x);
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
 ')dnl
 

@@ -113,6 +113,13 @@ implement tostring_val<FLT1> = tostring_`'FLT1
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* Value-replacement symbols. For most floating point types, these
+   will be equivalent to an operation involving assignment symbols. *)
+
+implement {tk1} {tk2} g0float_float_replace (x, y) = x := g0f2f y
+implement {tk1} {tk2} g0float_int_replace (x, y) = x := g0i2f y
+
+(*------------------------------------------------------------------*)
 (* Type conversions. *)
 
 m4_foreachq(`INT',`intbases',
@@ -404,19 +411,19 @@ m4_foreachq(`FLT1',`regular_floattypes',
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* g0float_g0int_pow: a generalization of g0float_npow. Resembles the
+(* g0float_int_pow: a generalization of g0float_npow. Resembles the
    function pown(3). *)
 
 extern fn {tk : tkind}
 g0float_intmax_pow :
-  $d2ctype (g0float_g0int_pow<tk><intmaxknd>)
+  $d2ctype (g0float_int_pow<tk><intmaxknd>)
 
 extern fn {tk : tkind}
 _g0float_intmax_pow :
-  $d2ctype (g0float_g0int_pow<tk><intmaxknd>)
+  $d2ctype (g0float_int_pow<tk><intmaxknd>)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`extern fn {} g0float_intmax_pow_`'FLT1 : $d2ctype (g0float_g0int_pow<floatt2k(FLT1)><intmaxknd>)
+`extern fn {} g0float_intmax_pow_`'FLT1 : $d2ctype (g0float_int_pow<floatt2k(FLT1)><intmaxknd>)
 ')dnl
 
 implement {tk}
@@ -461,7 +468,7 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 
 (* Compiled functions for g0float types we know will be available. *)
 m4_foreachq(`FLT1',`regular_floattypes',
-`extern fn _g0float_intmax_pow_`'FLT1 : $d2ctype (g0float_g0int_pow<floatt2k(FLT1)><intmaxknd>)
+`extern fn _g0float_intmax_pow_`'FLT1 : $d2ctype (g0float_int_pow<floatt2k(FLT1)><intmaxknd>)
 ')dnl
 dnl
 if_COMPILING_IMPLEMENTATIONS(
@@ -484,18 +491,18 @@ m4_foreachq(`FLT1',`regular_floattypes',
 ')dnl
 
 implement {tk} {tki}
-g0float_g0int_pow (x, n) =
+g0float_int_pow (x, n) =
   _g0float_intmax_pow<tk> (x, g0int2int<tki,intmaxknd> n)
 
 m4_foreachq(`FLT1',`regular_floattypes',
 `m4_foreachq(`INT',`conventional_intbases',
-`implement g0float_g0int_pow<floatt2k(FLT1)><intb2k(INT)> = g0float_g0int_pow_`'FLT1<intb2k(INT)>
+`implement g0float_int_pow<floatt2k(FLT1)><intb2k(INT)> = g0float_int_pow_`'FLT1<intb2k(INT)>
 ')dnl
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `implement {tki}
-g0float_g0int_pow_`'FLT1 (x, n) =
+g0float_int_pow_`'FLT1 (x, n) =
   g0float_intmax_pow_`'FLT1 (x, g0int2int<tki,intmaxknd> n)
 
 ')dnl

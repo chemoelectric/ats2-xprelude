@@ -20,6 +20,7 @@
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
+#include "xprelude/HATS/symbols.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -606,39 +607,39 @@ test22 () : void =
 fn
 test23 () : void =
   let
-    val- true = g0float_g0int_pow (0.0, 0) = 1.0
-    val- true = g0float_g0int_pow (1.0, 0) = 1.0
-    val- true = g0float_g0int_pow (2.0, 0) = 1.0
-    val- true = g0float_g0int_pow (3.0, 0) = 1.0
-    val- true = g0float_g0int_pow (4.0, 0) = 1.0
+    val- true = g0float_int_pow (0.0, 0) = 1.0
+    val- true = g0float_int_pow (1.0, 0) = 1.0
+    val- true = g0float_int_pow (2.0, 0) = 1.0
+    val- true = g0float_int_pow (3.0, 0) = 1.0
+    val- true = g0float_int_pow (4.0, 0) = 1.0
 
-    val- true = g0float_g0int_pow (0.0F, 1L) = 0.0F
-    val- true = g0float_g0int_pow (1.0F, 1L) = 1.0F
-    val- true = g0float_g0int_pow (2.0F, 1L) = 2.0F
-    val- true = g0float_g0int_pow (3.0F, 1L) = 3.0F
-    val- true = g0float_g0int_pow (4.0F, 1L) = 4.0F
+    val- true = g0float_int_pow (0.0F, 1L) = 0.0F
+    val- true = g0float_int_pow (1.0F, 1L) = 1.0F
+    val- true = g0float_int_pow (2.0F, 1L) = 2.0F
+    val- true = g0float_int_pow (3.0F, 1L) = 3.0F
+    val- true = g0float_int_pow (4.0F, 1L) = 4.0F
 
-    val- true = g0float_g0int_pow (0.0L, 2LL) = 0.0L
-    val- true = g0float_g0int_pow (1.0L, 2LL) = 1.0L
-    val- true = g0float_g0int_pow (2.0L, 2LL) = 4.0L
-    val- true = g0float_g0int_pow (3.0L, 2LL) = 9.0L
-    val- true = g0float_g0int_pow (4.0L, 2LL) = 16.0L
+    val- true = g0float_int_pow (0.0L, 2LL) = 0.0L
+    val- true = g0float_int_pow (1.0L, 2LL) = 1.0L
+    val- true = g0float_int_pow (2.0L, 2LL) = 4.0L
+    val- true = g0float_int_pow (3.0L, 2LL) = 9.0L
+    val- true = g0float_int_pow (4.0L, 2LL) = 16.0L
 
-    val- true = g0float_g0int_pow (0.0, 3) = 0.0
-    val- true = g0float_g0int_pow (1.0, 3) = 1.0
-    val- true = g0float_g0int_pow (2.0, 3) = 8.0
-    val- true = g0float_g0int_pow (3.0, 3) = 27.0
-    val- true = g0float_g0int_pow (4.0, 3) = 64.0
+    val- true = g0float_int_pow (0.0, 3) = 0.0
+    val- true = g0float_int_pow (1.0, 3) = 1.0
+    val- true = g0float_int_pow (2.0, 3) = 8.0
+    val- true = g0float_int_pow (3.0, 3) = 27.0
+    val- true = g0float_int_pow (4.0, 3) = 64.0
 
-    val- true = g0float_g0int_pow (0.0, ~1) > 1e100
-    val- true = g0float_g0int_pow (1.0, ~1) = 1.0
-    val- true = g0float_g0int_pow (2.0, ~1) = 0.5
-    val- true = g0float_g0int_pow (4.0, ~1) = 0.25
+    val- true = g0float_int_pow (0.0, ~1) > 1e100
+    val- true = g0float_int_pow (1.0, ~1) = 1.0
+    val- true = g0float_int_pow (2.0, ~1) = 0.5
+    val- true = g0float_int_pow (4.0, ~1) = 0.25
 
-    val- true = g0float_g0int_pow (0.0L, ~2LL) > 1e100L
-    val- true = g0float_g0int_pow (1.0L, ~2LL) = 1.0L
-    val- true = g0float_g0int_pow (2.0L, ~2LL) = 0.25L
-    val- true = g0float_g0int_pow (4.0L, ~2LL) = 0.0625L
+    val- true = g0float_int_pow (0.0L, ~2LL) > 1e100L
+    val- true = g0float_int_pow (1.0L, ~2LL) = 1.0L
+    val- true = g0float_int_pow (2.0L, ~2LL) = 0.25L
+    val- true = g0float_int_pow (4.0L, ~2LL) = 0.0625L
 
     val- true = (0.0 ** 0) = 1.0
     val- true = (1.0 ** 0) = 1.0
@@ -813,6 +814,18 @@ test26 () : void =
   in
   end
 
+fn
+test27 () : void =
+  let
+    var x = 5.0F
+    val- true = x = 5.0F
+    val () = x <- 6.0L
+    val- true = x = 6.0F
+    val () = x <- 7
+    val- true = x = 7.0F
+  in
+  end
+
 implement
 main () =
   begin
@@ -842,5 +855,6 @@ main () =
     test24 ();
     test25 ();
     test26 ();
+    test27 ();
     0
   end

@@ -17,13 +17,16 @@
 *)
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
-#define ATS_PACKNAME "ats2-xprelude.float"
-#define ATS_EXTERN_PREFIX "my_extern_prefix"
-
 (******************************************************************
   Some floating-point support that is not included in the Postiats
   prelude.
 *******************************************************************)
+
+
+(*------------------------------------------------------------------*)
+
+#define ATS_PACKNAME "ats2-xprelude.float"
+#define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 %{#
 #include "xprelude/CATS/float.cats"
@@ -72,10 +75,32 @@ fn {} tostring_`'FLT1 : FLT1 -<> string
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Replacing a value. *)
+(* Value-replacement symbols. *)
 
-fn {tk : tkind}
-g0float_replace : (&g0float tk >> _, g0float tk) -< !wrt > void
+typedef g0float_replace_type (tk : tkind, a : t@ype) =
+  (&g0float tk >> _, a) -< !wrt > void
+
+m4_foreachq(`KIND',`float,int',
+`
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0float_`'KIND`'_replace : g0float_replace_type (tk1, g0`'KIND tk2)
+')dnl
+
+
+
+
+overload g0float_replace with g0float_float_replace
+overload g0float_replace with g0float_int_replace
+overload <- with g0float_replace
+
+(*
+overload <-> with g0float_exchange
+overload <+- with g0float_addto
+overload <~- with g0float_subfrom
+overload <*- with g0float_mulby
+overload </- with g0float_divby
+*)
 
 (*------------------------------------------------------------------*)
 (* Type conversions. *)
@@ -390,16 +415,16 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 
 fn {tk  : tkind}
    {tki : tkind}
-g0float_g0int_pow :
+g0float_int_pow :
   (g0float tk, g0int tki) -<> g0float tk
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn {tki : tkind} g0float_g0int_pow_`'FLT1 : (FLT1, g0int tki) -<> FLT1
+`fn {tki : tkind} g0float_int_pow_`'FLT1 : (FLT1, g0int tki) -<> FLT1
 ')dnl
 
-(* Overload ** with g0float_g0int_pow, overriding the overload of
+(* Overload ** with g0float_int_pow, overriding the overload of
    g0float_npow. The former template function is more general. *)
-overload ** with g0float_g0int_pow of 1
+overload ** with g0float_int_pow of 1
 
 (*------------------------------------------------------------------*)
 (* Floating point constants. *)

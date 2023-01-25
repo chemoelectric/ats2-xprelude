@@ -124,7 +124,7 @@ fn g0float_trunc_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 fn g0float_sqrt_fixed32p32 : fixed32p32 -<> fixed32p32
 
 fn {} g0float_npow_fixed32p32 : (fixed32p32, intGte 0) -<> fixed32p32
-fn {tki : tkind} g0float_g0int_pow_fixed32p32 : (fixed32p32, g0int tki) -<> fixed32p32
+fn {tki : tkind} g0float_int_pow_fixed32p32 : (fixed32p32, g0int tki) -<> fixed32p32
 
 (*------------------------------------------------------------------*)
 dnl

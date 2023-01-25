@@ -131,28 +131,28 @@ implement g0float_npow<fix32p32knd> = g0float_npow_fixed32p32<>
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* g0float_g0int_pow *)
+(* g0float_int_pow *)
 
 extern fn
 _g0float_intmax_pow_fixed32p32 :
-  $d2ctype (g0float_g0int_pow<fix32p32knd><intmaxknd>)
+  $d2ctype (g0float_int_pow<fix32p32knd><intmaxknd>)
 dnl
 if_COMPILING_IMPLEMENTATIONS(
 `implement
 _g0float_intmax_pow_fixed32p32 (x, n) =
-  g0float_g0int_pow<fix32p32knd><intmaxknd> (x, n)
+  g0float_int_pow<fix32p32knd><intmaxknd> (x, n)
 ')dnl
 
 if_not_COMPILING_IMPLEMENTATIONS(
 `m4_foreachq(`INT',`conventional_intbases',
 `implement
-g0float_g0int_pow_fixed32p32<intb2k(INT)> (x, n) =
+g0float_int_pow_fixed32p32<intb2k(INT)> (x, n) =
   _g0float_intmax_pow_fixed32p32
     (x, g0int2int<intb2k(INT),intmaxknd> n)
 
 implement
-g0float_g0int_pow<fix32p32knd><intb2k(INT)> =
-  g0float_g0int_pow_fixed32p32<intb2k(INT)>
+g0float_int_pow<fix32p32knd><intb2k(INT)> =
+  g0float_int_pow_fixed32p32<intb2k(INT)>
 ')dnl
 ')dnl
 

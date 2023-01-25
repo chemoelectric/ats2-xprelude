@@ -177,7 +177,7 @@ fn g0float_ceil_exrat : exrat -<> exrat = "mac#%"
 fn g0float_trunc_exrat : exrat -<> exrat = "mac#%"
 
 fn g0float_npow_exrat : (exrat, intGte 0) -<> exrat = "mac#%"
-fn {tki : tkind} g0float_g0int_pow_exrat : (exrat, g0int tki) -<> exrat
+fn {tki : tkind} g0float_int_pow_exrat : (exrat, g0int tki) -<> exrat
 
 (*------------------------------------------------------------------*)
 (* Get either the numerator or denominator of an exrat. The result is

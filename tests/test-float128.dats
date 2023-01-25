@@ -20,6 +20,7 @@
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
+#include "xprelude/HATS/symbols.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -458,8 +459,8 @@ test22 () : void =
 fn
 test23 () : void =
   let
-    val- true = g0float_g0int_pow ($extval (float128, "2.0f128"), 3) = $extval (float128, "8.0f128")
-    val- true = g0float_g0int_pow ($extval (float128, "2.0f128"), ~3) = $extval (float128, "0.125f128")
+    val- true = g0float_int_pow ($extval (float128, "2.0f128"), 3) = $extval (float128, "8.0f128")
+    val- true = g0float_int_pow ($extval (float128, "2.0f128"), ~3) = $extval (float128, "0.125f128")
 
     val- true = ($extval (float128, "2.0f128") ** 3) = $extval (float128, "8.0f128")
     val- true = ($extval (float128, "2.0f128") ** ~3) = $extval (float128, "0.125f128")
@@ -540,7 +541,19 @@ test26 () : void =
   let
     var x : float128 = g0i2f 5
     val () = negate x
-    val- true = x = g0i2f ~5
+    val- true = x = ((g0i2f ~5) : float128)
+  in
+  end
+
+fn
+test27 () : void =
+  let
+    var x : float128 = g0i2f 5
+    val- true = x = ((g0i2f 5) : float128)
+    val () = x <- 6.0
+    val- true = x = ((g0i2f 6) : float128)
+    val () = x <- 7
+    val- true = x = ((g0i2f 7) : float128)
   in
   end
 
@@ -572,5 +585,6 @@ main () =
     test23 ();
     test24 ();
     test26 ();
+    test27 ();
     0
   end

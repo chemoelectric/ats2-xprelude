@@ -37,16 +37,6 @@ infix 0 <~-                     (* Subtract from the value. *)
 infix 0 <*-                     (* Multiply the value. *)
 infix 0 </-                     (* Divide the value. *)
 
-overload <- with g0float_replace of 0
-
-(*
-overload <-> with g0float_exchange
-overload <+- with g0float_addto
-overload <~- with g0float_subfrom
-overload <*- with g0float_mulby
-overload </- with g0float_divby
-*)
-
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

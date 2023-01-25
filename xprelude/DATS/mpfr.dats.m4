@@ -26,6 +26,12 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
 
+staload "xprelude/SATS/fixed32p32.sats"
+staload _ = "xprelude/DATS/fixed32p32.dats"
+
+if_floattype_enabled(exrat)staload "xprelude/SATS/exrat.sats"
+if_floattype_enabled(exrat)staload _ = "xprelude/DATS/exrat.dats"
+
 staload "xprelude/SATS/mpfr.sats"
 
 (*------------------------------------------------------------------*)
@@ -45,7 +51,13 @@ mpfr_make_prec_guint prec =
 
 (*------------------------------------------------------------------*)
 
-implement g0float_replace<mpfrknd> = mpfr_replace_mpfr
+m4_foreachq(`FLT1',`floattypes',
+`if_floattype_enabled(FLT1)dnl
+implement g0float_float_replace<mpfrknd><floatt2k(FLT1)> = mpfr_`'FLT1`'_replace
+')dnl
+m4_foreachq(`INT',`intbases',
+`implement g0float_int_replace<mpfrknd><intb2k(INT)> = mpfr_`'INT`'_replace
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl

@@ -140,22 +140,22 @@ main () =
     val- true = g0float_npow ((i2ex ~3), 4) = i2ex 81
     val- true = g0float_npow ((i2ex ~3), 5) = i2ex ~243
 
-    val- true = g0float_g0int_pow ((i2ex 3), 0) = i2ex 1
-    val- true = g0float_g0int_pow ((i2ex 3), 1) = i2ex 3
-    val- true = g0float_g0int_pow ((i2ex 3), 2) = i2ex 9
-    val- true = g0float_g0int_pow ((i2ex 3), 3) = i2ex 27
-    val- true = g0float_g0int_pow ((i2ex 3), 4) = i2ex 81
-    val- true = g0float_g0int_pow ((i2ex 3), 5) = i2ex 243
+    val- true = g0float_int_pow ((i2ex 3), 0) = i2ex 1
+    val- true = g0float_int_pow ((i2ex 3), 1) = i2ex 3
+    val- true = g0float_int_pow ((i2ex 3), 2) = i2ex 9
+    val- true = g0float_int_pow ((i2ex 3), 3) = i2ex 27
+    val- true = g0float_int_pow ((i2ex 3), 4) = i2ex 81
+    val- true = g0float_int_pow ((i2ex 3), 5) = i2ex 243
 
-    val- true = g0float_g0int_pow ((i2ex ~3), 0) = i2ex 1
-    val- true = g0float_g0int_pow ((i2ex ~3), 1) = i2ex ~3
-    val- true = g0float_g0int_pow ((i2ex ~3), 2) = i2ex 9
-    val- true = g0float_g0int_pow ((i2ex ~3), 3) = i2ex ~27
-    val- true = g0float_g0int_pow ((i2ex ~3), 4) = i2ex 81
-    val- true = g0float_g0int_pow ((i2ex ~3), 5) = i2ex ~243
+    val- true = g0float_int_pow ((i2ex ~3), 0) = i2ex 1
+    val- true = g0float_int_pow ((i2ex ~3), 1) = i2ex ~3
+    val- true = g0float_int_pow ((i2ex ~3), 2) = i2ex 9
+    val- true = g0float_int_pow ((i2ex ~3), 3) = i2ex ~27
+    val- true = g0float_int_pow ((i2ex ~3), 4) = i2ex 81
+    val- true = g0float_int_pow ((i2ex ~3), 5) = i2ex ~243
 
-    val- true = g0float_g0int_pow ((i2ex ~2), ~4L) = exrat_make (1, 2**4)
-    val- true = g0float_g0int_pow ((i2ex ~5), ~7L) = exrat_make (1, ~(5**7))
+    val- true = g0float_int_pow ((i2ex ~2), ~4L) = exrat_make (1, 2**4)
+    val- true = g0float_int_pow ((i2ex ~5), ~7L) = exrat_make (1, ~(5**7))
 
     val- true = (i2ex 3) ** 0 = i2ex 1
     val- true = (i2ex 3) ** 1 = i2ex 3

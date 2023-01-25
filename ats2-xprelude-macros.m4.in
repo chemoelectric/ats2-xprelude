@@ -222,7 +222,9 @@ m4_define(`floatt2pfx',
        $1,`decimal64',`dec64',
        $1,`decimal128',`dec128',
        $1,`decimal64x',`dec64x',
-       $1,`decimal128x',`dec128x')')
+       $1,`decimal128x',`dec128x',
+       $1,`fixed32p32',`fix32p32',
+       `$1')')
 
 m4_define(`floatt2sfx',
 `m4_if($1,`float',`f',
@@ -285,6 +287,11 @@ END_FLOAT_SUPPORT_CHECK(`decimal64')',
        $1,`decimal128',`END_FLOAT_SUPPORT_CHECK(`decimal128')
 END_FLOAT_SUPPORT_CHECK(`decimal64')',
        `END_FLOAT_SUPPORT_CHECK(`$1')')')
+
+/* For commenting out lines. */
+m4_define(`if_floattype_enabled',
+`m4_if($1,`exrat',`if_not_ENABLE_EXRAT(``/'`/' ')',
+       $1,`mpfr',`if_not_ENABLE_MPFR(``/'`/' ')')')
 
 /*------------------------------------------------------------------*/
 /* Floating point operations. Your libraries might not have all of
