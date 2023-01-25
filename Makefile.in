@@ -126,7 +126,7 @@ TESTS = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
 @ENABLE_MPFR_TRUE@	$(MPFR_SUPPORT_DATS_C)
 @HAVE_FLOAT128_TRUE@am__append_6 = tests/test-float128
 @ENABLE_EXRAT_TRUE@am__append_7 = tests/test-exrat
-@ENABLE_MPFR_TRUE@am__append_8 = tests/test-mpfr
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@am__append_8 = tests/test-mpfr
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -160,7 +160,8 @@ CONFIG_CLEAN_FILES = list-ats-dependencies.dats common-macros.m4 \
 CONFIG_CLEAN_VPATH_FILES =
 @HAVE_FLOAT128_TRUE@am__EXEEXT_1 = tests/test-float128$(EXEEXT)
 @ENABLE_EXRAT_TRUE@am__EXEEXT_2 = tests/test-exrat$(EXEEXT)
-@ENABLE_MPFR_TRUE@am__EXEEXT_3 = tests/test-mpfr$(EXEEXT)
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@am__EXEEXT_3 =  \
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@	tests/test-mpfr$(EXEEXT)
 am__EXEEXT_4 = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
 	$(am__EXEEXT_1) tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_2) \
 	$(am__EXEEXT_3) tests/test-sort$(EXEEXT)
@@ -284,11 +285,10 @@ tests_test_integer_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(tests_test_integer_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_MPFR_TRUE@nodist_tests_test_mpfr_OBJECTS =  \
-@ENABLE_MPFR_TRUE@	tests/test_mpfr-test-mpfr_tests.$(OBJEXT)
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@nodist_tests_test_mpfr_OBJECTS = tests/test_mpfr-test-mpfr_tests.$(OBJEXT)
 tests_test_mpfr_OBJECTS = $(nodist_tests_test_mpfr_OBJECTS)
-@ENABLE_MPFR_TRUE@tests_test_mpfr_DEPENDENCIES =  \
-@ENABLE_MPFR_TRUE@	$(am__DEPENDENCIES_2)
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@tests_test_mpfr_DEPENDENCIES =  \
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@	$(am__DEPENDENCIES_2)
 tests_test_mpfr_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(tests_test_mpfr_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
@@ -1030,9 +1030,9 @@ tests_test_fixed32p32_LDADD = $(TEST_LIBS)
 @ENABLE_EXRAT_TRUE@nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
 @ENABLE_EXRAT_TRUE@tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
 @ENABLE_EXRAT_TRUE@tests_test_exrat_LDADD = $(TEST_LIBS)
-@ENABLE_MPFR_TRUE@nodist_tests_test_mpfr_SOURCES = tests/test-mpfr_tests.c
-@ENABLE_MPFR_TRUE@tests_test_mpfr_CFLAGS = $(TEST_CFLAGS)
-@ENABLE_MPFR_TRUE@tests_test_mpfr_LDADD = $(TEST_LIBS)
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@nodist_tests_test_mpfr_SOURCES = tests/test-mpfr_tests.c
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@tests_test_mpfr_CFLAGS = $(TEST_CFLAGS)
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@tests_test_mpfr_LDADD = $(TEST_LIBS)
 nodist_tests_test_sort_SOURCES = tests/test-sort_tests.c
 tests_test_sort_CFLAGS = $(TEST_CFLAGS)
 tests_test_sort_LDADD = $(TEST_LIBS)

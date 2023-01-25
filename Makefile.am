@@ -499,10 +499,12 @@ endif ENABLE_EXRAT
 
 EXTRA_DIST += tests/test-mpfr.dats
 if ENABLE_MPFR
+if ENABLE_EXRAT		  # Currently you need exrat to run the mpfr test.
 TESTS += tests/test-mpfr
 nodist_tests_test_mpfr_SOURCES = tests/test-mpfr_tests.c
 tests_test_mpfr_CFLAGS = $(TEST_CFLAGS)
 tests_test_mpfr_LDADD = $(TEST_LIBS)
+endif ENABLE_EXRAT
 endif ENABLE_MPFR
 
 EXTRA_DIST += tests/test-sort.dats

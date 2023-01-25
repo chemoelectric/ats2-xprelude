@@ -22,10 +22,16 @@ m4_define(`my_extern_prefix',`ats2_xprelude_')
 m4_define(`MY_EXTERN_PREFIX',`m4_toupper(my_extern_prefix)')
 
 m4_define(`if_COMPILING_IMPLEMENTATIONS',
-  `m4_if(COMPILING_IMPLEMENTATIONS,`yes',`$1')')
+  `m4_if(COMPILING_IMPLEMENTATIONS,`yes',`$1',`$2')')
 
 m4_define(`if_not_COMPILING_IMPLEMENTATIONS',
-  `m4_if(COMPILING_IMPLEMENTATIONS,`yes',,`$1')')
+  `m4_if(COMPILING_IMPLEMENTATIONS,`yes',`$2',`$1')')
+
+m4_define(`if_ENABLE_EXRAT',`m4_if(ENABLE_EXRAT,`yes',`$1',`$2')')
+m4_define(`if_not_ENABLE_EXRAT',`m4_if(ENABLE_EXRAT,`yes',`$2',`$1')')
+
+m4_define(`if_ENABLE_MPFR',`m4_if(ENABLE_MPFR,`yes',`$1',`$2')')
+m4_define(`if_not_ENABLE_MPFR',`m4_if(ENABLE_MPFR,`yes',`$2',`$1')')
 
 /*------------------------------------------------------------------*/
 /* Comparisons. */
@@ -158,7 +164,7 @@ m4_define(`extended_decimal_floattypes', `decimal32, decimal64, decimal128,
 m4_define(`extended_floattypes',`extended_binary_floattypes,
                                  extended_decimal_floattypes')
 m4_define(`conventional_floattypes',`regular_floattypes,extended_floattypes')
-m4_define(`floattypes',`conventional_floattypes, fixed32p32, exrat')
+m4_define(`floattypes',`conventional_floattypes, fixed32p32, exrat, mpfr')
 
 m4_define(`floatt2k',`floatt2pfx(`$1')`'knd')
 
@@ -256,8 +262,29 @@ m4_define(`m4_g0float',`g0float float_tk($1)')
 
 /* How we tell if a floating point type is supported. */
 m4_define(`FLOAT_SUPPORT_CHECK',
-    ``#'if defined floatt2PFX(`$1')_MANT_DIG && 2 <= floatt2PFX(`$1')_MANT_DIG')
+`m4_if($1,`fixed32p32',`#if 1 /* fixed32p32 */',
+       $1,`exrat',`#if if_ENABLE_EXRAT(`1',`0') /* exrat */',
+       $1,`mpfr',`#if if_ENABLE_MPFR(`1',`0') /* mpfr */',
+       `#if defined floatt2PFX(`$1')_MANT_DIG && 2 <= floatt2PFX(`$1')_MANT_DIG')')
 m4_define(`END_FLOAT_SUPPORT_CHECK',``#'endif')
+
+/* mpfr assumes that, if you have _Decimal64 or _Decimal128, you also
+   have the other. Presumably in practice this is so. We will support
+   either only if both are available. Most likely this decision will
+   never result in anyone having decimal64 or decimal128 but no
+   support for mixing them with mpfr. */
+m4_define(`FLOAT_SUPPORT_CHECK_FOR_MPFR',
+`m4_if($1,`decimal64',`FLOAT_SUPPORT_CHECK(`decimal64')
+FLOAT_SUPPORT_CHECK(`decimal128')',
+       $1,`decimal128',`FLOAT_SUPPORT_CHECK(`decimal64')
+FLOAT_SUPPORT_CHECK(`decimal128')',
+       `FLOAT_SUPPORT_CHECK(`$1')')')
+m4_define(`END_FLOAT_SUPPORT_CHECK_FOR_MPFR',
+`m4_if($1,`decimal64',`END_FLOAT_SUPPORT_CHECK(`decimal128')
+END_FLOAT_SUPPORT_CHECK(`decimal64')',
+       $1,`decimal128',`END_FLOAT_SUPPORT_CHECK(`decimal128')
+END_FLOAT_SUPPORT_CHECK(`decimal64')',
+       `END_FLOAT_SUPPORT_CHECK(`$1')')')
 
 /*------------------------------------------------------------------*/
 /* Floating point operations. Your libraries might not have all of

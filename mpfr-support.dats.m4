@@ -48,6 +48,14 @@ extern atsvoid_t0ype my_extern_prefix`'gmp_support_initialize (void);
   ((B) ? (atsbool_true) : (atsbool_false))
 #endif
 
+#undef ROUNDING
+#define ROUNDING my_extern_prefix`'mpfr_rnd
+
+#undef DEREF
+#define DEREF(x) `((('floatt2c(mpfr)` *) (x))[0])'
+
+/*------------------------------------------------------------------*/
+
 /* Round to the nearest number, giving ties to the nearest even. */
 volatile mpfr_rnd_t my_extern_prefix`'mpfr_rnd = MPFR_RNDN;
 
@@ -113,7 +121,7 @@ my_extern_prefix`'mpfr_support_initialize (void)
 static atsvoid_t0ype
 _`'my_extern_prefix`'fprint_mpfr (FILE *outf, floatt2c(mpfr) x)
 {
-  mpfr_fprintf (outf, "%.6R*f", my_extern_prefix`'mpfr_rnd, x);
+  mpfr_fprintf (outf, "%.6Rf", x);
 }
 
 atsvoid_t0ype
@@ -135,6 +143,7 @@ my_extern_prefix`'prerr_mpfr (floatt2c(mpfr) x)
 }
 
 /*------------------------------------------------------------------*/
+/* Creating an mpfr with a NaN value. */
 
 static my_extern_prefix`'mpfr
 _`'my_extern_prefix`'mpfr_init2 (mpfr_prec_t prec)
@@ -154,8 +163,6 @@ _`'my_extern_prefix`'mpfr_init (void)
   return x;
 }
 
-/*------------------------------------------------------------------*/
-
 my_extern_prefix`'mpfr
 my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
 {
@@ -165,6 +172,94 @@ my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
     prec = MPFR_PREC_MAX;
   return _`'my_extern_prefix`'mpfr_init2 ((mpfr_prec_t) prec);
 }
+
+/*------------------------------------------------------------------*/
+/* Replacing a value. */
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_mpfr (atstype_ref yp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set (y[0], x[0], ROUNDING);
+}
+
+atsvoid_t0ype
+_`'my_extern_prefix`'mpfr_replace_intmax (atstype_ref yp, intb2c(intmax) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_sj (y[0], x, ROUNDING);
+}
+
+atsvoid_t0ype
+_`'my_extern_prefix`'mpfr_replace_uintmax (atstype_ref yp, uintb2c(uintmax) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_uj (y[0], x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_float (atstype_ref yp, floatt2c(float) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_flt (y[0], x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_double (atstype_ref yp, floatt2c(double) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_d (y[0], x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_ldouble (atstype_ref yp, floatt2c(ldouble) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_ld (y[0], x, ROUNDING);
+}
+
+FLOAT_SUPPORT_CHECK_FOR_MPFR(`float128')
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_float128 (atstype_ref yp, floatt2c(float128) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_float128 (y[0], x, ROUNDING);
+}
+END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`float128')
+
+FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal64')
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_decimal64 (atstype_ref yp, floatt2c(decimal64) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_decimal64 (y[0], x, ROUNDING);
+}
+END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal64')
+
+FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal128')
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_decimal128 (atstype_ref yp, floatt2c(decimal128) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_decimal128 (y[0], x, ROUNDING);
+}
+END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal128')
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_fixed32p32 (atstype_ref yp, floatt2c(fixed32p32) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_sj_2exp (y[0], x, -32, ROUNDING);
+}
+
+FLOAT_SUPPORT_CHECK_FOR_MPFR(`exrat')
+atsvoid_t0ype
+my_extern_prefix`'mpfr_replace_exrat (atstype_ref yp, floatt2c(exrat) x)
+{
+  floatt2c(mpfr) y = DEREF (yp);
+  mpfr_set_q (y[0], x[0], ROUNDING);
+}
+END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`exrat')
 
 /*------------------------------------------------------------------*/
 

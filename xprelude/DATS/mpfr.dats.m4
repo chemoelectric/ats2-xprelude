@@ -44,6 +44,10 @@ mpfr_make_prec_guint prec =
   _mpfr_make_prec_uintmax (g1u2u prec)
 
 (*------------------------------------------------------------------*)
+
+implement g0float_replace<mpfrknd> = mpfr_replace_mpfr
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

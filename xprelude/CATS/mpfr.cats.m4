@@ -24,6 +24,16 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define my_extern_prefix`'inline ATSinline ()
 #endif
 
+FLOAT_SUPPORT_CHECK(`float128')
+#define MPFR_WANT_FLOAT128 1
+END_FLOAT_SUPPORT_CHECK(`float128')
+
+FLOAT_SUPPORT_CHECK(`decimal64')
+FLOAT_SUPPORT_CHECK(`decimal128')
+#define MPFR_WANT_DECIMAL_FLOATS 1
+END_FLOAT_SUPPORT_CHECK(`decimal128')
+END_FLOAT_SUPPORT_CHECK(`decimal64')
+
 #include <stdatomic.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -65,6 +75,27 @@ extern atsvoid_t0ype my_extern_prefix`'prerr_mpfr (floatt2c(mpfr));
 /*------------------------------------------------------------------*/
 
 extern my_extern_prefix`'mpfr my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
+
+/*------------------------------------------------------------------*/
+
+extern atsvoid_t0ype _`'my_extern_prefix`'mpfr_replace_intmax (atstype_ref yp, intb2c(intmax) x);
+extern atsvoid_t0ype _`'my_extern_prefix`'mpfr_replace_uintmax (atstype_ref yp, uintb2c(uintmax) x);
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'mpfr_replace_`'INT`'(x, y)dnl
+ (_`'my_extern_prefix`'mpfr_replace_intmax ((x), (intb2c(intmax)) (y)))
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'mpfr_replace_`'UINT`'(x, y)dnl
+ (_`'my_extern_prefix`'mpfr_replace_uintmax ((x), (uintb2c(uintmax)) (y)))
+')dnl
+
+m4_foreachq(`T',`floattypes',
+`FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
+extern atsvoid_t0ype my_extern_prefix`'mpfr_replace_`'T (atstype_ref yp, floatt2c(T) x);
+END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
+')dnl
 
 /*------------------------------------------------------------------*/
 

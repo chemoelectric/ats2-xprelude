@@ -72,6 +72,12 @@ fn {} tostring_`'FLT1 : FLT1 -<> string
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* Replacing a value. *)
+
+fn {tk : tkind}
+g0float_replace : (&g0float tk >> _, g0float tk) -< !wrt > void
+
+(*------------------------------------------------------------------*)
 (* Type conversions. *)
 
 m4_foreachq(`INT',`intbases',

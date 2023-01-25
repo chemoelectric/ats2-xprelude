@@ -26,8 +26,12 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload "xprelude/SATS/fixed32p32.sats"
 staload _ = "xprelude/DATS/fixed32p32.dats"
 
+staload "xprelude/SATS/exrat.sats"
+staload _ = "xprelude/DATS/exrat.dats"
+
 staload "xprelude/SATS/mpfr.sats"
 staload _ = "xprelude/DATS/mpfr.dats"
+#include "xprelude/HATS/symbols.hats"
 
 (* macdef i2ex = g0int2float<intknd,mpfrknd> *)
 (* macdef f2ex = g0float2float<fltknd,mpfrknd> *)
@@ -37,8 +41,28 @@ fn
 test1 () : void =
   let
     var x = mpfr_make (256)
+    var y = mpfr_make (256)
+    val () = x <- 1234.5
+    val () = (print_mpfr(x); println!())
+    val () = y <- x
+    val () = (print_mpfr(y); println!())
+    val () = x <- $extval (decimal64, "1234.56789DD")
+    val () = (print_mpfr(x); println!())
+    val () = y <- $extval (decimal128, "1234.56789DL")
+    val () = (print_mpfr(y); println!())
+    val () = x <- $extval (float128, "1234.5f128")
+    val () = (print_mpfr(x); println!())
+    val () = y <- x
+    val () = (print_mpfr(y); println!())
+    val () = x <- 12345L
+    val () = (print_mpfr(x); println!())
+    val () = y <- 12345UL
+    val () = (print_mpfr(y); println!())
+    val () = x <- ((g0f2f 1234.5) : fixed32p32)
+    val () = (print_mpfr(x); println!())
+    val () = y <- exrat_make (12345, 10)
+    val () = (print_mpfr(y); println!())
   in
-    print_mpfr(x);
   end
 
 implement
