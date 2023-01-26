@@ -24,11 +24,13 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 #include "share/atspre_staload.hats"
+#include "prelude/lmacrodef.hats"
 #include "xprelude/HATS/xprelude.hats"
 
 staload "xprelude/SATS/fixed32p32.sats"
 
 (*------------------------------------------------------------------*)
+(* Printing. *)
 
 implement {}
 fprint_fixed32p32 (outf, x) =
@@ -43,6 +45,9 @@ prerr_fixed32p32 x =
   fprint_fixed32p32 (stderr_ref, x)
 
 implement fprint_val<fixed32p32> = fprint_fixed32p32
+
+(*------------------------------------------------------------------*)
+(* Conversion to string. *)
 
 implement {} fixed32p32$decimal_places () = 6
 
@@ -63,8 +68,8 @@ tostring_fixed32p32_assumed_decimal_places x =
   end
 
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. For most floating point types, these
-   will be equivalent to an operation involving assignment symbols. *)
+(* Value-replacement symbols. For most fixed32p32, these will be
+   equivalent to an operation involving assignment symbols. *)
 
 (* It is safer to have only type-specific implementations of
    these. Otherwise the implementation may easily be incorrect for
@@ -83,9 +88,30 @@ m4_foreachq(`FLT1',`fixed32p32',
 ')dnl
 ')dnl
 
+m4_foreachq(`FLT1',`fixed32p32',
+`implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
+')dnl
+
+m4_foreachq(`FLT1',`fixed32p32',
+`implement g0float_addto<floatt2k(FLT1)> (x, y) = x :+= y
+implement g0float_subfrom<floatt2k(FLT1)> (x, y) = x :-= y
+implement g0float_mulby<floatt2k(FLT1)> (x, y) = x :*= y
+implement g0float_divby<floatt2k(FLT1)> (x, y) = x :/= y
+
+')dnl
+m4_foreachq(`FUNC',`negate',
+`m4_foreachq(`FLT1',`fixed32p32',
+`implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
+')dnl
+')dnl
+
 (*------------------------------------------------------------------*)
+(* Epsilon. *)
 
 implement g0float_epsilon<fix32p32knd> = g0float_epsilon_fixed32p32
+
+(*------------------------------------------------------------------*)
+(* Type conversions. *)
 
 m4_foreachq(`INT',`intbases',
 `implement g0int2float<intb2k(INT),fix32p32knd> = g0int2float_`'INT`'_fixed32p32
@@ -98,46 +124,23 @@ implement g0float2float<fix32p32knd,floatt2k(FLT)> = g0float2float_fixed32p32_`'
 ')dnl
 implement g0float2float<fix32p32knd,fix32p32knd> = g0float2float_fixed32p32_fixed32p32
 
-implement g0float_sgn<fix32p32knd> = g0float_sgn_fixed32p32
+(*------------------------------------------------------------------*)
+(* Various operations and functions. *)
 
-implement g0float_neg<fix32p32knd> = g0float_neg_fixed32p32
-implement g0float_abs<fix32p32knd> = g0float_abs_fixed32p32
-implement g0float_fabs<fix32p32knd> = g0float_fabs_fixed32p32
+m4_foreachq(`FUNC',`sgn, neg, abs, fabs, succ, pred,
+                    add, sub, mul, div, fma,
+                    min, max,
+                    lt, lte, gt, gte, eq, neq, compare,
+                    round, nearbyint, rint, floor, ceil, trunc,
+                    sqrt',
+`implement g0float_`'FUNC<fix32p32knd> = g0float_`'FUNC`'_fixed32p32
+')dnl
 
-implement g0float_succ<fix32p32knd> = g0float_succ_fixed32p32
-implement g0float_pred<fix32p32knd> = g0float_pred_fixed32p32
-
-implement g0float_add<fix32p32knd> = g0float_add_fixed32p32
-implement g0float_sub<fix32p32knd> = g0float_sub_fixed32p32
-
-implement g0float_min<fix32p32knd> = g0float_min_fixed32p32
-implement g0float_max<fix32p32knd> = g0float_max_fixed32p32
-
-implement g0float_eq<fix32p32knd> = g0float_eq_fixed32p32
-implement g0float_neq<fix32p32knd> = g0float_neq_fixed32p32
-implement g0float_lt<fix32p32knd> = g0float_lt_fixed32p32
-implement g0float_lte<fix32p32knd> = g0float_lte_fixed32p32
-implement g0float_gt<fix32p32knd> = g0float_gt_fixed32p32
-implement g0float_gte<fix32p32knd> = g0float_gte_fixed32p32
-
-implement g0float_compare<fix32p32knd> = g0float_compare_fixed32p32
+(*------------------------------------------------------------------*)
+(* Generic operations. *)
 
 implement gequal_val_val<fixed32p32> = g0float_eq<fix32p32knd>
 implement gcompare_val_val<fixed32p32> = g0float_compare<fix32p32knd>
-
-implement g0float_mul<fix32p32knd> = g0float_mul_fixed32p32
-implement g0float_div<fix32p32knd> = g0float_div_fixed32p32
-
-implement g0float_fma<fix32p32knd> = g0float_fma_fixed32p32
-
-implement g0float_round<fix32p32knd> = g0float_round_fixed32p32
-implement g0float_nearbyint<fix32p32knd> = g0float_nearbyint_fixed32p32
-implement g0float_rint<fix32p32knd> = g0float_rint_fixed32p32
-implement g0float_floor<fix32p32knd> = g0float_floor_fixed32p32
-implement g0float_ceil<fix32p32knd> = g0float_ceil_fixed32p32
-implement g0float_trunc<fix32p32knd> = g0float_trunc_fixed32p32
-
-implement g0float_sqrt<fix32p32knd> = g0float_sqrt_fixed32p32
 
 (*------------------------------------------------------------------*)
 (* g0float_npow *)

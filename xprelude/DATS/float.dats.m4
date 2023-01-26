@@ -24,6 +24,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 #include "share/atspre_staload.hats"
+#include "prelude/lmacrodef.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -113,8 +114,9 @@ implement tostring_val<FLT1> = tostring_`'FLT1
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. For most floating point types, these
-   will be equivalent to an operation involving assignment symbols. *)
+(* Value-replacement symbols. For ‘conventional’ floating point types,
+   these will be equivalent to an operation involving assignment
+   symbols. *)
 
 (* It is safer to have only type-specific implementations of
    these. Otherwise the implementation may easily be incorrect for
@@ -132,6 +134,23 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 ')dnl
 
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_addto<floatt2k(FLT1)> (x, y) = x :+= y
+implement g0float_subfrom<floatt2k(FLT1)> (x, y) = x :-= y
+implement g0float_mulby<floatt2k(FLT1)> (x, y) = x :*= y
+implement g0float_divby<floatt2k(FLT1)> (x, y) = x :/= y
+
+')dnl
+m4_foreachq(`FUNC',`negate',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
+')dnl
+
+')dnl
 (*------------------------------------------------------------------*)
 (* Type conversions. *)
 
@@ -196,9 +215,7 @@ m4_foreachq(`FUNC',`infinity, nan, snan,
 (*------------------------------------------------------------------*)
 (* Sign, absolute value, negative. *)
 
-m4_foreachq(`FUNC',`sgn,
-                     abs,
-                     neg, negate',
+m4_foreachq(`FUNC',`sgn, abs, neg',
 `m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
 ')dnl

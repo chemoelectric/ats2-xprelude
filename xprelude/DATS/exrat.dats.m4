@@ -89,9 +89,7 @@ implement g0float2float<exratknd,fix32p32knd> = g0float2float_exrat_fixed32p32
 
 implement g0float2float<exratknd,exratknd> = g0float2float_exrat_exrat
 
-m4_foreachq(`OP',`sgn,
-                  neg, negate,
-                  abs, fabs,
+m4_foreachq(`OP',`sgn, neg, abs, fabs,
                   succ, pred,
                   add, sub, mul, div, fma, npow,
                   min, max,
@@ -128,7 +126,10 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* The value-replacement symbol <- *)
+(* Value-replacement symbols. *)
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+(* Replacement (<-) *)
 
 extern fn exrat_exrat_replace : g0float_replace_type (exratknd, exrat) = "mac#%"
 
@@ -151,6 +152,13 @@ m4_foreachq(`FLT1',`exrat',
 `m4_foreachq(`INT',`intbases',
 `implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = exrat_exrat_replace (x, g0i2f y)
 ')dnl
+')dnl
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+(* Negation. *)
+
+m4_foreachq(`OP',`negate',
+`implement g0float_`'OP<exratknd> = g0float_`'OP`'_exrat
 ')dnl
 
 (*------------------------------------------------------------------*)

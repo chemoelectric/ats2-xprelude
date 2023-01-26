@@ -94,13 +94,37 @@ overload g0float_replace with g0float_float_replace
 overload g0float_replace with g0float_int_replace
 overload <- with g0float_replace
 
-(*
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+typedef g0float_exchange_type (tk : tkind) =
+  (&g0float tk >> _, &g0float tk >> _) -< !refwrt > void
+
+fn {tk : tkind} g0float_exchange : g0float_exchange_type tk
+
 overload <-> with g0float_exchange
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+typedef g0float_aopto_type (tk : tkind) =
+  (&g0float tk >> _, g0float tk) -< !refwrt > void
+
+m4_foreachq(`AOPTO',`addto,subfrom,mulby,divby',
+`fn {tk : tkind} g0float_`'AOPTO : g0float_aopto_type tk
+')dnl
+
 overload <+- with g0float_addto
 overload <~- with g0float_subfrom
 overload <*- with g0float_mulby
 overload </- with g0float_divby
-*)
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
+fn {tk : tkind} g0float_negate : (&g0float tk >> _) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_negate_`'FLT1 : (&FLT1 >> _) -< !wrt > void = "mac#%"
+')dnl
+
+overload negate with g0float_negate
 
 (*------------------------------------------------------------------*)
 (* Type conversions. *)
@@ -283,14 +307,6 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_neg_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
 ')dnl
-
-(* Value-replacement versions. *)
-fn {tk : tkind} g0float_negate : (&g0float tk >> _) -< !wrt > void
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_negate_`'FLT1 : (&FLT1 >> _) -< !wrt > void = "mac#%"
-')dnl
-
-overload negate with g0float_negate
 
 (*------------------------------------------------------------------*)
 (* Unary operations. *)

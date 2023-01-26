@@ -117,6 +117,15 @@ overload tostring_exrat with tostring_exrat_given_base
 overload tostrptr_exrat with tostrptr_exrat_base10
 overload tostring_exrat with tostring_exrat_base10
 
+(*------------------------------------------------------------------*)
+(* Value-replacement symbols. *)
+
+m4_foreachq(`OP',`negate',
+`fn g0float_`'OP`'_exrat : $d2ctype (g0float_`'OP<exratknd>) = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
+
 (* FIXME: On x86 and some other platforms, int64, llint, and intmax
           are bigger than lint. This makes the current conversions
           from exrat to those types buggy--the conversion will
@@ -141,7 +150,6 @@ fn g0float2float_exrat_exrat : exrat -<> exrat = "mac#%"
 fn g0float_sgn_exrat : g0float_sgn_type exratknd = "mac#%"
 
 fn g0float_neg_exrat : exrat -<> exrat = "mac#%"
-fn g0float_negate_exrat : $d2ctype (g0float_negate<exratknd>) = "mac#%"
 
 fn g0float_abs_exrat : exrat -<> exrat = "mac#%"
 fn g0float_fabs_exrat : exrat -<> exrat = "mac#%"
