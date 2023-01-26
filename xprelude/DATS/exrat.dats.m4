@@ -132,7 +132,6 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 (* Replacement (<-) *)
 
 extern fn exrat_exrat_replace : g0float_replace_type (exratknd, exrat) = "mac#%"
-
 implement g0float_float_replace<exratknd><exratknd> = exrat_exrat_replace
 
 (* FIXME: The current implementations below may create a new exrat
@@ -153,6 +152,12 @@ m4_foreachq(`FLT1',`exrat',
 `implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = exrat_exrat_replace (x, g0i2f y)
 ')dnl
 ')dnl
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+(* Exchange (<->) *)
+
+extern fn exrat_exchange : g0float_exchange_type exratknd = "mac#%"
+implement g0float_exchange<exratknd> = exrat_exchange
 
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 (* Negation. *)

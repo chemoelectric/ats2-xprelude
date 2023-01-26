@@ -413,6 +413,10 @@ test1 () : void =
     val- true = z = exrat_make (65, 10)
     val () = negate z
     val- true = z = exrat_make (~65, 10)
+
+    val () = y <-> z
+    val- true = y = exrat_make (~65, 10)
+    val- true = z = exrat_make (7, 1)
   in
   end
 
