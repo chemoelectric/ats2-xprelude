@@ -826,6 +826,39 @@ test27 () : void =
   in
   end
 
+fn
+test28 () : void =
+  let
+    var x = 7.0F
+    val () = x <|+| 3.0F
+    val- true = x = 10.0F
+    val () = x <|-| ~4.0F
+    val- true = x = 14.0F
+    val () = x <|*| 4.0F
+    val- true = x = 56.0F
+    val () = x <|/| ~8.0F
+    val- true = x = ~7.0F
+  in
+  end
+
+fn
+test29 () : void =
+  let
+    var x = 1234.0
+    val- true = x = 1234.0
+    val () = x <|~| x
+    val- true = x = ~1234.0
+    val () = x <|+| operands (x, 234.0)
+    val- true = x = ~1000.0
+    val () = x <|-| operands (x, ~2000.0)
+    val- true = x = 1000.0
+    val () = x <|*| operands (x, 2.0)
+    val- true = x = 2000.0
+    val () = x <|/| operands (x, 10.0)
+    val- true = x = 200.0
+  in
+  end
+
 implement
 main () =
   begin
@@ -856,5 +889,7 @@ main () =
     test25 ();
     test26 ();
     test27 ();
+    test28 ();
+    test29 ();
     0
   end

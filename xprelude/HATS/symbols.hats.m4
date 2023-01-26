@@ -38,10 +38,12 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 infix 0 <-                      (* Value replacement. *)
 infix 0 <->                     (* Value swapping. *)
-infix 0 <+-                     (* Add to the value. *)
-infix 0 <~-                     (* Subtract from the value. *)
-infix 0 <*-                     (* Multiply the value. *)
-infix 0 </-                     (* Divide the value. *)
+
+infix 0 <|~|                    (* Negation. *)
+infix 0 <|+|                    (* Addition. *)
+infix 0 <|-|                    (* Subtraction. *)
+infix 0 <|*|                    (* Multiplication. *)
+infix 0 <|/|                    (* Division. *)
 
 (*------------------------------------------------------------------*)
 dnl

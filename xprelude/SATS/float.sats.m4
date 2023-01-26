@@ -105,6 +105,54 @@ overload <-> with g0float_exchange
 
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 
+typedef g0float_uop_replace_type (tk : tkind) =
+  (&g0float tk >> _, g0float tk) -< !wrt > void
+
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
+
+absvtype operands_type (a : t@ype+) = ptr
+typedef g0float_aop_replace_type (tk : tkind) =
+  (&g0float tk >> _, operands_type (g0float tk)) -< !wrt > void
+
+m4_foreachq(`UOP',`neg',
+`fn {tk : tkind} g0float_`'UOP`'_replace : g0float_uop_replace_type tk
+')dnl
+
+m4_foreachq(`AOP',`add,sub,mul,div',
+`fn {tk : tkind} g0float_`'AOP`'_replace : g0float_aop_replace_type tk
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn operands_`'FLT1 : (FLT1, FLT1) -< !wrt > operands_type FLT1 = "mac#%"
+overload operands with operands_`'FLT1
+')dnl
+
+m4_foreachq(`UOP',`neg',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`fn {tk : tkind} g0float_`'UOP`'_replace_`'FLT1 : g0float_uop_replace_type tk = "mac#%"
+')
+')dnl
+m4_foreachq(`AOP',`add,sub,mul,div',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`fn {tk : tkind} g0float_`'AOP`'_replace_`'FLT1 : g0float_aop_replace_type tk = "mac#%"
+')
+')dnl
+overload <|~| with g0float_neg_replace
+overload <|+| with g0float_add_replace
+overload <|-| with g0float_sub_replace
+overload <|*| with g0float_mul_replace
+overload <|/| with g0float_div_replace
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
+
 typedef g0float_aopto_type (tk : tkind) =
   (&g0float tk >> _, g0float tk) -< !refwrt > void
 
@@ -112,10 +160,10 @@ m4_foreachq(`AOPTO',`addto,subfrom,mulby,divby',
 `fn {tk : tkind} g0float_`'AOPTO : g0float_aopto_type tk
 ')dnl
 
-overload <+- with g0float_addto
-overload <~- with g0float_subfrom
-overload <*- with g0float_mulby
-overload </- with g0float_divby
+overload <|+| with g0float_addto
+overload <|-| with g0float_subfrom
+overload <|*| with g0float_mulby
+overload <|/| with g0float_divby
 
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 

@@ -24,7 +24,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 #include "share/atspre_staload.hats"
-#include "prelude/lmacrodef.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -139,10 +138,16 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_addto<floatt2k(FLT1)> (x, y) = x :+= y
-implement g0float_subfrom<floatt2k(FLT1)> (x, y) = x :-= y
-implement g0float_mulby<floatt2k(FLT1)> (x, y) = x :*= y
-implement g0float_divby<floatt2k(FLT1)> (x, y) = x :/= y
+`m4_foreachq(`OP',`neg,add,sub,mul,div',
+`extern fn g0float_`'OP`'_replace_`'FLT1 : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
+')dnl
+m4_foreachq(`OP',`neg,add,sub,mul,div',
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> = g0float_`'OP`'_replace_`'FLT1
+')dnl
+implement g0float_addto<floatt2k(FLT1)> (x, y) = x := x + y
+implement g0float_subfrom<floatt2k(FLT1)> (x, y) = x := x - y
+implement g0float_mulby<floatt2k(FLT1)> (x, y) = x := x * y
+implement g0float_divby<floatt2k(FLT1)> (x, y) = x := x / y
 
 ')dnl
 m4_foreachq(`FUNC',`negate',
