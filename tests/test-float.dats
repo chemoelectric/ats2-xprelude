@@ -813,17 +813,17 @@ test25 () : void =
 (*   in *)
 (*   end *)
 
-(* fn *)
-(* test27 () : void = *)
-(*   let *)
-(*     var x = 5.0F *)
-(*     val- true = x = 5.0F *)
-(*     val () = x <- 6.0L *)
-(*     val- true = x = 6.0F *)
-(*     val () = x <- 7 *)
-(*     val- true = x = 7.0F *)
-(*   in *)
-(*   end *)
+fn
+test27 () : void =
+  let
+    var x = 5.0F
+    val- true = x = 5.0F
+    val () = replace (x, 6.0L)
+    val- true = x = 6.0F
+    val () = replace (x, 7)
+    val- true = x = 7.0F
+  in
+  end
 
 (* fn *)
 (* test28 () : void = *)
@@ -840,23 +840,33 @@ test25 () : void =
 (*   in *)
 (*   end *)
 
-(* fn *)
-(* test29 () : void = *)
-(*   let *)
-(*     var x = 1234.0 *)
-(*     val- true = x = 1234.0 *)
-(*     val () = x <|~| x *)
-(*     val- true = x = ~1234.0 *)
-(*     val () = x <|+| operands (x, 234.0) *)
-(*     val- true = x = ~1000.0 *)
-(*     val () = x <|-| operands (x, ~2000.0) *)
-(*     val- true = x = 1000.0 *)
-(*     val () = x <|*| operands (x, 2.0) *)
-(*     val- true = x = 2000.0 *)
-(*     val () = x <|/| operands (x, 10.0) *)
-(*     val- true = x = 200.0 *)
-(*   in *)
-(*   end *)
+fn
+test29 () : void =
+  let
+    var x = 1234.0
+    val- true = x = 1234.0
+    val () = neg_replace (x, x)
+    val- true = x = ~1234.0
+    val () = add_replace (x, x, 234.0)
+    val- true = x = ~1000.0
+    val () = sub_replace (x, ~2000.0, x)
+    val- true = x = 1000.0
+    val () = mul_replace (x, 2.0, x)
+    val- true = x = 2000.0
+    val () = div_replace (x, x, 10.0)
+    val- true = x = 200.0
+    val () = succ_replace (x, x)
+    val- true = x = 201.0
+    val () = pred_replace (x, x)
+    val- true = x = 200.0
+    val () = npow_replace (x, 2.0, 3)
+    val- true = x = 8.0
+    val () = int_pow_replace (x, 2.0, ~3)
+    val- true = x = 0.125
+    val- () = div_replace (x, 1.0, x)
+    val- true = x = 8.0
+  in
+  end
 
 implement
 main () =
@@ -887,7 +897,7 @@ main () =
     test24 ();
     test25 ();
     (* test26 (); *)
-    (* test27 (); *)
+    test27 ();
     (* test28 (); *)
     (* test29 (); *)
     0

@@ -201,47 +201,33 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 /*------------------------------------------------------------------*/
 /* Sign, absolute value, negative. */
 
+/* Use our own code instead of fabsXXX for absolute value, because
+   libc often does not have support for decimal floating point. */
+
 m4_foreachq(`FLT1',`conventional_floattypes',
-`
-FLOAT_SUPPORT_CHECK(FLT1)
+`FLOAT_SUPPORT_CHECK(FLT1)
+
 my_extern_prefix`'inline atstype_int
 my_extern_prefix`'g0float_sgn_`'FLT1 (floatt2c(FLT1) x)
 {
   return (x > 0) - (x < 0);
 }
-END_FLOAT_SUPPORT_CHECK(FLT1)
-')dnl
 
-/* Use our own code instead of fabsXXX for absolute value, because
-   libc often does not have support for decimal floating point. */
-m4_foreachq(`FLT1',`conventional_floattypes',
-`
-FLOAT_SUPPORT_CHECK(FLT1)
 my_extern_prefix`'inline floatt2c(FLT1)
 my_extern_prefix`'g0float_abs_`'FLT1 (floatt2c(FLT1) x)
 {
   return (x < 0) ? (-x) : (x);
 }
-END_FLOAT_SUPPORT_CHECK(FLT1)
-')dnl
 
-m4_foreachq(`FLT1',`conventional_floattypes',
-`
-FLOAT_SUPPORT_CHECK(FLT1)
 my_extern_prefix`'inline floatt2c(FLT1)
 my_extern_prefix`'g0float_neg_`'FLT1 (floatt2c(FLT1) x)
 {
   return (-x);
 }
-my_extern_prefix`'inline atsvoid_t0ype
-my_extern_prefix`'g0float_neg_replace_`'FLT1 (REF(FLT1) yp, floatt2c(FLT1) x)
-{
-  floatt2c(FLT1) *y = (void *) yp;
-  y[0] = -x;
-}
-END_FLOAT_SUPPORT_CHECK(FLT1)
-')dnl
 
+END_FLOAT_SUPPORT_CHECK(FLT1)
+
+')dnl
 /*------------------------------------------------------------------*/
 /* Library functions. */
 
