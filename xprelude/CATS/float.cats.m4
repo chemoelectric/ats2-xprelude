@@ -233,17 +233,11 @@ my_extern_prefix`'g0float_neg_`'FLT1 (floatt2c(FLT1) x)
 {
   return (-x);
 }
-END_FLOAT_SUPPORT_CHECK(FLT1)
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`
-FLOAT_SUPPORT_CHECK(FLT1)
 my_extern_prefix`'inline atsvoid_t0ype
-my_extern_prefix`'g0float_negate_`'FLT1 (atstype_ref px)
+my_extern_prefix`'g0float_neg_replace_`'FLT1 (REF(FLT1) yp, floatt2c(FLT1) x)
 {
-  floatt2c(FLT1) *x = px;
-  *x = -(*x);
+  floatt2c(FLT1) *y = (void *) yp;
+  y[0] = -x;
 }
 END_FLOAT_SUPPORT_CHECK(FLT1)
 ')dnl
@@ -336,49 +330,6 @@ my_extern_prefix`'g0float_`'OP`'_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 END_FLOAT_SUPPORT_CHECK(FLT1)
 ')dnl
 
-/*------------------------------------------------------------------*/
-/* Value-replacement symbols. */
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`FLOAT_SUPPORT_CHECK(FLT1)
-
-typedef struct
-{
-  floatt2c(FLT1) op0;
-  floatt2c(FLT1) op1;
-} my_extern_prefix`'FLT1`'_operands_struct;
-
-my_extern_prefix`'inline atstype_ptr
-my_extern_prefix`'operands_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
-{
-  my_extern_prefix`'FLT1`'_operands_struct *ops =
-    ATS_MALLOC (sizeof (my_extern_prefix`'FLT1`'_operands_struct));
-  ops->op0 = x;
-  ops->op1 = y;
-  return (void *) ops;
-}
-
-my_extern_prefix`'inline atsvoid_t0ype
-my_extern_prefix`'g0float_neg_replace_`'FLT1 (REF(FLT1) yp, floatt2c(FLT1) x)
-{
-  floatt2c(FLT1) *y = (void *) yp;
-  y[0] = -x;
-}
-
-m4_foreachq(`BINOP',`add,sub,mul,div',
-`my_extern_prefix`'inline atsvoid_t0ype
-my_extern_prefix`'g0float_`'BINOP`'_replace_`'FLT1 (REF(FLT1) yp, atstype_ptr *xp)
-{
-  floatt2c(FLT1) *y = (void *) yp;
-  my_extern_prefix`'FLT1`'_operands_struct *x = (void *) xp;
-  y[0] = x->op0 ats_binop_c(BINOP) x->op1;
-  ATS_MFREE (xp);
-}
-
-')dnl
-END_FLOAT_SUPPORT_CHECK(FLT1)
-
-')dnl
 /*------------------------------------------------------------------*/
 
 #endif /* MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */

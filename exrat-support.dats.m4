@@ -961,7 +961,7 @@ my_extern_prefix`'exrat_div_exp2 (floatt2c(exrat) x, atstype_ulint i)
 }
 
 /*------------------------------------------------------------------*/
-/* Value-replacement symbols. */
+/* Value-replacement. */
 
 atsvoid_t0ype
 my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x)
@@ -976,13 +976,6 @@ my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp)
   floatt2c(exrat) y = DEREF(exrat, yp);
   floatt2c(exrat) x = DEREF(exrat, xp);
   mpq_swap (y[0], x[0]);
-}
-
-atsvoid_t0ype
-my_extern_prefix`'g0float_negate_exrat (REF(exrat) xp)
-{
-  floatt2c(exrat) x = DEREF(exrat, xp);
-  mpq_neg (x[0], x[0]);
 }
 
 %}

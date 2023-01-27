@@ -78,10 +78,7 @@ mpfr_make_prec_guint prec =
   _mpfr_make_prec_uintmax (g1u2u prec)
 
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. *)
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Replacement (<-) *)
+(* Simple value-replacement. *)
 
 extern fn fixed32p32_mpfr_replace : g0float_replace_type (fix32p32knd, mpfr) = "mac#%"
 extern fn exrat_mpfr_replace : g0float_replace_type (exratknd, mpfr) = "mac#%"
@@ -100,13 +97,6 @@ m4_foreachq(`FLT1',`floattypes_without_mpfr',
 ')dnl
 m4_foreachq(`INT',`intbases',
 `implement g0float_int_replace<mpfrknd><intb2k(INT)> = mpfr_`'INT`'_replace
-')dnl
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Negation. *)
-
-m4_foreachq(`OP',`negate',
-`implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
 ')dnl
 
 (*------------------------------------------------------------------*)

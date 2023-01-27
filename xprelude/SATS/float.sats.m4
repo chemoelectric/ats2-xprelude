@@ -22,7 +22,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
   prelude.
 *******************************************************************)
 
-
 (*------------------------------------------------------------------*)
 
 #define ATS_PACKNAME "ats2-xprelude.float"
@@ -75,7 +74,14 @@ fn {} tostring_`'FLT1 : FLT1 -<> string
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. *)
+(* Simple value-replacement. *)
+
+(* For ‘unboxed’ types, ‘value-replacement’ merely replaces the
+   contents of a variable, array element, etc. For ‘boxed’ types such
+   as exrat and mpfr, it instead replaces the value inside the
+   ‘box’. *)
+
+(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 
 typedef g0float_replace_type (tk : tkind, a : t@ype) =
   (&g0float tk >> _, a) -< !wrt > void
@@ -92,7 +98,7 @@ g0float_int_replace :
 
 overload g0float_replace with g0float_float_replace
 overload g0float_replace with g0float_int_replace
-overload <- with g0float_replace
+overload replace with g0float_replace
 
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 
@@ -101,78 +107,7 @@ typedef g0float_exchange_type (tk : tkind) =
 
 fn {tk : tkind} g0float_exchange : g0float_exchange_type tk
 
-overload <-> with g0float_exchange
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-
-typedef g0float_uop_replace_type (tk : tkind) =
-  (&g0float tk >> _, g0float tk) -< !wrt > void
-
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-(* FIXME: put operands_type in its own unit. Also the replace types and their overloads. *)
-
-absvtype operands_type (a : t@ype+) = ptr
-typedef g0float_aop_replace_type (tk : tkind) =
-  (&g0float tk >> _, operands_type (g0float tk)) -< !wrt > void
-
-m4_foreachq(`UOP',`neg',
-`fn {tk : tkind} g0float_`'UOP`'_replace : g0float_uop_replace_type tk
-')dnl
-
-m4_foreachq(`AOP',`add,sub,mul,div',
-`fn {tk : tkind} g0float_`'AOP`'_replace : g0float_aop_replace_type tk
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn operands_`'FLT1 : (FLT1, FLT1) -< !wrt > operands_type FLT1 = "mac#%"
-overload operands with operands_`'FLT1
-')dnl
-
-m4_foreachq(`UOP',`neg',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`fn {tk : tkind} g0float_`'UOP`'_replace_`'FLT1 : g0float_uop_replace_type tk = "mac#%"
-')
-')dnl
-m4_foreachq(`AOP',`add,sub,mul,div',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`fn {tk : tkind} g0float_`'AOP`'_replace_`'FLT1 : g0float_aop_replace_type tk = "mac#%"
-')
-')dnl
-overload <|~| with g0float_neg_replace
-overload <|+| with g0float_add_replace
-overload <|-| with g0float_sub_replace
-overload <|*| with g0float_mul_replace
-overload <|/| with g0float_div_replace
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-
-typedef g0float_aopto_type (tk : tkind) =
-  (&g0float tk >> _, g0float tk) -< !refwrt > void
-
-m4_foreachq(`AOPTO',`addto,subfrom,mulby,divby',
-`fn {tk : tkind} g0float_`'AOPTO : g0float_aopto_type tk
-')dnl
-
-overload <|+| with g0float_addto
-overload <|-| with g0float_subfrom
-overload <|*| with g0float_mulby
-overload <|/| with g0float_divby
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-
-fn {tk : tkind} g0float_negate : (&g0float tk >> _) -< !wrt > void
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_negate_`'FLT1 : (&FLT1 >> _) -< !wrt > void = "mac#%"
-')dnl
-
-overload negate with g0float_negate
+overload exchange with g0float_exchange
 
 (*------------------------------------------------------------------*)
 (* Type conversions. *)
@@ -342,6 +277,15 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 
 overload sgn with g0float_sgn
 
+(* The value-replacement version. *)
+fn {tk : tkind}
+g0float_sgn_replace :
+  (&g0float tk >> _, g0float tk) -< !wrt > void
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_sgn_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void = "mac#%"
+')dnl
+
 (*------------------------------------------------------------------*)
 (* g0float_abs: the absolute value of the number. *)
 
@@ -349,11 +293,29 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_abs_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
 ')dnl
 
+(* The value-replacement version. *)
+fn {tk : tkind}
+g0float_abs_replace :
+  (&g0float tk >> _, g0float tk) -< !wrt > void
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_abs_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void = "mac#%"
+')dnl
+
 (*------------------------------------------------------------------*)
 (* g0float_neg: the negative of the number. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_neg_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
+')dnl
+
+(* The value-replacement version. *)
+fn {tk : tkind}
+g0float_neg_replace :
+  (&g0float tk >> _, g0float tk) -< !wrt > void
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_neg_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)
@@ -370,16 +332,24 @@ overload UOP with g0float_`'UOP
 (*------------------------------------------------------------------*)
 (* Binary operations. *)
 
-m4_foreachq(`AOP',`binary_ops',
-`fn {tk : tkind} g0float_`'AOP : g0float_aop_type tk
+m4_foreachq(`OP',`binary_ops',
+`fn {tk : tkind} g0float_`'OP : (g0float tk, g0float tk) -<> g0float tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'AOP`'_`'FLT1 : g0float_aop_type floatt2k(FLT1) = "mac#%"
+`fn g0float_`'OP`'_`'FLT1 : (FLT1, FLT1) -<> FLT1 = "mac#%"
 ')dnl
-overload AOP with g0float_`'AOP
+overload OP with g0float_`'OP
 
 ')dnl
 overload ** with g0float_pow
 
+m4_foreachq(`OP',`binary_ops',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk, g0float tk) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1, FLT1) -< !wrt > void = "mac#%"
+')dnl
+overload OP with g0float_`'OP
+
+')dnl
 (*------------------------------------------------------------------*)
 (* Trinary operations. *)
 

@@ -20,7 +20,6 @@
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
-#include "xprelude/HATS/symbols.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -797,67 +796,67 @@ test25 () : void =
   in
   end
 
-fn
-test26 () : void =
-  let
-    var x = 5.0F
-    val () = negate x
-    val- true = x = ~5.0F
+(* fn *)
+(* test26 () : void = *)
+(*   let *)
+(*     var x = 5.0F *)
+(*     val () = negate x *)
+(*     val- true = x = ~5.0F *)
 
-    var x = 5.0
-    val () = negate x
-    val- true = x = ~5.0
+(*     var x = 5.0 *)
+(*     val () = negate x *)
+(*     val- true = x = ~5.0 *)
 
-    var x = 5.0L
-    val () = negate x
-    val- true = x = ~5.0L
-  in
-  end
+(*     var x = 5.0L *)
+(*     val () = negate x *)
+(*     val- true = x = ~5.0L *)
+(*   in *)
+(*   end *)
 
-fn
-test27 () : void =
-  let
-    var x = 5.0F
-    val- true = x = 5.0F
-    val () = x <- 6.0L
-    val- true = x = 6.0F
-    val () = x <- 7
-    val- true = x = 7.0F
-  in
-  end
+(* fn *)
+(* test27 () : void = *)
+(*   let *)
+(*     var x = 5.0F *)
+(*     val- true = x = 5.0F *)
+(*     val () = x <- 6.0L *)
+(*     val- true = x = 6.0F *)
+(*     val () = x <- 7 *)
+(*     val- true = x = 7.0F *)
+(*   in *)
+(*   end *)
 
-fn
-test28 () : void =
-  let
-    var x = 7.0F
-    val () = x <|+| 3.0F
-    val- true = x = 10.0F
-    val () = x <|-| ~4.0F
-    val- true = x = 14.0F
-    val () = x <|*| 4.0F
-    val- true = x = 56.0F
-    val () = x <|/| ~8.0F
-    val- true = x = ~7.0F
-  in
-  end
+(* fn *)
+(* test28 () : void = *)
+(*   let *)
+(*     var x = 7.0F *)
+(*     val () = x <|+| 3.0F *)
+(*     val- true = x = 10.0F *)
+(*     val () = x <|-| ~4.0F *)
+(*     val- true = x = 14.0F *)
+(*     val () = x <|*| 4.0F *)
+(*     val- true = x = 56.0F *)
+(*     val () = x <|/| ~8.0F *)
+(*     val- true = x = ~7.0F *)
+(*   in *)
+(*   end *)
 
-fn
-test29 () : void =
-  let
-    var x = 1234.0
-    val- true = x = 1234.0
-    val () = x <|~| x
-    val- true = x = ~1234.0
-    val () = x <|+| operands (x, 234.0)
-    val- true = x = ~1000.0
-    val () = x <|-| operands (x, ~2000.0)
-    val- true = x = 1000.0
-    val () = x <|*| operands (x, 2.0)
-    val- true = x = 2000.0
-    val () = x <|/| operands (x, 10.0)
-    val- true = x = 200.0
-  in
-  end
+(* fn *)
+(* test29 () : void = *)
+(*   let *)
+(*     var x = 1234.0 *)
+(*     val- true = x = 1234.0 *)
+(*     val () = x <|~| x *)
+(*     val- true = x = ~1234.0 *)
+(*     val () = x <|+| operands (x, 234.0) *)
+(*     val- true = x = ~1000.0 *)
+(*     val () = x <|-| operands (x, ~2000.0) *)
+(*     val- true = x = 1000.0 *)
+(*     val () = x <|*| operands (x, 2.0) *)
+(*     val- true = x = 2000.0 *)
+(*     val () = x <|/| operands (x, 10.0) *)
+(*     val- true = x = 200.0 *)
+(*   in *)
+(*   end *)
 
 implement
 main () =
@@ -887,9 +886,9 @@ main () =
     test23 ();
     test24 ();
     test25 ();
-    test26 ();
-    test27 ();
-    test28 ();
-    test29 ();
+    (* test26 (); *)
+    (* test27 (); *)
+    (* test28 (); *)
+    (* test29 (); *)
     0
   end

@@ -101,10 +101,9 @@ floatt2c(mpfr) my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
 /* Negation. */
 
 floatt2c(mpfr) my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x);
-atsvoid_t0ype my_extern_prefix`'g0float_negate_mpfr (REF(mpfr) xp);
 
 /*------------------------------------------------------------------*/
-/* Value-replacement symbols. */
+/* Simple value-replacement */
 
 atsvoid_t0ype my_extern_prefix`'mpfr_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x);
 atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (REF(mpfr) yp, intb2c(intmax) x);

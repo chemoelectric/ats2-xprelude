@@ -129,12 +129,6 @@ fn {} g0float_npow_fixed32p32 : (fixed32p32, intGte 0) -<> fixed32p32
 fn {tki : tkind} g0float_int_pow_fixed32p32 : (fixed32p32, g0int tki) -<> fixed32p32
 
 (*------------------------------------------------------------------*)
-
-m4_foreachq(`FLT1',`fixed32p32',
-`fn g0float_negate_`'FLT1 : $d2ctype (g0float_negate<floatt2k(FLT1)>) = "mac#%"
-')dnl
-
-(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

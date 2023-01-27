@@ -113,9 +113,7 @@ implement tostring_val<FLT1> = tostring_`'FLT1
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. For ‘conventional’ floating point types,
-   these will be equivalent to an operation involving assignment
-   symbols. *)
+(* Value-replacement. *)
 
 (* It is safer to have only type-specific implementations of
    these. Otherwise the implementation may easily be incorrect for
@@ -137,25 +135,6 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
 ')dnl
 
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`OP',`neg,add,sub,mul,div',
-`extern fn g0float_`'OP`'_replace_`'FLT1 : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
-')dnl
-m4_foreachq(`OP',`neg,add,sub,mul,div',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> = g0float_`'OP`'_replace_`'FLT1
-')dnl
-implement g0float_addto<floatt2k(FLT1)> (x, y) = x := x + y
-implement g0float_subfrom<floatt2k(FLT1)> (x, y) = x := x - y
-implement g0float_mulby<floatt2k(FLT1)> (x, y) = x := x * y
-implement g0float_divby<floatt2k(FLT1)> (x, y) = x := x / y
-
-')dnl
-m4_foreachq(`FUNC',`negate',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
-')dnl
-
-')dnl
 (*------------------------------------------------------------------*)
 (* Type conversions. *)
 
@@ -223,6 +202,7 @@ m4_foreachq(`FUNC',`infinity, nan, snan,
 m4_foreachq(`FUNC',`sgn, abs, neg',
 `m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
+implement g0float_`'FUNC`'_replace<floatt2k(FLT1)> = g0float_`'FUNC`'_replace_`'FLT1
 ')dnl
 
 ')dnl
@@ -305,6 +285,12 @@ m4_foreachq(`FUNC',`unary_ops, binary_ops, trinary_ops,
                     unsafe_strfrom, unsafe_strto',
 `m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_`'FUNC`'<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
+')dnl
+
+')dnl
+m4_foreachq(`FUNC',`binary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'FUNC`'_replace<floatt2k(FLT1)> = g0float_`'FUNC`'_replace_`'FLT1
 ')dnl
 
 ')dnl

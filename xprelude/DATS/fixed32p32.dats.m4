@@ -68,8 +68,7 @@ tostring_fixed32p32_assumed_decimal_places x =
   end
 
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. For most fixed32p32, these will be
-   equivalent to an operation involving assignment symbols. *)
+(* Value-replacement. *)
 
 (* It is safer to have only type-specific implementations of
    these. Otherwise the implementation may easily be incorrect for
@@ -90,19 +89,6 @@ m4_foreachq(`FLT1',`fixed32p32',
 
 m4_foreachq(`FLT1',`fixed32p32',
 `implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
-')dnl
-
-m4_foreachq(`FLT1',`fixed32p32',
-`implement g0float_addto<floatt2k(FLT1)> (x, y) = x :+= y
-implement g0float_subfrom<floatt2k(FLT1)> (x, y) = x :-= y
-implement g0float_mulby<floatt2k(FLT1)> (x, y) = x :*= y
-implement g0float_divby<floatt2k(FLT1)> (x, y) = x :/= y
-
-')dnl
-m4_foreachq(`FUNC',`negate',
-`m4_foreachq(`FLT1',`fixed32p32',
-`implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
-')dnl
 ')dnl
 
 (*------------------------------------------------------------------*)

@@ -118,13 +118,6 @@ overload tostrptr_exrat with tostrptr_exrat_base10
 overload tostring_exrat with tostring_exrat_base10
 
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. *)
-
-m4_foreachq(`OP',`negate',
-`fn g0float_`'OP`'_exrat : $d2ctype (g0float_`'OP<exratknd>) = "mac#%"
-')dnl
-
-(*------------------------------------------------------------------*)
 
 (* FIXME: On x86 and some other platforms, int64, llint, and intmax
           are bigger than lint. This makes the current conversions

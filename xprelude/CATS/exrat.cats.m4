@@ -238,11 +238,10 @@ floatt2c(exrat) floatt2c(exrat)_mul_exp2 (floatt2c(exrat), atstype_ulint);
 floatt2c(exrat) floatt2c(exrat)_div_exp2 (floatt2c(exrat), atstype_ulint);
 
 /*------------------------------------------------------------------*/
-/* Value-replacement symbols. */
+/* Value-replacement. */
 
 atsvoid_t0ype my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x);
 atsvoid_t0ype my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp);
-atsvoid_t0ype my_extern_prefix`'g0float_negate_exrat (REF(exrat) xp);
 
 /*------------------------------------------------------------------*/
 

@@ -203,15 +203,8 @@ my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x)
   return y;
 }
 
-atsvoid_t0ype
-my_extern_prefix`'g0float_negate_mpfr (REF(mpfr) xp)
-{
-  floatt2c(mpfr) x = DEREF(mpfr, xp);
-  mpfr_neg (x[0], x[0], ROUNDING);
-}
-
 /*------------------------------------------------------------------*/
-/* Value-replacement symbols. */
+/* Simple value-replacement. */
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x)

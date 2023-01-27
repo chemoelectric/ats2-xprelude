@@ -22,7 +22,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_EXTERN_PREFIX "my_extern_prefix"
 
 #include "xprelude/HATS/xprelude_sats.hats"
-#include "xprelude/HATS/symbols.hats"
 
 staload "xprelude/SATS/fixed32p32.sats"
 staload "xprelude/SATS/exrat.sats"
@@ -121,7 +120,6 @@ overload mpfr_make with mpfr_make_prec
 (* Negation. *)
 
 fn g0float_neg_mpfr : $d2ctype (g0float_neg<mpfrknd>) = "mac#%"
-fn g0float_negate_mpfr : $d2ctype (g0float_negate<mpfrknd>) = "mac#%"
 
 (*------------------------------------------------------------------*)
 dnl

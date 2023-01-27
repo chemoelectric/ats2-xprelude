@@ -126,10 +126,7 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Value-replacement symbols. *)
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Replacement (<-) *)
+(* Simple value-replacement. *)
 
 extern fn exrat_exrat_replace : g0float_replace_type (exratknd, exrat) = "mac#%"
 implement g0float_float_replace<exratknd><exratknd> = exrat_exrat_replace
@@ -154,17 +151,10 @@ m4_foreachq(`FLT1',`exrat',
 ')dnl
 
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Exchange (<->) *)
+(* Value exchange. *)
 
 extern fn exrat_exchange : g0float_exchange_type exratknd = "mac#%"
 implement g0float_exchange<exratknd> = exrat_exchange
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Negation. *)
-
-m4_foreachq(`OP',`negate',
-`implement g0float_`'OP<exratknd> = g0float_`'OP`'_exrat
-')dnl
 
 (*------------------------------------------------------------------*)
 dnl

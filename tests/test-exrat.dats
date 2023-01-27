@@ -20,7 +20,6 @@
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
-#include "xprelude/HATS/symbols.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -394,36 +393,36 @@ test0 () : void =
   in
   end
 
-fn
-test1 () : void =
-  let
-    var x : exrat = exrat_make (11, 5)
-    val- true = x = exrat_make (11, 5)
-    val () = x <- 7
-    val- true = x = exrat_make (7, 1)
+(* fn *)
+(* test1 () : void = *)
+(*   let *)
+(*     var x : exrat = exrat_make (11, 5) *)
+(*     val- true = x = exrat_make (11, 5) *)
+(*     val () = x <- 7 *)
+(*     val- true = x = exrat_make (7, 1) *)
 
-    var y : exrat = exrat_make (1, 234)
-    val- true = y = exrat_make (1, 234)
-    val () = y <- x
-    val- true = y = exrat_make (7, 1)
+(*     var y : exrat = exrat_make (1, 234) *)
+(*     val- true = y = exrat_make (1, 234) *)
+(*     val () = y <- x *)
+(*     val- true = y = exrat_make (7, 1) *)
 
-    var z : exrat = exrat_make (123, 4)
-    val- true = z = exrat_make (123, 4)
-    val () = z <- 6.5
-    val- true = z = exrat_make (65, 10)
-    val () = negate z
-    val- true = z = exrat_make (~65, 10)
+(*     var z : exrat = exrat_make (123, 4) *)
+(*     val- true = z = exrat_make (123, 4) *)
+(*     val () = z <- 6.5 *)
+(*     val- true = z = exrat_make (65, 10) *)
+(*     val () = negate z *)
+(*     val- true = z = exrat_make (~65, 10) *)
 
-    val () = y <-> z
-    val- true = y = exrat_make (~65, 10)
-    val- true = z = exrat_make (7, 1)
-  in
-  end
+(*     val () = y <-> z *)
+(*     val- true = y = exrat_make (~65, 10) *)
+(*     val- true = z = exrat_make (7, 1) *)
+(*   in *)
+(*   end *)
 
 implement
 main () =
   begin
     test0 ();
-    test1 ();
+    (* test1 (); *)
     0
   end

@@ -20,7 +20,6 @@
 
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
-#include "xprelude/HATS/symbols.hats"
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -405,22 +404,22 @@ fn test0 () : void =
   in
   end
 
-fn
-test1 () : void =
-  let
-    var x : fixed32p32 = g0i2f 5
-    val () = x <- 6
-    val- true = x = i2fx 6
-    var y : double = g0float_nan ()
-    val () = y <- x
-    val- true = y = 6.0
-  in
-  end
+(* fn *)
+(* test1 () : void = *)
+(*   let *)
+(*     var x : fixed32p32 = g0i2f 5 *)
+(*     val () = x <- 6 *)
+(*     val- true = x = i2fx 6 *)
+(*     var y : double = g0float_nan () *)
+(*     val () = y <- x *)
+(*     val- true = y = 6.0 *)
+(*   in *)
+(*   end *)
 
 implement
 main () =
   begin
     test0 ();
-    test1 ();
+    (* test1 (); *)
     0
   end

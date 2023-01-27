@@ -31,7 +31,6 @@ staload _ = "xprelude/DATS/exrat.dats"
 
 staload "xprelude/SATS/mpfr.sats"
 staload _ = "xprelude/DATS/mpfr.dats"
-#include "xprelude/HATS/symbols.hats"
 
 (* Significand sizes, in bits. *)
 #define SINGLE_PREC 24
@@ -46,49 +45,49 @@ staload _ = "xprelude/DATS/mpfr.dats"
 fn
 test1 () : void =
   let
-    var x = mpfr_make (256)
-    var y = mpfr_make (256)
-    val () = x <- 1234.5
-    val () = (print_mpfr(x); println!())
-    val () = y <- x
-    val () = (print_mpfr(y); println!())
-    val () = x <- $extval (decimal64, "1234.56789DD")
-    val () = (print_mpfr(x); println!())
-    val () = y <- $extval (decimal128, "1234.56789DL")
-    val () = (print_mpfr(y); println!())
-    val () = x <- $extval (float128, "1234.5f128")
-    val () = (print_mpfr(x); println!())
-    val () = y <- x
-    val () = (print_mpfr(y); println!())
-    val () = x <- 12345L
-    val () = (print_mpfr(x); println!())
-    val () = y <- 12345LL
-    val () = (print_mpfr(y); println!())
-    val () = x <- ((g0f2f 1234.5) : fixed32p32)
-    val () = (print_mpfr(x); println!())
-    val () = y <- exrat_make (12345, 10)
-    val () = (print_mpfr(y); println!())
-    val () = negate y
-    val () = (print_mpfr(y); println!())
-    val () = (print_mpfr(~y); println!())
-    val () = println! (mpfr_get_default_prec ())
-    val () = mpfr_set_default_prec QUAD_PREC
-    val () = println! (mpfr_get_default_prec ())
-    val () = mpfr_set_default_prec (i2sz OCTUPLE_PREC)
-    val () = println! (mpfr_get_default_prec ())
+    (* var x = mpfr_make (256) *)
+    (* var y = mpfr_make (256) *)
+    (* val () = x <- 1234.5 *)
+    (* val () = (print_mpfr(x); println!()) *)
+    (* val () = y <- x *)
+    (* val () = (print_mpfr(y); println!()) *)
+    (* val () = x <- $extval (decimal64, "1234.56789DD") *)
+    (* val () = (print_mpfr(x); println!()) *)
+    (* val () = y <- $extval (decimal128, "1234.56789DL") *)
+    (* val () = (print_mpfr(y); println!()) *)
+    (* val () = x <- $extval (float128, "1234.5f128") *)
+    (* val () = (print_mpfr(x); println!()) *)
+    (* val () = y <- x *)
+    (* val () = (print_mpfr(y); println!()) *)
+    (* val () = x <- 12345L *)
+    (* val () = (print_mpfr(x); println!()) *)
+    (* val () = y <- 12345LL *)
+    (* val () = (print_mpfr(y); println!()) *)
+    (* val () = x <- ((g0f2f 1234.5) : fixed32p32) *)
+    (* val () = (print_mpfr(x); println!()) *)
+    (* val () = y <- exrat_make (12345, 10) *)
+    (* val () = (print_mpfr(y); println!()) *)
+    (* val () = negate y *)
+    (* val () = (print_mpfr(y); println!()) *)
+    (* val () = (print_mpfr(~y); println!()) *)
+    (* val () = println! (mpfr_get_default_prec ()) *)
+    (* val () = mpfr_set_default_prec QUAD_PREC *)
+    (* val () = println! (mpfr_get_default_prec ()) *)
+    (* val () = mpfr_set_default_prec (i2sz OCTUPLE_PREC) *)
+    (* val () = println! (mpfr_get_default_prec ()) *)
 
-    var z = y
-    val () = println! (mpfr_get_prec z)
-    val () = mpfr_set_prec (z, QUAD_PREC)
-    val () = println! (mpfr_get_prec z)
-    val () = println! (mpfr_get_prec y)
+    (* var z = y *)
+    (* val () = println! (mpfr_get_prec z) *)
+    (* val () = mpfr_set_prec (z, QUAD_PREC) *)
+    (* val () = println! (mpfr_get_prec z) *)
+    (* val () = println! (mpfr_get_prec y) *)
 
-    var u = ((g0f2f 1.23456789) : fixed32p32)
-    val () = println! u
-    var v = mpfr_make OCTUPLE_PREC
-    val () = v <- 1.23456789
-    val () = u <- v
-    val () = println! u
+    (* var u = ((g0f2f 1.23456789) : fixed32p32) *)
+    (* val () = println! u *)
+    (* var v = mpfr_make OCTUPLE_PREC *)
+    (* val () = v <- 1.23456789 *)
+    (* val () = u <- v *)
+    (* val () = println! u *)
   in
   end
 
