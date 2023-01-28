@@ -243,6 +243,10 @@ floatt2c(exrat) floatt2c(exrat)_div_exp2 (floatt2c(exrat), atstype_ulint);
 atsvoid_t0ype my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x);
 atsvoid_t0ype my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp);
 
+m4_foreachq(`OP',`abs, neg, succ, pred',
+`atsvoid_t0ype my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) yp, REF(exrat) xp);
+')dnl
+
 /*------------------------------------------------------------------*/
 
 #endif /* MY_EXTERN_PREFIX`'CATS__EXRAT_CATS__HEADER_GUARD__ */

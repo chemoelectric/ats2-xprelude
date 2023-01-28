@@ -978,6 +978,30 @@ my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp)
   mpq_swap (y[0], x[0]);
 }
 
+m4_foreachq(`OP',`abs, neg',
+`
+atsvoid_t0ype
+my_extern_prefix`'exrat_`'OP (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpq_`'OP (y[0], x[0]);
+}
+')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_succ (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpq_add (y[0], x[0], _`'my_extern_prefix`'exrat_one);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_pred (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpq_sub (y[0], x[0], _`'my_extern_prefix`'exrat_one);
+}
+
 %}
 (*------------------------------------------------------------------*)
 

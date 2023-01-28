@@ -145,6 +145,12 @@ g0float_int_pow<fix32p32knd><intb2k(INT)> =
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Value-replacement. *)
+
+(* It is safer to have only type-specific implementations of
+   these. Otherwise the implementation may easily be incorrect for
+   ‘boxed’ types such as exrat and mpfr. *)
+
 value_replacement_runtime_for_unboxed_types(`fixed32p32')
 (*------------------------------------------------------------------*)
 dnl

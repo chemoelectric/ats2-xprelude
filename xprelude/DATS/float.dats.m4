@@ -500,6 +500,12 @@ g0float_int_pow_`'FLT1 (x, n) =
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Value-replacement. *)
+
+(* It is safer to have only type-specific implementations of
+   these. Otherwise the implementation may easily be incorrect for
+   ‘boxed’ types such as exrat and mpfr. *)
+
 value_replacement_runtime_for_unboxed_types(`conventional_floattypes')
 (*------------------------------------------------------------------*)
 dnl
