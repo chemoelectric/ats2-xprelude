@@ -283,22 +283,32 @@ g0float_strto {n} {i} (s, i) =
     @(x, g1i2u j)
   end
 
-m4_foreachq(`FUNC',`unary_ops, binary_ops, trinary_ops,
-                    floattype_intmax_ops,
-                    scalbn, scalbln, ilogb,
-                    frexp, modf,
-                    unsafe_strfrom, unsafe_strto',
+m4_foreachq(`OP',`unary_ops, binary_ops, trinary_ops,
+                  floattype_intmax_ops,
+                  scalbn, scalbln, ilogb,
+                  frexp, modf,
+                  unsafe_strfrom, unsafe_strto',
 `m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'FUNC`'<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
+`implement g0float_`'OP`'<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
 ')dnl
 
 ')dnl
-m4_foreachq(`FUNC',`binary_ops',
+m4_foreachq(`OP',`unary_ops',
 `m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'FUNC`'_replace<floatt2k(FLT1)> = g0float_`'FUNC`'_replace_`'FLT1
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'OP<floatt2k(FLT1)> x
+')dnl
+')dnl
+m4_foreachq(`OP',`binary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y) = z := g0float_`'OP<floatt2k(FLT1)> (x, y)
+')dnl
+')dnl
+m4_foreachq(`OP',`trinary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y, w) = z := g0float_`'OP<floatt2k(FLT1)> (x, y, w)
+')dnl
 ')dnl
 
-')dnl
 (*------------------------------------------------------------------*)
 (* `Comparisons.' *)
 

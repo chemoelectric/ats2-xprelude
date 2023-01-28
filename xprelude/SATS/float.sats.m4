@@ -315,12 +315,20 @@ overload neg_replace with g0float_neg_replace
 (*------------------------------------------------------------------*)
 (* Unary operations. *)
 
-m4_foreachq(`UOP',`unary_ops',
-`fn {tk : tkind} g0float_`'UOP : g0float_uop_type tk
+m4_foreachq(`OP',`unary_ops',
+`fn {tk : tkind} g0float_`'OP : g0float_uop_type tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'UOP`'_`'FLT1 : g0float_uop_type floatt2k(FLT1) = "mac#%"
+`fn g0float_`'OP`'_`'FLT1 : g0float_uop_type floatt2k(FLT1) = "mac#%"
 ')dnl
-overload UOP with g0float_`'UOP
+overload OP with g0float_`'OP
+
+')dnl
+m4_foreachq(`OP',`unary_ops',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void = "mac#%"
+')dnl
+overload OP`'_replace with g0float_`'OP`'_replace
 
 ')dnl
 (*------------------------------------------------------------------*)
@@ -347,12 +355,20 @@ overload OP`'_replace with g0float_`'OP`'_replace
 (*------------------------------------------------------------------*)
 (* Trinary operations. *)
 
-m4_foreachq(`TOP',`trinary_ops',
-`fn {tk : tkind} g0float_`'TOP : (g0float tk, g0float tk, g0float tk) -<> g0float tk
+m4_foreachq(`OP',`trinary_ops',
+`fn {tk : tkind} g0float_`'OP : (g0float tk, g0float tk, g0float tk) -<> g0float tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'TOP`'_`'FLT1 : $d2ctype (g0float_`'TOP<floatt2k(FLT1)>) = "mac#%"
+`fn g0float_`'OP`'_`'FLT1 : $d2ctype (g0float_`'OP<floatt2k(FLT1)>) = "mac#%"
 ')dnl
-overload TOP with g0float_`'TOP
+overload OP with g0float_`'OP
+
+')dnl
+m4_foreachq(`OP',`trinary_ops',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk, g0float tk, g0float tk) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1, FLT1, FLT1) -< !wrt > void = "mac#%"
+')dnl
+overload OP`'_replace with g0float_`'OP`'_replace
 
 ')dnl
 (*------------------------------------------------------------------*)

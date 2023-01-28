@@ -797,7 +797,7 @@ test25 () : void =
   end
 
 fn
-test27 () : void =
+test26 () : void =
   let
     var x = 5.0F
     val- true = x = 5.0F
@@ -809,7 +809,20 @@ test27 () : void =
   end
 
 fn
-test29 () : void =
+test27 () : void =
+  let
+    var x = 3.0L
+    var y = 5.0L
+    val- true = x = 3.0L
+    val- true = y = 5.0L
+    val () = exchange (x, y)
+    val- true = x = 5.0L
+    val- true = y = 3.0L
+  in
+  end
+
+fn
+test28 () : void =
   let
     var x = 1234.0
     val- true = x = 1234.0
@@ -833,6 +846,21 @@ test29 () : void =
     val- true = x = 0.125
     val- () = div_replace (x, 1.0, x)
     val- true = x = 8.0
+  in
+  end
+
+fn
+test29 () : void =
+  let
+    var x = 0.0
+    val () = sin_replace (x, mathconst_PI () / 3.0)
+    val- true = abs (x - (0.5 * sqrt (3.0))) < 0.000001
+    val () = cos_replace (x, mathconst_PI () / 3.0)
+    val- true = abs (x - 0.5) < 0.000001
+    val () = pow_replace (x, 2.0, 10.0)
+    val- true = x = 1024.0
+    val () = fma_replace (x, 2.0, 3.0, 4.0)
+    val- true = x = 10.0
   in
   end
 
@@ -864,9 +892,9 @@ main () =
     test23 ();
     test24 ();
     test25 ();
-    (* test26 (); *)
+    test26 ();
     test27 ();
-    (* test28 (); *)
+    test28 ();
     test29 ();
     0
   end
