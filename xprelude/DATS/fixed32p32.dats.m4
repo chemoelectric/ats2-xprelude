@@ -68,30 +68,6 @@ tostring_fixed32p32_assumed_decimal_places x =
   end
 
 (*------------------------------------------------------------------*)
-(* Value-replacement. *)
-
-(* It is safer to have only type-specific implementations of
-   these. Otherwise the implementation may easily be incorrect for
-   ‘boxed’ types such as exrat and mpfr. *)
-
-m4_foreachq(`FLT1',`fixed32p32',
-`m4_foreachq(`FLT2',`conventional_floattypes',
-`implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> (x, y) = x := g0f2f y
-implement g0float_float_replace<floatt2k(FLT2)><floatt2k(FLT1)> (x, y) = x := g0f2f y
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`fixed32p32',
-`m4_foreachq(`INT',`intbases',
-`implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = x := g0i2f y
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`fixed32p32',
-`implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
-')dnl
-
-(*------------------------------------------------------------------*)
 (* Epsilon. *)
 
 implement g0float_epsilon<fix32p32knd> = g0float_epsilon_fixed32p32
@@ -168,6 +144,8 @@ g0float_int_pow<fix32p32knd><intb2k(INT)> =
 ')dnl
 ')dnl
 
+(*------------------------------------------------------------------*)
+value_replacement_runtime_for_unboxed_types(`fixed32p32')
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

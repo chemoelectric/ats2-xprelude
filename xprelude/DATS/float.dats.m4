@@ -500,58 +500,7 @@ g0float_int_pow_`'FLT1 (x, n) =
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Value-replacement. *)
-
-(* It is safer to have only type-specific implementations of
-   these. Otherwise the implementation may easily be incorrect for
-   ‘boxed’ types such as exrat and mpfr. *)
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`FLT2',`conventional_floattypes',
-`implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> (x, y) = x := g0f2f y
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`INT',`intbases',
-`implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = x := g0i2f y
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
-')dnl
-
-m4_foreachq(`OP',`abs, neg, succ, pred, unary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'OP<floatt2k(FLT1)> x
-')dnl
-')dnl
-
-m4_foreachq(`OP',`min, max, add, sub, mul, div, mod,
-                  binary_ops, floattype_intmax_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y) = z := g0float_`'OP<floatt2k(FLT1)> (x, y)
-')dnl
-')dnl
-
-m4_foreachq(`OP',`trinary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y, w) = z := g0float_`'OP<floatt2k(FLT1)> (x, y, w)
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_npow_replace<floatt2k(FLT1)> (z, x, i) = z := g0float_npow<floatt2k(FLT1)> (x, i)
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`INT',`intbases',
-`implement g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)> (z, x, i) =dnl
- z := g0float_int_pow<floatt2k(FLT1)><intb2k(INT)> (x, i)
-')dnl
-')dnl
-
+value_replacement_runtime_for_unboxed_types(`conventional_floattypes')
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:
