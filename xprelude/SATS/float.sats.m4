@@ -242,18 +242,34 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 overload sgn with g0float_sgn
 
 (*------------------------------------------------------------------*)
-(* g0float_abs: the absolute value of the number. *)
+(* g0float_abs: the absolute value of a number. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_abs_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* g0float_neg: the negative of the number. *)
+(* g0float_neg: the additive inverse of a number. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_neg_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
 ')dnl
+
+(*------------------------------------------------------------------*)
+(* g0float_reciprocal: the multiplicative inverse of a number. *)
+
+(* Inclusion of a multiplicative inverse function is motivated by the
+   existence, in GMP, of such a function for exact rationals. *)
+
+fn {tk : tkind}
+g0float_reciprocal :
+  g0float tk -<> g0float tk
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_reciprocal_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
+')dnl
+
+overload reciprocal with g0float_reciprocal
 
 (*------------------------------------------------------------------*)
 (* Unary operations. *)
@@ -453,7 +469,7 @@ overload exchange with g0float_exchange
 (*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
 (* Assorted operations. *)
 
-m4_foreachq(`OP',`abs, neg, succ, pred, unary_ops',
+m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred, unary_ops',
 `fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk) -< !wrt > void
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void

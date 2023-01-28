@@ -84,6 +84,7 @@ fn g0float_sgn_fixed32p32 : g0float_sgn_type fix32p32knd = "mac#%"
 fn g0float_neg_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 fn g0float_abs_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 fn g0float_fabs_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
+fn g0float_reciprocal_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 
 fn g0float_succ_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"
 fn g0float_pred_fixed32p32 : fixed32p32 -<> fixed32p32 = "mac#%"

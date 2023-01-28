@@ -270,6 +270,9 @@ test13 () : void =
     val- true = fabs 3.0 = abs 3.0
     val- true = fabs ~3.0 = abs ~3.0
 
+    val- true = reciprocal 0.125 = 8.0
+    val- true = reciprocal ~8.0 = ~0.125
+
     val- true = 1.0 + 2.0 = 3.0
     val- true = 2.0 + 1.0 = 3.0
     val- true = 3.0 - 1.0 = 2.0
@@ -846,6 +849,8 @@ test28 () : void =
     val- true = x = 0.125
     val- () = div_replace (x, 1.0, x)
     val- true = x = 8.0
+    val- () = reciprocal_replace (x, x)
+    val- true = x = 0.125
   in
   end
 

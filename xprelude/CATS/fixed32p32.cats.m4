@@ -46,6 +46,8 @@ typedef atstype_int64 my_extern_prefix`'fixed32p32;
   (INT64_C(1) << MY_EXTERN_PREFIX`'FIXED32P32_FRACTION_BITS)
 #define MY_EXTERN_PREFIX`'FIXED32P32_MASK                           \
   ((INT64_C(1) << MY_EXTERN_PREFIX`'FIXED32P32_FRACTION_BITS) - 1)
+#define MY_EXTERN_PREFIX`'FIXED32P32_ONE                        \
+  (INT64_C(1) << MY_EXTERN_PREFIX`'FIXED32P32_FRACTION_BITS)
 #define MY_EXTERN_PREFIX`'FIXED32P32_ONE_HALF                       \
   (INT64_C(1) << (MY_EXTERN_PREFIX`'FIXED32P32_FRACTION_BITS - 1))
 
@@ -281,6 +283,12 @@ my_extern_prefix`'g0float_div_fixed32p32 (my_extern_prefix`'fixed32p32 x,
 }
 
 #endif
+
+my_extern_prefix`'inline my_extern_prefix`'fixed32p32
+my_extern_prefix`'g0float_reciprocal_fixed32p32 (my_extern_prefix`'fixed32p32 x)
+{
+  return my_extern_prefix`'g0float_div_fixed32p32 (MY_EXTERN_PREFIX`'FIXED32P32_ONE, x);
+}
 
 my_extern_prefix`'inline my_extern_prefix`'fixed32p32
 my_extern_prefix`'g0float_fma_fixed32p32 (my_extern_prefix`'fixed32p32 x,

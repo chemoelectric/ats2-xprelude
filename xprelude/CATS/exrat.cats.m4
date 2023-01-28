@@ -144,6 +144,7 @@ my_extern_prefix`'g0float_sgn_exrat (floatt2c(exrat) x)
 }
 
 floatt2c(exrat) my_extern_prefix`'g0float_neg_exrat (floatt2c(exrat) x);
+floatt2c(exrat) my_extern_prefix`'g0float_reciprocal_exrat (floatt2c(exrat) x);
 floatt2c(exrat) my_extern_prefix`'g0float_abs_exrat (floatt2c(exrat) x);
 floatt2c(exrat) my_extern_prefix`'g0float_fabs_exrat (floatt2c(exrat) x);
 
@@ -243,10 +244,9 @@ floatt2c(exrat) floatt2c(exrat)_div_exp2 (floatt2c(exrat), atstype_ulint);
 atsvoid_t0ype my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x);
 atsvoid_t0ype my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp);
 
-m4_foreachq(`OP',`abs, neg, succ, pred',
-`atsvoid_t0ype my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) yp, REF(exrat) xp);
+m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred',
+`atsvoid_t0ype my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) yp, floatt2c(exrat) xp);
 ')dnl
-
 /*------------------------------------------------------------------*/
 
 #endif /* MY_EXTERN_PREFIX`'CATS__EXRAT_CATS__HEADER_GUARD__ */

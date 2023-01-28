@@ -225,6 +225,12 @@ my_extern_prefix`'g0float_neg_`'FLT1 (floatt2c(FLT1) x)
   return (-x);
 }
 
+my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'g0float_reciprocal_`'FLT1 (floatt2c(FLT1) x)
+{
+  return (1 / x);
+}
+
 END_FLOAT_SUPPORT_CHECK(FLT1)
 
 ')dnl

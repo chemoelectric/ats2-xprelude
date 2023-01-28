@@ -89,7 +89,7 @@ implement g0float2float<exratknd,fix32p32knd> = g0float2float_exrat_fixed32p32
 
 implement g0float2float<exratknd,exratknd> = g0float2float_exrat_exrat
 
-m4_foreachq(`OP',`sgn, neg, abs, fabs,
+m4_foreachq(`OP',`sgn, neg, reciprocal, abs, fabs,
                   succ, pred,
                   add, sub, mul, div, fma, npow,
                   min, max,
@@ -162,7 +162,7 @@ implement g0float_exchange<exratknd> = exrat_exchange
 (* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
 (* Unary operations. *)
 
-m4_foreachq(`OP',`abs, neg, succ, pred',
+m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred',
 `extern fn exrat_`'OP`'_replace : (&exrat >> _, exrat) -< !wrt > void = "mac#%"
 implement g0float_`'OP`'_replace<exratknd> = exrat_`'OP`'_replace
 

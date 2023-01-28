@@ -478,7 +478,7 @@ m4_foreachq(`FLT1',`$1',
 `implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
 ')dnl
 
-m4_foreachq(`OP',`abs, neg, succ, pred, unary_ops',
+m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred, unary_ops',
 `m4_foreachq(`FLT1',`$1',
 `implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'OP<floatt2k(FLT1)> x
 ')')dnl

@@ -89,7 +89,7 @@ implement g0float2float<fix32p32knd,fix32p32knd> = g0float2float_fixed32p32_fixe
 (*------------------------------------------------------------------*)
 (* Various operations and functions. *)
 
-m4_foreachq(`FUNC',`sgn, neg, abs, fabs, succ, pred,
+m4_foreachq(`FUNC',`sgn, neg, abs, reciprocal, fabs, succ, pred,
                     add, sub, mul, div, fma,
                     min, max,
                     lt, lte, gt, gte, eq, neq, compare,

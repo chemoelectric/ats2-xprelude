@@ -116,6 +116,9 @@ fn test0 () : void =
     val- true = abs x = g0i2f 5L
     val- true = abs y = g0i2f 30LL
 
+    val- true = reciprocal (i2fx 8) = d2fx 0.125
+    val- true = reciprocal (d2fx ~0.125) = i2fx ~8
+
     val- true = (x + y) = g0i2f 25L
     val- true = (y + x) = g0i2f 25
 

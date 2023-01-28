@@ -176,7 +176,7 @@ m4_foreachq(`OP',`infinity, nan, snan,
 (*------------------------------------------------------------------*)
 (* Sign, absolute value, negative. *)
 
-m4_foreachq(`OP',`sgn, abs, neg',
+m4_foreachq(`OP',`sgn, abs, neg, reciprocal',
 `m4_foreachq(`FLT1',`conventional_floattypes',
 `implement g0float_`'OP<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
 ')dnl

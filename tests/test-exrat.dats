@@ -67,6 +67,9 @@ test0 () : void =
     val- true = ~x = i2ex ~12345
     val- true = ~(~x) = x
 
+    val- true = reciprocal x = exrat_make (1, 12345)
+    val- true = reciprocal (exrat_make (~1, 12345)) = ~x
+
     val- true = abs (~x) = x
     val- true = abs x = x
     val- true = fabs x = x
@@ -393,36 +396,41 @@ test0 () : void =
   in
   end
 
-(* fn *)
-(* test1 () : void = *)
-(*   let *)
-(*     var x : exrat = exrat_make (11, 5) *)
-(*     val- true = x = exrat_make (11, 5) *)
-(*     val () = x <- 7 *)
-(*     val- true = x = exrat_make (7, 1) *)
+fn
+test1 () : void =
+  let
+    var x : exrat = exrat_make (11, 5)
+    val- true = x = exrat_make (11, 5)
+    val () = replace (x, 7)
+    val- true = x = exrat_make (7, 1)
 
-(*     var y : exrat = exrat_make (1, 234) *)
-(*     val- true = y = exrat_make (1, 234) *)
-(*     val () = y <- x *)
-(*     val- true = y = exrat_make (7, 1) *)
+    var y : exrat = exrat_make (1, 234)
+    val- true = y = exrat_make (1, 234)
+    val () = replace (y, x)
+    val- true = y = exrat_make (7, 1)
 
-(*     var z : exrat = exrat_make (123, 4) *)
-(*     val- true = z = exrat_make (123, 4) *)
-(*     val () = z <- 6.5 *)
-(*     val- true = z = exrat_make (65, 10) *)
-(*     val () = negate z *)
-(*     val- true = z = exrat_make (~65, 10) *)
+    var z : exrat = exrat_make (123, 4)
+    val- true = z = exrat_make (123, 4)
+    val () = replace (z, 6.5)
+    val- true = z = exrat_make (65, 10)
+    val () = neg_replace (z, z)
+    val- true = z = exrat_make (~65, 10)
 
-(*     val () = y <-> z *)
-(*     val- true = y = exrat_make (~65, 10) *)
-(*     val- true = z = exrat_make (7, 1) *)
-(*   in *)
-(*   end *)
+    val () = exchange (y, z)
+    val- true = y = exrat_make (~65, 10)
+    val- true = z = exrat_make (7, 1)
+
+    val () = reciprocal_replace (z, exrat_make (8, 1))
+    val- true = z = exrat_make (1, 8)
+    val () = reciprocal_replace (z, z)
+    val- true = z = exrat_make (8, 1)
+  in
+  end
 
 implement
 main () =
   begin
     test0 ();
-    (* test1 (); *)
+    test1 ();
     0
   end

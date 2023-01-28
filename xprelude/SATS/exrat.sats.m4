@@ -144,6 +144,8 @@ fn g0float_sgn_exrat : g0float_sgn_type exratknd = "mac#%"
 
 fn g0float_neg_exrat : exrat -<> exrat = "mac#%"
 
+fn g0float_reciprocal_exrat : exrat -<> exrat = "mac#%"
+
 fn g0float_abs_exrat : exrat -<> exrat = "mac#%"
 fn g0float_fabs_exrat : exrat -<> exrat = "mac#%"
 

@@ -601,6 +601,14 @@ my_extern_prefix`'g0float_neg_exrat (floatt2c(exrat) x)
 }
 
 my_extern_prefix`'exrat
+my_extern_prefix`'g0float_reciprocal_exrat (floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
+  mpq_inv (y[0], x[0]);
+  return y;
+}
+
+my_extern_prefix`'exrat
 my_extern_prefix`'g0float_abs_exrat (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
@@ -981,7 +989,7 @@ my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp)
 m4_foreachq(`OP',`abs, neg',
 `
 atsvoid_t0ype
-my_extern_prefix`'exrat_`'OP (REF(exrat) yp, floatt2c(exrat) x)
+my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) yp, floatt2c(exrat) x)
 {
   floatt2c(exrat) y = DEREF(exrat, yp);
   mpq_`'OP (y[0], x[0]);
@@ -989,14 +997,21 @@ my_extern_prefix`'exrat_`'OP (REF(exrat) yp, floatt2c(exrat) x)
 ')dnl
 
 atsvoid_t0ype
-my_extern_prefix`'exrat_succ (REF(exrat) yp, floatt2c(exrat) x)
+my_extern_prefix`'exrat_reciprocal_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpq_inv (y[0], x[0]);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_succ_replace (REF(exrat) yp, floatt2c(exrat) x)
 {
   floatt2c(exrat) y = DEREF(exrat, yp);
   mpq_add (y[0], x[0], _`'my_extern_prefix`'exrat_one);
 }
 
 atsvoid_t0ype
-my_extern_prefix`'exrat_pred (REF(exrat) yp, floatt2c(exrat) x)
+my_extern_prefix`'exrat_pred_replace (REF(exrat) yp, floatt2c(exrat) x)
 {
   floatt2c(exrat) y = DEREF(exrat, yp);
   mpq_sub (y[0], x[0], _`'my_extern_prefix`'exrat_one);
