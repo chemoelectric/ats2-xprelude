@@ -74,41 +74,6 @@ fn {} tostring_`'FLT1 : FLT1 -<> string
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Simple value-replacement. *)
-
-(* For ‘unboxed’ types, ‘value-replacement’ merely replaces the
-   contents of a variable, array element, etc. For ‘boxed’ types such
-   as exrat and mpfr, it instead replaces the value inside the
-   ‘box’. *)
-
-typedef g0float_replace_type (tk : tkind, a : t@ype) =
-  (&g0float tk >> _, a) -< !wrt > void
-
-fn {tk1 : tkind}
-   {tk2 : tkind}
-g0float_float_replace :
-  g0float_replace_type (tk1, g0float tk2)
-
-fn {tk1 : tkind}
-   {tk2 : tkind}
-g0float_int_replace :
-  g0float_replace_type (tk1, g0int tk2)
-
-overload g0float_replace with g0float_float_replace
-overload g0float_replace with g0float_int_replace
-overload replace with g0float_replace
-
-(*------------------------------------------------------------------*)
-(* Value exchange. *)
-
-typedef g0float_exchange_type (tk : tkind) =
-  (&g0float tk >> _, &g0float tk >> _) -< !refwrt > void
-
-fn {tk : tkind} g0float_exchange : g0float_exchange_type tk
-
-overload exchange with g0float_exchange
-
-(*------------------------------------------------------------------*)
 (* Type conversions. *)
 
 m4_foreachq(`INT',`intbases',
@@ -283,34 +248,12 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_abs_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
 ')dnl
 
-(* The value-replacement version. *)
-fn {tk : tkind}
-g0float_abs_replace :
-  (&g0float tk >> _, g0float tk) -< !wrt > void
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_abs_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void = "mac#%"
-')dnl
-
-overload abs_replace with g0float_abs_replace
-
 (*------------------------------------------------------------------*)
 (* g0float_neg: the negative of the number. *)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_neg_`'FLT1 : FLT1 -<> FLT1 = "mac#%"
 ')dnl
-
-(* The value-replacement version. *)
-fn {tk : tkind}
-g0float_neg_replace :
-  (&g0float tk >> _, g0float tk) -< !wrt > void
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_neg_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void = "mac#%"
-')dnl
-
-overload neg_replace with g0float_neg_replace
 
 (*------------------------------------------------------------------*)
 (* Unary operations. *)
@@ -321,14 +264,6 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_`'OP`'_`'FLT1 : g0float_uop_type floatt2k(FLT1) = "mac#%"
 ')dnl
 overload OP with g0float_`'OP
-
-')dnl
-m4_foreachq(`OP',`unary_ops',
-`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk) -< !wrt > void
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void = "mac#%"
-')dnl
-overload OP`'_replace with g0float_`'OP`'_replace
 
 ')dnl
 (*------------------------------------------------------------------*)
@@ -344,14 +279,6 @@ overload OP with g0float_`'OP
 ')dnl
 overload ** with g0float_pow
 
-m4_foreachq(`OP',`binary_ops',
-`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk, g0float tk) -< !wrt > void
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1, FLT1) -< !wrt > void = "mac#%"
-')dnl
-overload OP`'_replace with g0float_`'OP`'_replace
-
-')dnl
 (*------------------------------------------------------------------*)
 (* Trinary operations. *)
 
@@ -363,21 +290,13 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 overload OP with g0float_`'OP
 
 ')dnl
-m4_foreachq(`OP',`trinary_ops',
-`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk, g0float tk, g0float tk) -< !wrt > void
-m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1, FLT1, FLT1) -< !wrt > void = "mac#%"
-')dnl
-overload OP`'_replace with g0float_`'OP`'_replace
-
-')dnl
 (*------------------------------------------------------------------*)
 (* (floating point, intmax) operations. *)
 
 m4_foreachq(`OP',`floattype_intmax_ops',
 `fn {tk : tkind} g0float_`'OP : (g0float tk, intmax) -<> g0float tk
 m4_foreachq(`FLT1',`conventional_floattypes',
-`fn g0float_`'OP`'_`'FLT1 : $d2ctype (g0float_`'OP<floatt2k(FLT1)>) = "mac#%"
+`fn g0float_`'OP`'_`'FLT1 : (FLT1, intmax) -<> FLT1 = "mac#%"
 ')dnl
 overload OP with g0float_`'OP
 
@@ -470,37 +389,6 @@ m4_foreachq(`FLT1',`conventional_floattypes',
    g0float_npow. The former template function is more general. *)
 overload ** with g0float_int_pow of 1
 
-(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
-(* Value-replacement versions. *)
-
-m4_foreachq(`OP',`succ, pred',
-`
-fn {tk : tkind}
-g0float_`'OP`'_replace :
-  (&g0float tk >> _, g0float tk) -< !wrt > void
-')dnl
-
-m4_foreachq(`OP',`min, max, add, sub, mul, div, mod',
-`
-fn {tk : tkind}
-g0float_`'OP`'_replace :
-  (&g0float tk >> _, g0float tk, g0float tk) -< !wrt > void
-')dnl
-
-fn {tk : tkind}
-g0float_npow_replace :
-  (&g0float tk >> _, g0float tk, intGte 0) -< !wrt > void
-
-fn {tk  : tkind}
-   {tki : tkind}
-g0float_int_pow_replace :
-  (&g0float tk >> _, g0float tk, g0int tki) -< !wrt > void
-
-m4_foreachq(`OP',`succ, pred, min, max, add, sub, mul, div, mod,
-                  npow, int_pow',
-`overload OP`'_replace with g0float_`'OP`'_replace
-')dnl
-
 (*------------------------------------------------------------------*)
 (* Floating point constants. *)
 
@@ -524,6 +412,90 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 ')dnl
 
 ')dnl
+(*------------------------------------------------------------------*)
+(* Value-replacement. *)
+
+(* For ‘unboxed’ types, ‘value-replacement’ merely replaces the
+   contents of a variable, array element, etc. For ‘boxed’ types such
+   as exrat and mpfr, it instead replaces the value inside the
+   ‘box’. *)
+
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* Simple replacement, with potential type conversion. *)
+
+typedef g0float_replace_type (tk : tkind, a : t@ype) =
+  (&g0float tk >> _, a) -< !wrt > void
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0float_float_replace :
+  g0float_replace_type (tk1, g0float tk2)
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0float_int_replace :
+  g0float_replace_type (tk1, g0int tk2)
+
+overload g0float_replace with g0float_float_replace
+overload g0float_replace with g0float_int_replace
+overload replace with g0float_replace
+
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* Value exchange. *)
+
+typedef g0float_exchange_type (tk : tkind) =
+  (&g0float tk >> _, &g0float tk >> _) -< !refwrt > void
+
+fn {tk : tkind} g0float_exchange : g0float_exchange_type tk
+
+overload exchange with g0float_exchange
+
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* Assorted operations. *)
+
+m4_foreachq(`OP',`abs, neg, succ, pred, unary_ops',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1) -< !wrt > void
+')dnl
+overload OP`'_replace with g0float_`'OP`'_replace
+
+')dnl
+m4_foreachq(`OP',`min, max, add, sub, mul, div, mod, binary_ops',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk, g0float tk) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1, FLT1) -< !wrt > void
+')dnl
+overload OP`'_replace with g0float_`'OP`'_replace
+
+')dnl
+m4_foreachq(`OP',`trinary_ops',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk, g0float tk, g0float tk) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1, FLT1, FLT1) -< !wrt > void
+')dnl
+overload OP`'_replace with g0float_`'OP`'_replace
+
+')dnl
+m4_foreachq(`OP',`floattype_intmax_ops',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk, intmax) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _, FLT1, intmax) -< !wrt > void
+')dnl
+overload OP`'_replace with g0float_`'OP`'_replace
+
+')dnl
+fn {tk : tkind}
+g0float_npow_replace :
+  (&g0float tk >> _, g0float tk, intGte 0) -< !wrt > void
+overload npow_replace with g0float_npow_replace
+
+fn {tk  : tkind}
+   {tki : tkind}
+g0float_int_pow_replace :
+  (&g0float tk >> _, g0float tk, g0int tki) -< !wrt > void
+overload int_pow_replace with g0float_int_pow_replace
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

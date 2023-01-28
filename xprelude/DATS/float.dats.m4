@@ -113,29 +113,6 @@ implement tostring_val<FLT1> = tostring_`'FLT1
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Value-replacement. *)
-
-(* It is safer to have only type-specific implementations of
-   these. Otherwise the implementation may easily be incorrect for
-   ‘boxed’ types such as exrat and mpfr. *)
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`FLT2',`conventional_floattypes',
-`implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> (x, y) = x := g0f2f y
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`INT',`intbases',
-`implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = x := g0i2f y
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
-')dnl
-
-(*------------------------------------------------------------------*)
 (* Type conversions. *)
 
 m4_foreachq(`INT',`intbases',
@@ -189,25 +166,19 @@ m4_foreachq(`PARAM',`decimal_dig, dig, min_10_exp, max_10_exp',
 (*------------------------------------------------------------------*)
 (* Infinity and NaN. *)
 
-m4_foreachq(`FUNC',`infinity, nan, snan,
-                    isfinite, isnormal, isnan, isinf',
+m4_foreachq(`OP',`infinity, nan, snan,
+                  isfinite, isnormal, isnan, isinf',
 `m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
+`implement g0float_`'OP<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
 ')dnl
 
 ')dnl
 (*------------------------------------------------------------------*)
 (* Sign, absolute value, negative. *)
 
-m4_foreachq(`FUNC',`sgn, abs, neg',
+m4_foreachq(`OP',`sgn, abs, neg',
 `m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'FUNC<floatt2k(FLT1)> = g0float_`'FUNC`'_`'FLT1
-')dnl
-')dnl
-
-m4_foreachq(`FUNC',`abs, neg',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'FUNC`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'FUNC<floatt2k(FLT1)> x
+`implement g0float_`'OP<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
 ')dnl
 ')dnl
 
@@ -293,21 +264,6 @@ m4_foreachq(`OP',`unary_ops, binary_ops, trinary_ops,
 ')dnl
 
 ')dnl
-m4_foreachq(`OP',`unary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'OP<floatt2k(FLT1)> x
-')dnl
-')dnl
-m4_foreachq(`OP',`binary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y) = z := g0float_`'OP<floatt2k(FLT1)> (x, y)
-')dnl
-')dnl
-m4_foreachq(`OP',`trinary_ops',
-`m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y, w) = z := g0float_`'OP<floatt2k(FLT1)> (x, y, w)
-')dnl
-')dnl
 
 (*------------------------------------------------------------------*)
 (* `Comparisons.' *)
@@ -358,15 +314,6 @@ g0float_pred x =
 m4_foreachq(`FLT1',`conventional_floattypes',
 `m4_foreachq(`OP',`min,max,add,sub,mul,div,mod,succ,pred',
 `implement g0float_`'OP<floatt2k(FLT1)> = g0float_`'OP`'_`'FLT1
-')
-')dnl
-
-m4_foreachq(`FLT1',`conventional_floattypes',
-`m4_foreachq(`OP',`succ,pred',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'OP`'_`'FLT1 x
-')dnl
-m4_foreachq(`OP',`min,max,add,sub,mul,div,mod',
-`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y) = z := g0float_`'OP`'_`'FLT1 (x, y)
 ')
 ')dnl
 
@@ -453,11 +400,6 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 m4_foreachq(`FLT1',`regular_floattypes',
 `implement g0float_npow_`'FLT1<> = _g0float_npow_`'FLT1
 ')dnl
-')dnl
-
-(* Value-replacement versions. *)
-m4_foreachq(`FLT1',`conventional_floattypes',
-`implement g0float_npow_replace<floatt2k(FLT1)> (z, x, i) = z := g0float_npow<floatt2k(FLT1)> (x, i)
 ')dnl
 
 (*------------------------------------------------------------------*)
@@ -557,12 +499,57 @@ g0float_int_pow_`'FLT1 (x, n) =
   g0float_intmax_pow_`'FLT1 (x, g0int2int<tki,intmaxknd> n)
 ')dnl
 
-(* Value-replacement versions. *)
+(*------------------------------------------------------------------*)
+(* Value-replacement. *)
+
+(* It is safer to have only type-specific implementations of
+   these. Otherwise the implementation may easily be incorrect for
+   ‘boxed’ types such as exrat and mpfr. *)
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`FLT2',`conventional_floattypes',
+`implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> (x, y) = x := g0f2f y
+')dnl
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`m4_foreachq(`INT',`intbases',
+`implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = x := g0i2f y
+')dnl
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
+')dnl
+
+m4_foreachq(`OP',`abs, neg, succ, pred, unary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'OP<floatt2k(FLT1)> x
+')dnl
+')dnl
+
+m4_foreachq(`OP',`min, max, add, sub, mul, div, mod,
+                  binary_ops, floattype_intmax_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y) = z := g0float_`'OP<floatt2k(FLT1)> (x, y)
+')dnl
+')dnl
+
+m4_foreachq(`OP',`trinary_ops',
+`m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x, y, w) = z := g0float_`'OP<floatt2k(FLT1)> (x, y, w)
+')dnl
+')dnl
+
+m4_foreachq(`FLT1',`conventional_floattypes',
+`implement g0float_npow_replace<floatt2k(FLT1)> (z, x, i) = z := g0float_npow<floatt2k(FLT1)> (x, i)
+')dnl
+
 m4_foreachq(`FLT1',`conventional_floattypes',
 `m4_foreachq(`INT',`intbases',
 `implement g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)> (z, x, i) =dnl
  z := g0float_int_pow<floatt2k(FLT1)><intb2k(INT)> (x, i)
-')
+')dnl
 ')dnl
 
 (*------------------------------------------------------------------*)
