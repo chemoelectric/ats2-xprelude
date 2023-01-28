@@ -796,23 +796,6 @@ test25 () : void =
   in
   end
 
-(* fn *)
-(* test26 () : void = *)
-(*   let *)
-(*     var x = 5.0F *)
-(*     val () = negate x *)
-(*     val- true = x = ~5.0F *)
-
-(*     var x = 5.0 *)
-(*     val () = negate x *)
-(*     val- true = x = ~5.0 *)
-
-(*     var x = 5.0L *)
-(*     val () = negate x *)
-(*     val- true = x = ~5.0L *)
-(*   in *)
-(*   end *)
-
 fn
 test27 () : void =
   let
@@ -825,21 +808,6 @@ test27 () : void =
   in
   end
 
-(* fn *)
-(* test28 () : void = *)
-(*   let *)
-(*     var x = 7.0F *)
-(*     val () = x <|+| 3.0F *)
-(*     val- true = x = 10.0F *)
-(*     val () = x <|-| ~4.0F *)
-(*     val- true = x = 14.0F *)
-(*     val () = x <|*| 4.0F *)
-(*     val- true = x = 56.0F *)
-(*     val () = x <|/| ~8.0F *)
-(*     val- true = x = ~7.0F *)
-(*   in *)
-(*   end *)
-
 fn
 test29 () : void =
   let
@@ -849,7 +817,7 @@ test29 () : void =
     val- true = x = ~1234.0
     val () = add_replace (x, x, 234.0)
     val- true = x = ~1000.0
-    val () = sub_replace (x, ~2000.0, x)
+    val () = sub_replace (x, x, ~2000.0)
     val- true = x = 1000.0
     val () = mul_replace (x, 2.0, x)
     val- true = x = 2000.0
@@ -899,6 +867,6 @@ main () =
     (* test26 (); *)
     test27 ();
     (* test28 (); *)
-    (* test29 (); *)
+    test29 ();
     0
   end
