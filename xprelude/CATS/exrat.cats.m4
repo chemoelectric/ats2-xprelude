@@ -279,8 +279,12 @@ m4_foreachq(`OP',`trinary_ops',
 
 atsvoid_t0ype my_extern_prefix`'exrat_npow_replace (REF(exrat), floatt2c(exrat), intb2c(int));
 
+atsvoid_t0ype my_extern_prefix`'exrat_intmax_pow_replace (REF(exrat), floatt2c(exrat), intb2c(intmax));
 m4_foreachq(`INT',`intbases',
-`atsvoid_t0ype my_extern_prefix`'exrat_`'INT`'_pow_replace (REF(exrat), floatt2c(exrat), intb2c(INT));
+`m4_if(INT,`intmax',,
+`#define my_extern_prefix`'exrat_`'INT`'_pow_replace(zp, x, n)dnl
+ my_extern_prefix`'exrat_intmax_pow_replace ((zp), (x), (intb2c(intmax)) (n))
+')dnl
 ')dnl
 
 /*------------------------------------------------------------------*/

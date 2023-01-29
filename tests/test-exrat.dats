@@ -440,11 +440,179 @@ test2 () : void =
   in
   end
 
+fn
+test3 () : void =
+  let
+    var x = i2ex 0
+
+    val () = neg_replace (x, i2ex 4)
+    val- true = x = i2ex ~4
+
+    val () = neg_replace (x, i2ex ~4)
+    val- true = x = i2ex 4
+
+    val () = succ_replace (x, i2ex 4)
+    val- true = x = i2ex 5
+
+    val () = pred_replace (x, i2ex 4)
+    val- true = x = i2ex 3
+
+    val () = abs_replace (x, i2ex 4)
+    val- true = x = i2ex 4
+
+    val () = abs_replace (x, i2ex ~4)
+    val- true = x = i2ex 4
+
+    val () = fabs_replace (x, i2ex 4)
+    val- true = x = i2ex 4
+
+    val () = fabs_replace (x, i2ex ~4)
+    val- true = x = i2ex 4
+
+    val () = add_replace (x, i2ex 4, i2ex 6)
+    val- true = x = i2ex 10
+
+    val () = sub_replace (x, i2ex 4, i2ex 6)
+    val- true = x = i2ex ~2
+
+    val () = mul_replace (x, i2ex 4, i2ex 6)
+    val- true = x = i2ex 24
+
+    val () = div_replace (x, i2ex 4, i2ex 6)
+    val- true = x = exrat_make (4, 6)
+
+    val () = min_replace (x, i2ex 4, i2ex 6)
+    val- true = x = i2ex 4
+
+    val () = min_replace (x, i2ex 6, i2ex 4)
+    val- true = x = i2ex 4
+
+    val () = max_replace (x, i2ex 4, i2ex 6)
+    val- true = x = i2ex 6
+
+    val () = max_replace (x, i2ex 6, i2ex 4)
+    val- true = x = i2ex 6
+
+    val () = fma_replace (x, i2ex 6, i2ex 4, i2ex 11)
+    val- true = x = i2ex 35
+  in
+  end
+
+fn
+test4 () : void =
+  let
+    var x = i2ex 0
+
+    val () = round_replace (x, exrat_make (3, 2))
+    val- true = x = i2ex 2
+    val () = round_replace (x, exrat_make (5, 2))
+    val- true = x = i2ex 3
+    val () = round_replace (x, exrat_make (7, 2))
+    val- true = x = i2ex 4
+
+    val () = round_replace (x, exrat_make (~3, 2))
+    val- true = x = i2ex ~2
+    val () = round_replace (x, exrat_make (~5, 2))
+    val- true = x = i2ex ~3
+    val () = round_replace (x, exrat_make (~7, 2))
+    val- true = x = i2ex ~4
+
+    val () = nearbyint_replace (x, exrat_make (3, 2))
+    val- true = x = i2ex 2
+    val () = nearbyint_replace (x, exrat_make (5, 2))
+    val- true = x = i2ex 2
+    val () = nearbyint_replace (x, exrat_make (7, 2))
+    val- true = x = i2ex 4
+
+    val () = nearbyint_replace (x, exrat_make (~3, 2))
+    val- true = x = i2ex ~2
+    val () = nearbyint_replace (x, exrat_make (~5, 2))
+    val- true = x = i2ex ~2
+    val () = nearbyint_replace (x, exrat_make (~7, 2))
+    val- true = x = i2ex ~4
+
+    val () = rint_replace (x, exrat_make (3, 2))
+    val- true = x = i2ex 2
+    val () = rint_replace (x, exrat_make (5, 2))
+    val- true = x = i2ex 2
+    val () = rint_replace (x, exrat_make (7, 2))
+    val- true = x = i2ex 4
+
+    val () = rint_replace (x, exrat_make (~3, 2))
+    val- true = x = i2ex ~2
+    val () = rint_replace (x, exrat_make (~5, 2))
+    val- true = x = i2ex ~2
+    val () = rint_replace (x, exrat_make (~7, 2))
+    val- true = x = i2ex ~4
+
+    val () = floor_replace (x, exrat_make (3, 2))
+    val- true = x = i2ex 1
+    val () = floor_replace (x, exrat_make (5, 2))
+    val- true = x = i2ex 2
+    val () = floor_replace (x, exrat_make (7, 2))
+    val- true = x = i2ex 3
+
+    val () = floor_replace (x, exrat_make (~3, 2))
+    val- true = x = i2ex ~2
+    val () = floor_replace (x, exrat_make (~5, 2))
+    val- true = x = i2ex ~3
+    val () = floor_replace (x, exrat_make (~7, 2))
+    val- true = x = i2ex ~4
+
+    val () = ceil_replace (x, exrat_make (3, 2))
+    val- true = x = i2ex 2
+    val () = ceil_replace (x, exrat_make (5, 2))
+    val- true = x = i2ex 3
+    val () = ceil_replace (x, exrat_make (7, 2))
+    val- true = x = i2ex 4
+
+    val () = ceil_replace (x, exrat_make (~3, 2))
+    val- true = x = i2ex ~1
+    val () = ceil_replace (x, exrat_make (~5, 2))
+    val- true = x = i2ex ~2
+    val () = ceil_replace (x, exrat_make (~7, 2))
+    val- true = x = i2ex ~3
+
+    val () = trunc_replace (x, exrat_make (3, 2))
+    val- true = x = i2ex 1
+    val () = trunc_replace (x, exrat_make (5, 2))
+    val- true = x = i2ex 2
+    val () = trunc_replace (x, exrat_make (7, 2))
+    val- true = x = i2ex 3
+
+    val () = trunc_replace (x, exrat_make (~3, 2))
+    val- true = x = i2ex ~1
+    val () = trunc_replace (x, exrat_make (~5, 2))
+    val- true = x = i2ex ~2
+    val () = trunc_replace (x, exrat_make (~7, 2))
+    val- true = x = i2ex ~3
+  in
+  end
+
+fn
+test5 () : void =
+  let
+    var x = i2ex 0
+
+    val () = npow_replace (x, i2ex 2, 10)
+    val- true = x = i2ex 1024
+
+    val () = int_pow_replace (x, i2ex 2, 10L)
+    val- true = x = i2ex 1024
+
+    val () = int_pow_replace (x, i2ex 2, ~10L)
+    val- true = x = exrat_make (1, 1024)
+  in
+  end
+
 implement
 main () =
   begin
     test0 ();
     test1 ();
     test2 ();
+    test3 ();
+    test4 ();
+    test5 ();
     0
   end

@@ -33,6 +33,7 @@ staload _ = "xprelude/DATS/fixed32p32.dats"
 
 (*------------------------------------------------------------------*)
 %{
+dnl------------------------------------------------------------------
 
 #include <assert.h>
 #include <stdint.h>
@@ -660,47 +661,39 @@ my_extern_prefix`'g0float_sub_exrat (floatt2c(exrat) x,
 
 my_extern_prefix`'exrat
 my_extern_prefix`'g0float_min_exrat (floatt2c(exrat) x,
-                                 floatt2c(exrat) y)
+                                     floatt2c(exrat) y)
 {
   floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
-  int cmp = mpq_cmp (x[0], y[0]);
-  if (cmp <= 0)
-    mpq_set (z[0], x[0]);
-  else
-    mpq_set (z[0], y[0]);
+  my_extern_prefix`'exrat_min_replace (&z, x, y);
   return z;
 }
 
 my_extern_prefix`'exrat
 my_extern_prefix`'g0float_max_exrat (floatt2c(exrat) x,
-                                 floatt2c(exrat) y)
+                                     floatt2c(exrat) y)
 {
   floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
-  int cmp = mpq_cmp (x[0], y[0]);
-  if (cmp >= 0)
-    mpq_set (z[0], x[0]);
-  else
-    mpq_set (z[0], y[0]);
+  my_extern_prefix`'exrat_max_replace (&z, x, y);
   return z;
 }
 
 atstype_bool
 my_extern_prefix`'g0float_eq_exrat (floatt2c(exrat) x,
-                                floatt2c(exrat) y)
+                                    floatt2c(exrat) y)
 {
   return my_extern_prefix`'boolc2ats (mpq_equal (x[0], y[0]));
 }
 
 atstype_bool
 my_extern_prefix`'g0float_neq_exrat (floatt2c(exrat) x,
-                                 floatt2c(exrat) y)
+                                     floatt2c(exrat) y)
 {
   return my_extern_prefix`'boolc2ats (!(mpq_equal (x[0], y[0])));
 }
 
 atstype_bool
 my_extern_prefix`'g0float_lt_exrat (floatt2c(exrat) x,
-                                floatt2c(exrat) y)
+                                    floatt2c(exrat) y)
 {
   return my_extern_prefix`'boolc2ats (mpq_cmp (x[0], y[0]) < 0);
 }
@@ -766,22 +759,7 @@ my_extern_prefix`'exrat
 my_extern_prefix`'g0float_round_exrat (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-
-  mpz_t tmp;
-  mpz_init (tmp);
-  
-  mpq_t x1;
-  mpq_init (x1);
-
-  if (0 <= mpq_sgn (x[0]))
-    mpq_add (x1, x[0], _`'my_extern_prefix`'exrat_onehalf);
-  else
-    mpq_sub (x1, x[0], _`'my_extern_prefix`'exrat_onehalf);
-
-  mpz_tdiv_q (tmp, mpq_numref (x1), mpq_denref (x1));
-
-  mpq_set_z (y[0], tmp);
-
+  my_extern_prefix`'exrat_round_replace (&y, x);
   return y;
 }
 
@@ -789,32 +767,7 @@ my_extern_prefix`'exrat
 my_extern_prefix`'g0float_nearbyint_exrat (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-
-  mpz_t tmp;
-  mpz_init (tmp);
-
-  mpq_t xfloor;
-  mpq_init (xfloor);
-
-  mpq_t xdiff;
-  mpq_init (xdiff);
-
-  mpz_fdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
-  int xfloor_is_odd = mpz_tstbit (tmp, 0);
-  mpq_set_z (xfloor, tmp);
-
-  mpq_sub (xdiff, x[0], xfloor);
-  int cmp = mpq_cmp (xdiff, _`'my_extern_prefix`'exrat_onehalf);
-
-  if (cmp < 0)
-    mpq_set (y[0], xfloor);
-  else if (cmp > 0)
-    mpq_add (y[0], xfloor, _`'my_extern_prefix`'exrat_one);
-  else if (xfloor_is_odd)
-    mpq_add (y[0], xfloor, _`'my_extern_prefix`'exrat_one);
-  else
-    mpq_set (y[0], xfloor);
-
+  my_extern_prefix`'exrat_nearbyint_replace (&y, x);
   return y;
 }
 
@@ -822,13 +775,7 @@ my_extern_prefix`'exrat
 my_extern_prefix`'g0float_floor_exrat (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-
-  mpz_t tmp;
-  mpz_init (tmp);
-
-  mpz_fdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
-  mpq_set_z (y[0], tmp);
-
+  my_extern_prefix`'exrat_floor_replace (&y, x);
   return y;
 }
 
@@ -836,13 +783,7 @@ my_extern_prefix`'exrat
 my_extern_prefix`'g0float_ceil_exrat (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-
-  mpz_t tmp;
-  mpz_init (tmp);
-
-  mpz_cdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
-  mpq_set_z (y[0], tmp);
-
+  my_extern_prefix`'exrat_ceil_replace (&y, x);
   return y;
 }
 
@@ -850,89 +791,25 @@ my_extern_prefix`'exrat
 my_extern_prefix`'g0float_trunc_exrat (floatt2c(exrat) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-
-  mpz_t tmp;
-  mpz_init (tmp);
-
-  mpz_tdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
-  mpq_set_z (y[0], tmp);
-
+  my_extern_prefix`'exrat_trunc_replace (&y, x);
   return y;
 }
 
 my_extern_prefix`'exrat
 my_extern_prefix`'g0float_npow_exrat (floatt2c(exrat) x,
-                                  atstype_int n)
+                                      intb2c(int) n)
 {
   floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
-
-  assert (0 <= n);
-
-  mpq_t y;
-  mpq_init (y);
-  mpq_set (y, x[0]);
-
-  mpq_t ysquare;
-  mpq_init (ysquare);
-
-  mpq_t accum;
-  mpq_init (accum);
-  mpq_set (accum, _`'my_extern_prefix`'exrat_one);
-
-  while (2 <= n)
-    {
-      int nhalf = (n >> 1);
-      mpq_mul (ysquare, y, y);
-      if (nhalf + nhalf != n)
-        mpq_mul (accum, accum, y);
-      n = nhalf;
-      mpq_set (y, ysquare);
-    }
-  if (n == 1)
-    mpq_mul (accum, accum, y);
-
-  mpq_set (z[0], accum);
-
+  my_extern_prefix`'exrat_npow_replace (&z, x, n);
   return z;
 }
 
 my_extern_prefix`'exrat
 my_extern_prefix`'_g0float_intmax_pow_exrat (floatt2c(exrat) x,
-                                         intb2c(intmax) n)
+                                             intb2c(intmax) n)
 {
   floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
-
-  mpq_t y;
-  mpq_init (y);
-  if (0 <= n)
-    mpq_set (y, x[0]);
-  else
-    {
-      n = -n;
-      mpq_inv (y, x[0]);
-    }
-
-  mpq_t ysquare;
-  mpq_init (ysquare);
-
-  mpq_t accum;
-  mpq_init (accum);
-  mpq_set (accum, _`'my_extern_prefix`'exrat_one);
-
-  while (2 <= n)
-    {
-      int nhalf = (n >> 1);
-      mpq_mul (ysquare, y, y);
-      if (nhalf + nhalf != n)
-        mpq_mul (accum, accum, y);
-      n = nhalf;
-      mpq_set (y, ysquare);
-    }
-  if (n == 1)
-    mpq_mul (accum, accum, y);
-
-  mpq_set (z[0], accum);
-
+  my_extern_prefix`'exrat_intmax_pow_replace (&z, x, n);
   return z;
 }
 
@@ -1000,8 +877,7 @@ my_extern_prefix`'exrat_double_replace (REF(exrat) yp, floatt2c(double) x)
   mpq_set_d (y[0], x);
 }
 
-m4_foreachq(FLT1,`float,double',
-`
+m4_foreachq(FLT1,`float,double',`
 atsvoid_t0ype
 my_extern_prefix`'FLT1`'_exrat_replace (REF(FLT1) yp, floatt2c(exrat) x)
 {
@@ -1010,8 +886,7 @@ my_extern_prefix`'FLT1`'_exrat_replace (REF(FLT1) yp, floatt2c(exrat) x)
 }
 ')dnl
 
-m4_foreachq(`OP',`abs, neg',
-`
+m4_foreachq(`OP',`abs, neg',`
 atsvoid_t0ype
 my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) yp, floatt2c(exrat) x)
 {
@@ -1019,6 +894,12 @@ my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) yp, floatt2c(exrat) x)
   mpq_`'OP (y[0], x[0]);
 }
 ')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_fabs_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  my_extern_prefix`'exrat_abs_replace (yp, x);
+}
 
 atsvoid_t0ype
 my_extern_prefix`'exrat_reciprocal_replace (REF(exrat) yp, floatt2c(exrat) x)
@@ -1041,6 +922,225 @@ my_extern_prefix`'exrat_pred_replace (REF(exrat) yp, floatt2c(exrat) x)
   mpq_sub (y[0], x[0], _`'my_extern_prefix`'exrat_one);
 }
 
+m4_foreachq(`OP',`add, sub, mul, div',`
+atsvoid_t0ype
+my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) zp,
+                                        floatt2c(exrat) x,
+                                        floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = DEREF(exrat, zp);
+  mpq_`'OP (z[0], x[0], y[0]);
+}
+')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_min_replace (REF(exrat) zp,
+                                     floatt2c(exrat) x,
+                                     floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = DEREF(exrat, zp);
+  int cmp = mpq_cmp (x[0], y[0]);
+  if (cmp <= 0)
+    mpq_set (z[0], x[0]);
+  else
+    mpq_set (z[0], y[0]);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_max_replace (REF(exrat) zp,
+                                     floatt2c(exrat) x,
+                                     floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = DEREF(exrat, zp);
+  int cmp = mpq_cmp (x[0], y[0]);
+  if (cmp >= 0)
+    mpq_set (z[0], x[0]);
+  else
+    mpq_set (z[0], y[0]);
+}
+
+m4_foreachq(`OP',`fma',`
+atsvoid_t0ype
+my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) wp,
+                                        floatt2c(exrat) x,
+                                        floatt2c(exrat) y,
+                                        floatt2c(exrat) z)
+{
+  floatt2c(exrat) w = DEREF(exrat, wp);
+  mpq_mul (w[0], x[0], y[0]);
+  mpq_add (w[0], w[0], z[0]);
+}
+')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_round_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+
+  mpz_t tmp;
+  mpz_init (tmp);
+  
+  mpq_t x1;
+  mpq_init (x1);
+
+  if (0 <= mpq_sgn (x[0]))
+    mpq_add (x1, x[0], _`'my_extern_prefix`'exrat_onehalf);
+  else
+    mpq_sub (x1, x[0], _`'my_extern_prefix`'exrat_onehalf);
+
+  mpz_tdiv_q (tmp, mpq_numref (x1), mpq_denref (x1));
+
+  mpq_set_z (y[0], tmp);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_nearbyint_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+
+  mpz_t tmp;
+  mpz_init (tmp);
+
+  mpq_t xfloor;
+  mpq_init (xfloor);
+
+  mpq_t xdiff;
+  mpq_init (xdiff);
+
+  mpz_fdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
+  int xfloor_is_odd = mpz_tstbit (tmp, 0);
+  mpq_set_z (xfloor, tmp);
+
+  mpq_sub (xdiff, x[0], xfloor);
+  int cmp = mpq_cmp (xdiff, _`'my_extern_prefix`'exrat_onehalf);
+
+  if (cmp < 0)
+    mpq_set (y[0], xfloor);
+  else if (cmp > 0)
+    mpq_add (y[0], xfloor, _`'my_extern_prefix`'exrat_one);
+  else if (xfloor_is_odd)
+    mpq_add (y[0], xfloor, _`'my_extern_prefix`'exrat_one);
+  else
+    mpq_set (y[0], xfloor);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_rint_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  my_extern_prefix`'exrat_nearbyint_replace (yp, x);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_floor_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+
+  mpz_t tmp;
+  mpz_init (tmp);
+
+  mpz_fdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
+  mpq_set_z (y[0], tmp);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_ceil_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+
+  mpz_t tmp;
+  mpz_init (tmp);
+
+  mpz_cdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
+  mpq_set_z (y[0], tmp);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_trunc_replace (REF(exrat) yp, floatt2c(exrat) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+
+  mpz_t tmp;
+  mpz_init (tmp);
+
+  mpz_tdiv_q (tmp, mpq_numref (x[0]), mpq_denref (x[0]));
+  mpq_set_z (y[0], tmp);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_npow_replace (REF(exrat) zp,
+                                      floatt2c(exrat) x,
+                                      intb2c(int) n)
+{
+  assert (0 <= n);
+
+  floatt2c(exrat) z = DEREF(exrat, zp);
+
+  mpq_t y;
+  mpq_init (y);
+  mpq_set (y, x[0]);
+
+  mpq_t ysquare;
+  mpq_init (ysquare);
+
+  mpq_t accum;
+  mpq_init (accum);
+  mpq_set (accum, _`'my_extern_prefix`'exrat_one);
+
+  while (2 <= n)
+    {
+      int nhalf = (n >> 1);
+      mpq_mul (ysquare, y, y);
+      if (nhalf + nhalf != n)
+        mpq_mul (accum, accum, y);
+      n = nhalf;
+      mpq_set (y, ysquare);
+    }
+  if (n == 1)
+    mpq_mul (accum, accum, y);
+
+  mpq_set (z[0], accum);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_intmax_pow_replace (REF(exrat) zp,
+                                            floatt2c(exrat) x,
+                                            intb2c(intmax) n)
+{
+  floatt2c(exrat) z = DEREF(exrat, zp);
+
+  mpq_t y;
+  mpq_init (y);
+  if (0 <= n)
+    mpq_set (y, x[0]);
+  else
+    {
+      n = -n;
+      mpq_inv (y, x[0]);
+    }
+
+  mpq_t ysquare;
+  mpq_init (ysquare);
+
+  mpq_t accum;
+  mpq_init (accum);
+  mpq_set (accum, _`'my_extern_prefix`'exrat_one);
+
+  while (2 <= n)
+    {
+      int nhalf = (n >> 1);
+      mpq_mul (ysquare, y, y);
+      if (nhalf + nhalf != n)
+        mpq_mul (accum, accum, y);
+      n = nhalf;
+      mpq_set (y, ysquare);
+    }
+  if (n == 1)
+    mpq_mul (accum, accum, y);
+
+  mpq_set (z[0], accum);
+}
+
+dnl------------------------------------------------------------------
 %}
 (*------------------------------------------------------------------*)
 
