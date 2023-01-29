@@ -74,33 +74,17 @@ atstype_string my_extern_prefix`'tostring_exrat_base10 (floatt2c(exrat));
 
 floatt2c(exrat) my_extern_prefix`'g0int2float_lint_exrat (atstype_lint);
 
-#define my_extern_prefix`'g0int2float_int8_exrat(x)                 \
-  (my_extern_prefix`'g0int2float_lint_exrat ((atstype_lint) (x)))
-#define my_extern_prefix`'g0int2float_int16_exrat(x)                \
-  (my_extern_prefix`'g0int2float_lint_exrat ((atstype_lint) (x)))
-#define my_extern_prefix`'g0int2float_int32_exrat(x)                \
-  (my_extern_prefix`'g0int2float_lint_exrat ((atstype_lint) (x)))
-#define my_extern_prefix`'g0int2float_sint_exrat(x)                 \
-  (my_extern_prefix`'g0int2float_lint_exrat ((atstype_lint) (x)))
-#define my_extern_prefix`'g0int2float_int_exrat(x)                  \
-  (my_extern_prefix`'g0int2float_lint_exrat ((atstype_lint) (x)))
-#define my_extern_prefix`'g0int2float_ssize_exrat(x)                \
-  (my_extern_prefix`'g0int2float_lint_exrat ((atstype_lint) (x)))
+m4_foreachq(`INT',`int8,int16,int32,sint,int,ssize',
+`#define my_extern_prefix`'g0int2float_`'INT`'_exrat(x)dnl
+  (my_extern_prefix`'g0int2float_lint_exrat ((intb2c(lint)) (x)))
+')dnl
 
 atstype_lint my_extern_prefix`'g0float2int_exrat_lint (floatt2c(exrat));
 
-#define my_extern_prefix`'g0float2int_exrat_int8(x)             \
-  ((atstype_int8) my_extern_prefix`'g0float2int_exrat_lint (x))
-#define my_extern_prefix`'g0float2int_exrat_int16(x)                \
-  ((atstype_int16) my_extern_prefix`'g0float2int_exrat_lint (x))
-#define my_extern_prefix`'g0float2int_exrat_int32(x)                \
-  ((atstype_int32) my_extern_prefix`'g0float2int_exrat_lint (x))
-#define my_extern_prefix`'g0float2int_exrat_sint(x)             \
-  ((atstype_sint) my_extern_prefix`'g0float2int_exrat_lint (x))
-#define my_extern_prefix`'g0float2int_exrat_int(x)              \
-  ((atstype_int) my_extern_prefix`'g0float2int_exrat_lint (x))
-#define my_extern_prefix`'g0float2int_exrat_ssize(x)                \
-  ((atstype_ssize) my_extern_prefix`'g0float2int_exrat_lint (x))
+m4_foreachq(`INT',`int8,int16,int32,sint,int,ssize',
+`#define my_extern_prefix`'g0float2int_exrat_`'INT`'(x)dnl
+  ((intb2c(INT)) my_extern_prefix`'g0float2int_exrat_lint (x))
+')dnl
 
 m4_foreachq(`INT',`int64,llint,intmax',
 `
@@ -121,7 +105,7 @@ floatt2c(exrat) my_extern_prefix`'g0float2float_fixed32p32_exrat (my_extern_pref
 floatt2c(exrat) my_extern_prefix`'g0float2float_fixed32p32_exrat_32bit (my_extern_prefix`'fixed32p32 x);
 
 #define my_extern_prefix`'g0float2float_float_exrat(x)                  \
-  (my_extern_prefix`'g0float2float_double_exrat ((atstype_double) (x)))
+  (my_extern_prefix`'g0float2float_double_exrat ((intb2c(double)) (x)))
 
 atstype_double my_extern_prefix`'g0float2float_exrat_double (floatt2c(exrat) x);
 atstype_ldouble my_extern_prefix`'g0float2float_exrat_ldouble (floatt2c(exrat) x);
@@ -241,15 +225,67 @@ floatt2c(exrat) floatt2c(exrat)_div_exp2 (floatt2c(exrat), atstype_ulint);
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 
-atsvoid_t0ype my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x);
 atsvoid_t0ype my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp);
 
-m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred',
-`atsvoid_t0ype my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat) yp, floatt2c(exrat) xp);
+atsvoid_t0ype my_extern_prefix`'exrat_exrat_replace (REF(exrat) yp, floatt2c(exrat) x);
+
+m4_foreachq(`INT',`int8,int16,int32,sint,int,ssize',
+`#define my_extern_prefix`'exrat_`'INT`'_replace(yp, x)dnl
+ my_extern_prefix`'exrat_lint_replace (yp, (intb2c(lint)) x)
 ')dnl
+
+atsvoid_t0ype my_extern_prefix`'exrat_lint_replace (REF(exrat) yp, floatt2c(lint) x);
+
+m4_foreachq(`FLT1',`float',
+`#define my_extern_prefix`'exrat_`'FLT1`'_replace(yp, x)dnl
+ my_extern_prefix`'exrat_double_replace (yp, (intb2c(double)) x)
+')dnl
+
+atsvoid_t0ype my_extern_prefix`'exrat_double_replace (REF(exrat) yp, floatt2c(double) x);
+
+m4_foreachq(FLT1,`float,double',
+`atsvoid_t0ype my_extern_prefix`'FLT1`'_exrat_replace (REF(FLT1) yp, floatt2c(exrat) x);
+')dnl
+
+/* FIXME: The following type-conversion-replacements are done by
+          creating a new exrat and then doing an
+          exrat_exrat_replace. Consider writing more efficient
+          implementations. */
+m4_foreachq(`INT',`intbases',
+`m4_ifelementq(INT,`int8,int16,int32,sint,int,lint,ssize',,
+`#define my_extern_prefix`'exrat_`'INT`'_replace(yp, x)dnl
+ my_extern_prefix`'exrat_exrat_replace ((yp), my_extern_prefix`'g0int2float_`'INT`'_exrat ((x)))
+')dnl
+')dnl
+m4_foreachq(`FLT1',`floattypes_without_exrat',
+`m4_ifelementq(FLT1,`float,double',,
+`#define my_extern_prefix`'exrat_`'FLT1`'_replace(yp, x)dnl
+ my_extern_prefix`'exrat_exrat_replace ((yp), my_extern_prefix`'g0float2float_`'FLT1`'_exrat ((x)))
+')dnl
+')dnl
+
+m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred, unary_ops',
+`atsvoid_t0ype my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat), floatt2c(exrat));
+')dnl
+
+m4_foreachq(`OP',`min, max, add, sub, mul, div, mod,
+                  binary_ops, floattype_intmax_ops',
+`atsvoid_t0ype my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat), floatt2c(exrat), floatt2c(exrat));
+')dnl
+
+m4_foreachq(`OP',`trinary_ops',
+`atsvoid_t0ype my_extern_prefix`'exrat_`'OP`'_replace (REF(exrat), floatt2c(exrat), floatt2c(exrat), floatt2c(exrat));
+')dnl
+
+atsvoid_t0ype my_extern_prefix`'exrat_npow_replace (REF(exrat), floatt2c(exrat), intb2c(int));
+
+m4_foreachq(`INT',`intbases',
+`atsvoid_t0ype my_extern_prefix`'exrat_`'INT`'_pow_replace (REF(exrat), floatt2c(exrat), intb2c(INT));
+')dnl
+
 /*------------------------------------------------------------------*/
 
-#endif /* MY_EXTERN_PREFIX`'CATS__EXRAT_CATS__HEADER_GUARD__ */
+#endif `/*' MY_EXTERN_PREFIX`'CATS__EXRAT_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

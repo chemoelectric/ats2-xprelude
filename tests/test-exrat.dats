@@ -427,10 +427,24 @@ test1 () : void =
   in
   end
 
+fn
+test2 () : void =
+  let
+    var x : float = 5.0F
+    val () = replace (x, exrat_make (1, 8))
+    val- true = x = 0.125F
+
+    var x : double = 5.0
+    val () = replace (x, exrat_make (1, 8))
+    val- true = x = 0.125
+  in
+  end
+
 implement
 main () =
   begin
     test0 ();
     test1 ();
+    test2 ();
     0
   end

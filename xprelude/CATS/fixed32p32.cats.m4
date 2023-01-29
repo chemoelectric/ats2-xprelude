@@ -373,7 +373,7 @@ my_extern_prefix`'tostring_fixed32p32_given_decimal_places (my_extern_prefix`'fi
   return my_extern_prefix`'tostrptr_fixed32p32_given_decimal_places (x, decimal_places);
 }
 
-#endif /* MY_EXTERN_PREFIX`'CATS__FIXED32P32_CATS__HEADER_GUARD__ */
+#endif `/*' MY_EXTERN_PREFIX`'CATS__FIXED32P32_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

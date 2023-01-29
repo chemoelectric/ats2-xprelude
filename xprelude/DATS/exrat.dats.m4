@@ -126,47 +126,7 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Value-replacement. *)
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Simple value-replacement. *)
-
-extern fn exrat_exrat_replace : g0float_replace_type (exratknd, exrat) = "mac#%"
-implement g0float_float_replace<exratknd><exratknd> = exrat_exrat_replace
-
-(* FIXME: The current implementations below may create a new exrat
-          instance, then copy its value into the target instance.  It
-          would be faster to do the type conversion on the
-          fly. IMPLEMENT THAT! *)
-
-m4_foreachq(`FLT1',`exrat',
-`m4_foreachq(`FLT2',`floattypes_without_exrat',
-`implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> (x, y) = exrat_exrat_replace (x, g0f2f y)
-implement g0float_float_replace<floatt2k(FLT2)><floatt2k(FLT1)> (x, y) =dnl
- g0float_float_replace<floatt2k(FLT2)><floatt2k(FLT2)> (x, g0f2f y)
-')dnl
-')dnl
-
-m4_foreachq(`FLT1',`exrat',
-`m4_foreachq(`INT',`intbases',
-`implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> (x, y) = exrat_exrat_replace (x, g0i2f y)
-')dnl
-')dnl
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Value exchange. *)
-
-extern fn exrat_exchange : g0float_exchange_type exratknd = "mac#%"
-implement g0float_exchange<exratknd> = exrat_exchange
-
-(* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - *)
-(* Unary operations. *)
-
-m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred',
-`extern fn exrat_`'OP`'_replace : (&exrat >> _, exrat) -< !wrt > void = "mac#%"
-implement g0float_`'OP`'_replace<exratknd> = exrat_`'OP`'_replace
-
-')dnl
+value_replacement_runtime_for_boxed_types(`exrat',`floattypes_without_exrat')
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

@@ -324,7 +324,7 @@ END_FLOAT_SUPPORT_CHECK(FLT1)
 
 /*------------------------------------------------------------------*/
 
-#endif /* MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */
+#endif `/*' MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

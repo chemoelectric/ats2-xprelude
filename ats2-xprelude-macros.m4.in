@@ -33,7 +33,7 @@ m4_define(`if_not_ENABLE_EXRAT',`m4_if(ENABLE_EXRAT,`yes',`$2',`$1')')
 m4_define(`if_ENABLE_MPFR',`m4_if(ENABLE_MPFR,`yes',`$1',`$2')')
 m4_define(`if_not_ENABLE_MPFR',`m4_if(ENABLE_MPFR,`yes',`$2',`$1')')
 
-m4_define(`REF',`atstype_ref /* $1 */ ')
+m4_define(`REF',`atstype_ref/*$1*/')
 m4_define(`DEREF',`(((floatt2c(`$1') *) (`$2'))[0])')
 
 /*------------------------------------------------------------------*/
@@ -458,12 +458,12 @@ m4_define(`value_replacement_runtime_for_unboxed_types',
 `implement g0float_float_replace<floatt2k($1)><floatt2k($1)> (x, y) = x := y
 
 m4_foreachq(`FLT1',`$1',
-`m4_foreachq(`FLT2',`m4_if(`$2',,`conventional_floattypes',`$2')',
+`m4_foreachq(`FLT2',`$2',
 `m4_if(FLT1,FLT2,,`implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> (x, y) = x := g0f2f y
 ')')')dnl
 
 m4_foreachq(`FLT1',`$1',
-`m4_foreachq(`FLT2',`m4_if(`$2',,`conventional_floattypes',`$2')',
+`m4_foreachq(`FLT2',`$2',
 `m4_if(FLT1,FLT2,,
        `m4_ifelementq(FLT2,`$1',,
           `implement g0float_float_replace<floatt2k(FLT2)><floatt2k(FLT1)> (x, y) = x := g0f2f y
@@ -502,6 +502,70 @@ m4_foreachq(`FLT1',`$1',
 `m4_foreachq(`INT',`intbases',
 `implement g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)> (z, x, i) =dnl
  z := g0float_int_pow<floatt2k(FLT1)><intb2k(INT)> (x, i)
+')')dnl
+')
+
+/*------------------------------------------------------------------*/
+/* Value-replacement runtime for ‘boxed’ types. */
+
+m4_define(`value_replacement_runtime_for_boxed_types',
+`extern fn $1`'_`'$1`'_replace : $d2ctype (g0float_float_replace<floatt2k($1)><floatt2k($1)>) = "mac#%"
+implement g0float_float_replace<floatt2k($1)><floatt2k($1)> = $1`'_`'$1`'_replace
+
+m4_foreachq(`FLT1',`$1',
+`m4_foreachq(`FLT2',`$2',
+`m4_if(FLT1,FLT2,,
+`extern fn FLT1`'_`'FLT2`'_replace : $d2ctype (g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)>) = "mac#%"
+implement g0float_float_replace<floatt2k(FLT1)><floatt2k(FLT2)> = FLT1`'_`'FLT2`'_replace
+')')')dnl
+
+m4_foreachq(`FLT1',`$1',
+`m4_foreachq(`FLT2',`$2',
+`m4_if(FLT1,FLT2,,
+       `m4_ifelementq(FLT2,`$1',,
+`extern fn FLT2`'_`'FLT1`'_replace : $d2ctype (g0float_float_replace<floatt2k(FLT2)><floatt2k(FLT1)>) = "mac#%"
+implement g0float_float_replace<floatt2k(FLT2)><floatt2k(FLT1)> = FLT2`'_`'FLT1`'_replace
+')')')')dnl
+
+m4_foreachq(`FLT1',`$1',
+`m4_foreachq(`INT',`intbases',
+`extern fn FLT1`'_`'INT`'_replace : $d2ctype (g0float_int_replace<floatt2k(FLT1)><intb2k(INT)>) = "mac#%"
+implement g0float_int_replace<floatt2k(FLT1)><intb2k(INT)> = FLT1`'_`'INT`'_replace
+')')dnl
+
+m4_foreachq(`FLT1',`$1',
+`extern fn FLT1`'_exchange : $d2ctype (g0float_exchange<floatt2k(FLT1)>) = "mac#%"
+implement g0float_exchange<floatt2k(FLT1)> = FLT1`'_exchange
+')dnl
+
+m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred, unary_ops',
+`m4_foreachq(`FLT1',`$1',
+`extern fn FLT1`'_`'OP`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
+implement g0float_`'OP`'_replace<floatt2k(FLT1)> = FLT1`'_`'OP`'_replace
+')')dnl
+
+m4_foreachq(`OP',`min, max, add, sub, mul, div, mod,
+                  binary_ops, floattype_intmax_ops',
+`m4_foreachq(`FLT1',`$1',
+`extern fn FLT1`'_`'OP`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
+implement g0float_`'OP`'_replace<floatt2k(FLT1)> = FLT1`'_`'OP`'_replace
+')')dnl
+
+m4_foreachq(`OP',`trinary_ops',
+`m4_foreachq(`FLT1',`$1',
+`extern fn FLT1`'_`'OP`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
+implement g0float_`'OP`'_replace<floatt2k(FLT1)> = FLT1`'_`'OP`'_replace
+')')dnl
+
+m4_foreachq(`FLT1',`$1',
+`extern fn FLT1`'_npow_replace : $d2ctype (g0float_npow_replace<floatt2k(FLT1)>) = "mac#%"
+implement g0float_npow_replace<floatt2k(FLT1)> = FLT1`'_npow_replace
+')dnl
+
+m4_foreachq(`FLT1',`$1',
+`m4_foreachq(`INT',`intbases',
+`extern fn FLT1`'_`'INT`'_pow_replace : $d2ctype (g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)>) = "mac#%"
+implement g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)> = FLT1`'_`'INT`'_pow_replace
 ')')dnl
 ')
 

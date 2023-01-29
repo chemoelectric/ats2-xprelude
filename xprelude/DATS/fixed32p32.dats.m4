@@ -151,7 +151,7 @@ g0float_int_pow<fix32p32knd><intb2k(INT)> =
    these. Otherwise the implementation may easily be incorrect for
    ‘boxed’ types such as exrat and mpfr. *)
 
-value_replacement_runtime_for_unboxed_types(`fixed32p32')
+value_replacement_runtime_for_unboxed_types(`fixed32p32',`conventional_floattypes')
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

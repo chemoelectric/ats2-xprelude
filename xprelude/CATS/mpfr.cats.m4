@@ -122,7 +122,7 @@ END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
 
 /*------------------------------------------------------------------*/
 
-#endif /* MY_EXTERN_PREFIX`'CATS__MPFR_CATS__HEADER_GUARD__ */
+#endif `/*' MY_EXTERN_PREFIX`'CATS__MPFR_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

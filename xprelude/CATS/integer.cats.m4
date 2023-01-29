@@ -539,7 +539,7 @@ my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
 
 /*------------------------------------------------------------------*/
 
-#endif /* MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__ */
+#endif `/*' MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__ */
 dnl
 dnl local variables:
 dnl mode: C

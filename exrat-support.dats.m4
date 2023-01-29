@@ -986,6 +986,30 @@ my_extern_prefix`'exrat_exchange (REF(exrat) yp, REF(exrat) xp)
   mpq_swap (y[0], x[0]);
 }
 
+atsvoid_t0ype
+my_extern_prefix`'exrat_lint_replace (REF(exrat) yp, floatt2c(lint) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpq_set_si (y[0], x, 1);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_double_replace (REF(exrat) yp, floatt2c(double) x)
+{
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpq_set_d (y[0], x);
+}
+
+m4_foreachq(FLT1,`float,double',
+`
+atsvoid_t0ype
+my_extern_prefix`'FLT1`'_exrat_replace (REF(FLT1) yp, floatt2c(exrat) x)
+{
+  floatt2c(FLT1) *y = (void *) yp;
+  *y = my_extern_prefix`'g0float2float_exrat_`'FLT1 (x);
+}
+')dnl
+
 m4_foreachq(`OP',`abs, neg',
 `
 atsvoid_t0ype
