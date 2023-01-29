@@ -98,12 +98,14 @@ my_extern_prefix`'mpfr_get_prec (floatt2c(mpfr) x)
 floatt2c(mpfr) my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
 
 /*------------------------------------------------------------------*/
-/* Negation. */
+/* Assorted operations. */
 
-floatt2c(mpfr) my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x);
+m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
+`floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr));
+')dnl
 
 /*------------------------------------------------------------------*/
-/* Simple value-replacement */
+/* Value-replacement */
 
 atsvoid_t0ype my_extern_prefix`'mpfr_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x);
 atsvoid_t0ype _`'my_extern_prefix`'mpfr_intmax_replace (REF(mpfr) yp, intb2c(intmax) x);
@@ -118,6 +120,12 @@ m4_foreachq(`T',`floattypes_without_mpfr',
 `FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
 atsvoid_t0ype my_extern_prefix`'mpfr_`'T`'_replace (REF(mpfr) yp, floatt2c(T) x);
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
+')dnl
+
+atsvoid_t0ype my_extern_prefix`'mpfr_exchange (REF(mpfr) yp, REF(mpfr) xp);
+
+m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
+`atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr), floatt2c(mpfr));
 ')dnl
 
 /*------------------------------------------------------------------*/

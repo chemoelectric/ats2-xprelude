@@ -45,6 +45,59 @@ staload _ = "xprelude/DATS/mpfr.dats"
 fn
 test1 () : void =
   let
+    var x = mpfr_make OCTUPLE_PREC
+
+val () = replace (x, 8)
+val()=println!(~x)
+val()=println!(abs (~x))
+val()=println!(reciprocal (~x))
+val()=println!(sqrt x)
+val()=println!(cbrt x)
+val()=println!(exp x)
+val()=println!(exp2 x)
+val()=println!(exp10 x)
+val()=println!(expm1 x)
+val()=println!(exp2m1 x)
+val()=println!(exp10m1 x)
+val()=println!(log x)
+val()=println!(log2 x)
+val()=println!(log10 x)
+val()=println!(log1p x)
+val()=println!(logp1 x)
+val()=println!(log2p1 x)
+val()=println!(log10p1 x)
+
+val () = replace (x, 0.125)
+val()=println!(sin x)
+val()=println!(cos x)
+val()=println!(tan x)
+val()=println!(asin x)
+val()=println!(acos x)
+val()=println!(atan x)
+val()=println!(sinpi x)
+val()=println!(cospi x)
+val()=println!(tanpi x)
+val()=println!(asinpi x)
+val()=println!(acospi x)
+val()=println!(atanpi x)
+
+val () = replace (x, 1)
+val()=println!(sinh x)
+val()=println!(cosh x)
+val()=println!(tanh x)
+val()=println!(asinh x)
+val()=println!(acosh x)
+val()=println!(atanh x)
+
+val () = replace (x, 1)
+val()=println!(erf x)
+val()=println!(erfc x)
+val()=println!(lgamma x)
+val()=println!(tgamma x)
+
+
+
+
     (* var x = mpfr_make (256) *)
     (* var y = mpfr_make (256) *)
     (* val () = x <- 1234.5 *)

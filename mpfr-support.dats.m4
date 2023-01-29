@@ -193,18 +193,38 @@ my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
 }
 
 /*------------------------------------------------------------------*/
-/* Negation. */
+/* Assorted operations. */
 
+divert(-1)
+m4_define(`supported_unary_ops',
+  `sqrt, cbrt,
+   exp, exp2, exp10,
+   expm1, exp2m1, exp10m1,
+   log, log2, log10,
+   log1p, log2p1, log10p1,
+   sin, cos, tan, 
+   asin, acos, atan,
+   sinpi, cospi, tanpi,
+   asinpi, acospi, atanpi,
+   sinh, cosh, tanh,
+   asinh, acosh, atanh,
+   erf, erfc')
+divert`'dnl
+
+m4_foreachq(`OP',`neg, abs, fabs, reciprocal, logp1,
+                  tgamma, lgamma,
+                  supported_unary_ops',`
 floatt2c(mpfr)
-my_extern_prefix`'g0float_neg_mpfr (floatt2c(mpfr) x)
+my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x)
 {
-  floatt2c(mpfr) y = _`'my_extern_prefix`'mpfr_init ();
-  mpfr_neg (y[0], x[0], ROUNDING);
-  return y;
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  my_extern_prefix`'mpfr_`'OP`'_replace (&z, x);
+  return z;
 }
+')dnl
 
 /*------------------------------------------------------------------*/
-/* Simple value-replacement. */
+/* Value-replacement. */
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x)
@@ -298,6 +318,58 @@ my_extern_prefix`'exrat_mpfr_replace (REF(mpfr) yp, floatt2c(mpfr) x)
 {
   floatt2c(exrat) y = DEREF(exrat, yp);
   mpfr_get_q (y[0], x[0]);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_exchange (REF(mpfr) yp, REF(mpfr) xp)
+{
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
+  floatt2c(mpfr) x = DEREF(mpfr, xp);
+  mpfr_swap (y[0], x[0]);
+}
+
+m4_foreachq(`OP',`neg, abs, supported_unary_ops',`
+atsvoid_t0ype
+my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_`'OP (z[0], x[0], ROUNDING);
+}
+')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_fabs_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_abs (z[0], x[0], ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_reciprocal_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_ui_div (z[0], 1, x[0], ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_logp1_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  my_extern_prefix`'mpfr_log1p_replace (zp, x);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_lgamma_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  int sign;
+  mpfr_lgamma (z[0], &sign, x[0], ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_tgamma_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_gamma (z[0], x[0], ROUNDING);
 }
 
 %}

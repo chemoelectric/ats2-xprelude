@@ -78,34 +78,14 @@ mpfr_make_prec_guint prec =
   _mpfr_make_prec_uintmax (g1u2u prec)
 
 (*------------------------------------------------------------------*)
-(* Simple value-replacement. *)
+(* Assorted operations. *)
 
-extern fn fixed32p32_mpfr_replace : g0float_replace_type (fix32p32knd, mpfr) = "mac#%"
-extern fn exrat_mpfr_replace : g0float_replace_type (exratknd, mpfr) = "mac#%"
-m4_foreachq(`T',`floattypes',
-`extern fn mpfr_`'T`'_replace : g0float_replace_type (mpfrknd, T) = "mac#%"
-')dnl
-m4_foreachq(`INT',`intbases',
-`extern fn mpfr_`'INT`'_replace : g0float_replace_type (mpfrknd, intb2t(INT)) = "mac#%"
-')dnl
-
-implement g0float_float_replace<fix32p32knd><mpfrknd> = fixed32p32_mpfr_replace
-implement g0float_float_replace<exratknd><mpfrknd> = exrat_mpfr_replace
-implement g0float_float_replace<mpfrknd><mpfrknd> = mpfr_mpfr_replace
-m4_foreachq(`FLT1',`floattypes_without_mpfr',
-`implement g0float_float_replace<mpfrknd><floatt2k(FLT1)> = mpfr_`'FLT1`'_replace
-')dnl
-m4_foreachq(`INT',`intbases',
-`implement g0float_int_replace<mpfrknd><intb2k(INT)> = mpfr_`'INT`'_replace
-')dnl
-
-(*------------------------------------------------------------------*)
-(* Miscellaneous implementations for mpfr. *)
-
-m4_foreachq(`OP',`neg',
+m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
 `implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
 ')dnl
 
+(*------------------------------------------------------------------*)
+value_replacement_runtime_for_boxed_types(`mpfr',`floattypes_without_mpfr')
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

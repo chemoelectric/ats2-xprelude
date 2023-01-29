@@ -117,9 +117,11 @@ overload mpfr_make_prec with mpfr_make_prec_guint
 overload mpfr_make with mpfr_make_prec
 
 (*------------------------------------------------------------------*)
-(* Negation. *)
+(* Assorted operations. *)
 
-fn g0float_neg_mpfr : $d2ctype (g0float_neg<mpfrknd>) = "mac#%"
+m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
+`fn g0float_`'OP`'_mpfr : mpfr -<> mpfr = "mac#%"
+')dnl
 
 (*------------------------------------------------------------------*)
 dnl
