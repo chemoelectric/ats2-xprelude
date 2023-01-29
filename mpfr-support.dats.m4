@@ -202,13 +202,15 @@ m4_define(`supported_unary_ops',
    expm1, exp2m1, exp10m1,
    log, log2, log10,
    log1p, log2p1, log10p1,
-   sin, cos, tan, 
+   sin, cos, tan, sec, csc, cot,
    asin, acos, atan,
    sinpi, cospi, tanpi,
    asinpi, acospi, atanpi,
-   sinh, cosh, tanh,
+   sinh, cosh, tanh, sech, csch, coth,
    asinh, acosh, atanh,
-   erf, erfc')
+   erf, erfc,
+   j0, j1, y0, y1,
+   eint, ai, li2, zeta')
 divert`'dnl
 
 m4_foreachq(`OP',`neg, abs, fabs, reciprocal, logp1,
