@@ -869,6 +869,30 @@ test29 () : void =
   in
   end
 
+fn
+test30 () : void =
+  let
+    val- true = g0float_mul_2exp (10.0, 10L) = 10240.0
+    val- true = g0float_mul_2exp (10240.0, ~10LL) = 10.0
+    val- true = g0float_div_2exp (10.0, ~10) = 10240.0
+    val- true = g0float_div_2exp (10240.0, 10) = 10.0
+
+    var x : ldouble = 10.0L
+
+    val () = mul_2exp_replace (x, x, 10L)
+    val- true = x = 10240.0L
+
+    val () = mul_2exp_replace (x, x, ~10L)
+    val- true = x = 10.0L
+
+    val () = div_2exp_replace (x, x, ~10LL)
+    val- true = x = 10240.0L
+
+    val () = div_2exp_replace (x, x, 10)
+    val- true = x = 10.0L
+  in
+  end
+
 implement
 main () =
   begin
@@ -901,5 +925,6 @@ main () =
     test27 ();
     test28 ();
     test29 ();
+    test30 ();
     0
   end

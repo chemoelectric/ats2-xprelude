@@ -185,18 +185,18 @@ fn g0float_npow_exrat : (exrat, intGte 0) -<> exrat = "mac#%"
 fn {tki : tkind} g0float_int_pow_exrat : (exrat, g0int tki) -<> exrat
 
 (*------------------------------------------------------------------*)
+(* Multiplication or division by powers of two. These can be used as
+   shift operations. *)
+
+fn {tki : tkind} g0float_mul_2exp_exrat : (exrat, g0int tki) -<> exrat
+fn {tki : tkind} g0float_div_2exp_exrat : (exrat, g0int tki) -<> exrat
+
+(*------------------------------------------------------------------*)
 (* Get either the numerator or denominator of an exrat. The result is
    returned as an exrat with denominator 1. *)
 
 fn exrat_numerator : exrat -<> exrat = "mac#%"
 fn exrat_denominator : exrat -<> exrat = "mac#%"
-
-(*------------------------------------------------------------------*)
-(* Multiplication or division by powers of two. These can be used as
-   shift operations. *)
-
-fn exrat_mul_exp2 : (exrat, ulint) -<> exrat = "mac#%"
-fn exrat_div_exp2 : (exrat, ulint) -<> exrat = "mac#%"
 
 (*------------------------------------------------------------------*)
 (* Aids in using exrat as integers. *)

@@ -410,6 +410,30 @@ fn test0 () : void =
 fn
 test1 () : void =
   let
+    val- true = g0float_mul_2exp (i2fx 10, 10L) = i2fx 10240
+    val- true = g0float_mul_2exp (i2fx 10240, ~10LL) = i2fx 10
+    val- true = g0float_div_2exp (i2fx 10, ~10) = i2fx 10240
+    val- true = g0float_div_2exp (i2fx 10240, 10) = i2fx 10
+
+    var x : fixed32p32 = i2fx 10
+
+    val () = mul_2exp_replace (x, x, 10L)
+    val- true = x = i2fx 10240
+
+    val () = mul_2exp_replace (x, x, ~10L)
+    val- true = x = i2fx 10
+
+    val () = div_2exp_replace (x, x, ~10LL)
+    val- true = x = i2fx 10240
+
+    val () = div_2exp_replace (x, x, 10)
+    val- true = x = i2fx 10
+  in
+  end
+
+fn
+test2 () : void =
+  let
     var x : fixed32p32 = g0i2f 5
     val () = replace (x, 6)
     val- true = x = i2fx 6
@@ -424,5 +448,6 @@ main () =
   begin
     test0 ();
     test1 ();
+    test2 ();
     0
   end

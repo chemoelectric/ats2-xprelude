@@ -405,6 +405,27 @@ m4_foreachq(`FLT1',`conventional_floattypes',
    g0float_npow. The former template function is more general. *)
 overload ** with g0float_int_pow of 1
 
+
+(*------------------------------------------------------------------*)
+(* Multiplication or division by powers of two. These can be used as
+   binary shift operations, and are motivated by the existence of
+   such functions in GMP and MPFR.
+
+   I do allow negative exponents. *)
+
+fn {tk  : tkind}
+   {tki : tkind}
+g0float_mul_2exp :
+  (g0float tk, g0int tki) -<> g0float tk
+
+fn {tk  : tkind}
+   {tki : tkind}
+g0float_div_2exp :
+  (g0float tk, g0int tki) -<> g0float tk
+
+overload mul_2exp with g0float_mul_2exp
+overload div_2exp with g0float_div_2exp
+
 (*------------------------------------------------------------------*)
 (* Floating point constants. *)
 
@@ -511,6 +532,18 @@ fn {tk  : tkind}
 g0float_int_pow_replace :
   (&g0float tk >> _, g0float tk, g0int tki) -< !wrt > void
 overload int_pow_replace with g0float_int_pow_replace
+
+fn {tk  : tkind}
+   {tki : tkind}
+g0float_mul_2exp_replace :
+  (&g0float tk >> _, g0float tk, g0int tki) -< !wrt > void
+overload mul_2exp_replace with g0float_mul_2exp_replace
+
+fn {tk  : tkind}
+   {tki : tkind}
+g0float_div_2exp_replace :
+  (&g0float tk >> _, g0float tk, g0int tki) -< !wrt > void
+overload div_2exp_replace with g0float_div_2exp_replace
 
 (*------------------------------------------------------------------*)
 dnl

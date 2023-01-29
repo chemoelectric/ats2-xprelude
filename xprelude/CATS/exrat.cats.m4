@@ -219,8 +219,7 @@ floatt2c(exrat)_ffs (floatt2c(exrat) x)
           (mpz_scan1 (mpq_numref (x[0]), 0) + 1));
 }
 
-floatt2c(exrat) floatt2c(exrat)_mul_exp2 (floatt2c(exrat), atstype_ulint);
-floatt2c(exrat) floatt2c(exrat)_div_exp2 (floatt2c(exrat), atstype_ulint);
+floatt2c(exrat) my_extern_prefix`'_g0float_mul_2exp_intmax_exrat (floatt2c(exrat), intb2c(intmax));
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
@@ -284,6 +283,16 @@ m4_foreachq(`INT',`intbases',
 `m4_if(INT,`intmax',,
 `#define my_extern_prefix`'exrat_`'INT`'_pow_replace(zp, x, n)dnl
  my_extern_prefix`'exrat_intmax_pow_replace ((zp), (x), (intb2c(intmax)) (n))
+')dnl
+')dnl
+
+atsvoid_t0ype my_extern_prefix`'exrat_mul_2exp_intmax_replace (REF(exrat), floatt2c(exrat), intb2c(intmax));
+m4_foreachq(`INT',`intbases',
+`m4_if(INT,`intmax',,
+`#define my_extern_prefix`'exrat_mul_2exp_`'INT`'_replace(zp, x, n)dnl
+ my_extern_prefix`'exrat_mul_2exp_intmax_replace ((zp), (x), (intb2c(intmax)) (n))
+#define my_extern_prefix`'exrat_div_2exp_`'INT`'_replace(zp, x, n)dnl
+ my_extern_prefix`'exrat_mul_2exp_intmax_replace ((zp), (x), -((intb2c(intmax)) (n)))
 ')dnl
 ')dnl
 

@@ -500,6 +500,24 @@ g0float_int_pow_`'FLT1 (x, n) =
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Multiplication or division by powers of two. *)
+
+implement {tk} {tki}
+g0float_mul_2exp (x, n) =
+  let
+    val pow2 = g0float_int_pow<tk><tki> (g0i2f 2, abs n)
+  in
+    if isgtez n then  
+      x * pow2
+    else
+      x / pow2
+  end
+
+implement {tk} {tki}
+g0float_div_2exp (x, n) =
+  g0float_mul_2exp (x, ~n)
+
+(*------------------------------------------------------------------*)
 (* Value-replacement. *)
 
 (* It is safer to have only type-specific implementations of

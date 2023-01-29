@@ -830,19 +830,11 @@ my_extern_prefix`'exrat_denominator (floatt2c(exrat) x)
 }
 
 my_extern_prefix`'exrat
-my_extern_prefix`'exrat_mul_exp2 (floatt2c(exrat) x, atstype_ulint i)
+my_extern_prefix`'_g0float_mul_2exp_intmax_exrat (floatt2c(exrat) x, intb2c(intmax) n)
 {
-  floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-  mpq_mul_2exp (y[0], x[0], i);
-  return y;
-}
-
-my_extern_prefix`'exrat
-my_extern_prefix`'exrat_div_exp2 (floatt2c(exrat) x, atstype_ulint i)
-{
-  floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-  mpq_div_2exp (y[0], x[0], i);
-  return y;
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  my_extern_prefix`'exrat_mul_2exp_intmax_replace (&z, x, n);
+  return z;
 }
 
 /*------------------------------------------------------------------*/
@@ -1138,6 +1130,18 @@ my_extern_prefix`'exrat_intmax_pow_replace (REF(exrat) zp,
     mpq_mul (accum, accum, y);
 
   mpq_set (z[0], accum);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'exrat_mul_2exp_intmax_replace (REF(exrat) zp,
+                                                 floatt2c(exrat) x,
+                                                 intb2c(intmax) n)
+{
+  floatt2c(exrat) z = DEREF(exrat, zp);
+  if (0 <= n)
+    mpq_mul_2exp (z[0], x[0], (mp_bitcnt_t) n);
+  else
+    mpq_div_2exp (z[0], x[0], (mp_bitcnt_t) -n);
 }
 
 dnl------------------------------------------------------------------

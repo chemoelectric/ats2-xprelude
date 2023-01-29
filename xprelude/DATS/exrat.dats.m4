@@ -126,6 +126,30 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
+
+extern fn
+_g0float_mul_2exp_intmax_exrat :
+  $d2ctype (g0float_mul_2exp<exratknd><intmaxknd>) = "mac#%"
+
+implement {tki}
+g0float_mul_2exp_exrat (x, n) =
+  _g0float_mul_2exp_intmax_exrat (x, g0int2int<tki,intmaxknd> n)
+
+implement {tki}
+g0float_div_2exp_exrat (x, n) =
+  _g0float_mul_2exp_intmax_exrat (x, ~(g0int2int<tki,intmaxknd> n))
+
+m4_foreachq(`INT',`conventional_intbases',
+`implement
+g0float_mul_2exp<exratknd><intb2k(INT)> =
+  g0float_mul_2exp_exrat<intb2k(INT)>
+
+implement
+g0float_div_2exp<exratknd><intb2k(INT)> =
+  g0float_div_2exp_exrat<intb2k(INT)>
+
+')dnl
+(*------------------------------------------------------------------*)
 value_replacement_runtime_for_boxed_types(`exrat',`floattypes_without_exrat')
 (*------------------------------------------------------------------*)
 dnl

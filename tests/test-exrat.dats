@@ -331,20 +331,30 @@ test0 () : void =
     val- false = isneqz (exrat_make (0, 456))
     val- true = isneqz (exrat_make (123, 456))
 
+    val- true = mul_2exp (exrat_make (1, 1), 0) = exrat_make (1, 1)
+    val- true = mul_2exp (exrat_make (1, 1), 1) = exrat_make (2, 1)
+    val- true = mul_2exp (exrat_make (1, 1), 2) = exrat_make (4, 1)
+    val- true = mul_2exp (exrat_make (1, 1), 3) = exrat_make (8, 1)
+
+    val- true = div_2exp (exrat_make (1, 1), 0L) = exrat_make (1, 1)
+    val- true = div_2exp (exrat_make (1, 1), ~1L) = exrat_make (2, 1)
+    val- true = div_2exp (exrat_make (1, 1), ~2LL) = exrat_make (4, 1)
+    val- true = div_2exp (exrat_make (1, 1), ~3) = exrat_make (8, 1)
+
+    val- true = div_2exp (exrat_make (1, 1), 0) = exrat_make (1, 1)
+    val- true = div_2exp (exrat_make (2, 1), 1) = exrat_make (1, 1)
+    val- true = div_2exp (exrat_make (4, 1), 2) = exrat_make (1, 1)
+    val- true = div_2exp (exrat_make (8, 1), 3) = exrat_make (1, 1)
+
+    val- true = mul_2exp (exrat_make (1, 1), ~0) = exrat_make (1, 1)
+    val- true = mul_2exp (exrat_make (2, 1), ~1L) = exrat_make (1, 1)
+    val- true = mul_2exp (exrat_make (4, 1), ~2LL) = exrat_make (1, 1)
+    val- true = mul_2exp (exrat_make (8, 1), ~3) = exrat_make (1, 1)
+
     val- true = exrat_numerator (exrat_make (37, 101)) = exrat_make (37, 1)
     val- true = exrat_denominator (exrat_make (37, 101)) = exrat_make (101, 1)
     val- true = exrat_numerator (exrat_make (8, 2)) = exrat_make (4, 1)
     val- true = exrat_denominator (exrat_make (8, 2)) = exrat_make (1, 1)
-
-    val- true = exrat_mul_exp2 (exrat_make (1, 1), 0UL) = exrat_make (1, 1)
-    val- true = exrat_mul_exp2 (exrat_make (1, 1), 1UL) = exrat_make (2, 1)
-    val- true = exrat_mul_exp2 (exrat_make (1, 1), 2UL) = exrat_make (4, 1)
-    val- true = exrat_mul_exp2 (exrat_make (1, 1), 3UL) = exrat_make (8, 1)
-
-    val- true = exrat_div_exp2 (exrat_make (1, 1), 0UL) = exrat_make (1, 1)
-    val- true = exrat_div_exp2 (exrat_make (2, 1), 1UL) = exrat_make (1, 1)
-    val- true = exrat_div_exp2 (exrat_make (4, 1), 2UL) = exrat_make (1, 1)
-    val- true = exrat_div_exp2 (exrat_make (8, 1), 3UL) = exrat_make (1, 1)
 
     val- true = exrat_is_integer (exrat_make (~4, 2))
     val- true = exrat_is_integer (exrat_make (0, 2))
@@ -602,6 +612,18 @@ test5 () : void =
 
     val () = int_pow_replace (x, i2ex 2, ~10L)
     val- true = x = exrat_make (1, 1024)
+
+    val () = mul_2exp_replace (x, i2ex 10, 10L)
+    val- true = x = i2ex 10240
+
+    val () = mul_2exp_replace (x, x, ~10L)
+    val- true = x = i2ex 10
+
+    val () = div_2exp_replace (x, x, ~10LL)
+    val- true = x = i2ex 10240
+
+    val () = div_2exp_replace (x, x, 10)
+    val- true = x = i2ex 10
   in
   end
 

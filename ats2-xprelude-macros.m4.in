@@ -498,11 +498,15 @@ m4_foreachq(`FLT1',`$1',
 `implement g0float_npow_replace<floatt2k(FLT1)> (z, x, i) = z := g0float_npow<floatt2k(FLT1)> (x, i)
 ')dnl
 
-m4_foreachq(`FLT1',`$1',
+m4_foreachq(`OP',`int_pow, mul_2exp, div_2exp',
+`m4_foreachq(`FLT1',`$1',
 `m4_foreachq(`INT',`intbases',
-`implement g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)> (z, x, i) =dnl
- z := g0float_int_pow<floatt2k(FLT1)><intb2k(INT)> (x, i)
-')')dnl
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)><intb2k(INT)> (z, x, i) =dnl
+ z := g0float_`'OP`'<floatt2k(FLT1)><intb2k(INT)> (x, i)
+')')')dnl
+dnl
+dnl
+dnl
 ')
 
 /*------------------------------------------------------------------*/
@@ -567,6 +571,16 @@ m4_foreachq(`FLT1',`$1',
 `extern fn FLT1`'_`'INT`'_pow_replace : $d2ctype (g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)>) = "mac#%"
 implement g0float_int_pow_replace<floatt2k(FLT1)><intb2k(INT)> = FLT1`'_`'INT`'_pow_replace
 ')')dnl
+
+m4_foreachq(`OP',`mul_2exp, div_2exp',
+`m4_foreachq(`FLT1',`$1',
+`m4_foreachq(`INT',`intbases',
+`extern fn FLT1`'_`'OP`'_`'INT`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)><intb2k(INT)>) = "mac#%"
+implement g0float_`'OP`'_replace<floatt2k(FLT1)><intb2k(INT)> = FLT1`'_`'OP`'_`'INT`'_replace
+')')')dnl
+dnl
+dnl
+dnl
 ')
 
 /*------------------------------------------------------------------*/
