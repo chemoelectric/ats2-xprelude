@@ -672,6 +672,8 @@ WITH_GMP_FALSE
 WITH_GMP_TRUE
 ENABLE_MPFR_FALSE
 ENABLE_MPFR_TRUE
+ENABLE_BISECTION_ITERATOR_FALSE
+ENABLE_BISECTION_ITERATOR_TRUE
 ENABLE_EXRAT_FALSE
 ENABLE_EXRAT_TRUE
 HAVE_FLOAT128_FALSE
@@ -20600,6 +20602,14 @@ else
   ENABLE_EXRAT_FALSE=
 fi
 
+ if test x"${enable_exrat}" = xyes; then
+  ENABLE_BISECTION_ITERATOR_TRUE=
+  ENABLE_BISECTION_ITERATOR_FALSE='#'
+else
+  ENABLE_BISECTION_ITERATOR_TRUE='#'
+  ENABLE_BISECTION_ITERATOR_FALSE=
+fi
+
  if test x"${enable_mpfr}" = xyes; then
   ENABLE_MPFR_TRUE=
   ENABLE_MPFR_FALSE='#'
@@ -21014,6 +21024,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_EXRAT_TRUE}" && test -z "${ENABLE_EXRAT_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_EXRAT\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_BISECTION_ITERATOR_TRUE}" && test -z "${ENABLE_BISECTION_ITERATOR_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_BISECTION_ITERATOR\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_MPFR_TRUE}" && test -z "${ENABLE_MPFR_FALSE}"; then

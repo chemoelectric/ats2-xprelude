@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Wed Jan 25 10:52:17 CST 2023
+# from AX_AM_MACROS_STATIC on Sun Jan 29 14:10:07 CST 2023
 
 
 
@@ -113,20 +113,26 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS =
-EXTRA_PROGRAMS = $(am__EXEEXT_4) list-ats-dependencies$(EXEEXT)
+EXTRA_PROGRAMS = $(am__EXEEXT_5) list-ats-dependencies$(EXEEXT)
 TESTS = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
 	$(am__EXEEXT_1) tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_2) \
-	$(am__EXEEXT_3) tests/test-sort$(EXEEXT)
+	$(am__EXEEXT_3) $(am__EXEEXT_4) tests/test-sort$(EXEEXT)
 @WITH_GMP_TRUE@am__append_1 = $(GMP_SUPPORT_DATS_C)
 @ENABLE_EXRAT_TRUE@am__append_2 = $(EXRAT_SRC)
 @ENABLE_EXRAT_TRUE@am__append_3 = $(EXRAT_SATS_C) $(EXRAT_DATS_C) \
 @ENABLE_EXRAT_TRUE@	$(EXRAT_SUPPORT_DATS_C)
-@ENABLE_MPFR_TRUE@am__append_4 = $(MPFR_SRC)
-@ENABLE_MPFR_TRUE@am__append_5 = $(MPFR_SATS_C) $(MPFR_DATS_C) \
+@ENABLE_BISECTION_ITERATOR_TRUE@am__append_4 = $(BISECTION_ITERATOR_SRC)
+@ENABLE_BISECTION_ITERATOR_TRUE@am__append_5 =  \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(BISECTION_ITERATOR_SATS_C) \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(BISECTION_ITERATOR_DATS_C) \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(BISECTION_ITERATOR_SUPPORT_DATS_C)
+@ENABLE_MPFR_TRUE@am__append_6 = $(MPFR_SRC)
+@ENABLE_MPFR_TRUE@am__append_7 = $(MPFR_SATS_C) $(MPFR_DATS_C) \
 @ENABLE_MPFR_TRUE@	$(MPFR_SUPPORT_DATS_C)
-@HAVE_FLOAT128_TRUE@am__append_6 = tests/test-float128
-@ENABLE_EXRAT_TRUE@am__append_7 = tests/test-exrat
-@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@am__append_8 = tests/test-mpfr
+@HAVE_FLOAT128_TRUE@am__append_8 = tests/test-float128
+@ENABLE_EXRAT_TRUE@am__append_9 = tests/test-exrat
+@ENABLE_BISECTION_ITERATOR_TRUE@am__append_10 = tests/test-bisection_iterator
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@am__append_11 = tests/test-mpfr
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -160,11 +166,12 @@ CONFIG_CLEAN_FILES = list-ats-dependencies.dats common-macros.m4 \
 CONFIG_CLEAN_VPATH_FILES =
 @HAVE_FLOAT128_TRUE@am__EXEEXT_1 = tests/test-float128$(EXEEXT)
 @ENABLE_EXRAT_TRUE@am__EXEEXT_2 = tests/test-exrat$(EXEEXT)
-@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@am__EXEEXT_3 =  \
+@ENABLE_BISECTION_ITERATOR_TRUE@am__EXEEXT_3 = tests/test-bisection_iterator$(EXEEXT)
+@ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@am__EXEEXT_4 =  \
 @ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@	tests/test-mpfr$(EXEEXT)
-am__EXEEXT_4 = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
+am__EXEEXT_5 = tests/test-integer$(EXEEXT) tests/test-float$(EXEEXT) \
 	$(am__EXEEXT_1) tests/test-fixed32p32$(EXEEXT) $(am__EXEEXT_2) \
-	$(am__EXEEXT_3) tests/test-sort$(EXEEXT)
+	$(am__EXEEXT_3) $(am__EXEEXT_4) tests/test-sort$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(pkgincludedir)" \
 	"$(DESTDIR)$(pkgincludedir)"
@@ -219,19 +226,25 @@ am__objects_15 = xprelude/DATS/exrat_dats.lo
 am__objects_16 = exrat-support_dats.lo exrat-implementations_dats.lo
 @ENABLE_EXRAT_TRUE@am__objects_17 = $(am__objects_14) \
 @ENABLE_EXRAT_TRUE@	$(am__objects_15) $(am__objects_16)
-am__objects_18 = xprelude/SATS/mpfr_sats.lo
-am__objects_19 = xprelude/DATS/mpfr_dats.lo
-am__objects_20 = mpfr-support_dats.lo mpfr-implementations_dats.lo
-@ENABLE_MPFR_TRUE@am__objects_21 = $(am__objects_18) $(am__objects_19) \
-@ENABLE_MPFR_TRUE@	$(am__objects_20)
-am__objects_22 = xprelude/SATS/sort_sats.lo
-am__objects_23 = xprelude/DATS/sort_dats.lo
+am__objects_18 = xprelude/SATS/bisection_iterator_sats.lo
+am__objects_19 = xprelude/DATS/bisection_iterator_dats.lo
+am__objects_20 = bisection_iterator-support_dats.lo
+@ENABLE_BISECTION_ITERATOR_TRUE@am__objects_21 = $(am__objects_18) \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(am__objects_19) \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(am__objects_20)
+am__objects_22 = xprelude/SATS/mpfr_sats.lo
+am__objects_23 = xprelude/DATS/mpfr_dats.lo
+am__objects_24 = mpfr-support_dats.lo mpfr-implementations_dats.lo
+@ENABLE_MPFR_TRUE@am__objects_25 = $(am__objects_22) $(am__objects_23) \
+@ENABLE_MPFR_TRUE@	$(am__objects_24)
+am__objects_26 = xprelude/SATS/sort_sats.lo
+am__objects_27 = xprelude/DATS/sort_dats.lo
 nodist_libats2_xprelude_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
 	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
 	$(am__objects_6) $(am__objects_7) $(am__objects_8) \
 	$(am__objects_9) $(am__objects_10) $(am__objects_11) \
 	$(am__objects_13) $(am__objects_17) $(am__objects_21) \
-	$(am__objects_22) $(am__objects_23)
+	$(am__objects_25) $(am__objects_26) $(am__objects_27)
 libats2_xprelude_la_OBJECTS = $(dist_libats2_xprelude_la_OBJECTS) \
 	$(nodist_libats2_xprelude_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -241,11 +254,20 @@ am__v_lt_1 =
 nodist_list_ats_dependencies_OBJECTS = list_ats_dependencies-list-ats-dependencies_depsprog.$(OBJEXT)
 list_ats_dependencies_OBJECTS =  \
 	$(nodist_list_ats_dependencies_OBJECTS)
-@ENABLE_EXRAT_TRUE@nodist_tests_test_exrat_OBJECTS = tests/test_exrat-test-exrat_tests.$(OBJEXT)
-tests_test_exrat_OBJECTS = $(nodist_tests_test_exrat_OBJECTS)
+@ENABLE_BISECTION_ITERATOR_TRUE@nodist_tests_test_bisection_iterator_OBJECTS = tests/test_bisection_iterator-test-bisection_iterator_tests.$(OBJEXT)
+tests_test_bisection_iterator_OBJECTS =  \
+	$(nodist_tests_test_bisection_iterator_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = libats2-xprelude.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
+@ENABLE_BISECTION_ITERATOR_TRUE@tests_test_bisection_iterator_DEPENDENCIES =  \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(am__DEPENDENCIES_2)
+tests_test_bisection_iterator_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(tests_test_bisection_iterator_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+@ENABLE_EXRAT_TRUE@nodist_tests_test_exrat_OBJECTS = tests/test_exrat-test-exrat_tests.$(OBJEXT)
+tests_test_exrat_OBJECTS = $(nodist_tests_test_exrat_OBJECTS)
 @ENABLE_EXRAT_TRUE@tests_test_exrat_DEPENDENCIES =  \
 @ENABLE_EXRAT_TRUE@	$(am__DEPENDENCIES_2)
 tests_test_exrat_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
@@ -316,7 +338,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/exrat-implementations_dats.Plo \
+am__depfiles_remade = ./$(DEPDIR)/bisection_iterator-support_dats.Plo \
+	./$(DEPDIR)/exrat-implementations_dats.Plo \
 	./$(DEPDIR)/exrat-support_dats.Plo \
 	./$(DEPDIR)/fixed32p32-implementations_dats.Plo \
 	./$(DEPDIR)/fixed32p32_division.Plo \
@@ -329,6 +352,7 @@ am__depfiles_remade = ./$(DEPDIR)/exrat-implementations_dats.Plo \
 	./$(DEPDIR)/mpfr-support_dats.Plo \
 	./$(DEPDIR)/strfrom-support_dats.Plo \
 	./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo \
+	tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po \
 	tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po \
 	tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po \
 	tests/$(DEPDIR)/test_float-test-float_tests.Po \
@@ -337,6 +361,7 @@ am__depfiles_remade = ./$(DEPDIR)/exrat-implementations_dats.Plo \
 	tests/$(DEPDIR)/test_mpfr-test-mpfr_tests.Po \
 	tests/$(DEPDIR)/test_sort-test-sort_tests.Po \
 	xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo \
+	xprelude/DATS/$(DEPDIR)/bisection_iterator_dats.Plo \
 	xprelude/DATS/$(DEPDIR)/exrat_dats.Plo \
 	xprelude/DATS/$(DEPDIR)/fixed32p32_dats.Plo \
 	xprelude/DATS/$(DEPDIR)/float_dats.Plo \
@@ -344,6 +369,7 @@ am__depfiles_remade = ./$(DEPDIR)/exrat-implementations_dats.Plo \
 	xprelude/DATS/$(DEPDIR)/mpfr_dats.Plo \
 	xprelude/DATS/$(DEPDIR)/sort_dats.Plo \
 	xprelude/SATS/$(DEPDIR)/arith_prf_sats.Plo \
+	xprelude/SATS/$(DEPDIR)/bisection_iterator_sats.Plo \
 	xprelude/SATS/$(DEPDIR)/exrat_sats.Plo \
 	xprelude/SATS/$(DEPDIR)/fixed32p32_sats.Plo \
 	xprelude/SATS/$(DEPDIR)/float_sats.Plo \
@@ -372,6 +398,7 @@ am__v_CCLD_1 =
 SOURCES = $(dist_libats2_xprelude_la_SOURCES) \
 	$(nodist_libats2_xprelude_la_SOURCES) \
 	$(nodist_list_ats_dependencies_SOURCES) \
+	$(nodist_tests_test_bisection_iterator_SOURCES) \
 	$(nodist_tests_test_exrat_SOURCES) \
 	$(nodist_tests_test_fixed32p32_SOURCES) \
 	$(nodist_tests_test_float_SOURCES) \
@@ -862,17 +889,21 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	$(addsuffix .m4, $(FIXED32P32_SUPPORT_DATS)) $(addsuffix .m4, \
 	$(FIXED32P32_SUPPORT_C)) $(addsuffix .m4, $(GMP_SUPPORT_DATS)) \
 	$(addsuffix .m4, $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)) \
-	$(addsuffix .m4, $(MPFR_SRC) $(MPFR_SUPPORT_DATS)) $(addsuffix \
-	.m4, $(SORT_SRC)) $(addsuffix .m4, $(SORT_HATS)) \
+	$(addsuffix .m4, $(BISECTION_ITERATOR_SRC) \
+	$(BISECTION_ITERATOR_SUPPORT_DATS)) $(addsuffix .m4, \
+	$(MPFR_SRC) $(MPFR_SUPPORT_DATS)) $(addsuffix .m4, \
+	$(SORT_SRC)) $(addsuffix .m4, $(SORT_HATS)) \
 	tests/test-integer.dats tests/test-float.dats \
 	tests/test-float128.dats tests/test-fixed32p32.dats \
-	tests/test-exrat.dats tests/test-mpfr.dats \
-	tests/test-sort.dats list-ats-dependencies.dats
+	tests/test-exrat.dats tests/test-bisection_iterator.dats \
+	tests/test-mpfr.dats tests/test-sort.dats \
+	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) $(FIXED32P32_SRC) \
 	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
 	$(GMP_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
+	$(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS) \
 	$(MPFR_SRC) $(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS) \
 	$(TESTS) list-ats-dependencies \
 	list-ats-dependencies_depsprog.c
@@ -881,6 +912,7 @@ BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) $(FIXED32P32_SRC) \
 	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
 	$(GMP_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
+	$(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS) \
 	$(MPFR_SRC) $(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
 
 #--------------------------------------------------------------------------
@@ -904,15 +936,15 @@ lib_LTLIBRARIES = libats2-xprelude.la
 nobase_dist_pkginclude_HEADERS = 
 nobase_nodist_pkginclude_HEADERS = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) \
 	$(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) $(am__append_2) \
-	$(am__append_4) $(SORT_SRC) $(SORT_HATS)
+	$(am__append_4) $(am__append_6) $(SORT_SRC) $(SORT_HATS)
 dist_libats2_xprelude_la_SOURCES = 
 nodist_libats2_xprelude_la_SOURCES = $(ARITH_PRF_SATS_C) \
 	$(ARITH_PRF_DATS_C) $(INTEGER_SATS_C) $(INTEGER_DATS_C) \
 	$(FLOAT_SATS_C) $(FLOAT_DATS_C) $(FLOAT_SUPPORT_DATS_C) \
 	$(FIXED32P32_SATS_C) $(FIXED32P32_DATS_C) \
 	$(FIXED32P32_SUPPORT_DATS_C) $(FIXED32P32_SUPPORT_C) \
-	$(am__append_1) $(am__append_3) $(am__append_5) $(SORT_SATS_C) \
-	$(SORT_DATS_C)
+	$(am__append_1) $(am__append_3) $(am__append_5) \
+	$(am__append_7) $(SORT_SATS_C) $(SORT_DATS_C)
 libats2_xprelude_la_LIBADD = lib/libgnu.la
 nodist_pkgconfig_DATA = 
 CODE_COVERAGE_IGNORE_PATTERN = /usr/include/* /usr/include/*/* \
@@ -987,6 +1019,16 @@ EXRAT_SUPPORT_DATS_C = exrat-support_dats.c \
 EXRAT_SRC = $(EXRAT_SATS) $(EXRAT_DATS) $(EXRAT_CATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+BISECTION_ITERATOR_SATS = xprelude/SATS/bisection_iterator.sats
+BISECTION_ITERATOR_DATS = xprelude/DATS/bisection_iterator.dats
+BISECTION_ITERATOR_SATS_C = xprelude/SATS/bisection_iterator_sats.c
+BISECTION_ITERATOR_DATS_C = xprelude/DATS/bisection_iterator_dats.c
+BISECTION_ITERATOR_SUPPORT_DATS = bisection_iterator-support.dats
+BISECTION_ITERATOR_SUPPORT_DATS_C = bisection_iterator-support_dats.c
+BISECTION_ITERATOR_SRC = $(BISECTION_ITERATOR_SATS) \
+	$(BISECTION_ITERATOR_DATS)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 MPFR_SATS = xprelude/SATS/mpfr.sats
 MPFR_DATS = xprelude/DATS/mpfr.dats
 MPFR_CATS = xprelude/CATS/mpfr.cats
@@ -1025,6 +1067,9 @@ tests_test_fixed32p32_LDADD = $(TEST_LIBS)
 @ENABLE_EXRAT_TRUE@nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
 @ENABLE_EXRAT_TRUE@tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
 @ENABLE_EXRAT_TRUE@tests_test_exrat_LDADD = $(TEST_LIBS)
+@ENABLE_BISECTION_ITERATOR_TRUE@nodist_tests_test_bisection_iterator_SOURCES = tests/test-bisection_iterator_tests.c
+@ENABLE_BISECTION_ITERATOR_TRUE@tests_test_bisection_iterator_CFLAGS = $(TEST_CFLAGS)
+@ENABLE_BISECTION_ITERATOR_TRUE@tests_test_bisection_iterator_LDADD = $(TEST_LIBS)
 @ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@nodist_tests_test_mpfr_SOURCES = tests/test-mpfr_tests.c
 @ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@tests_test_mpfr_CFLAGS = $(TEST_CFLAGS)
 @ENABLE_EXRAT_TRUE@@ENABLE_MPFR_TRUE@tests_test_mpfr_LDADD = $(TEST_LIBS)
@@ -1213,6 +1258,12 @@ xprelude/SATS/exrat_sats.lo: xprelude/SATS/$(am__dirstamp) \
 	xprelude/SATS/$(DEPDIR)/$(am__dirstamp)
 xprelude/DATS/exrat_dats.lo: xprelude/DATS/$(am__dirstamp) \
 	xprelude/DATS/$(DEPDIR)/$(am__dirstamp)
+xprelude/SATS/bisection_iterator_sats.lo:  \
+	xprelude/SATS/$(am__dirstamp) \
+	xprelude/SATS/$(DEPDIR)/$(am__dirstamp)
+xprelude/DATS/bisection_iterator_dats.lo:  \
+	xprelude/DATS/$(am__dirstamp) \
+	xprelude/DATS/$(DEPDIR)/$(am__dirstamp)
 xprelude/SATS/mpfr_sats.lo: xprelude/SATS/$(am__dirstamp) \
 	xprelude/SATS/$(DEPDIR)/$(am__dirstamp)
 xprelude/DATS/mpfr_dats.lo: xprelude/DATS/$(am__dirstamp) \
@@ -1234,6 +1285,12 @@ tests/$(am__dirstamp):
 tests/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/$(DEPDIR)
 	@: > tests/$(DEPDIR)/$(am__dirstamp)
+tests/test_bisection_iterator-test-bisection_iterator_tests.$(OBJEXT):  \
+	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/test-bisection_iterator$(EXEEXT): $(tests_test_bisection_iterator_OBJECTS) $(tests_test_bisection_iterator_DEPENDENCIES) $(EXTRA_tests_test_bisection_iterator_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/test-bisection_iterator$(EXEEXT)
+	$(AM_V_CCLD)$(tests_test_bisection_iterator_LINK) $(tests_test_bisection_iterator_OBJECTS) $(tests_test_bisection_iterator_LDADD) $(LIBS)
 tests/test_exrat-test-exrat_tests.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -1288,6 +1345,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bisection_iterator-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exrat-implementations_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exrat-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixed32p32-implementations_dats.Plo@am__quote@ # am--include-marker
@@ -1301,6 +1359,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpfr-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strfrom-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_float-test-float_tests.Po@am__quote@ # am--include-marker
@@ -1309,6 +1368,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_mpfr-test-mpfr_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_sort-test-sort_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/bisection_iterator_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/exrat_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/fixed32p32_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/float_dats.Plo@am__quote@ # am--include-marker
@@ -1316,6 +1376,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/mpfr_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/DATS/$(DEPDIR)/sort_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/SATS/$(DEPDIR)/arith_prf_sats.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@xprelude/SATS/$(DEPDIR)/bisection_iterator_sats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/SATS/$(DEPDIR)/exrat_sats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/SATS/$(DEPDIR)/fixed32p32_sats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@xprelude/SATS/$(DEPDIR)/float_sats.Plo@am__quote@ # am--include-marker
@@ -1366,6 +1427,20 @@ list_ats_dependencies-list-ats-dependencies_depsprog.obj: list-ats-dependencies_
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='list-ats-dependencies_depsprog.c' object='list_ats_dependencies-list-ats-dependencies_depsprog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(list_ats_dependencies_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o list_ats_dependencies-list-ats-dependencies_depsprog.obj `if test -f 'list-ats-dependencies_depsprog.c'; then $(CYGPATH_W) 'list-ats-dependencies_depsprog.c'; else $(CYGPATH_W) '$(srcdir)/list-ats-dependencies_depsprog.c'; fi`
+
+tests/test_bisection_iterator-test-bisection_iterator_tests.o: tests/test-bisection_iterator_tests.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_bisection_iterator_CFLAGS) $(CFLAGS) -MT tests/test_bisection_iterator-test-bisection_iterator_tests.o -MD -MP -MF tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Tpo -c -o tests/test_bisection_iterator-test-bisection_iterator_tests.o `test -f 'tests/test-bisection_iterator_tests.c' || echo '$(srcdir)/'`tests/test-bisection_iterator_tests.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Tpo tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tests/test-bisection_iterator_tests.c' object='tests/test_bisection_iterator-test-bisection_iterator_tests.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_bisection_iterator_CFLAGS) $(CFLAGS) -c -o tests/test_bisection_iterator-test-bisection_iterator_tests.o `test -f 'tests/test-bisection_iterator_tests.c' || echo '$(srcdir)/'`tests/test-bisection_iterator_tests.c
+
+tests/test_bisection_iterator-test-bisection_iterator_tests.obj: tests/test-bisection_iterator_tests.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_bisection_iterator_CFLAGS) $(CFLAGS) -MT tests/test_bisection_iterator-test-bisection_iterator_tests.obj -MD -MP -MF tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Tpo -c -o tests/test_bisection_iterator-test-bisection_iterator_tests.obj `if test -f 'tests/test-bisection_iterator_tests.c'; then $(CYGPATH_W) 'tests/test-bisection_iterator_tests.c'; else $(CYGPATH_W) '$(srcdir)/tests/test-bisection_iterator_tests.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Tpo tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tests/test-bisection_iterator_tests.c' object='tests/test_bisection_iterator-test-bisection_iterator_tests.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_bisection_iterator_CFLAGS) $(CFLAGS) -c -o tests/test_bisection_iterator-test-bisection_iterator_tests.obj `if test -f 'tests/test-bisection_iterator_tests.c'; then $(CYGPATH_W) 'tests/test-bisection_iterator_tests.c'; else $(CYGPATH_W) '$(srcdir)/tests/test-bisection_iterator_tests.c'; fi`
 
 tests/test_exrat-test-exrat_tests.o: tests/test-exrat_tests.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_exrat_CFLAGS) $(CFLAGS) -MT tests/test_exrat-test-exrat_tests.o -MD -MP -MF tests/$(DEPDIR)/test_exrat-test-exrat_tests.Tpo -c -o tests/test_exrat-test-exrat_tests.o `test -f 'tests/test-exrat_tests.c' || echo '$(srcdir)/'`tests/test-exrat_tests.c
@@ -1828,6 +1903,13 @@ tests/test-exrat.log: tests/test-exrat$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/test-bisection_iterator.log: tests/test-bisection_iterator$(EXEEXT)
+	@p='tests/test-bisection_iterator$(EXEEXT)'; \
+	b='tests/test-bisection_iterator'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 tests/test-mpfr.log: tests/test-mpfr$(EXEEXT)
 	@p='tests/test-mpfr$(EXEEXT)'; \
 	b='tests/test-mpfr'; \
@@ -2120,7 +2202,8 @@ clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f ./$(DEPDIR)/exrat-implementations_dats.Plo
+		-rm -f ./$(DEPDIR)/bisection_iterator-support_dats.Plo
+	-rm -f ./$(DEPDIR)/exrat-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/exrat-support_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_division.Plo
@@ -2133,6 +2216,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/mpfr-support_dats.Plo
 	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
+	-rm -f tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
 	-rm -f tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po
 	-rm -f tests/$(DEPDIR)/test_float-test-float_tests.Po
@@ -2141,6 +2225,7 @@ distclean: distclean-recursive
 	-rm -f tests/$(DEPDIR)/test_mpfr-test-mpfr_tests.Po
 	-rm -f tests/$(DEPDIR)/test_sort-test-sort_tests.Po
 	-rm -f xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo
+	-rm -f xprelude/DATS/$(DEPDIR)/bisection_iterator_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/exrat_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/fixed32p32_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/float_dats.Plo
@@ -2148,6 +2233,7 @@ distclean: distclean-recursive
 	-rm -f xprelude/DATS/$(DEPDIR)/mpfr_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/sort_dats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/arith_prf_sats.Plo
+	-rm -f xprelude/SATS/$(DEPDIR)/bisection_iterator_sats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/exrat_sats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/fixed32p32_sats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/float_sats.Plo
@@ -2203,7 +2289,8 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f ./$(DEPDIR)/exrat-implementations_dats.Plo
+		-rm -f ./$(DEPDIR)/bisection_iterator-support_dats.Plo
+	-rm -f ./$(DEPDIR)/exrat-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/exrat-support_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/fixed32p32_division.Plo
@@ -2216,6 +2303,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/mpfr-support_dats.Plo
 	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
+	-rm -f tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
 	-rm -f tests/$(DEPDIR)/test_fixed32p32-test-fixed32p32_tests.Po
 	-rm -f tests/$(DEPDIR)/test_float-test-float_tests.Po
@@ -2224,6 +2312,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f tests/$(DEPDIR)/test_mpfr-test-mpfr_tests.Po
 	-rm -f tests/$(DEPDIR)/test_sort-test-sort_tests.Po
 	-rm -f xprelude/DATS/$(DEPDIR)/arith_prf_dats.Plo
+	-rm -f xprelude/DATS/$(DEPDIR)/bisection_iterator_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/exrat_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/fixed32p32_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/float_dats.Plo
@@ -2231,6 +2320,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f xprelude/DATS/$(DEPDIR)/mpfr_dats.Plo
 	-rm -f xprelude/DATS/$(DEPDIR)/sort_dats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/arith_prf_sats.Plo
+	-rm -f xprelude/SATS/$(DEPDIR)/bisection_iterator_sats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/exrat_sats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/fixed32p32_sats.Plo
 	-rm -f xprelude/SATS/$(DEPDIR)/float_sats.Plo

@@ -247,6 +247,7 @@ check_default_sort([default_list_stable_sort])
 #--------------------------------------------------------------------------
 
 AM_CONDITIONAL([ENABLE_EXRAT],[test x"${enable_exrat}" = xyes])
+AM_CONDITIONAL([ENABLE_BISECTION_ITERATOR],[test x"${enable_exrat}" = xyes])
 AM_CONDITIONAL([ENABLE_MPFR],[test x"${enable_mpfr}" = xyes])
 AM_CONDITIONAL([WITH_GMP],[test x"${enable_exrat}" = xyes || test x"${enable_mpfr}" = xyes])
 

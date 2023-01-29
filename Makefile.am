@@ -367,6 +367,36 @@ endif ENABLE_EXRAT
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+BISECTION_ITERATOR_SATS = xprelude/SATS/bisection_iterator.sats
+BISECTION_ITERATOR_DATS = xprelude/DATS/bisection_iterator.dats
+BISECTION_ITERATOR_SATS_C = xprelude/SATS/bisection_iterator_sats.c
+BISECTION_ITERATOR_DATS_C = xprelude/DATS/bisection_iterator_dats.c
+
+BISECTION_ITERATOR_SUPPORT_DATS =
+BISECTION_ITERATOR_SUPPORT_DATS += bisection_iterator-support.dats
+
+BISECTION_ITERATOR_SUPPORT_DATS_C =
+BISECTION_ITERATOR_SUPPORT_DATS_C += bisection_iterator-support_dats.c
+
+BISECTION_ITERATOR_SRC =
+BISECTION_ITERATOR_SRC += $(BISECTION_ITERATOR_SATS)
+BISECTION_ITERATOR_SRC += $(BISECTION_ITERATOR_DATS)
+EXTRA_DIST += $(addsuffix .m4, $(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS))
+BUILT_SOURCES += $(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS)
+CLEANFILES += $(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS)
+
+if ENABLE_BISECTION_ITERATOR
+
+nobase_nodist_pkginclude_HEADERS += $(BISECTION_ITERATOR_SRC)
+
+nodist_libats2_xprelude_la_SOURCES += $(BISECTION_ITERATOR_SATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(BISECTION_ITERATOR_DATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(BISECTION_ITERATOR_SUPPORT_DATS_C)
+
+endif ENABLE_BISECTION_ITERATOR
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 MPFR_SATS = xprelude/SATS/mpfr.sats
 MPFR_DATS = xprelude/DATS/mpfr.dats
 MPFR_CATS = xprelude/CATS/mpfr.cats
@@ -484,6 +514,14 @@ nodist_tests_test_exrat_SOURCES = tests/test-exrat_tests.c
 tests_test_exrat_CFLAGS = $(TEST_CFLAGS)
 tests_test_exrat_LDADD = $(TEST_LIBS)
 endif ENABLE_EXRAT
+
+EXTRA_DIST += tests/test-bisection_iterator.dats
+if ENABLE_BISECTION_ITERATOR
+TESTS += tests/test-bisection_iterator
+nodist_tests_test_bisection_iterator_SOURCES = tests/test-bisection_iterator_tests.c
+tests_test_bisection_iterator_CFLAGS = $(TEST_CFLAGS)
+tests_test_bisection_iterator_LDADD = $(TEST_LIBS)
+endif ENABLE_BISECTION_ITERATOR
 
 EXTRA_DIST += tests/test-mpfr.dats
 if ENABLE_MPFR
