@@ -58,11 +58,48 @@ test1 () : void =
 
     val- true = abs (x - mpfr_make ("1.2345", OCTUPLE_PREC)) <= mpfr_make ("0.0000001", QUAD_PREC)
     val- true = abs (x - mpfr_make ("1.2345")) <= mpfr_make ("0.00001")
+    val- true = mpfr_make "1234" = mpfr_make "1234.0"
 
     var v3 = mpfr_make ()
     // FIXME: Test that this is a NaN.
     // FIXME: Test that this is a NaN.
     // FIXME: Test that this is a NaN.
+
+    val- true =
+      begin
+        try
+          let 
+            val _ = mpfr_make ""
+          in
+            false
+          end
+        with
+        | ~ IllegalArgExn msg => true
+      end : bool
+
+    val- true =
+      begin
+        try
+          let 
+            val _ = mpfr_make "1234|"
+          in
+            false
+          end
+        with
+        | ~ IllegalArgExn msg => true
+      end : bool
+
+    val- true =
+      begin
+        try
+          let 
+            val _ = mpfr_make "1234 "
+          in
+            false
+          end
+        with
+        | ~ IllegalArgExn msg => true
+      end : bool
   in
   end
 
