@@ -196,6 +196,7 @@ my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
 /* Assorted operations. */
 
 divert(-1)
+
 m4_define(`supported_unary_ops',
   `sqrt, cbrt,
    exp, exp2, exp10,
@@ -211,6 +212,10 @@ m4_define(`supported_unary_ops',
    erf, erfc,
    j0, j1, y0, y1,
    digamma, eint, ai, li2, zeta')
+
+m4_define(`supported_binary_ops',
+  `fmod')
+
 divert`'dnl
 
 m4_foreachq(`OP',`neg, abs, fabs, reciprocal, logp1,
@@ -224,6 +229,24 @@ my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x)
   return z;
 }
 ')dnl
+
+m4_foreachq(`OP',`add, sub, mul, div, supported_binary_ops',`
+floatt2c(mpfr)
+my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  my_extern_prefix`'mpfr_`'OP`'_replace (&z, x, y);
+  return z;
+}
+')dnl
+
+floatt2c(mpfr)
+my_extern_prefix`'g0float_unsafe_strto_mpfr (atstype_ptr nptr, atstype_ptr endptr)
+{
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  my_extern_prefix`'mpfr_unsafe_strto_replace (&z, nptr, endptr);
+  return z;
+}
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
@@ -339,6 +362,15 @@ my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr) zp, floatt2c(mpfr) x)
 }
 ')dnl
 
+m4_foreachq(`OP',`add, sub, mul, div, supported_binary_ops',`
+atsvoid_t0ype
+my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr) zp, floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_`'OP (z[0], x[0], y[0], ROUNDING);
+}
+')dnl
+
 atsvoid_t0ype
 my_extern_prefix`'mpfr_fabs_replace (REF(mpfr) zp, floatt2c(mpfr) x)
 {
@@ -372,6 +404,24 @@ my_extern_prefix`'mpfr_tgamma_replace (REF(mpfr) zp, floatt2c(mpfr) x)
 {
   floatt2c(mpfr) z = DEREF(mpfr, zp);
   mpfr_gamma (z[0], x[0], ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr nptr, atstype_ptr endptr)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_strtofr (z[0], (void *) nptr, (void *) endptr, 10, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string s, uintb2c(size) i)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintb2c(size) *j = (void *) jp;
+  char *startptr = (char *) (void *) s + i;
+  char *endptr;
+  mpfr_strtofr (z[0], startptr, &endptr, 10, ROUNDING);
+  *j = i + (uintb2c(size)) (endptr - startptr);
 }
 
 %}

@@ -241,7 +241,8 @@ g0float_strto {n} {i} (s, i) =
     var endptr : c_char_p
 
     val p = $UN.cast{ptr} s
-    val x = g0float_unsafe_strto (ptr_add<byte> (p, i), addr@ endptr)
+    val x = g0float_unsafe_strto<tk> (ptr_add<byte> (p, i),
+                                      addr@ endptr)
     val j = g1ofg0 (ptr0_diff<byte> ($UN.cast{ptr} endptr, p))
 
     extern praxi

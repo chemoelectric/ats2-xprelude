@@ -251,10 +251,12 @@ FLOAT_DATS_C = xprelude/DATS/float_dats.c
 
 FLOAT_SUPPORT_DATS =
 FLOAT_SUPPORT_DATS += strfrom-support.dats
+FLOAT_SUPPORT_DATS += strto-support.dats
 FLOAT_SUPPORT_DATS += float-implementations.dats
 
 FLOAT_SUPPORT_DATS_C =
 FLOAT_SUPPORT_DATS_C += strfrom-support_dats.c
+FLOAT_SUPPORT_DATS_C += strto-support_dats.c
 FLOAT_SUPPORT_DATS_C += float-implementations_dats.c
 
 strfrom-support.dats: $(addsuffix .m4, $(FLOAT_DATS))
@@ -262,9 +264,11 @@ float-implementations.dats: $(addsuffix .m4, $(FLOAT_DATS))
 $(eval $(call make-compiling-implementations, float-implementations.dats))
 
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
-EXTRA_DIST += $(addsuffix .m4, $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS))
-BUILT_SOURCES += $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS)
-CLEANFILES += $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS)
+EXTRA_DIST += $(addsuffix .m4, $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c)
+BUILT_SOURCES += $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c
+CLEANFILES += $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c
+
+strto-support_dats.$(OBJEXT): strto-support_dats.c float-strto.c config.h
 
 nobase_nodist_pkginclude_HEADERS += $(FLOAT_SRC)
 

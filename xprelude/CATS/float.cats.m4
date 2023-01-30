@@ -253,6 +253,10 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 `#define my_extern_prefix`'g0float_unsafe_strto_`'FLT1`'(nptr, endptr)dnl
  strto`'floatt2sfxld(`FLT1')` '((const char *) (nptr), (char **) (endptr))
 ')dnl
+m4_foreachq(`FLT1',`conventional_floattypes',
+`atsvoid_t0ype my_extern_prefix`'FLT1`'_strto_replace (REF(FLT1) zp, REF(size) jp,
+                                                       atstype_string s, atstype_size i);
+')dnl
 
 /*------------------------------------------------------------------*/
 /* Comparisons. */
@@ -298,8 +302,7 @@ my_extern_prefix`'g0float_pred_`'FLT1 (floatt2c(FLT1) x)
 END_FLOAT_SUPPORT_CHECK(FLT1)
 ')dnl
 
-m4_foreachq(`FLT1',`conventional_floattypes',
-`
+m4_foreachq(`FLT1',`conventional_floattypes',`
 FLOAT_SUPPORT_CHECK(FLT1)
 my_extern_prefix`'inline floatt2c(FLT1)
 my_extern_prefix`'g0float_min_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)

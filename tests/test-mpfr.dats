@@ -45,6 +45,21 @@ staload _ = "xprelude/DATS/mpfr.dats"
 fn
 test1 () : void =
   let
+    var v1 = mpfr_make QUAD_PREC
+    var v2 = mpfr_make QUAD_PREC
+    val () = replace (v1, 1.2345)
+    val () = replace (v2, 0.0000001)
+    val s : String = "x = 1.2345; /* example */"
+    val @(x, j) = g0float_strto<mpfrknd> (s, i2sz 4)
+    val- true = abs (x - v1) <= v2
+    val- true = string_isnot_atend (s, j)
+    val- true = s[j] = ';'
+  in
+  end
+
+fn
+test2 () : void =
+  let
     var x = mpfr_make OCTUPLE_PREC
 
 val () = replace (x, 8)
@@ -162,5 +177,6 @@ implement
 main () =
   begin
     test1 ();
+    //test2 ();
     0
   end

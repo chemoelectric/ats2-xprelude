@@ -405,7 +405,6 @@ m4_foreachq(`FLT1',`conventional_floattypes',
    g0float_npow. The former template function is more general. *)
 overload ** with g0float_int_pow of 1
 
-
 (*------------------------------------------------------------------*)
 (* Multiplication or division by powers of two. These can be used as
    binary shift operations, and are motivated by the existence of
@@ -544,6 +543,18 @@ fn {tk  : tkind}
 g0float_div_2exp_replace :
   (&g0float tk >> _, g0float tk, g0int tki) -< !wrt > void
 overload div_2exp_replace with g0float_div_2exp_replace
+
+fn {tk : tkind}
+g0float_unsafe_strto_replace :
+  (&g0float tk >> _, ptr, ptr) -< !wrt > void
+
+fn {tk : tkind}
+g0float_strto_replace :
+  {n : int}
+  {i : nat | i <= n}
+  (&g0float tk >> _, &size_t? >> size_t j, string n, size_t i) -< !wrt >
+    #[j : nat | j <= n]
+    void
 
 (*------------------------------------------------------------------*)
 dnl

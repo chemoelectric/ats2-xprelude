@@ -78,9 +78,18 @@ mpfr_make_prec_guint prec =
   _mpfr_make_prec_uintmax (g1u2u prec)
 
 (*------------------------------------------------------------------*)
+(* Comparisons. *)
+
+m4_foreachq(`OP',`lt, lte, gt, gte, eq, neq, compare',
+`implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Assorted operations. *)
 
-m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
+m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops,
+                  add, sub, mul, div, binary_ops,
+                  unsafe_strto',
 `implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
 ')dnl
 

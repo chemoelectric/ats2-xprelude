@@ -588,6 +588,11 @@ test22 () : void =
     val x : ldouble = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", addr@ p)
     val- true = abs (x - 1.2345L) <= 0.0000001L
 
+    var p : c_char_p
+    var x = 0.0L
+    val () = g0float_unsafe_strto_replace (x, $UN.cast{ptr} "1.2345", addr@ p)
+    val- true = abs (x - 1.2345L) <= 0.0000001L
+
     val s : String = "  1.2345"
     val @(x, j) = g0float_strto<fltknd> (s, i2sz 2)
     val- true = abs (x - 1.2345F) <= 0.0000001F
@@ -600,6 +605,14 @@ test22 () : void =
 
     val s : String = "x = 1.2345; /* example */"
     val @(x, j) = g0float_strto<ldblknd> (s, i2sz 4)
+    val- true = abs (x - 1.2345L) <= 0.0000001L
+    val- true = string_isnot_atend (s, j)
+    val- true = s[j] = ';'
+
+    val s : String = "x = 1.2345; /* example */"
+    var x = 0.0L
+    var j : size_t
+    val () = g0float_strto_replace<ldblknd> (x, j, s, i2sz 4)
     val- true = abs (x - 1.2345L) <= 0.0000001L
     val- true = string_isnot_atend (s, j)
     val- true = s[j] = ';'

@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Sun Jan 29 14:10:07 CST 2023
+# from AX_AM_MACROS_STATIC on Mon Jan 30 12:22:38 CST 2023
 
 
 
@@ -213,7 +213,8 @@ am__objects_3 = xprelude/SATS/integer_sats.lo
 am__objects_4 = xprelude/DATS/integer_dats.lo
 am__objects_5 = xprelude/SATS/float_sats.lo
 am__objects_6 = xprelude/DATS/float_dats.lo
-am__objects_7 = strfrom-support_dats.lo float-implementations_dats.lo
+am__objects_7 = strfrom-support_dats.lo strto-support_dats.lo \
+	float-implementations_dats.lo
 am__objects_8 = xprelude/SATS/fixed32p32_sats.lo
 am__objects_9 = xprelude/DATS/fixed32p32_dats.lo
 am__objects_10 = fixed32p32_square_root_dats.lo \
@@ -351,6 +352,7 @@ am__depfiles_remade = ./$(DEPDIR)/bisection_iterator-support_dats.Plo \
 	./$(DEPDIR)/mpfr-implementations_dats.Plo \
 	./$(DEPDIR)/mpfr-support_dats.Plo \
 	./$(DEPDIR)/strfrom-support_dats.Plo \
+	./$(DEPDIR)/strto-support_dats.Plo \
 	./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo \
 	tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po \
 	tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po \
@@ -885,8 +887,9 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	COPYING INSTALL README AUTHORS $(addsuffix .m4, \
 	$(XPRELUDE_HATS)) $(addsuffix .m4, $(ARITH_PRF_SRC)) \
 	$(addsuffix .m4, $(INTEGER_SRC)) $(addsuffix .m4, $(FLOAT_SRC) \
-	$(FLOAT_SUPPORT_DATS)) $(addsuffix .m4, $(FIXED32P32_SRC)) \
-	$(addsuffix .m4, $(FIXED32P32_SUPPORT_DATS)) $(addsuffix .m4, \
+	$(FLOAT_SUPPORT_DATS) float-strto.c) $(addsuffix .m4, \
+	$(FIXED32P32_SRC)) $(addsuffix .m4, \
+	$(FIXED32P32_SUPPORT_DATS)) $(addsuffix .m4, \
 	$(FIXED32P32_SUPPORT_C)) $(addsuffix .m4, $(GMP_SUPPORT_DATS)) \
 	$(addsuffix .m4, $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)) \
 	$(addsuffix .m4, $(BISECTION_ITERATOR_SRC) \
@@ -900,20 +903,21 @@ EXTRA_DIST = autogen.sh m4/gnulib-cache.m4 $(srcdir)/silent-rules.mk \
 	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
-	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) $(FIXED32P32_SRC) \
-	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
-	$(GMP_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
-	$(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS) \
-	$(MPFR_SRC) $(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS) \
-	$(TESTS) list-ats-dependencies \
-	list-ats-dependencies_depsprog.c
+	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c \
+	$(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS) \
+	$(FIXED32P32_SUPPORT_C) $(GMP_SUPPORT_DATS) $(EXRAT_SRC) \
+	$(EXRAT_SUPPORT_DATS) $(BISECTION_ITERATOR_SRC) \
+	$(BISECTION_ITERATOR_SUPPORT_DATS) $(MPFR_SRC) \
+	$(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS) $(TESTS) \
+	list-ats-dependencies list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
-	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) $(FIXED32P32_SRC) \
-	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
-	$(GMP_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
-	$(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS) \
-	$(MPFR_SRC) $(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
+	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c \
+	$(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS) \
+	$(FIXED32P32_SUPPORT_C) $(GMP_SUPPORT_DATS) $(EXRAT_SRC) \
+	$(EXRAT_SUPPORT_DATS) $(BISECTION_ITERATOR_SRC) \
+	$(BISECTION_ITERATOR_SUPPORT_DATS) $(MPFR_SRC) \
+	$(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
 
 #--------------------------------------------------------------------------
 AM_M4FLAGS = -DTOP_SRCDIR='$(top_srcdir)'
@@ -984,8 +988,9 @@ FLOAT_DATS = xprelude/DATS/float.dats
 FLOAT_CATS = xprelude/CATS/float.cats
 FLOAT_SATS_C = xprelude/SATS/float_sats.c
 FLOAT_DATS_C = xprelude/DATS/float_dats.c
-FLOAT_SUPPORT_DATS = strfrom-support.dats float-implementations.dats
-FLOAT_SUPPORT_DATS_C = strfrom-support_dats.c \
+FLOAT_SUPPORT_DATS = strfrom-support.dats strto-support.dats \
+	float-implementations.dats
+FLOAT_SUPPORT_DATS_C = strfrom-support_dats.c strto-support_dats.c \
 	float-implementations_dats.c
 FLOAT_SRC = $(FLOAT_SATS) $(FLOAT_DATS) $(FLOAT_CATS)
 
@@ -1358,6 +1363,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpfr-implementations_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpfr-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strfrom-support_dats.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strto-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po@am__quote@ # am--include-marker
@@ -2215,6 +2221,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/mpfr-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/mpfr-support_dats.Plo
 	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
+	-rm -f ./$(DEPDIR)/strto-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
 	-rm -f tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
@@ -2302,6 +2309,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/mpfr-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/mpfr-support_dats.Plo
 	-rm -f ./$(DEPDIR)/strfrom-support_dats.Plo
+	-rm -f ./$(DEPDIR)/strto-support_dats.Plo
 	-rm -f ./$(DEPDIR)/tostrptr_fixed32p32_dats.Plo
 	-rm -f tests/$(DEPDIR)/test_bisection_iterator-test-bisection_iterator_tests.Po
 	-rm -f tests/$(DEPDIR)/test_exrat-test-exrat_tests.Po
@@ -2553,6 +2561,8 @@ ats-includes-distclean:
 strfrom-support.dats: $(addsuffix .m4, $(FLOAT_DATS))
 float-implementations.dats: $(addsuffix .m4, $(FLOAT_DATS))
 $(eval $(call make-compiling-implementations, float-implementations.dats))
+
+strto-support_dats.$(OBJEXT): strto-support_dats.c float-strto.c config.h
 
 fixed32p32-implementations.dats : $(addsuffix .m4, $(FIXED32P32_DATS))
 $(eval $(call make-compiling-implementations, fixed32p32-implementations.dats))

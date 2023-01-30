@@ -27,6 +27,54 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
+/* Define to 1 if you have the `strtod' function. */
+#undef HAVE_STRTOD
+
+/* Define to 1 if you have the `strtod128' function. */
+#undef HAVE_STRTOD128
+
+/* Define to 1 if you have the `strtod128x' function. */
+#undef HAVE_STRTOD128X
+
+/* Define to 1 if you have the `strtod32' function. */
+#undef HAVE_STRTOD32
+
+/* Define to 1 if you have the `strtod64' function. */
+#undef HAVE_STRTOD64
+
+/* Define to 1 if you have the `strtod64x' function. */
+#undef HAVE_STRTOD64X
+
+/* Define to 1 if you have the `strtof' function. */
+#undef HAVE_STRTOF
+
+/* Define to 1 if you have the `strtof128' function. */
+#undef HAVE_STRTOF128
+
+/* Define to 1 if you have the `strtof128x' function. */
+#undef HAVE_STRTOF128X
+
+/* Define to 1 if you have the `strtof16' function. */
+#undef HAVE_STRTOF16
+
+/* Define to 1 if you have the `strtof16x' function. */
+#undef HAVE_STRTOF16X
+
+/* Define to 1 if you have the `strtof32' function. */
+#undef HAVE_STRTOF32
+
+/* Define to 1 if you have the `strtof32x' function. */
+#undef HAVE_STRTOF32X
+
+/* Define to 1 if you have the `strtof64' function. */
+#undef HAVE_STRTOF64
+
+/* Define to 1 if you have the `strtof64x' function. */
+#undef HAVE_STRTOF64X
+
+/* Define to 1 if you have the `strtold' function. */
+#undef HAVE_STRTOLD
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 

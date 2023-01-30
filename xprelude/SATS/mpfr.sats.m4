@@ -117,11 +117,29 @@ overload mpfr_make_prec with mpfr_make_prec_guint
 overload mpfr_make with mpfr_make_prec
 
 (*------------------------------------------------------------------*)
+(* Comparisons. *)
+
+fn g0float_eq_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+fn g0float_neq_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+fn g0float_lt_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+fn g0float_lte_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+fn g0float_gt_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+fn g0float_gte_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+
+fn g0float_compare_mpfr : g0float_compare_type mpfrknd = "mac#%"
+
+(*------------------------------------------------------------------*)
 (* Assorted operations. *)
 
 m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
 `fn g0float_`'OP`'_mpfr : mpfr -<> mpfr = "mac#%"
 ')dnl
+
+m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
+`fn g0float_`'OP`'_mpfr : (mpfr, mpfr) -<> mpfr = "mac#%"
+')dnl
+
+fn g0float_unsafe_strto_mpfr : (ptr, ptr) -< !wrt > mpfr = "mac#%"
 
 (*------------------------------------------------------------------*)
 dnl

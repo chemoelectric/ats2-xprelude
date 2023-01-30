@@ -20496,6 +20496,108 @@ fi
 #
 # Checks for library functions.
 
+ac_fn_c_check_func "$LINENO" "strtof" "ac_cv_func_strtof"
+if test "x$ac_cv_func_strtof" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtod" "ac_cv_func_strtod"
+if test "x$ac_cv_func_strtod" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOD 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtold" "ac_cv_func_strtold"
+if test "x$ac_cv_func_strtold" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOLD 1" >>confdefs.h
+
+fi
+ # <-- These three are standard C99.
+ac_fn_c_check_func "$LINENO" "strtof16" "ac_cv_func_strtof16"
+if test "x$ac_cv_func_strtof16" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF16 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtof32" "ac_cv_func_strtof32"
+if test "x$ac_cv_func_strtof32" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF32 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtof64" "ac_cv_func_strtof64"
+if test "x$ac_cv_func_strtof64" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF64 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtof128" "ac_cv_func_strtof128"
+if test "x$ac_cv_func_strtof128" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF128 1" >>confdefs.h
+
+fi
+
+ac_fn_c_check_func "$LINENO" "strtof16x" "ac_cv_func_strtof16x"
+if test "x$ac_cv_func_strtof16x" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF16X 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtof32x" "ac_cv_func_strtof32x"
+if test "x$ac_cv_func_strtof32x" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF32X 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtof64x" "ac_cv_func_strtof64x"
+if test "x$ac_cv_func_strtof64x" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF64X 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtof128x" "ac_cv_func_strtof128x"
+if test "x$ac_cv_func_strtof128x" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOF128X 1" >>confdefs.h
+
+fi
+
+ac_fn_c_check_func "$LINENO" "strtod32" "ac_cv_func_strtod32"
+if test "x$ac_cv_func_strtod32" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOD32 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtod64" "ac_cv_func_strtod64"
+if test "x$ac_cv_func_strtod64" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOD64 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtod128" "ac_cv_func_strtod128"
+if test "x$ac_cv_func_strtod128" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOD128 1" >>confdefs.h
+
+fi
+
+ac_fn_c_check_func "$LINENO" "strtod64x" "ac_cv_func_strtod64x"
+if test "x$ac_cv_func_strtod64x" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOD64X 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "strtod128x" "ac_cv_func_strtod128x"
+if test "x$ac_cv_func_strtod128x" = xyes
+then :
+  printf "%s\n" "#define HAVE_STRTOD128X 1" >>confdefs.h
+
+fi
+
+
 #--------------------------------------------------------------------------
 #
 # Extract the default sort numbers, and check that they are sensible.

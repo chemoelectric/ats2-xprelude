@@ -39,6 +39,11 @@ END_FLOAT_SUPPORT_CHECK(`decimal64')
 #include <stdio.h>
 #include <mpfr.h>
 
+#ifndef my_extern_prefix`'boolc2ats
+#define my_extern_prefix`'boolc2ats(B) \
+  ((B) ? (atsbool_true) : (atsbool_false))
+#endif
+
 /*------------------------------------------------------------------*/
 /* If you change my_extern_prefix`'mpfr_rnd in a multithreaded
    program, it is your responsibility to handle locking. */
@@ -98,10 +103,58 @@ my_extern_prefix`'mpfr_get_prec (floatt2c(mpfr) x)
 floatt2c(mpfr) my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
 
 /*------------------------------------------------------------------*/
+/* Comparisons. */
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_lt_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_less_p (x[0], y[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_lte_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_lessequal_p (x[0], y[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_gt_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_greater_p (x[0], y[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_gte_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_greaterequal_p (x[0], y[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_eq_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_equal_p (x[0], y[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_neq_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_lessgreater_p (x[0], y[0]));
+}
+
+/*------------------------------------------------------------------*/
+/* g0float_strto. */
+
+floatt2c(mpfr) my_extern_prefix`'g0float_unsafe_strto_mpfr (atstype_ptr, atstype_ptr);
+
+/*------------------------------------------------------------------*/
 /* Assorted operations. */
 
 m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
 `floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr));
+')dnl
+
+m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
+`floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr), floatt2c(mpfr));
 ')dnl
 
 /*------------------------------------------------------------------*/
@@ -127,6 +180,12 @@ atsvoid_t0ype my_extern_prefix`'mpfr_exchange (REF(mpfr) yp, REF(mpfr) xp);
 m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
 `atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr), floatt2c(mpfr));
 ')dnl
+
+m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
+`atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr), floatt2c(mpfr), floatt2c(mpfr));
+')dnl
+
+atsvoid_t0ype my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr, atstype_ptr);
 
 /*------------------------------------------------------------------*/
 

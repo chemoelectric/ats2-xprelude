@@ -207,6 +207,12 @@ fi
 #
 # Checks for library functions.
 
+AC_CHECK_FUNCS(strtof strtod strtold) # <-- These three are standard C99.
+AC_CHECK_FUNCS(strtof16 strtof32 strtof64 strtof128)
+AC_CHECK_FUNCS(strtof16x strtof32x strtof64x strtof128x)
+AC_CHECK_FUNCS(strtod32 strtod64 strtod128)
+AC_CHECK_FUNCS(strtod64x strtod128x)
+
 #--------------------------------------------------------------------------
 #
 # Extract the default sort numbers, and check that they are sensible.

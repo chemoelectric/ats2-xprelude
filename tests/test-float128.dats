@@ -447,8 +447,21 @@ test22 () : void =
     val x : float128 = g0float_unsafe_strto ($UN.cast{ptr} "1.2345", addr@ p)
     val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
 
+    var p : c_char_p
+    var x : float128 = g0i2f 0
+    val () = g0float_unsafe_strto_replace (x, $UN.cast{ptr} "1.2345", addr@ p)
+    val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
+
     val s : String = "x = 1.2345; /* example */"
     val @(x, j) = g0float_strto<flt128knd> (s, i2sz 4)
+    val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
+    val- true = string_isnot_atend (s, j)
+    val- true = s[j] = ';'
+
+    val s : String = "x = 1.2345; /* example */"
+    var x : float128 = g0i2f 0
+    var j : size_t
+    val () = g0float_strto_replace (x, j, s, i2sz 4)
     val- true = abs (x - $extval (float128, "1.2345f128")) <= $extval (float128, "0.0000001f128")
     val- true = string_isnot_atend (s, j)
     val- true = s[j] = ';'
