@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Mon Jan 30 12:22:38 CST 2023
+# from AX_AM_MACROS_STATIC on Mon Jan 30 15:41:02 CST 2023
 
 
 
@@ -162,7 +162,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = list-ats-dependencies.dats common-macros.m4 \
-	ats2-xprelude-macros.m4
+	ats2-xprelude-macros.m4 pats_ccomp_exception.h
 CONFIG_CLEAN_VPATH_FILES =
 @HAVE_FLOAT128_TRUE@am__EXEEXT_1 = tests/test-float128$(EXEEXT)
 @ENABLE_EXRAT_TRUE@am__EXEEXT_2 = tests/test-exrat$(EXEEXT)
@@ -634,6 +634,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(srcdir)/ats2-xprelude-macros.m4.in \
 	$(srcdir)/common-macros.m4.in $(srcdir)/config.h.in \
 	$(srcdir)/list-ats-dependencies.dats.in \
+	$(srcdir)/pats_ccomp_exception.h.array \
 	$(top_srcdir)/aminclude_static.am \
 	$(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
@@ -1146,6 +1147,8 @@ list-ats-dependencies.dats: $(top_builddir)/config.status $(srcdir)/list-ats-dep
 common-macros.m4: $(top_builddir)/config.status $(srcdir)/common-macros.m4.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 ats2-xprelude-macros.m4: $(top_builddir)/config.status $(srcdir)/ats2-xprelude-macros.m4.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+pats_ccomp_exception.h: $(top_builddir)/config.status $(srcdir)/pats_ccomp_exception.h.array
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

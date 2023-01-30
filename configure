@@ -870,6 +870,7 @@ enable_mpfr
 with_ats2_timsort
 with_ats2_quicksorts
 enable_default_sorts
+enable_exceptions_demo
 enable_cross_guesses
 with_gcov
 enable_code_coverage
@@ -1560,6 +1561,9 @@ Optional Features:
                           sort, array stable sort, list sort, list stable
                           sort; choices are 1=prelude, 2=ats2-timsort,
                           3=ats2-quicksorts [default=1,1,1,1]
+  --enable-exceptions-demo={no|array}
+                          when running the tests, enable a demonstration of a
+                          variant of pats_ccomp_exception.h
   --enable-cross-guesses={conservative|risky}
                           specify policy for cross-compilation guesses
   --enable-code-coverage  Whether to enable code coverage support
@@ -13561,6 +13565,15 @@ else $as_nop
 fi
 
 
+# Check whether --enable-exceptions-demo was given.
+if test ${enable_exceptions_demo+y}
+then :
+  enableval=$enable_exceptions_demo;
+else $as_nop
+  enable_exceptions_demo='no'
+fi
+
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -20912,6 +20925,17 @@ ac_config_files="$ac_config_files ats2-xprelude-macros.m4"
 
 ac_config_files="$ac_config_files lib/Makefile"
 
+case x"${enable_exceptions_demo}" in
+  x"no" )
+    ;;
+  x"array" )
+    ac_config_files="$ac_config_files pats_ccomp_exception.h:pats_ccomp_exception.h.array"
+
+    ;;
+  * )
+    as_fn_error $? "unrecognized exceptions demo (--enable-exceptions-demo=\"${enable_exceptions_demo}\")" "$LINENO" 5
+    ;;
+esac
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -22122,6 +22146,7 @@ do
     "common-macros.m4") CONFIG_FILES="$CONFIG_FILES common-macros.m4" ;;
     "ats2-xprelude-macros.m4") CONFIG_FILES="$CONFIG_FILES ats2-xprelude-macros.m4" ;;
     "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
+    "pats_ccomp_exception.h") CONFIG_FILES="$CONFIG_FILES pats_ccomp_exception.h:pats_ccomp_exception.h.array" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

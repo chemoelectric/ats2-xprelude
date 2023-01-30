@@ -110,6 +110,12 @@ AC_ARG_ENABLE([default-sorts],
   [],
   [enable_default_sorts='1,1,1,1'])
 
+AC_ARG_ENABLE([exceptions-demo],
+  [AS_HELP_STRING([--enable-exceptions-demo={no|array}],
+      [when running the tests, enable a demonstration of a variant of pats_ccomp_exception.h])],
+  [],
+  [enable_exceptions_demo='no'])
+
 #--------------------------------------------------------------------------
 #
 # Checks for programs.
@@ -312,6 +318,16 @@ AC_CONFIG_FILES([list-ats-dependencies.dats])
 AC_CONFIG_FILES([common-macros.m4])
 AC_CONFIG_FILES([ats2-xprelude-macros.m4])
 AC_CONFIG_FILES([lib/Makefile])
+case x"${enable_exceptions_demo}" in
+  x"no" )
+    ;;
+  x"array" )
+    AC_CONFIG_FILES([pats_ccomp_exception.h:pats_ccomp_exception.h.array])
+    ;;
+  * )
+    AC_MSG_ERROR([unrecognized exceptions demo (--enable-exceptions-demo="${enable_exceptions_demo}")])
+    ;;
+esac
 
 AC_OUTPUT
 
