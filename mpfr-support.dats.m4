@@ -187,7 +187,7 @@ my_extern_prefix`'mpfr_set_prec_uintmax (REF(mpfr) xp, uintb2c(uintmax) prec)
 /* Creating new mpfr instances of given precision. */
 
 my_extern_prefix`'mpfr
-my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax) prec)
+my_extern_prefix`'_mpfr_make_nan_prec_uintmax (uintb2c(uintmax) prec)
 {
   return _`'my_extern_prefix`'mpfr_init2 (_correct_prec (prec));
 }

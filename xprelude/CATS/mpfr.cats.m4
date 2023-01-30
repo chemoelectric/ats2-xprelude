@@ -100,7 +100,7 @@ my_extern_prefix`'mpfr_get_prec (floatt2c(mpfr) x)
 /*------------------------------------------------------------------*/
 /* Creating new mpfr instances of given precision. */
 
-floatt2c(mpfr) my_extern_prefix`'_mpfr_make_prec_uintmax (uintb2c(uintmax));
+floatt2c(mpfr) my_extern_prefix`'_mpfr_make_nan_prec_uintmax (uintb2c(uintmax));
 
 /*------------------------------------------------------------------*/
 /* Comparisons. */
@@ -186,6 +186,7 @@ m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
 ')dnl
 
 atsvoid_t0ype my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr, atstype_ptr);
+atsvoid_t0ype my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string, uintb2c(size));
 
 /*------------------------------------------------------------------*/
 

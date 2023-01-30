@@ -62,20 +62,71 @@ mpfr_set_prec_guint (x, prec) =
   mpfr_set_prec_uintmax (x, g1uint2uint<tk,uintmaxknd> prec)
 
 (*------------------------------------------------------------------*)
-(* Creating new mpfr instances of given precision. *)
+(* Creating new mpfr instances of given precision, initialized to
+   NaN. *)
 
 extern fn
-_mpfr_make_prec_uintmax :
+_mpfr_make_nan_prec_uintmax :
   {prec : pos}
   uintmax prec -<> mpfr = "mac#%"
 
 implement {tk}
-mpfr_make_prec_gint prec =
-  _mpfr_make_prec_uintmax (g1i2u prec)
+mpfr_make_nan_prec_gint prec =
+  _mpfr_make_nan_prec_uintmax (g1i2u prec)
 
 implement {tk}
-mpfr_make_prec_guint prec =
-  _mpfr_make_prec_uintmax (g1u2u prec)
+mpfr_make_nan_prec_guint prec =
+  _mpfr_make_nan_prec_uintmax (g1u2u prec)
+
+(*------------------------------------------------------------------*)
+(* Creating new mpfr instances of given precision, initialized from
+   a string. *)
+
+implement {tk}
+mpfr_make_string_prec_gint (s, prec) =
+  mpfr_make_string_prec_guint<uintmaxknd>
+    (s, g1int2uint<tk,uintmaxknd> prec)
+
+implement {tk}
+mpfr_make_string_prec_guint (s, prec) =
+  let
+    macdef bad_arg =
+      let
+        val msg = "mpfr_make_string_prec:invalid_string"
+      in
+        $raise IllegalArgExn msg
+      end
+
+    val s = g1ofg0 s
+    var x = mpfr_make_nan_prec_guint<tk> prec
+    var j : size_t
+  in
+    $effmask_wrt g0float_strto_replace<mpfrknd> (x, j, s, i2sz 0);
+    if iseqz j then
+      bad_arg
+    else if string_isnot_atend (s, j) then
+      bad_arg
+    else if isspace s[pred j] then
+      bad_arg
+    else
+      x
+  end
+
+(*------------------------------------------------------------------*)
+(* Creating new mpfr instances of the default precision. *)
+
+implement {}
+mpfr_make_nan_defaultprec () =
+  mpfr_make_nan_prec_gint<intmaxknd> (mpfr_get_default_prec ())
+
+implement {}
+mpfr_make_string_defaultprec s =
+  mpfr_make_string_prec_gint<intmaxknd> (s, mpfr_get_default_prec ())
+
+(* fn {} *)
+(* mpfr_make_string_defaultprec : *)
+(*   string -< !exn > mpfr *)
+
 
 (*------------------------------------------------------------------*)
 (* Comparisons. *)

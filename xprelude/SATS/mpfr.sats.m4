@@ -103,18 +103,53 @@ mpfr_get_prec :
    [MPFR_PREC_MIN,MPFR_PREC_MAX]. *)
 
 fn {tk : tkind}
-mpfr_make_prec_gint :
+mpfr_make_nan_prec_gint :
   {prec : pos}
   g1int (tk, prec) -<> mpfr
 
 fn {tk : tkind}
-mpfr_make_prec_guint :
+mpfr_make_nan_prec_guint :
   {prec : pos}
   g1uint (tk, prec) -<> mpfr
 
-overload mpfr_make_prec with mpfr_make_prec_gint
-overload mpfr_make_prec with mpfr_make_prec_guint
-overload mpfr_make with mpfr_make_prec
+overload mpfr_make_nan_prec with mpfr_make_nan_prec_gint
+overload mpfr_make_nan_prec with mpfr_make_nan_prec_guint
+overload mpfr_make with mpfr_make_nan_prec
+
+(*------------------------------------------------------------------*)
+(* Create an mpfr of the given precision, initialized from a
+   string. *)
+
+(* Precision settings will be brought to within the C constants
+   [MPFR_PREC_MIN,MPFR_PREC_MAX]. *)
+
+fn {tk : tkind}
+mpfr_make_string_prec_gint :
+  {prec : pos}
+  (string, g1int (tk, prec)) -< !exn > mpfr
+
+fn {tk : tkind}
+mpfr_make_string_prec_guint :
+  {prec : pos}
+  (string, g1uint (tk, prec)) -< !exn > mpfr
+
+overload mpfr_make_string_prec with mpfr_make_string_prec_gint
+overload mpfr_make_string_prec with mpfr_make_string_prec_guint
+overload mpfr_make with mpfr_make_string_prec
+
+(*------------------------------------------------------------------*)
+(* Create an mpfr of the default precision. *)
+
+fn {}
+mpfr_make_nan_defaultprec :
+  () -< !ref > mpfr
+
+fn {}
+mpfr_make_string_defaultprec :
+  string -< !exnref > mpfr
+
+overload mpfr_make with mpfr_make_nan_defaultprec
+overload mpfr_make with mpfr_make_string_defaultprec
 
 (*------------------------------------------------------------------*)
 (* Comparisons. *)

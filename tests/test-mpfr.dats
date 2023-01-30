@@ -49,11 +49,20 @@ test1 () : void =
     var v2 = mpfr_make QUAD_PREC
     val () = replace (v1, 1.2345)
     val () = replace (v2, 0.0000001)
+
     val s : String = "x = 1.2345; /* example */"
     val @(x, j) = g0float_strto<mpfrknd> (s, i2sz 4)
     val- true = abs (x - v1) <= v2
     val- true = string_isnot_atend (s, j)
     val- true = s[j] = ';'
+
+    val- true = abs (x - mpfr_make ("1.2345", OCTUPLE_PREC)) <= mpfr_make ("0.0000001", QUAD_PREC)
+    val- true = abs (x - mpfr_make ("1.2345")) <= mpfr_make ("0.00001")
+
+    var v3 = mpfr_make ()
+    // FIXME: Test that this is a NaN.
+    // FIXME: Test that this is a NaN.
+    // FIXME: Test that this is a NaN.
   in
   end
 
