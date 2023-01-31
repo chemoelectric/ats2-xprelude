@@ -162,14 +162,15 @@ overload mpfr_make with mpfr_make_string_defaultprec
 (*------------------------------------------------------------------*)
 (* Comparisons. *)
 
-fn g0float_eq_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
-fn g0float_neq_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
-fn g0float_lt_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
-fn g0float_lte_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
-fn g0float_gt_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
-fn g0float_gte_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+m4_foreachq(`OP',`comparisons',
+`fn g0float_`'OP`'_mpfr : (mpfr, mpfr) -<> bool = "mac#%"
+')dnl
 
 fn g0float_compare_mpfr : g0float_compare_type mpfrknd = "mac#%"
+
+m4_foreachq(`OP',`comparisons',
+`fn g0float_is`'OP`'z_mpfr : mpfr -<> bool = "mac#%"
+')dnl
 
 (*------------------------------------------------------------------*)
 (* Assorted operations. *)

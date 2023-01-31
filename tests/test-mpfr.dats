@@ -206,10 +206,71 @@ test2 () : void =
   in
   end
 
+fn
+test3 () : void =
+  let
+    val- true = mpfr_make "3" < mpfr_make "5"
+    val- true = mpfr_make "3" <= mpfr_make "5"
+    val- false = mpfr_make "3" > mpfr_make "5"
+    val- false = mpfr_make "3" >= mpfr_make "5"
+    val- false = mpfr_make "3" = mpfr_make "5"
+    val- true = mpfr_make "3" <> mpfr_make "5"
+    val- true = mpfr_make "3" != mpfr_make "5"
+    val- true = compare (mpfr_make "3", mpfr_make "5") = ~1
+
+    val- false = mpfr_make "8" < mpfr_make "5"
+    val- false = mpfr_make "8" <= mpfr_make "5"
+    val- true = mpfr_make "8" > mpfr_make "5"
+    val- true = mpfr_make "8" >= mpfr_make "5"
+    val- false = mpfr_make "8" = mpfr_make "5"
+    val- true = mpfr_make "8" <> mpfr_make "5"
+    val- true = mpfr_make "8" != mpfr_make "5"
+    val- true = compare (mpfr_make "8", mpfr_make "5") = 1
+
+    val- false = mpfr_make "5" < mpfr_make "5"
+    val- true = mpfr_make "5" <= mpfr_make "5"
+    val- false = mpfr_make "5" > mpfr_make "5"
+    val- true = mpfr_make "5" >= mpfr_make "5"
+    val- true = mpfr_make "5" = mpfr_make "5"
+    val- false = mpfr_make "5" <> mpfr_make "5"
+    val- false = mpfr_make "5" != mpfr_make "5"
+    val- true = compare (mpfr_make "5", mpfr_make "5") = 0
+
+    val- true = isltz (mpfr_make "-3")
+    val- true = isltez (mpfr_make "-3")
+    val- false = isgtz (mpfr_make "-3")
+    val- false = isgtez (mpfr_make "-3")
+    val- false = iseqz (mpfr_make "-3")
+    val- true = isneqz (mpfr_make "-3")
+
+    val- false = isltz (mpfr_make "-0")
+    val- true = isltez (mpfr_make "-0")
+    val- false = isgtz (mpfr_make "-0")
+    val- true = isgtez (mpfr_make "-0")
+    val- true = iseqz (mpfr_make "-0")
+    val- false = isneqz (mpfr_make "-0")
+
+    val- false = isltz (mpfr_make "0")
+    val- true = isltez (mpfr_make "0")
+    val- false = isgtz (mpfr_make "0")
+    val- true = isgtez (mpfr_make "0")
+    val- true = iseqz (mpfr_make "0")
+    val- false = isneqz (mpfr_make "0")
+
+    val- false = isltz (mpfr_make "5")
+    val- false = isltez (mpfr_make "5")
+    val- true = isgtz (mpfr_make "5")
+    val- true = isgtez (mpfr_make "5")
+    val- false = iseqz (mpfr_make "5")
+    val- true = isneqz (mpfr_make "5")
+  in
+  end
+
 implement
 main () =
   begin
     test1 ();
     test2 ();
+    test3 ();
     0
   end

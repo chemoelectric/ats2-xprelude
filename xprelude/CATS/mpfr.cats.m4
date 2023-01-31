@@ -171,6 +171,21 @@ my_extern_prefix`'g0float_neq_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
   return my_extern_prefix`'boolc2ats (mpfr_lessgreater_p (x[0], y[0]));
 }
 
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0float_compare_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
+{
+  int cmp = mpfr_cmp (x[0], y[0]);
+  return (cmp > 0) - (cmp < 0);
+}
+
+m4_foreachq(`OP',`comparisons',
+`my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_is`'OP`'z_mpfr (floatt2c(mpfr) x)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_cmp_ui (x[0], 0) ats_cmp_c(OP) 0);
+}
+
+')dnl
 /*------------------------------------------------------------------*/
 /* g0float_strto. */
 
