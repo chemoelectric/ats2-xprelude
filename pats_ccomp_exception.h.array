@@ -123,7 +123,7 @@ atsexnframe_ptr *my_atsexnframe_getref () ;
 ** DO NOT USE THE FOLLOWING MACROS:
 */
 
-/* Make atsexnframe_buffer variable-length, simple because how GCC
+/* Make atsexnframe_buffer variable-length, simply because how GCC
    creates and destroys a variable-length automatic array is
    documented in an easy-to-find place in the GCC manual. */
 #define \
