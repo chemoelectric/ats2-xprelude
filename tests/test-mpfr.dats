@@ -38,9 +38,7 @@ staload _ = "xprelude/DATS/mpfr.dats"
 #define QUAD_PREC 113
 #define OCTUPLE_PREC 237
 
-(* macdef i2ex = g0int2float<intknd,mpfrknd> *)
-(* macdef f2ex = g0float2float<fltknd,mpfrknd> *)
-(* macdef d2ex = g0float2float<dblknd,mpfrknd> *)
+val euler_constant = mpfr_make "0.57721566490153286060651209008240243"
 
 fn
 test1 () : void =
@@ -56,14 +54,28 @@ test1 () : void =
     val- true = string_isnot_atend (s, j)
     val- true = s[j] = ';'
 
+    val- false = isnan x
+    val- true = isnormal x
+    val- true = isfinite x
+    val- false = isinf x
+
     val- true = abs (x - mpfr_make ("1.2345", OCTUPLE_PREC)) <= mpfr_make ("0.0000001", QUAD_PREC)
     val- true = abs (x - mpfr_make ("1.2345")) <= mpfr_make ("0.00001")
     val- true = mpfr_make "1234" = mpfr_make "1234.0"
 
     var v3 = mpfr_make ()
-    // FIXME: Test that this is a NaN.
-    // FIXME: Test that this is a NaN.
-    // FIXME: Test that this is a NaN.
+
+    val- true = isnan v3
+    val- false = isnormal v3
+    val- false = isfinite v3
+    val- false = isinf v3
+
+    val v4 = mpfr_make "1" / mpfr_make "0"
+
+    val- false = isnan v4
+    val- false = isnormal v4
+    val- false = isfinite v4
+    val- true = isinf v4
 
     val- true =
       begin
@@ -106,116 +118,91 @@ test1 () : void =
 fn
 test2 () : void =
   let
-    var x = mpfr_make OCTUPLE_PREC
+    (* Negatives. *)
+    val- true = ~mpfr_make "123" = mpfr_make "-123"
 
-val () = replace (x, 8)
-val()=println!(~x)
-val()=println!(abs (~x))
-val()=println!(reciprocal (~x))
-val()=println!(sqrt x)
-val()=println!(cbrt x)
-val()=println!(exp x)
-val()=println!(exp2 x)
-val()=println!(exp10 x)
-val()=println!(expm1 x)
-val()=println!(exp2m1 x)
-val()=println!(exp10m1 x)
-val()=println!(log x)
-val()=println!(log2 x)
-val()=println!(log10 x)
-val()=println!(log1p x)
-val()=println!(logp1 x)
-val()=println!(log2p1 x)
-val()=println!(log10p1 x)
+    (* Absolute values. *)
+    val- true = abs (mpfr_make "123") = mpfr_make "123"
+    val- true = abs (mpfr_make "-123") = mpfr_make "123"
 
-val () = replace (x, 0.125)
-val()=println!(sin x)
-val()=println!(cos x)
-val()=println!(tan x)
-val()=println!(asin x)
-val()=println!(acos x)
-val()=println!(atan x)
-val()=println!(sinpi x)
-val()=println!(cospi x)
-val()=println!(tanpi x)
-val()=println!(asinpi x)
-val()=println!(acospi x)
-val()=println!(atanpi x)
+    (* Reciprocals. *)
+    val- true = reciprocal (mpfr_make "2") = mpfr_make "0.5"
+    val- true = reciprocal (mpfr_make "-2") = mpfr_make "-0.5"
+    val- true = isinf (reciprocal (mpfr_make "0"))
 
-val () = replace (x, 1)
-val()=println!(sinh x)
-val()=println!(cosh x)
-val()=println!(tanh x)
-val()=println!(asinh x)
-val()=println!(acosh x)
-val()=println!(atanh x)
+    (* Radicals. *)
+    val- true = sqrt (mpfr_make "16") = mpfr_make "4"
+    val- true = cbrt (mpfr_make "64") = mpfr_make "4"
 
-val () = replace (x, 1)
-val()=println!(erf x)
-val()=println!(erfc x)
-val()=println!(lgamma x)
-val()=println!(tgamma x)
-val()=println!(digamma x)
+    (* Exponentials. *)
+    val- true = abs (exp (mpfr_make "1") - mpfr_make "2.718281828459") < mpfr_make "0.000001"
+    val- true = abs (expm1 (mpfr_make "1") - mpfr_make "1.718281828459") < mpfr_make "0.000001"
+    val- true = exp2 (mpfr_make "1") = mpfr_make "2"
+    val- true = exp2m1 (mpfr_make "1") = mpfr_make "1"
+    val- true = exp10 (mpfr_make "1") = mpfr_make "10"
+    val- true = exp10m1 (mpfr_make "1") = mpfr_make "9"
 
-val () = replace (x, 1)
-val()=println!(j0 x)
-val()=println!(j1 x)
-val()=println!(y0 x)
-val()=println!(y1 x)
+    (* Logarithms. *)
+    val- true = abs (log (mpfr_make "2.718281828459") - mpfr_make "1") < mpfr_make "0.000001"
+    val- true = abs (log1p (mpfr_make "1.718281828459") - mpfr_make "1") < mpfr_make "0.000001"
+    val- true = abs (logp1 (mpfr_make "1.718281828459") - mpfr_make "1") < mpfr_make "0.000001"
+    val- true = log2 (mpfr_make "2") = mpfr_make "1"
+    val- true = log2p1 (mpfr_make "1") = mpfr_make "1"
+    val- true = log10 (mpfr_make "10") = mpfr_make "1"
+    val- true = log10p1 (mpfr_make "9") = mpfr_make "1"
 
-val () = replace (x, 2)
-val()=println!(eint x)
-val()=println!(ai x)
-val()=println!(li2 x)
-val()=println!(zeta x)
+    (* Circular functions. *)
+    val- true = abs (sin (mpfr_make "0.523598775598") - mpfr_make "0.5") < mpfr_make "0.000001"
+    val- true = abs (sinpi (mpfr_make "0.1666666666667") - mpfr_make "0.5") < mpfr_make "0.000001"
+    val- true = abs (cos (mpfr_make "0.523598775598") - mpfr_make "0.866025403784") < mpfr_make "0.000001"
+    val- true = abs (cospi (mpfr_make "0.1666666666667") - mpfr_make "0.866025403784") < mpfr_make "0.000001"
+    val- true = abs (tan (mpfr_make "0.523598775598") - mpfr_make "0.5773502691896") < mpfr_make "0.000001"
+    val- true = abs (tanpi (mpfr_make "0.1666666666667") - mpfr_make "0.5773502691896") < mpfr_make "0.000001"
 
-val ai = 3
-val()=println!(ai)
+    (* Inverse circular functions. *)
+    val- true = abs (asin (mpfr_make "0.5") - mpfr_make "0.523598775598") < mpfr_make "0.000001"
+    val- true = abs (asinpi (mpfr_make "0.5") - mpfr_make "0.1666666666667") < mpfr_make "0.000001"
+    val- true = abs (acos (mpfr_make "0.866025403784") - mpfr_make "0.523598775598") < mpfr_make "0.000001"
+    val- true = abs (acospi (mpfr_make "0.866025403784") - mpfr_make "0.1666666666667") < mpfr_make "0.000001"
+    val- true = abs (atan (mpfr_make "0.5773502691896") - mpfr_make "0.523598775598") < mpfr_make "0.000001"
+    val- true = abs (atanpi (mpfr_make "0.5773502691896") - mpfr_make "0.1666666666667") < mpfr_make "0.000001"
 
+    (* Hyperbolic functions. *)
+    val- true = abs (sinh (mpfr_make "1") - mpfr_make "1.1752011936438") < mpfr_make "0.000001"
+    val- true = abs (cosh (mpfr_make "1") - mpfr_make "1.5430806348152") < mpfr_make "0.000001"
+    val- true = abs (tanh (mpfr_make "1") - mpfr_make "0.76159415595576") < mpfr_make "0.000001"
 
-    (* var x = mpfr_make (256) *)
-    (* var y = mpfr_make (256) *)
-    (* val () = x <- 1234.5 *)
-    (* val () = (print_mpfr(x); println!()) *)
-    (* val () = y <- x *)
-    (* val () = (print_mpfr(y); println!()) *)
-    (* val () = x <- $extval (decimal64, "1234.56789DD") *)
-    (* val () = (print_mpfr(x); println!()) *)
-    (* val () = y <- $extval (decimal128, "1234.56789DL") *)
-    (* val () = (print_mpfr(y); println!()) *)
-    (* val () = x <- $extval (float128, "1234.5f128") *)
-    (* val () = (print_mpfr(x); println!()) *)
-    (* val () = y <- x *)
-    (* val () = (print_mpfr(y); println!()) *)
-    (* val () = x <- 12345L *)
-    (* val () = (print_mpfr(x); println!()) *)
-    (* val () = y <- 12345LL *)
-    (* val () = (print_mpfr(y); println!()) *)
-    (* val () = x <- ((g0f2f 1234.5) : fixed32p32) *)
-    (* val () = (print_mpfr(x); println!()) *)
-    (* val () = y <- exrat_make (12345, 10) *)
-    (* val () = (print_mpfr(y); println!()) *)
-    (* val () = negate y *)
-    (* val () = (print_mpfr(y); println!()) *)
-    (* val () = (print_mpfr(~y); println!()) *)
-    (* val () = println! (mpfr_get_default_prec ()) *)
-    (* val () = mpfr_set_default_prec QUAD_PREC *)
-    (* val () = println! (mpfr_get_default_prec ()) *)
-    (* val () = mpfr_set_default_prec (i2sz OCTUPLE_PREC) *)
-    (* val () = println! (mpfr_get_default_prec ()) *)
+    (* Inverse hyperbolic functions. *)
+    val- true = abs (asinh (mpfr_make "1.1752011936438") - mpfr_make "1") < mpfr_make "0.000001"
+    val- true = abs (acosh (mpfr_make "1.5430806348152") - mpfr_make "1") < mpfr_make "0.000001"
+    val- true = abs (atanh (mpfr_make "0.76159415595576") - mpfr_make "1") < mpfr_make "0.000001"
 
-    (* var z = y *)
-    (* val () = println! (mpfr_get_prec z) *)
-    (* val () = mpfr_set_prec (z, QUAD_PREC) *)
-    (* val () = println! (mpfr_get_prec z) *)
-    (* val () = println! (mpfr_get_prec y) *)
+    (* Error function. *)
+    val- true = abs (erf (mpfr_make "1") - mpfr_make "0.84270079294971") < mpfr_make "0.000001"
+    val- true = abs (erfc (mpfr_make "1") - mpfr_make "0.157299207050285") < mpfr_make "0.000001"
 
-    (* var u = ((g0f2f 1.23456789) : fixed32p32) *)
-    (* val () = println! u *)
-    (* var v = mpfr_make OCTUPLE_PREC *)
-    (* val () = v <- 1.23456789 *)
-    (* val () = u <- v *)
-    (* val () = println! u *)
+    (* Gamma function. *)
+    val- true = abs (lgamma (mpfr_make "6") - mpfr_make "4.787491742782046") < mpfr_make "0.000001"
+    val- true = tgamma (mpfr_make "6") = mpfr_make "120"
+    val- true = abs (digamma (mpfr_make "1") + euler_constant) < mpfr_make "0.000001"
+
+    (* Bessel functions. *)
+    val- true = abs (j0 (mpfr_make "1") - mpfr_make "0.7651976865579666") < mpfr_make "0.000001"
+    val- true = abs (j1 (mpfr_make "1") - mpfr_make "0.4400505857449335") < mpfr_make "0.000001"
+    val- true = abs (y0 (mpfr_make "1") - mpfr_make "0.08825696421567691") < mpfr_make "0.000001"
+    val- true = abs (y1 (mpfr_make "1") - mpfr_make "-0.7812128213002888") < mpfr_make "0.000001"
+
+    (* Exponential integrals. *)
+    val- true = abs (eint (mpfr_make "1") - mpfr_make "1.895117816355937") < mpfr_make "0.000001"
+
+    (* Dilogarithm (Spence’s function). *)
+    val- true = abs (li2 (mpfr_make "1") - mpfr_make "1.644934066848226") < mpfr_make "0.000001"
+
+    (* Riemann’s zeta function. *)
+    val- true = abs (zeta (mpfr_make "2") - mpfr_make "1.644934066848226") < mpfr_make "0.000001"
+
+    (* Airy’s Ai function. *)
+    val- true = abs (ai (mpfr_make "1") - mpfr_make "0.1352924163128814") < mpfr_make "0.000001"
   in
   end
 
@@ -223,6 +210,6 @@ implement
 main () =
   begin
     test1 ();
-    //test2 ();
+    test2 ();
     0
   end

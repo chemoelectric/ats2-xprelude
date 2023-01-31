@@ -53,6 +53,14 @@ overload print with print_mpfr
 overload prerr with prerr_mpfr
 
 (*------------------------------------------------------------------*)
+(* Classifications. *)
+
+fn g0float_isfinite_mpfr : mpfr -<> bool = "mac#%"
+fn g0float_isnormal_mpfr : mpfr -<> bool = "mac#%"
+fn g0float_isnan_mpfr : mpfr -<> bool = "mac#%"
+fn g0float_isinf_mpfr : mpfr -<> bool = "mac#%"
+
+(*------------------------------------------------------------------*)
 (* Precision. *)
 
 (* Precision settings will be brought to within the C constants

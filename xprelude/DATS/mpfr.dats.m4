@@ -123,22 +123,12 @@ implement {}
 mpfr_make_string_defaultprec s =
   mpfr_make_string_prec_gint<intmaxknd> (s, mpfr_get_default_prec ())
 
-(* fn {} *)
-(* mpfr_make_string_defaultprec : *)
-(*   string -< !exn > mpfr *)
-
-
-(*------------------------------------------------------------------*)
-(* Comparisons. *)
-
-m4_foreachq(`OP',`lt, lte, gt, gte, eq, neq, compare',
-`implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
-')dnl
-
 (*------------------------------------------------------------------*)
 (* Assorted operations. *)
 
-m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops,
+m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
+                  lt, lte, gt, gte, eq, neq, compare,
+                  neg, abs, reciprocal, unary_ops,
                   add, sub, mul, div, binary_ops,
                   unsafe_strto',
 `implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr

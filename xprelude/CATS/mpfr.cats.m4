@@ -73,6 +73,36 @@ typedef mpfr_t my_extern_prefix`'mpfr_t;
 typedef my_extern_prefix`'mpfr_t *my_extern_prefix`'mpfr;
 
 /*------------------------------------------------------------------*/
+/* Classification. */
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_isfinite_mpfr (floatt2c(mpfr) x)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_number_p (x[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_isnormal_mpfr (floatt2c(mpfr) x)
+{
+  /* mpfr floating-point does not have subnormal numbers, and thus any
+     finite number is normal. */
+
+  return my_extern_prefix`'boolc2ats (mpfr_number_p (x[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_isnan_mpfr (floatt2c(mpfr) x)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_nan_p (x[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_isinf_mpfr (floatt2c(mpfr) x)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_inf_p (x[0]));
+}
+
+/*------------------------------------------------------------------*/
 /* Printing. */
 
 atsvoid_t0ype my_extern_prefix`'fprint_mpfr (atstype_ref fref, floatt2c(mpfr));
