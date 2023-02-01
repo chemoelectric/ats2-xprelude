@@ -484,6 +484,47 @@ _add_extra_prec (uintmax_t prec)
 }
 
 atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_E_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_set_ui (z[0], 1, ROUNDING);
+  mpfr_exp (z[0], z[0], ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_LOG2E_replace (REF(mpfr) zp)
+{
+  /* We use the identity log2(e) = 1/ln(2). */
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_const_log2 (x, ROUNDING); /* Cache ln2 to higher precision. */
+  mpfr_ui_div (z[0], 1, x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_LOG10E_replace (REF(mpfr) zp)
+{
+  /* We use the identity log10(e) = 1/ln(10). */
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_log_ui (x, 10, ROUNDING);
+  mpfr_ui_div (z[0], 1, x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_LN10_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_log_ui (z[0], 10, ROUNDING);
+}
+
+atsvoid_t0ype
 my_extern_prefix`'mpfr_mathconst_PI_2_replace (REF(mpfr) zp)
 {
   floatt2c(mpfr) z = DEREF(mpfr, zp);

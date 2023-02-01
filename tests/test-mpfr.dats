@@ -305,6 +305,58 @@ test3 () : void =
 fn
 test4 () : void =
   let
+    val constval = mpfr_make ("2.71828182845904523536028747135266249775724709369995957496696762772407663035354759457138217852516642742746", OCTUPLE_PREC)
+    val v1 : mpfr = mathconst_E ()
+    val- true = abs (v1 - constval) < mpfr_make "0.000001"
+    val v2 = mpfr_E ()
+    val- true = abs (v2 - constval) < mpfr_make "0.000001"
+    val v3 = mpfr_E OCTUPLE_PREC
+    val- true = abs (v3 - constval) < mpfr_make "1e-30"
+    val v4 = mpfr_E (i2sz OCTUPLE_PREC)
+    val- true = abs (v4 - constval) < mpfr_make "1e-30"
+    var x = mpfr_make OCTUPLE_PREC
+    val () = mathconst_E_replace x
+    val- true = abs (x - constval) < mpfr_make "1e-30"
+
+    val constval = mpfr_make ("1.4426950408889634073599246810018921374266459541529859341354494069311092191811850798855266", OCTUPLE_PREC)
+    val v1 : mpfr = mathconst_LOG2E ()
+    val- true = abs (v1 - constval) < mpfr_make "0.000001"
+    val v2 = mpfr_LOG2E ()
+    val- true = abs (v2 - constval) < mpfr_make "0.000001"
+    val v3 = mpfr_LOG2E OCTUPLE_PREC
+    val- true = abs (v3 - constval) < mpfr_make "1e-30"
+    val v4 = mpfr_LOG2E (i2sz OCTUPLE_PREC)
+    val- true = abs (v4 - constval) < mpfr_make "1e-30"
+    var x = mpfr_make OCTUPLE_PREC
+    val () = mathconst_LOG2E_replace x
+    val- true = abs (x - constval) < mpfr_make "1e-30"
+
+    val constval = mpfr_make ("0.434294481903251827651128918916605082294397005803666566114453783165864649208870774729224949338431748318706", OCTUPLE_PREC)
+    val v1 : mpfr = mathconst_LOG10E ()
+    val- true = abs (v1 - constval) < mpfr_make "0.000001"
+    val v2 = mpfr_LOG10E ()
+    val- true = abs (v2 - constval) < mpfr_make "0.000001"
+    val v3 = mpfr_LOG10E OCTUPLE_PREC
+    val- true = abs (v3 - constval) < mpfr_make "1e-30"
+    val v4 = mpfr_LOG10E (i2sz OCTUPLE_PREC)
+    val- true = abs (v4 - constval) < mpfr_make "1e-30"
+    var x = mpfr_make OCTUPLE_PREC
+    val () = mathconst_LOG10E_replace x
+    val- true = abs (x - constval) < mpfr_make "1e-30"
+
+    val constval = mpfr_make ("2.30258509299404568401799145468436420760110148862877297603332790096757260967735248023599", OCTUPLE_PREC)
+    val v1 : mpfr = mathconst_LN10 ()
+    val- true = abs (v1 - constval) < mpfr_make "0.000001"
+    val v2 = mpfr_LN10 ()
+    val- true = abs (v2 - constval) < mpfr_make "0.000001"
+    val v3 = mpfr_LN10 OCTUPLE_PREC
+    val- true = abs (v3 - constval) < mpfr_make "1e-30"
+    val v4 = mpfr_LN10 (i2sz OCTUPLE_PREC)
+    val- true = abs (v4 - constval) < mpfr_make "1e-30"
+    var x = mpfr_make OCTUPLE_PREC
+    val () = mathconst_LN10_replace x
+    val- true = abs (x - constval) < mpfr_make "1e-30"
+
     val constval = mpfr_make ("0.693147180559945309417232121458176568075500134360255254120680009493393621969694715605863326996418687", OCTUPLE_PREC)
     val v1 : mpfr = mathconst_LN2 ()
     val- true = abs (v1 - constval) < mpfr_make "0.000001"
