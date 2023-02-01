@@ -124,6 +124,31 @@ mpfr_make_string_defaultprec s =
   mpfr_make_string_prec_gint<intmaxknd> (s, mpfr_get_default_prec ())
 
 (*------------------------------------------------------------------*)
+(* mul_2exp and div_2exp. *)
+
+extern fn
+_g0float_mul_2exp_intmax_mpfr :
+  $d2ctype (g0float_mul_2exp<mpfrknd><intmaxknd>) = "mac#%"
+
+implement {tki}
+g0float_mul_2exp_mpfr (x, n) =
+  _g0float_mul_2exp_intmax_mpfr (x, g0int2int<tki,intmaxknd> n)
+
+implement {tki}
+g0float_div_2exp_mpfr (x, n) =
+  _g0float_mul_2exp_intmax_mpfr (x, ~(g0int2int<tki,intmaxknd> n))
+
+m4_foreachq(`INT',`conventional_intbases',
+`implement
+g0float_mul_2exp<mpfrknd><intb2k(INT)> =
+  g0float_mul_2exp_mpfr<intb2k(INT)>
+
+implement
+g0float_div_2exp<mpfrknd><intb2k(INT)> =
+  g0float_div_2exp_mpfr<intb2k(INT)>
+
+')dnl
+(*------------------------------------------------------------------*)
 (* Assorted operations. *)
 
 m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
@@ -140,11 +165,9 @@ m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
 (* Mathematical constants. *)
 
 (* Below there is some masking of !ref effects, where the ‘reference’
-   is to the default precision. I actually usually have left out the
-   !ref effect, where default precisions might be used, because
-   xprelude/SATS/float.sats is not prepared to deal with the
-   effect. Thus masking !ref here is no worse than has been done
-   elsewhere. *)
+   is to the default precision. The masking seems necessary, because
+   xprelude/SATS/float.sats is not prepared to deal with such
+   effects. *)
 
 m4_foreachq(`CONST',`list_of_m4_constant',
 `implement

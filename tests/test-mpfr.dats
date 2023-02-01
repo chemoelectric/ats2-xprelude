@@ -502,6 +502,39 @@ test4 () : void =
   in
   end
 
+fn
+test5 () : void =
+  let
+    val- true = mul_2exp (mpfr_make ("1"), 0) = mpfr_make ("1")
+    val- true = mul_2exp (mpfr_make ("1"), 1) = mpfr_make ("2")
+    val- true = mul_2exp (mpfr_make ("1"), 2) = mpfr_make ("4")
+    val- true = mul_2exp (mpfr_make ("1"), 3) = mpfr_make ("8")
+
+    val- true = div_2exp (mpfr_make ("1"), 0L) = mpfr_make ("1")
+    val- true = div_2exp (mpfr_make ("1"), ~1L) = mpfr_make ("2")
+    val- true = div_2exp (mpfr_make ("1"), ~2LL) = mpfr_make ("4")
+    val- true = div_2exp (mpfr_make ("1"), ~3) = mpfr_make ("8")
+
+    val- true = div_2exp (mpfr_make ("1"), 0) = mpfr_make ("1")
+    val- true = div_2exp (mpfr_make ("2"), 1) = mpfr_make ("1")
+    val- true = div_2exp (mpfr_make ("4"), 2) = mpfr_make ("1")
+    val- true = div_2exp (mpfr_make ("8"), 3) = mpfr_make ("1")
+
+    val- true = mul_2exp (mpfr_make ("1"), ~0) = mpfr_make ("1")
+    val- true = mul_2exp (mpfr_make ("2"), ~1L) = mpfr_make ("1")
+    val- true = mul_2exp (mpfr_make ("4"), ~2LL) = mpfr_make ("1")
+    val- true = mul_2exp (mpfr_make ("8"), ~3) = mpfr_make ("1")
+
+    var x = mpfr_make OCTUPLE_PREC
+    val () = mul_2exp_replace (x, mpfr_make "10", 3)
+    val- true = x = mpfr_make "80"
+
+    var x = mpfr_make OCTUPLE_PREC
+    val () = div_2exp_replace (x, mpfr_make "10", ~3LL)
+    val- true = x = mpfr_make "80"
+  in
+  end
+
 implement
 main () =
   begin
@@ -509,5 +542,6 @@ main () =
     test2 ();
     test3 ();
     test4 ();
+    test5 ();
     0
   end

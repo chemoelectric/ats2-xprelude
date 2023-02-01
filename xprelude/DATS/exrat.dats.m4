@@ -126,6 +126,7 @@ g0float_int_pow<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* mul_2exp and div_2exp. *)
 
 extern fn
 _g0float_mul_2exp_intmax_exrat :

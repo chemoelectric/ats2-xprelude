@@ -259,6 +259,14 @@ my_extern_prefix`'g0float_unsafe_strto_mpfr (atstype_ptr nptr, atstype_ptr endpt
   return z;
 }
 
+my_extern_prefix`'mpfr
+my_extern_prefix`'_g0float_mul_2exp_intmax_mpfr (floatt2c(mpfr) x, intb2c(intmax) n)
+{
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  my_extern_prefix`'mpfr_mul_2exp_intmax_replace (&z, x, n);
+  return z;
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 
@@ -464,6 +472,18 @@ my_extern_prefix`'mpfr_mathconst_`'m4_toupper(CONST)`'_replace (REF(mpfr) zp)
   mpfr_const_`'CONST (z[0], ROUNDING);
 }
 ')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mul_2exp_intmax_replace (REF(mpfr) zp,
+                                                floatt2c(mpfr) x,
+                                                intb2c(intmax) n)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  if (0 <= n)
+    mpfr_mul_2ui (z[0], x[0], n, ROUNDING);
+  else
+    mpfr_div_2ui (z[0], x[0], -n, ROUNDING);
+}
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_mathconst_LN2_replace (REF(mpfr) zp)

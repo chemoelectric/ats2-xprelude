@@ -218,6 +218,8 @@ m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
 `floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr), floatt2c(mpfr));
 ')dnl
 
+floatt2c(mpfr) my_extern_prefix`'_g0float_mul_2exp_intmax_mpfr (floatt2c(mpfr), intb2c(intmax));
+
 /*------------------------------------------------------------------*/
 /* Value-replacement */
 
@@ -252,6 +254,16 @@ m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
 
 atsvoid_t0ype my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr, atstype_ptr);
 atsvoid_t0ype my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string, uintb2c(size));
+
+atsvoid_t0ype my_extern_prefix`'mpfr_mul_2exp_intmax_replace (REF(mpfr) zp, floatt2c(mpfr) x, intb2c(intmax) n);
+m4_foreachq(`INT',`intbases',
+`m4_if(INT,`intmax',,
+`#define my_extern_prefix`'mpfr_mul_2exp_`'INT`'_replace(zp, x, n)dnl
+ my_extern_prefix`'mpfr_mul_2exp_intmax_replace ((zp), (x), (intb2c(intmax)) (n))
+#define my_extern_prefix`'mpfr_div_2exp_`'INT`'_replace(zp, x, n)dnl
+ my_extern_prefix`'mpfr_mul_2exp_intmax_replace ((zp), (x), -((intb2c(intmax)) (n)))
+')dnl
+')dnl
 
 m4_foreachq(`CONST',`list_of_m4_constant',
 `atsvoid_t0ype my_extern_prefix`'mpfr_mathconst_`'CONST`'_replace (REF(mpfr) zp);

@@ -193,6 +193,13 @@ m4_foreachq(`OP',`comparisons',
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Multiplication or division by powers of two. These can be used as
+   shift operations. *)
+
+fn {tki : tkind} g0float_mul_2exp_mpfr : (mpfr, g0int tki) -<> mpfr
+fn {tki : tkind} g0float_div_2exp_mpfr : (mpfr, g0int tki) -<> mpfr
+
+(*------------------------------------------------------------------*)
 (* Assorted operations. *)
 
 m4_foreachq(`OP',`infinity, nan, snan, huge_val',
