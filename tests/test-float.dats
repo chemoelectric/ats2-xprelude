@@ -906,6 +906,9 @@ test30 () : void =
 
     val () = div_2exp_replace (x, x, 10)
     val- true = x = 10.0L
+
+    val () = mathconst_PI_replace x
+    val- true = x - 3.1415926535L < 0.0000001L
   in
   end
 

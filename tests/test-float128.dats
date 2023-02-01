@@ -191,6 +191,12 @@ test12 () : void =
     val- true = abs (mathconst_2_SQRTPI () - $extval (float128, "M_2_SQRTPI")) < ($extval (float128, "0.000001f128"))
     val- true = abs (mathconst_SQRT2 () - $extval (float128, "M_SQRT2")) < ($extval (float128, "0.000001f128"))
     val- true = abs (mathconst_SQRT1_2 () - $extval (float128, "M_SQRT1_2")) < ($extval (float128, "0.000001f128"))
+
+
+    val- true = abs (mathconst_EULER () - $extval (float128, "0.57721566490153286060651209008240243104215933593992f128"))
+                        < ($extval (float128, "0.000001f128"))
+    val- true = abs (mathconst_CATALAN () - $extval (float128, "0.915965594177219015054603514932384110774f128"))
+                        < ($extval (float128, "0.000001f128"))
   in
   end
 

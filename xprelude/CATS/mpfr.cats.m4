@@ -253,6 +253,10 @@ m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
 atsvoid_t0ype my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr, atstype_ptr);
 atsvoid_t0ype my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string, uintb2c(size));
 
+m4_foreachq(`CONST',`list_of_m4_constant',
+`atsvoid_t0ype my_extern_prefix`'mpfr_mathconst_`'CONST`'_replace (REF(mpfr) zp);
+')dnl
+
 /*------------------------------------------------------------------*/
 
 #endif `/*' MY_EXTERN_PREFIX`'CATS__MPFR_CATS__HEADER_GUARD__ */

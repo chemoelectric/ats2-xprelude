@@ -564,6 +564,10 @@ g0float_strto_replace :
     #[j : nat | j <= n]
     void
 
+m4_foreachq(`CONST',`list_of_m4_constant',
+`fn {tk : tkind} mathconst_`'CONST`'_replace : (&g0float tk >> _) -< !wrt > void
+')dnl
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

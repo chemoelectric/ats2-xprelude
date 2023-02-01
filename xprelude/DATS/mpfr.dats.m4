@@ -137,6 +137,50 @@ m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Mathematical constants. *)
+
+(* Below there is some masking of !ref effects, where the ‘reference’
+   is to the default precision. I actually usually have left out the
+   !ref effect, where default precisions might be used, because
+   xprelude/SATS/float.sats is not prepared to deal with the
+   effect. Thus masking !ref here is no worse than has been done
+   elsewhere. *)
+
+m4_foreachq(`CONST',`list_of_m4_constant',
+`implement
+mathconst_`'CONST<mpfrknd> () =
+  $effmask_ref mpfr_`'CONST`'_defaultprec<> ()
+
+implement {tk}
+mpfr_`'CONST`'_prec_gint prec =
+  let
+    var z = mpfr_make_nan_prec_gint<tk> prec
+    val () = $effmask_wrt mathconst_`'CONST`'_replace<mpfrknd> z
+  in
+    z
+  end
+
+implement {tk}
+mpfr_`'CONST`'_prec_guint prec =
+  let
+    var z = mpfr_make_nan_prec_guint<tk> prec
+    val () = $effmask_wrt mathconst_`'CONST`'_replace<mpfrknd> z
+  in
+    z
+  end
+
+implement
+mpfr_`'CONST`'_defaultprec<> () =
+  $effmask_all
+  let
+    var z = mpfr_make_nan_defaultprec ()
+    val () = $effmask_wrt mathconst_`'CONST`'_replace<mpfrknd> z
+  in
+    z
+  end
+
+')dnl
+(*------------------------------------------------------------------*)
 value_replacement_runtime_for_boxed_types(`mpfr',`floattypes_without_mpfr')
 (*------------------------------------------------------------------*)
 dnl

@@ -456,6 +456,22 @@ my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string
   *j = i + (uintb2c(size)) (endptr - startptr);
 }
 
+m4_foreachq(`CONST',`pi, euler, catalan',`
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_`'m4_toupper(CONST)`'_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_const_`'CONST (z[0], ROUNDING);
+}
+')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_LN2_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_const_log2 (z[0], ROUNDING);
+}
+
 %}
 (*------------------------------------------------------------------*)
 dnl

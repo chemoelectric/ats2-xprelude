@@ -409,6 +409,23 @@ m4_define(`m4_constant_comment',
        $1,`EULER',`Euler’s constant. https://oeis.org/A001620',
        $1,`CATALAN',`Catalan’s constant.  https://oeis.org/A006752')')
 
+m4_define(`m4_constant_mpfr_comment',
+`m4_if($1,`E',`Napier’s constant = e = 2.71828...',
+       $1,`LOG2E',`Base-two logarithm of e = log2(e) = 1/ln(2)',
+       $1,`LOG10E',`Common logarithm of e = log10(e) = 1/ln(10)',
+       $1,`LN2',`Natural logarithm of 2 = ln(2)',
+       $1,`LN10',`Natural logarithm of 10 = ln(10)',
+       $1,`PI',`π',
+       $1,`PI_2',`π/2',
+       $1,`PI_4',`π/4',
+       $1,`1_PI',`1/π',
+       $1,`2_PI',`2/π',
+       $1,`2_SQRTPI',`2/√π',
+       $1,`SQRT2',`√2',
+       $1,`SQRT1_2',`1/√2 = √(1/2)',
+       $1,`EULER',`Euler’s constant = 0.57721566...',
+       $1,`CATALAN',`Catalan’s constant = 0.91596559...')')
+
 /* Napier’s constant = e. https://oeis.org/A001113 */
 m4_define(`m4_M_E',
 `2.71828182845904523536028747135266249775724709369995957496696762772407663035354759457138217852516642742746')
@@ -535,6 +552,11 @@ m4_foreachq(`FLT1',`$1',
 m4_foreachq(`FLT1',`$1',
 `extern fn FLT1`'_strto_replace : $d2ctype (g0float_strto_replace<floatt2k(FLT1)>) = "mac#%"
 implement g0float_strto_replace<floatt2k(FLT1)> = FLT1`'_strto_replace
+')dnl
+
+m4_foreachq(`CONST',`list_of_m4_constant',
+`m4_foreachq(`FLT1',`$1',
+`implement mathconst_`'CONST`'_replace<floatt2k(FLT1)> z = z := mathconst_`'CONST<floatt2k(FLT1)> ()
 ')')dnl
 dnl
 dnl
@@ -596,6 +618,12 @@ m4_foreachq(`OP',`mul_2exp, div_2exp',
 `extern fn FLT1`'_`'OP`'_`'INT`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)><intb2k(INT)>) = "mac#%"
 implement g0float_`'OP`'_replace<floatt2k(FLT1)><intb2k(INT)> = FLT1`'_`'OP`'_`'INT`'_replace
 ')')')dnl
+
+m4_foreachq(`CONST',`list_of_m4_constant',
+`m4_foreachq(`FLT1',`$1',
+`extern fn FLT1`'_mathconst_`'CONST`'_replace : $d2ctype (mathconst_`'CONST`'_replace<floatt2k(FLT1)>) = "mac#%"
+implement mathconst_`'CONST`'_replace<floatt2k(FLT1)> = FLT1`'_mathconst_`'CONST`'_replace
+')')dnl
 dnl
 dnl
 dnl

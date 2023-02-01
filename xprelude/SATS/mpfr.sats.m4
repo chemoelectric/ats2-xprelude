@@ -160,6 +160,20 @@ overload mpfr_make with mpfr_make_nan_defaultprec
 overload mpfr_make with mpfr_make_string_defaultprec
 
 (*------------------------------------------------------------------*)
+(* Mathematical constants. *)
+
+m4_foreachq(`CONST',`list_of_m4_constant',
+`(* m4_constant_mpfr_comment(CONST) *)
+fn {tk : tkind} mpfr_`'CONST`'_prec_gint : {prec : pos} g1int (tk, prec) -<> mpfr
+fn {tk : tkind} mpfr_`'CONST`'_prec_guint : {prec : pos} g1uint (tk, prec) -<> mpfr
+fn {} mpfr_`'CONST`'_defaultprec : () -< !ref > mpfr
+overload mpfr_mathconst_`'CONST with mpfr_`'CONST`'_prec_gint
+overload mpfr_mathconst_`'CONST with mpfr_`'CONST`'_prec_guint
+overload mpfr_mathconst_`'CONST with mpfr_`'CONST`'_defaultprec
+overload mpfr_`'CONST with mpfr_mathconst_`'CONST
+
+')dnl
+(*------------------------------------------------------------------*)
 (* Comparisons. *)
 
 m4_foreachq(`OP',`comparisons',
