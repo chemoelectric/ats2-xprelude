@@ -151,6 +151,8 @@ g0float_div_2exp<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* Value replacement. *)
+
 value_replacement_runtime_for_boxed_types(`exrat',`floattypes_without_exrat')
 (*------------------------------------------------------------------*)
 dnl

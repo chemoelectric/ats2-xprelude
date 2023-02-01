@@ -143,18 +143,57 @@ static my_extern_prefix`'mpfr
 _`'my_extern_prefix`'mpfr_init2 (mpfr_prec_t prec)
 {
   my_extern_prefix`'mpfr_one_time_initialization ();
-  floatt2c(mpfr) x = ATS_MALLOC (sizeof (my_extern_prefix`'mpfr_t));
-  mpfr_init2 (x[0], prec);
-  return x;
+  floatt2c(mpfr) z = ATS_MALLOC (sizeof (my_extern_prefix`'mpfr_t));
+  mpfr_init2 (z[0], prec);
+  return z;
 }
 
 static my_extern_prefix`'mpfr
-_`'my_extern_prefix`'mpfr_init (void)
+_`'my_extern_prefix`'mpfr_init_defaultprec (void)
 {
   my_extern_prefix`'mpfr_one_time_initialization ();
-  floatt2c(mpfr) x = ATS_MALLOC (sizeof (my_extern_prefix`'mpfr_t));
-  mpfr_init (x[0]);
-  return x;
+  floatt2c(mpfr) z = ATS_MALLOC (sizeof (my_extern_prefix`'mpfr_t));
+  mpfr_init (z[0]);
+  return z;
+}
+
+static my_extern_prefix`'mpfr
+_`'my_extern_prefix`'mpfr_init_maxprec1 (floatt2c(mpfr) x)
+{
+  my_extern_prefix`'mpfr_one_time_initialization ();
+  floatt2c(mpfr) z = ATS_MALLOC (sizeof (my_extern_prefix`'mpfr_t));
+  uintmax_t prec = mpfr_get_prec (x[0]);
+  mpfr_init2 (z[0], prec);
+  return z;
+}
+
+static my_extern_prefix`'mpfr
+_`'my_extern_prefix`'mpfr_init_maxprec2 (floatt2c(mpfr) x,
+                                         floatt2c(mpfr) y)
+{
+  my_extern_prefix`'mpfr_one_time_initialization ();
+  floatt2c(mpfr) z = ATS_MALLOC (sizeof (my_extern_prefix`'mpfr_t));
+  uintmax_t precx = mpfr_get_prec (x[0]);
+  uintmax_t precy = mpfr_get_prec (y[0]);
+  uintmax_t prec = (precx < precy) ? precy : precx;
+  mpfr_init2 (z[0], prec);
+  return z;
+}
+
+static my_extern_prefix`'mpfr
+_`'my_extern_prefix`'mpfr_init_maxprec3 (floatt2c(mpfr) x,
+                                         floatt2c(mpfr) y,
+                                         floatt2c(mpfr) w)
+{
+  my_extern_prefix`'mpfr_one_time_initialization ();
+  floatt2c(mpfr) z = ATS_MALLOC (sizeof (my_extern_prefix`'mpfr_t));
+  uintmax_t precx = mpfr_get_prec (x[0]);
+  uintmax_t precy = mpfr_get_prec (y[0]);
+  uintmax_t precw = mpfr_get_prec (w[0]);
+  uintmax_t prec = (precx < precy) ? precy : precx;
+  prec = (prec < precw) ? precw : prec;
+  mpfr_init2 (z[0], prec);
+  return z;
 }
 
 /*------------------------------------------------------------------*/
@@ -222,7 +261,7 @@ m4_foreachq(`OP',`infinity, nan, huge_val',`
 floatt2c(mpfr)
 my_extern_prefix`'g0float_`'OP`'_mpfr (void)
 {
-  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_defaultprec ();
 dnl  Replacement would be redundant in the case of NaN.
   m4_if(OP,`nan',,`my_extern_prefix`'mpfr_`'OP`'_replace (&z);')
   return z;
@@ -232,11 +271,12 @@ dnl  Replacement would be redundant in the case of NaN.
 m4_foreachq(`OP',`neg, abs, fabs, reciprocal, logp1,
                   tgamma, lgamma,
                   round, nearbyint, rint, floor, ceil, trunc, roundeven,
+                  nextup, nextdown,
                   supported_unary_ops',`
 floatt2c(mpfr)
 my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x)
 {
-  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_maxprec1 (x);
   my_extern_prefix`'mpfr_`'OP`'_replace (&z, x);
   return z;
 }
@@ -246,7 +286,7 @@ m4_foreachq(`OP',`add, sub, mul, div, supported_binary_ops',`
 floatt2c(mpfr)
 my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
 {
-  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_maxprec2 (x, y);
   my_extern_prefix`'mpfr_`'OP`'_replace (&z, x, y);
   return z;
 }
@@ -255,7 +295,7 @@ my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
 floatt2c(mpfr)
 my_extern_prefix`'g0float_unsafe_strto_mpfr (atstype_ptr nptr, atstype_ptr endptr)
 {
-  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_defaultprec ();
   my_extern_prefix`'mpfr_unsafe_strto_replace (&z, nptr, endptr);
   return z;
 }
@@ -263,7 +303,7 @@ my_extern_prefix`'g0float_unsafe_strto_mpfr (atstype_ptr nptr, atstype_ptr endpt
 my_extern_prefix`'mpfr
 my_extern_prefix`'_g0float_mul_2exp_intmax_mpfr (floatt2c(mpfr) x, intb2c(intmax) n)
 {
-  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_maxprec1 (x);
   my_extern_prefix`'mpfr_mul_2exp_intmax_replace (&z, x, n);
   return z;
 }
@@ -486,6 +526,24 @@ my_extern_prefix`'mpfr_rint_replace (REF(mpfr) zp, floatt2c(mpfr) x)
 {
   floatt2c(mpfr) z = DEREF(mpfr, zp);
   mpfr_rint (z[0], x[0], ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_nextup_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  /* WARNING: THIS SETS NEXT-UP IN THE PRECISION OF zp. */
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_set (z[0], x[0], ROUNDING);
+  mpfr_nextabove (z[0]);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_nextdown_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  /* WARNING: THIS SETS NEXT-DOWN IN THE PRECISION OF zp. */
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_set (z[0], x[0], ROUNDING);
+  mpfr_nextbelow (z[0]);
 }
 
 atsvoid_t0ype

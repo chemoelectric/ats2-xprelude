@@ -30,6 +30,22 @@ staload "xprelude/SATS/exrat.sats"
 #include "xprelude/CATS/mpfr.cats"
 %}
 
+(*------------------------------------------------------------------*)
+(*
+
+  NOTE: Many operations set the result to the greatest precision of
+        its inputs.
+
+        Of course, one might really want the least precision, but
+        caution was chosen.
+
+        (If one finds an operation that is using the default
+        precision but which seems should not be doing so, that is
+        likely a bug.)
+
+*)
+(*------------------------------------------------------------------*)
+
 (* You can call mpfr_initialize explicitly, to set up things needed
    by the mpfr implementation, or you can let mpfr_initialize be
    called by other functions. *)

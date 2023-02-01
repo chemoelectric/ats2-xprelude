@@ -204,6 +204,18 @@ mpfr_`'CONST`'_defaultprec<> () =
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* Value replacement. *)
+
+(*
+
+  SOME WARNINGS:
+
+     — The nextup_replace and nextdown_replace functions for mpfr
+       give the next-up or next-down IN THE PRECISION OF THE
+       DESTINATION VARIABLE.
+
+*)
+
 value_replacement_runtime_for_boxed_types(`mpfr',`floattypes_without_mpfr')
 (*------------------------------------------------------------------*)
 dnl

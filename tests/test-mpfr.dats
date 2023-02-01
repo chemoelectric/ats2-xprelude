@@ -689,6 +689,13 @@ test6 () : void =
   in
   end
 
+fn
+test7 () : void =
+  let
+    val- true = nextup (mpfr_make ("1", 2)) = mpfr_make ("1.5", 2)
+  in
+  end
+
 implement
 main () =
   begin
@@ -698,5 +705,6 @@ main () =
     test4 ();
     test5 ();
     test6 ();
+    test7 ();
     0
   end
