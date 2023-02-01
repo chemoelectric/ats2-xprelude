@@ -472,6 +472,97 @@ my_extern_prefix`'mpfr_mathconst_LN2_replace (REF(mpfr) zp)
   mpfr_const_log2 (z[0], ROUNDING);
 }
 
+#ifndef MY_EXTERN_PREFIX`'EXTRA_PREC
+#define MY_EXTERN_PREFIX`'EXTRA_PREC 8
+#endif
+
+static inline uintmax_t
+_add_extra_prec (uintmax_t prec)
+{
+  return (UINTMAX_MAX - MY_EXTERN_PREFIX`'EXTRA_PREC <= prec) ?
+      UINTMAX_MAX : (prec + MY_EXTERN_PREFIX`'EXTRA_PREC);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_PI_2_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_const_pi (x, ROUNDING);  /* Cache pi to higher precision. */
+  mpfr_div_ui (z[0], x, 2, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_PI_4_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_const_pi (x, ROUNDING);  /* Cache pi to higher precision. */
+  mpfr_div_ui (z[0], x, 4, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_1_PI_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_const_pi (x, ROUNDING);  /* Cache pi to higher precision. */
+  mpfr_ui_div (z[0], 1, x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_2_PI_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_const_pi (x, ROUNDING);  /* Cache pi to higher precision. */
+  mpfr_ui_div (z[0], 2, x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_2_SQRTPI_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_const_pi (x, ROUNDING);  /* Cache pi to higher precision. */
+  mpfr_sqrt (x, x, ROUNDING);
+  mpfr_ui_div (z[0], 2, x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_SQRT2_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_sqrt_ui (z[0], 2, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_SQRT1_2_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  uintmax_t prec = mpfr_get_prec (z[0]);
+  prec = _add_extra_prec (prec);
+  mpfr_t x;
+  mpfr_init2 (x, prec);
+  mpfr_sqrt_ui (x, 2, ROUNDING);
+  mpfr_ui_div (z[0], 1, x, ROUNDING);
+}
+
 %}
 (*------------------------------------------------------------------*)
 dnl

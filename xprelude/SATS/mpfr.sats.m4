@@ -162,6 +162,12 @@ overload mpfr_make with mpfr_make_string_defaultprec
 (*------------------------------------------------------------------*)
 (* Mathematical constants. *)
 
+(* IMPORTANT NOTE: Some of these constants may be cached by mpfr, but
+   others have to be computed each time they are requested. Even those
+   that are cached may be cached at higher precision than you need,
+   and will require rounding. Thus you should consider saving copies
+   of whatever constants you use. *)
+
 m4_foreachq(`CONST',`list_of_m4_constant',
 `(* m4_constant_mpfr_comment(CONST) *)
 fn {tk : tkind} mpfr_`'CONST`'_prec_gint : {prec : pos} g1int (tk, prec) -<> mpfr
