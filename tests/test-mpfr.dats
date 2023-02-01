@@ -693,6 +693,15 @@ fn
 test7 () : void =
   let
     val- true = nextup (mpfr_make ("1", 2)) = mpfr_make ("1.5", 2)
+    val- true = nextdown (mpfr_make ("1", 2)) = mpfr_make ("0.75", 2)
+
+    var x = mpfr_make 2
+    val () = nextup_replace (x, mpfr_make ("1", 2))
+    val- true = x = mpfr_make ("1.5", 2)
+
+    var x = mpfr_make 2
+    val () = nextdown_replace (x, mpfr_make ("1", 2))
+    val- true = x = mpfr_make ("0.75", 2)
   in
   end
 
