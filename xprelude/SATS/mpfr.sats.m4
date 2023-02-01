@@ -175,6 +175,10 @@ m4_foreachq(`OP',`comparisons',
 (*------------------------------------------------------------------*)
 (* Assorted operations. *)
 
+m4_foreachq(`OP',`infinity, nan, snan, huge_val',
+`fn g0float_`'OP`'_mpfr : () -<> mpfr = "mac#%"
+')dnl
+
 m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
 `fn g0float_`'OP`'_mpfr : mpfr -<> mpfr = "mac#%"
 ')dnl

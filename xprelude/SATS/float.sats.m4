@@ -489,6 +489,14 @@ overload exchange with g0float_exchange
 (*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
 (* Assorted operations. *)
 
+m4_foreachq(`OP',`infinity, nan, snan, huge_val',
+`fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _) -< !wrt > void
+m4_foreachq(`FLT1',`conventional_floattypes',
+`fn g0float_`'OP`'_replace_`'FLT1 : (&FLT1 >> _) -< !wrt > void
+')dnl
+overload OP`'_replace with g0float_`'OP`'_replace
+
+')dnl
 m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred, unary_ops',
 `fn {tk : tkind} g0float_`'OP`'_replace : (&g0float tk >> _, g0float tk) -< !wrt > void
 m4_foreachq(`FLT1',`conventional_floattypes',

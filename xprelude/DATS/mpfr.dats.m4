@@ -129,6 +129,7 @@ mpfr_make_string_defaultprec s =
 m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
                   lt, lte, gt, gte, eq, neq, compare,
                   isltz, isltez, isgtz, isgtez, iseqz, isneqz,
+                  infinity, nan, huge_val,
                   neg, abs, reciprocal, unary_ops,
                   add, sub, mul, div, binary_ops,
                   unsafe_strto',

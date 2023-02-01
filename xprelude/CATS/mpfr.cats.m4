@@ -206,6 +206,10 @@ floatt2c(mpfr) my_extern_prefix`'g0float_unsafe_strto_mpfr (atstype_ptr, atstype
 /*------------------------------------------------------------------*/
 /* Assorted operations. */
 
+m4_foreachq(`OP',`infinity, nan, huge_val',
+`floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (void);
+')dnl
+
 m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
 `floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr));
 ')dnl
@@ -233,6 +237,10 @@ END_FLOAT_SUPPORT_CHECK_FOR_MPFR(T)
 ')dnl
 
 atsvoid_t0ype my_extern_prefix`'mpfr_exchange (REF(mpfr) yp, REF(mpfr) xp);
+
+m4_foreachq(`OP',`infinity, nan, huge_val',
+`atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr));
+')dnl
 
 m4_foreachq(`OP',`neg, abs, reciprocal, unary_ops',
 `atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr), floatt2c(mpfr));

@@ -480,6 +480,11 @@ m4_foreachq(`FLT1',`$1',
 `implement g0float_exchange<floatt2k(FLT1)> (x, y) = x :=: y
 ')dnl
 
+m4_foreachq(`OP',`infinity, nan, snan, huge_val',
+`m4_foreachq(`FLT1',`$1',
+`implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z) = z := g0float_`'OP<floatt2k(FLT1)> ()
+')')dnl
+
 m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred, unary_ops',
 `m4_foreachq(`FLT1',`$1',
 `implement g0float_`'OP`'_replace<floatt2k(FLT1)> (z, x) = z := g0float_`'OP<floatt2k(FLT1)> x
@@ -553,29 +558,15 @@ m4_foreachq(`FLT1',`$1',
 implement g0float_exchange<floatt2k(FLT1)> = FLT1`'_exchange
 ')dnl
 
-m4_foreachq(`OP',`abs, neg, reciprocal, succ, pred, unary_ops',
+m4_foreachq(`OP',`infinity, nan, snan, huge_val,
+                  abs, neg, reciprocal, succ, pred, unary_ops,
+                  min, max, add, sub, mul, div, mod, npow,
+                  binary_ops, floattype_intmax_ops,
+                  trinary_ops, unsafe_strto, strto',
 `m4_foreachq(`FLT1',`$1',
 `extern fn FLT1`'_`'OP`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
 implement g0float_`'OP`'_replace<floatt2k(FLT1)> = FLT1`'_`'OP`'_replace
 ')')dnl
-
-m4_foreachq(`OP',`min, max, add, sub, mul, div, mod,
-                  binary_ops, floattype_intmax_ops',
-`m4_foreachq(`FLT1',`$1',
-`extern fn FLT1`'_`'OP`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
-implement g0float_`'OP`'_replace<floatt2k(FLT1)> = FLT1`'_`'OP`'_replace
-')')dnl
-
-m4_foreachq(`OP',`trinary_ops',
-`m4_foreachq(`FLT1',`$1',
-`extern fn FLT1`'_`'OP`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
-implement g0float_`'OP`'_replace<floatt2k(FLT1)> = FLT1`'_`'OP`'_replace
-')')dnl
-
-m4_foreachq(`FLT1',`$1',
-`extern fn FLT1`'_npow_replace : $d2ctype (g0float_npow_replace<floatt2k(FLT1)>) = "mac#%"
-implement g0float_npow_replace<floatt2k(FLT1)> = FLT1`'_npow_replace
-')dnl
 
 m4_foreachq(`FLT1',`$1',
 `m4_foreachq(`INT',`intbases',
@@ -589,12 +580,6 @@ m4_foreachq(`OP',`mul_2exp, div_2exp',
 `extern fn FLT1`'_`'OP`'_`'INT`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)><intb2k(INT)>) = "mac#%"
 implement g0float_`'OP`'_replace<floatt2k(FLT1)><intb2k(INT)> = FLT1`'_`'OP`'_`'INT`'_replace
 ')')')dnl
-
-m4_foreachq(`OP',`unsafe_strto, strto',
-`m4_foreachq(`FLT1',`$1',
-`extern fn FLT1`'_`'OP`'_replace : $d2ctype (g0float_`'OP`'_replace<floatt2k(FLT1)>) = "mac#%"
-implement g0float_`'OP`'_replace<floatt2k(FLT1)> = FLT1`'_`'OP`'_replace
-')')dnl
 dnl
 dnl
 dnl

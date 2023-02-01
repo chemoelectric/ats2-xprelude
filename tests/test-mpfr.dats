@@ -77,6 +77,27 @@ test1 () : void =
     val- false = isfinite v4
     val- true = isinf v4
 
+    val v5 : mpfr = infinity ()
+
+    val- false = isnan v5
+    val- false = isnormal v5
+    val- false = isfinite v5
+    val- true = isinf v5
+
+    val v6 : mpfr = huge_val ()
+
+    val- false = isnan v6
+    val- false = isnormal v6
+    val- false = isfinite v6
+    val- true = isinf v6
+
+    val v7 : mpfr = g0float_nan ()
+
+    val- true = isnan v7
+    val- false = isnormal v7
+    val- false = isfinite v7
+    val- false = isinf v7
+
     val- true =
       begin
         try

@@ -218,6 +218,16 @@ m4_define(`supported_binary_ops',
 
 divert`'dnl
 
+m4_foreachq(`OP',`infinity, nan, huge_val',`
+floatt2c(mpfr)
+my_extern_prefix`'g0float_`'OP`'_mpfr (void)
+{
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
+  my_extern_prefix`'mpfr_`'OP`'_replace (&z);
+  return z;
+}
+')dnl
+
 m4_foreachq(`OP',`neg, abs, fabs, reciprocal, logp1,
                   tgamma, lgamma,
                   supported_unary_ops',`
@@ -351,6 +361,27 @@ my_extern_prefix`'mpfr_exchange (REF(mpfr) yp, REF(mpfr) xp)
   floatt2c(mpfr) y = DEREF(mpfr, yp);
   floatt2c(mpfr) x = DEREF(mpfr, xp);
   mpfr_swap (y[0], x[0]);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_infinity_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_set_inf (z[0], 1);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_nan_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_set_nan (z[0]);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_huge_val_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_set_inf (z[0], 1);
 }
 
 m4_foreachq(`OP',`neg, abs, supported_unary_ops',`
