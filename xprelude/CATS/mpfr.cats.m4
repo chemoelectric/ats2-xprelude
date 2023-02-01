@@ -178,7 +178,7 @@ my_extern_prefix`'g0float_compare_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
   return (cmp > 0) - (cmp < 0);
 }
 
-m4_foreachq(`OP',`comparisons',
+m4_foreachq(`OP',`lt,lte,gt,gte',
 `my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'g0float_is`'OP`'z_mpfr (floatt2c(mpfr) x)
 {
@@ -186,6 +186,18 @@ my_extern_prefix`'g0float_is`'OP`'z_mpfr (floatt2c(mpfr) x)
 }
 
 ')dnl
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_iseqz_mpfr (floatt2c(mpfr) x)
+{
+  return my_extern_prefix`'boolc2ats (mpfr_zero_p (x[0]));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'g0float_isneqz_mpfr (floatt2c(mpfr) x)
+{
+  return my_extern_prefix`'boolc2ats (!mpfr_zero_p (x[0]));
+}
+
 /*------------------------------------------------------------------*/
 /* g0float_strto. */
 
