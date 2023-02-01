@@ -256,6 +256,9 @@ test12 () : void =
     val- true = abs (mathconst_2_SQRTPI () - $extval (ldouble, "M_2_SQRTPI")) < 0.0000000001L
     val- true = abs (mathconst_SQRT2 () - $extval (ldouble, "M_SQRT2")) < 0.0000000001L
     val- true = abs (mathconst_SQRT1_2 () - $extval (ldouble, "M_SQRT1_2")) < 0.0000000001L
+
+    val- true = abs (mathconst_EULER () - 0.57721566490153286060651209008240243104215933593992L) < 0.0000000001L
+    val- true = abs (mathconst_CATALAN () - 0.915965594177219015054603514932384110774L) < 0.0000000001L
   in
   end
 

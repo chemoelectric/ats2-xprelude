@@ -366,10 +366,14 @@ m4_define(`floating_point_constant',
          $1,`decimal128',`$extval ($1,` "$2DL"')',
          `$extval ($1,` "$2'floatt2sfx($1)`"')')')
 
+/* The list of constants includes those that are standard in POSIX and
+   some others as one might see fit to include. Examples are Euler’s
+   and Catalan’s constants, which are present in mpfr. */
 m4_define(`list_of_m4_constant',
     `E, LOG2E, LOG10E, LN2, LN10,
      PI, PI_2, PI_4, 1_PI, 2_PI,
-     2_SQRTPI, SQRT2, SQRT1_2')
+     2_SQRTPI, SQRT2, SQRT1_2,
+     EULER, CATALAN')
 
 m4_define(`m4_constant',
 `m4_if($1,`E',`m4_M_E',
@@ -384,7 +388,9 @@ m4_define(`m4_constant',
        $1,`2_PI',`m4_M_2_PI',
        $1,`2_SQRTPI',`m4_M_2_SQRTPI',
        $1,`SQRT2',`m4_M_SQRT2',
-       $1,`SQRT1_2',`m4_M_SQRT1_2')')
+       $1,`SQRT1_2',`m4_M_SQRT1_2',
+       $1,`EULER',`m4_M_EULER',
+       $1,`CATALAN',`m4_M_CATALAN')')
 
 m4_define(`m4_constant_comment',
 `m4_if($1,`E',`Napier’s constant = e. https://oeis.org/A001113',
@@ -399,7 +405,9 @@ m4_define(`m4_constant_comment',
        $1,`2_PI',`2/π. https://oeis.org/A060294',
        $1,`2_SQRTPI',`2/√π. https://oeis.org/A190732',
        $1,`SQRT2',`√2. https://oeis.org/A002193',
-       $1,`SQRT1_2',`1/√2 = √(1/2). https://oeis.org/A010503')')
+       $1,`SQRT1_2',`1/√2 = √(1/2). https://oeis.org/A010503',
+       $1,`EULER',`Euler’s constant. https://oeis.org/A001620',
+       $1,`CATALAN',`Catalan’s constant.  https://oeis.org/A006752')')
 
 /* Napier’s constant = e. https://oeis.org/A001113 */
 m4_define(`m4_M_E',
@@ -452,6 +460,14 @@ m4_define(`m4_M_SQRT2',
 /* 1/√2 = √(1/2). https://oeis.org/A010503 */
 m4_define(`m4_M_SQRT1_2',
 `0.707106781186547524400844362104849039284835937688474036588339868995366239231053519425193767163820786367506')
+
+/* Euler’s constant. https://oeis.org/A001620 */
+m4_define(`m4_M_EULER',
+`0.577215664901532860606512090082402431042159335939923598805767234884867726777664670936947063291746749')
+
+/* Catalan’s constant. https://oeis.org/A006752 */
+m4_define(`m4_M_CATALAN',
+`0.915965594177219015054603514932384110774149374281672134266498119621763019776254769479356512926115106248574')
 
 /*------------------------------------------------------------------*/
 /* Value-replacement runtime for ‘unboxed’ types. */
