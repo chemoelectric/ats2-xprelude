@@ -223,7 +223,8 @@ floatt2c(mpfr)
 my_extern_prefix`'g0float_`'OP`'_mpfr (void)
 {
   floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init ();
-  my_extern_prefix`'mpfr_`'OP`'_replace (&z);
+dnl  Replacement would be redundant in the case of NaN.
+  m4_if(OP,`nan',,`my_extern_prefix`'mpfr_`'OP`'_replace (&z);')
   return z;
 }
 ')dnl

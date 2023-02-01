@@ -117,7 +117,7 @@ mpfr_make_string_prec_guint (s, prec) =
 
 implement {}
 mpfr_make_nan_defaultprec () =
-  mpfr_make_nan_prec_gint<intmaxknd> (mpfr_get_default_prec ())
+  g0float_nan_mpfr ()
 
 implement {}
 mpfr_make_string_defaultprec s =

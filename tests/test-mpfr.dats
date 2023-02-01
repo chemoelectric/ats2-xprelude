@@ -98,6 +98,21 @@ test1 () : void =
     val- false = isfinite v7
     val- false = isinf v7
 
+    var x : mpfr = infinity ()
+    val () = nan_replace x
+
+    val- true = isnan x
+    val- false = isnormal x
+    val- false = isfinite x
+    val- false = isinf x
+
+    val v8 = mpfr_make ()
+
+    val- true = isnan v8
+    val- false = isnormal v8
+    val- false = isfinite v8
+    val- false = isinf v8
+
     val- true =
       begin
         try
