@@ -535,6 +535,160 @@ test5 () : void =
   in
   end
 
+fn
+test6 () : void =
+  let
+    val- true = round (mpfr_make "1.5") = mpfr_make "2"
+    val- true = round (mpfr_make "2.5") = mpfr_make "3"
+    val- true = round (mpfr_make "3.5") = mpfr_make "4"
+    val- true = round (mpfr_make "-1.5") = mpfr_make "-2"
+    val- true = round (mpfr_make "-2.5") = mpfr_make "-3"
+    val- true = round (mpfr_make "-3.5") = mpfr_make "-4"
+
+    val- true = nearbyint (mpfr_make "1.5") = mpfr_make "2"
+    val- true = nearbyint (mpfr_make "2.5") = mpfr_make "2"
+    val- true = nearbyint (mpfr_make "3.5") = mpfr_make "4"
+    val- true = nearbyint (mpfr_make "-1.5") = mpfr_make "-2"
+    val- true = nearbyint (mpfr_make "-2.5") = mpfr_make "-2"
+    val- true = nearbyint (mpfr_make "-3.5") = mpfr_make "-4"
+
+    val- true = rint (mpfr_make "1.5") = mpfr_make "2"
+    val- true = rint (mpfr_make "2.5") = mpfr_make "2"
+    val- true = rint (mpfr_make "3.5") = mpfr_make "4"
+    val- true = rint (mpfr_make "-1.5") = mpfr_make "-2"
+    val- true = rint (mpfr_make "-2.5") = mpfr_make "-2"
+    val- true = rint (mpfr_make "-3.5") = mpfr_make "-4"
+
+    val- true = roundeven (mpfr_make "1.5") = mpfr_make "2"
+    val- true = roundeven (mpfr_make "2.5") = mpfr_make "2"
+    val- true = roundeven (mpfr_make "3.5") = mpfr_make "4"
+    val- true = roundeven (mpfr_make "-1.5") = mpfr_make "-2"
+    val- true = roundeven (mpfr_make "-2.5") = mpfr_make "-2"
+    val- true = roundeven (mpfr_make "-3.5") = mpfr_make "-4"
+
+    val- true = floor (mpfr_make "1.5") = mpfr_make "1"
+    val- true = floor (mpfr_make "2.5") = mpfr_make "2"
+    val- true = floor (mpfr_make "3.5") = mpfr_make "3"
+    val- true = floor (mpfr_make "-1.5") = mpfr_make "-2"
+    val- true = floor (mpfr_make "-2.5") = mpfr_make "-3"
+    val- true = floor (mpfr_make "-3.5") = mpfr_make "-4"
+
+    val- true = ceil (mpfr_make "1.5") = mpfr_make "2"
+    val- true = ceil (mpfr_make "2.5") = mpfr_make "3"
+    val- true = ceil (mpfr_make "3.5") = mpfr_make "4"
+    val- true = ceil (mpfr_make "-1.5") = mpfr_make "-1"
+    val- true = ceil (mpfr_make "-2.5") = mpfr_make "-2"
+    val- true = ceil (mpfr_make "-3.5") = mpfr_make "-3"
+
+    val- true = trunc (mpfr_make "1.5") = mpfr_make "1"
+    val- true = trunc (mpfr_make "2.5") = mpfr_make "2"
+    val- true = trunc (mpfr_make "3.5") = mpfr_make "3"
+    val- true = trunc (mpfr_make "-1.5") = mpfr_make "-1"
+    val- true = trunc (mpfr_make "-2.5") = mpfr_make "-2"
+    val- true = trunc (mpfr_make "-3.5") = mpfr_make "-3"
+
+    var x = mpfr_make "0"
+
+    val () = round_replace (x, mpfr_make "1.5")
+    val- true = x = mpfr_make "2"
+    val () = round_replace (x, mpfr_make "2.5")
+    val- true = x = mpfr_make "3"
+    val () = round_replace (x, mpfr_make "3.5")
+    val- true = x = mpfr_make "4"
+
+    val () = round_replace (x, mpfr_make "-1.5")
+    val- true = x = mpfr_make "-2"
+    val () = round_replace (x, mpfr_make "-2.5")
+    val- true = x = mpfr_make "-3"
+    val () = round_replace (x, mpfr_make "-3.5")
+    val- true = x = mpfr_make "-4"
+
+    val () = nearbyint_replace (x, mpfr_make "1.5")
+    val- true = x = mpfr_make "2"
+    val () = nearbyint_replace (x, mpfr_make "2.5")
+    val- true = x = mpfr_make "2"
+    val () = nearbyint_replace (x, mpfr_make "3.5")
+    val- true = x = mpfr_make "4"
+
+    val () = nearbyint_replace (x, mpfr_make "-1.5")
+    val- true = x = mpfr_make "-2"
+    val () = nearbyint_replace (x, mpfr_make "-2.5")
+    val- true = x = mpfr_make "-2"
+    val () = nearbyint_replace (x, mpfr_make "-3.5")
+    val- true = x = mpfr_make "-4"
+
+    val () = rint_replace (x, mpfr_make "1.5")
+    val- true = x = mpfr_make "2"
+    val () = rint_replace (x, mpfr_make "2.5")
+    val- true = x = mpfr_make "2"
+    val () = rint_replace (x, mpfr_make "3.5")
+    val- true = x = mpfr_make "4"
+
+    val () = rint_replace (x, mpfr_make "-1.5")
+    val- true = x = mpfr_make "-2"
+    val () = rint_replace (x, mpfr_make "-2.5")
+    val- true = x = mpfr_make "-2"
+    val () = rint_replace (x, mpfr_make "-3.5")
+    val- true = x = mpfr_make "-4"
+
+    val () = roundeven_replace (x, mpfr_make "1.5")
+    val- true = x = mpfr_make "2"
+    val () = roundeven_replace (x, mpfr_make "2.5")
+    val- true = x = mpfr_make "2"
+    val () = roundeven_replace (x, mpfr_make "3.5")
+    val- true = x = mpfr_make "4"
+
+    val () = roundeven_replace (x, mpfr_make "-1.5")
+    val- true = x = mpfr_make "-2"
+    val () = roundeven_replace (x, mpfr_make "-2.5")
+    val- true = x = mpfr_make "-2"
+    val () = roundeven_replace (x, mpfr_make "-3.5")
+    val- true = x = mpfr_make "-4"
+
+    val () = floor_replace (x, mpfr_make "1.5")
+    val- true = x = mpfr_make "1"
+    val () = floor_replace (x, mpfr_make "2.5")
+    val- true = x = mpfr_make "2"
+    val () = floor_replace (x, mpfr_make "3.5")
+    val- true = x = mpfr_make "3"
+
+    val () = floor_replace (x, mpfr_make "-1.5")
+    val- true = x = mpfr_make "-2"
+    val () = floor_replace (x, mpfr_make "-2.5")
+    val- true = x = mpfr_make "-3"
+    val () = floor_replace (x, mpfr_make "-3.5")
+    val- true = x = mpfr_make "-4"
+
+    val () = ceil_replace (x, mpfr_make "1.5")
+    val- true = x = mpfr_make "2"
+    val () = ceil_replace (x, mpfr_make "2.5")
+    val- true = x = mpfr_make "3"
+    val () = ceil_replace (x, mpfr_make "3.5")
+    val- true = x = mpfr_make "4"
+
+    val () = ceil_replace (x, mpfr_make "-1.5")
+    val- true = x = mpfr_make "-1"
+    val () = ceil_replace (x, mpfr_make "-2.5")
+    val- true = x = mpfr_make "-2"
+    val () = ceil_replace (x, mpfr_make "-3.5")
+    val- true = x = mpfr_make "-3"
+
+    val () = trunc_replace (x, mpfr_make "1.5")
+    val- true = x = mpfr_make "1"
+    val () = trunc_replace (x, mpfr_make "2.5")
+    val- true = x = mpfr_make "2"
+    val () = trunc_replace (x, mpfr_make "3.5")
+    val- true = x = mpfr_make "3"
+
+    val () = trunc_replace (x, mpfr_make "-1.5")
+    val- true = x = mpfr_make "-1"
+    val () = trunc_replace (x, mpfr_make "-2.5")
+    val- true = x = mpfr_make "-2"
+    val () = trunc_replace (x, mpfr_make "-3.5")
+    val- true = x = mpfr_make "-3"
+  in
+  end
+
 implement
 main () =
   begin
@@ -543,5 +697,6 @@ main () =
     test3 ();
     test4 ();
     test5 ();
+    test6 ();
     0
   end

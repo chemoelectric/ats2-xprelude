@@ -231,6 +231,7 @@ dnl  Replacement would be redundant in the case of NaN.
 
 m4_foreachq(`OP',`neg, abs, fabs, reciprocal, logp1,
                   tgamma, lgamma,
+                  round, nearbyint, rint, floor, ceil, trunc, roundeven,
                   supported_unary_ops',`
 floatt2c(mpfr)
 my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x)
@@ -464,14 +465,28 @@ my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string
   *j = i + (uintb2c(size)) (endptr - startptr);
 }
 
-m4_foreachq(`CONST',`pi, euler, catalan',`
+m4_foreachq(`OP',`round, floor, ceil, trunc, roundeven',`
 atsvoid_t0ype
-my_extern_prefix`'mpfr_mathconst_`'m4_toupper(CONST)`'_replace (REF(mpfr) zp)
+my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr) zp, floatt2c(mpfr) x)
 {
   floatt2c(mpfr) z = DEREF(mpfr, zp);
-  mpfr_const_`'CONST (z[0], ROUNDING);
+  mpfr_`'OP (z[0], x[0]);
 }
 ')dnl
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_nearbyint_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_rint (z[0], x[0], ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_rint_replace (REF(mpfr) zp, floatt2c(mpfr) x)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_rint (z[0], x[0], ROUNDING);
+}
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_mul_2exp_intmax_replace (REF(mpfr) zp,
@@ -484,6 +499,15 @@ my_extern_prefix`'mpfr_mul_2exp_intmax_replace (REF(mpfr) zp,
   else
     mpfr_div_2ui (z[0], x[0], -n, ROUNDING);
 }
+
+m4_foreachq(`CONST',`pi, euler, catalan',`
+atsvoid_t0ype
+my_extern_prefix`'mpfr_mathconst_`'m4_toupper(CONST)`'_replace (REF(mpfr) zp)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_const_`'CONST (z[0], ROUNDING);
+}
+')dnl
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_mathconst_LN2_replace (REF(mpfr) zp)
