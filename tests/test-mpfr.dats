@@ -743,6 +743,33 @@ test9 () : void =
   in
   end
 
+fn
+test10 () : void =
+  let
+    val- true = g0float_npow (mpfr_make ("5", QUAD_PREC), 20) = mpfr_make ("95367431640625", QUAD_PREC)
+    val- true = mpfr_get_prec (g0float_npow (mpfr_make ("5", OCTUPLE_PREC), 20)) = g0i2i OCTUPLE_PREC
+
+    val- true = g0float_int_pow (mpfr_make ("4", QUAD_PREC), ~3) = mpfr_make ("0.015625", QUAD_PREC)
+    val- true = mpfr_get_prec (g0float_int_pow (mpfr_make ("4", SINGLE_PREC), ~3LL)) = g0i2i SINGLE_PREC
+
+    val- true = (mpfr_make "4") ** ~3L = mpfr_make ("0.015625")
+
+    var x = mpfr_make DOUBLE_PREC
+
+    val () = npow_replace (x, mpfr_make ("2", SINGLE_PREC), 16)
+    val- true = x = mpfr_make "65536"
+    val- true = mpfr_get_prec x = g0i2i DOUBLE_PREC
+
+    val () = int_pow_replace (x, mpfr_make ("2", QUAD_PREC), 10)
+    val- true = x = mpfr_make "1024"
+    val- true = mpfr_get_prec x = g0i2i DOUBLE_PREC
+
+    val () = int_pow_replace (x, mpfr_make ("2", OCTUPLE_PREC), 11LL)
+    val- true = x = mpfr_make "2048"
+    val- true = mpfr_get_prec x = g0i2i DOUBLE_PREC
+  in
+  end
+
 implement
 main () =
   begin
@@ -755,5 +782,6 @@ main () =
     test7 ();
     test8 ();
     test9 ();
+    test10 ();
     0
   end

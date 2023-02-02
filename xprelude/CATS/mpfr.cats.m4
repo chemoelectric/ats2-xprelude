@@ -268,6 +268,13 @@ m4_foreachq(`OP',`floattype_intmax_ops',
 `atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr), floatt2c(mpfr), intb2c(intmax));
 ')dnl
 
+#define my_extern_prefix`'mpfr_npow_replace(z, x, i)dnl
+ my_extern_prefix`'mpfr_pown_replace ((z), (x), (intb2c(intmax)) (i))
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'mpfr_`'INT`'_pow_replace(z, x, i)dnl
+ my_extern_prefix`'mpfr_pown_replace ((z), (x), (intb2c(intmax)) (i))
+')dnl
+
 atsvoid_t0ype my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr, atstype_ptr);
 atsvoid_t0ype my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string, uintb2c(size));
 

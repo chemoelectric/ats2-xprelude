@@ -238,6 +238,9 @@ m4_foreachq(`OP',`floattype_intmax_ops',
 `fn g0float_`'OP`'_mpfr : (mpfr, intmax) -<> mpfr = "mac#%"
 ')dnl
 
+fn {} g0float_npow_mpfr : (mpfr, intGte 0) -<> mpfr
+fn {tki : tkind} g0float_int_pow_mpfr : (mpfr, g0int tki) -<> mpfr
+
 fn g0float_unsafe_strto_mpfr : (ptr, ptr) -< !wrt > mpfr = "mac#%"
 
 (*------------------------------------------------------------------*)

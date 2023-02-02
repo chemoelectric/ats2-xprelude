@@ -162,6 +162,14 @@ m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
 `implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
 ')dnl
 
+implement g0float_npow_mpfr<> (x, i) = g0float_pown_mpfr (x, g0i2i i)
+implement g0float_npow<mpfrknd> = g0float_npow_mpfr
+
+m4_foreachq(`INT',`intbases',
+`implement g0float_int_pow_mpfr<intb2k(INT)> (x, i) = g0float_pown_mpfr (x, g0i2i i)
+implement g0float_int_pow<mpfrknd><intb2k(INT)> = g0float_int_pow_mpfr<intb2k(INT)>
+')dnl
+
 (*------------------------------------------------------------------*)
 (* Mathematical constants. *)
 
