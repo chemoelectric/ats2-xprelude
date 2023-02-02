@@ -770,6 +770,36 @@ test10 () : void =
   in
   end
 
+fn
+test11 () : void =
+  let
+    (* Type conversions. *)
+
+    val- true = ((g0i2f 123) : mpfr) = mpfr_make "123"
+    val- true = ((g0f2i (mpfr_make "123")) : int) = 123
+
+    val- true = ((g0i2f 123LL) : mpfr) = mpfr_make "123"
+    val- true = ((g0f2i (mpfr_make "123")) : llint) = 123LL
+
+    val- true = ((g0f2f (mpfr_make "123")) : mpfr) = mpfr_make "123"
+
+    val- true = ((g0f2f 123.0F) : mpfr) = mpfr_make "123"
+    val- true = ((g0f2f (mpfr_make "123")) : float) = 123.0F
+
+    val- true = ((g0f2f 123.0) : mpfr) = mpfr_make "123"
+    val- true = ((g0f2f (mpfr_make "123")) : double) = 123.0
+
+    val- true = ((g0f2f 123.0L) : mpfr) = mpfr_make "123"
+    val- true = ((g0f2f (mpfr_make "123")) : ldouble) = 123.0L
+
+    val- true = ((g0f2f (g0int2float<intknd,fix32p32knd> 123)) : mpfr) = mpfr_make "123"
+    val- true = ((g0f2f (mpfr_make "123")) : fixed32p32) = (g0int2float<intknd,fix32p32knd> 123)
+
+    val- true = ((g0f2f (exrat_make (123, 1))) : mpfr) = mpfr_make "123"
+    val- true = ((g0f2f (mpfr_make "123")) : exrat) = exrat_make (123, 1)
+  in
+  end
+
 implement
 main () =
   begin
@@ -783,5 +813,6 @@ main () =
     test8 ();
     test9 ();
     test10 ();
+    test11 ();
     0
   end

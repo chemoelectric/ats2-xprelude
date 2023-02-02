@@ -124,6 +124,20 @@ mpfr_make_string_defaultprec s =
   mpfr_make_string_prec_gint<intmaxknd> (s, mpfr_get_default_prec ())
 
 (*------------------------------------------------------------------*)
+(* Type conversions. *)
+
+m4_foreachq(`INT',`intbases',
+`implement g0int2float<intb2k(INT),floatt2k(mpfr)> = g0int2float_`'INT`_'mpfr
+implement g0float2int<floatt2k(mpfr),intb2k(INT)> = g0float2int_mpfr_`'INT
+')dnl
+
+implement g0float2float<floatt2k(mpfr),floatt2k(mpfr)> = g0float2float_mpfr_mpfr
+m4_foreachq(`FLT1',`floattypes_without_mpfr',
+`implement g0float2float<floatt2k(FLT1),floatt2k(mpfr)> = g0float2float_`'FLT1`_'mpfr
+implement g0float2float<floatt2k(mpfr),floatt2k(FLT1)> = g0float2float_mpfr_`'FLT1
+')dnl
+
+(*------------------------------------------------------------------*)
 (* mul_2exp and div_2exp. *)
 
 extern fn

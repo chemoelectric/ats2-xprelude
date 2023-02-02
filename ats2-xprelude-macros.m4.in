@@ -273,6 +273,7 @@ m4_define(`FLOAT_SUPPORT_CHECK',
        $1,`exrat',`#if if_ENABLE_EXRAT(`1',`0') /* exrat */',
        $1,`mpfr',`#if if_ENABLE_MPFR(`1',`0') /* mpfr */',
        `#if defined floatt2PFX(`$1')_MANT_DIG && 2 <= floatt2PFX(`$1')_MANT_DIG')')
+m4_define(`ELSE_FLOAT_SUPPORT_CHECK',``#'else')
 m4_define(`END_FLOAT_SUPPORT_CHECK',``#'endif')
 
 /* mpfr assumes that, if you have _Decimal64 or _Decimal128, you also

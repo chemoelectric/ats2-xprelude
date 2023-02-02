@@ -176,6 +176,20 @@ overload mpfr_make with mpfr_make_nan_defaultprec
 overload mpfr_make with mpfr_make_string_defaultprec
 
 (*------------------------------------------------------------------*)
+(* Type conversions. *)
+
+m4_foreachq(`INT',`intbases',
+`fn g0int2float_`'INT`_'mpfr : intb2t(INT) -<> mpfr = "mac#%"
+fn g0float2int_mpfr_`'INT : mpfr -<> intb2t(INT) = "mac#%"
+')dnl
+
+fn g0float2float_mpfr_mpfr : mpfr -<> mpfr = "mac#%"
+m4_foreachq(`FLT1',`floattypes_without_mpfr',
+`fn g0float2float_`'FLT1`_'mpfr : FLT1 -<> mpfr = "mac#%"
+fn g0float2float_mpfr_`'FLT1 : mpfr -<> FLT1 = "mac#%"
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Mathematical constants. *)
 
 (* IMPORTANT NOTE: Some of these constants may be cached by mpfr, but
