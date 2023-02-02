@@ -261,6 +261,9 @@ m4_define(`supported_binary_ops',
 m4_define(`supported_trinary_ops',
   `fma')
 
+m4_define(`supported_floattype_intmax_ops',
+  `compoundn, rootn, pown')
+
 divert`'dnl
 
 m4_foreachq(`OP',`infinity, nan, huge_val',`
@@ -304,6 +307,16 @@ my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y, float
 {
   floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_maxprec3 (x, y, w);
   my_extern_prefix`'mpfr_`'OP`'_replace (&z, x, y, w);
+  return z;
+}
+')dnl
+
+m4_foreachq(`OP',`supported_floattype_intmax_ops',`
+floatt2c(mpfr)
+my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x, intb2c(intmax) i)
+{
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_maxprec1 (x);
+  my_extern_prefix`'mpfr_`'OP`'_replace (&z, x, i);
   return z;
 }
 ')dnl
@@ -569,6 +582,27 @@ my_extern_prefix`'mpfr_nextdown_replace (REF(mpfr) zp, floatt2c(mpfr) x)
   floatt2c(mpfr) z = DEREF(mpfr, zp);
   mpfr_set (z[0], x[0], ROUNDING);
   mpfr_nextbelow (z[0]);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_compoundn_replace (REF(mpfr) zp, floatt2c(mpfr) x, intb2c(intmax) i)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_compound_si (z[0], x[0], i, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_rootn_replace (REF(mpfr) zp, floatt2c(mpfr) x, intb2c(intmax) i)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_rootn_si (z[0], x[0], i, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_pown_replace (REF(mpfr) zp, floatt2c(mpfr) x, intb2c(intmax) i)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_pow_sj (z[0], x[0], i, ROUNDING);
 }
 
 atsvoid_t0ype

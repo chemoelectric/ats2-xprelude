@@ -222,6 +222,10 @@ m4_foreachq(`OP',`trinary_ops',
 `floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr), floatt2c(mpfr), floatt2c(mpfr));
 ')dnl
 
+m4_foreachq(`OP',`floattype_intmax_ops',
+`floatt2c(mpfr) my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr), intb2c(intmax));
+')dnl
+
 floatt2c(mpfr) my_extern_prefix`'_g0float_mul_2exp_intmax_mpfr (floatt2c(mpfr), intb2c(intmax));
 
 /*------------------------------------------------------------------*/
@@ -258,6 +262,10 @@ m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
 
 m4_foreachq(`OP',`trinary_ops',
 `atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr), floatt2c(mpfr), floatt2c(mpfr), floatt2c(mpfr));
+')dnl
+
+m4_foreachq(`OP',`floattype_intmax_ops',
+`atsvoid_t0ype my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr), floatt2c(mpfr), intb2c(intmax));
 ')dnl
 
 atsvoid_t0ype my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr, atstype_ptr);

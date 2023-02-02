@@ -732,6 +732,17 @@ test8 () : void =
   in
   end
 
+fn
+test9 () : void =
+  let
+    val- true = abs (compoundn (mpfr_make "0.5", g0i2i 10) - mpfr_make "57.665039") < mpfr_make "0.00001"
+    val- true = rootn (mpfr_make "1024", g0i2i 10) = mpfr_make "2"
+    val- true = rootn (mpfr_make "1024", g0i2i ~10) = mpfr_make "0.5"
+    val- true = pown (mpfr_make "2", g0i2i 3) = mpfr_make "8"
+    val- true = pown (mpfr_make "2", g0i2i ~3) = mpfr_make "0.125"
+  in
+  end
+
 implement
 main () =
   begin
@@ -743,5 +754,6 @@ main () =
     test6 ();
     test7 ();
     test8 ();
+    test9 ();
     0
   end

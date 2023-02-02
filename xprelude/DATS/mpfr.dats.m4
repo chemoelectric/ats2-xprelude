@@ -157,7 +157,8 @@ m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
                   infinity, nan, huge_val,
                   neg, abs, reciprocal, unary_ops,
                   add, sub, mul, div, binary_ops,
-                  unsafe_strto, trinary_ops',
+                  unsafe_strto,
+                  trinary_ops, floattype_intmax_ops',
 `implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
 ')dnl
 
