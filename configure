@@ -676,8 +676,32 @@ ENABLE_BISECTION_ITERATOR_FALSE
 ENABLE_BISECTION_ITERATOR_TRUE
 ENABLE_EXRAT_FALSE
 ENABLE_EXRAT_TRUE
+HAVE_DECIMAL128X_FALSE
+HAVE_DECIMAL128X_TRUE
+HAVE_DECIMAL64X_FALSE
+HAVE_DECIMAL64X_TRUE
+HAVE_DECIMAL128_FALSE
+HAVE_DECIMAL128_TRUE
+HAVE_DECIMAL64_FALSE
+HAVE_DECIMAL64_TRUE
+HAVE_DECIMAL32_FALSE
+HAVE_DECIMAL32_TRUE
+HAVE_FLOAT128X_FALSE
+HAVE_FLOAT128X_TRUE
+HAVE_FLOAT64X_FALSE
+HAVE_FLOAT64X_TRUE
+HAVE_FLOAT32X_FALSE
+HAVE_FLOAT32X_TRUE
+HAVE_FLOAT16X_FALSE
+HAVE_FLOAT16X_TRUE
 HAVE_FLOAT128_FALSE
 HAVE_FLOAT128_TRUE
+HAVE_FLOAT64_FALSE
+HAVE_FLOAT64_TRUE
+HAVE_FLOAT32_FALSE
+HAVE_FLOAT32_TRUE
+HAVE_FLOAT16_FALSE
+HAVE_FLOAT16_TRUE
 ATS_MEMALLOC_LIBS
 ATS_MEMALLOC_CFLAGS
 ATS_MEMALLOC
@@ -20485,13 +20509,124 @@ fi
 #
 # Checks for typedefs, structures, and compiler characteristics.
 
+ac_fn_c_check_type "$LINENO" "_Float16" "ac_cv_type__Float16" "$ac_includes_default"
+if test "x$ac_cv_type__Float16" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Float32" "ac_cv_type__Float32" "$ac_includes_default"
+if test "x$ac_cv_type__Float32" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Float64" "ac_cv_type__Float64" "$ac_includes_default"
+if test "x$ac_cv_type__Float64" = xyes
+then :
+
+fi
+
 ac_fn_c_check_type "$LINENO" "_Float128" "ac_cv_type__Float128" "$ac_includes_default"
 if test "x$ac_cv_type__Float128" = xyes
 then :
 
 fi
 
+ac_fn_c_check_type "$LINENO" "_Float16x" "ac_cv_type__Float16x" "$ac_includes_default"
+if test "x$ac_cv_type__Float16x" = xyes
+then :
 
+fi
+
+ac_fn_c_check_type "$LINENO" "_Float32x" "ac_cv_type__Float32x" "$ac_includes_default"
+if test "x$ac_cv_type__Float32x" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Float64x" "ac_cv_type__Float64x" "$ac_includes_default"
+if test "x$ac_cv_type__Float64x" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Float128x" "ac_cv_type__Float128x" "$ac_includes_default"
+if test "x$ac_cv_type__Float128x" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Decimal32" "ac_cv_type__Decimal32" "$ac_includes_default"
+if test "x$ac_cv_type__Decimal32" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Decimal64" "ac_cv_type__Decimal64" "$ac_includes_default"
+if test "x$ac_cv_type__Decimal64" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Decimal128" "ac_cv_type__Decimal128" "$ac_includes_default"
+if test "x$ac_cv_type__Decimal128" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Decimal64x" "ac_cv_type__Decimal64x" "$ac_includes_default"
+if test "x$ac_cv_type__Decimal64x" = xyes
+then :
+
+fi
+
+ac_fn_c_check_type "$LINENO" "_Decimal128x" "ac_cv_type__Decimal128x" "$ac_includes_default"
+if test "x$ac_cv_type__Decimal128x" = xyes
+then :
+
+fi
+
+
+ if test x"${ac_cv_type__Float16}" = xyes; then
+  HAVE_FLOAT16_TRUE=
+  HAVE_FLOAT16_FALSE='#'
+else
+  HAVE_FLOAT16_TRUE='#'
+  HAVE_FLOAT16_FALSE=
+fi
+
+if test x"${ac_cv_type__Float16}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT16=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT16=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT16=yes"
+fi
+ if test x"${ac_cv_type__Float32}" = xyes; then
+  HAVE_FLOAT32_TRUE=
+  HAVE_FLOAT32_FALSE='#'
+else
+  HAVE_FLOAT32_TRUE='#'
+  HAVE_FLOAT32_FALSE=
+fi
+
+if test x"${ac_cv_type__Float32}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT32=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT32=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT32=yes"
+fi
+ if test x"${ac_cv_type__Float64}" = xyes; then
+  HAVE_FLOAT64_TRUE=
+  HAVE_FLOAT64_FALSE='#'
+else
+  HAVE_FLOAT64_TRUE='#'
+  HAVE_FLOAT64_FALSE=
+fi
+
+if test x"${ac_cv_type__Float64}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT64=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT64=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT64=yes"
+fi
  if test x"${ac_cv_type__Float128}" = xyes; then
   HAVE_FLOAT128_TRUE=
   HAVE_FLOAT128_FALSE='#'
@@ -20501,8 +20636,134 @@ else
 fi
 
 if test x"${ac_cv_type__Float128}" = xyes; then
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: _Float128 found. The tests will take this into account." >&5
-printf "%s\n" "$as_me: _Float128 found. The tests will take this into account." >&6;}
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT128=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT128=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT128=yes"
+fi
+ if test x"${ac_cv_type__Float16x}" = xyes; then
+  HAVE_FLOAT16X_TRUE=
+  HAVE_FLOAT16X_FALSE='#'
+else
+  HAVE_FLOAT16X_TRUE='#'
+  HAVE_FLOAT16X_FALSE=
+fi
+
+if test x"${ac_cv_type__Float16x}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT16X=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT16X=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT16X=yes"
+fi
+ if test x"${ac_cv_type__Float32x}" = xyes; then
+  HAVE_FLOAT32X_TRUE=
+  HAVE_FLOAT32X_FALSE='#'
+else
+  HAVE_FLOAT32X_TRUE='#'
+  HAVE_FLOAT32X_FALSE=
+fi
+
+if test x"${ac_cv_type__Float32x}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT32X=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT32X=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT32X=yes"
+fi
+ if test x"${ac_cv_type__Float64x}" = xyes; then
+  HAVE_FLOAT64X_TRUE=
+  HAVE_FLOAT64X_FALSE='#'
+else
+  HAVE_FLOAT64X_TRUE='#'
+  HAVE_FLOAT64X_FALSE=
+fi
+
+if test x"${ac_cv_type__Float64x}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT64X=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT64X=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT64X=yes"
+fi
+ if test x"${ac_cv_type__Float128x}" = xyes; then
+  HAVE_FLOAT128X_TRUE=
+  HAVE_FLOAT128X_FALSE='#'
+else
+  HAVE_FLOAT128X_TRUE='#'
+  HAVE_FLOAT128X_FALSE=
+fi
+
+if test x"${ac_cv_type__Float128x}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_FLOAT128X=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_FLOAT128X=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_FLOAT128X=yes"
+fi
+ if test x"${ac_cv_type__Decimal32}" = xyes; then
+  HAVE_DECIMAL32_TRUE=
+  HAVE_DECIMAL32_FALSE='#'
+else
+  HAVE_DECIMAL32_TRUE='#'
+  HAVE_DECIMAL32_FALSE=
+fi
+
+if test x"${ac_cv_type__Decimal32}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_DECIMAL32=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_DECIMAL32=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_DECIMAL32=yes"
+fi
+ if test x"${ac_cv_type__Decimal64}" = xyes; then
+  HAVE_DECIMAL64_TRUE=
+  HAVE_DECIMAL64_FALSE='#'
+else
+  HAVE_DECIMAL64_TRUE='#'
+  HAVE_DECIMAL64_FALSE=
+fi
+
+if test x"${ac_cv_type__Decimal64}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_DECIMAL64=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_DECIMAL64=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_DECIMAL64=yes"
+fi
+ if test x"${ac_cv_type__Decimal128}" = xyes; then
+  HAVE_DECIMAL128_TRUE=
+  HAVE_DECIMAL128_FALSE='#'
+else
+  HAVE_DECIMAL128_TRUE='#'
+  HAVE_DECIMAL128_FALSE=
+fi
+
+if test x"${ac_cv_type__Decimal128}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_DECIMAL128=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_DECIMAL128=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_DECIMAL128=yes"
+fi
+ if test x"${ac_cv_type__Decimal64x}" = xyes; then
+  HAVE_DECIMAL64X_TRUE=
+  HAVE_DECIMAL64X_FALSE='#'
+else
+  HAVE_DECIMAL64X_TRUE='#'
+  HAVE_DECIMAL64X_FALSE=
+fi
+
+if test x"${ac_cv_type__Decimal64x}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_DECIMAL64X=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_DECIMAL64X=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_DECIMAL64X=yes"
+fi
+ if test x"${ac_cv_type__Decimal128x}" = xyes; then
+  HAVE_DECIMAL128X_TRUE=
+  HAVE_DECIMAL128X_FALSE='#'
+else
+  HAVE_DECIMAL128X_TRUE='#'
+  HAVE_DECIMAL128X_FALSE=
+fi
+
+if test x"${ac_cv_type__Decimal128x}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS HAVE_DECIMAL128X=1"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DHAVE_DECIMAL128X=1"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DHAVE_DECIMAL128X=yes"
+fi
+
+if test x"${ac_cv_type__Decimal64}" = xyes; then
+  if test x"${ac_cv_type__Decimal128}" = xyes; then
+    PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }-DATS MPFR_HAS_DECIMAL=1"
+    CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-DMPFR_HAS_DECIMAL=1"
+    M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DMPFR_HAS_DECIMAL=yes"
+  fi
 fi
 
 #--------------------------------------------------------------------------
@@ -21144,8 +21405,56 @@ if test -z "${CODE_COVERAGE_ENABLED_TRUE}" && test -z "${CODE_COVERAGE_ENABLED_F
   as_fn_error $? "conditional \"CODE_COVERAGE_ENABLED\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${HAVE_FLOAT16_TRUE}" && test -z "${HAVE_FLOAT16_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT16\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_FLOAT32_TRUE}" && test -z "${HAVE_FLOAT32_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT32\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_FLOAT64_TRUE}" && test -z "${HAVE_FLOAT64_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT64\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${HAVE_FLOAT128_TRUE}" && test -z "${HAVE_FLOAT128_FALSE}"; then
   as_fn_error $? "conditional \"HAVE_FLOAT128\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_FLOAT16X_TRUE}" && test -z "${HAVE_FLOAT16X_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT16X\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_FLOAT32X_TRUE}" && test -z "${HAVE_FLOAT32X_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT32X\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_FLOAT64X_TRUE}" && test -z "${HAVE_FLOAT64X_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT64X\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_FLOAT128X_TRUE}" && test -z "${HAVE_FLOAT128X_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_FLOAT128X\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_DECIMAL32_TRUE}" && test -z "${HAVE_DECIMAL32_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_DECIMAL32\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_DECIMAL64_TRUE}" && test -z "${HAVE_DECIMAL64_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_DECIMAL64\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_DECIMAL128_TRUE}" && test -z "${HAVE_DECIMAL128_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_DECIMAL128\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_DECIMAL64X_TRUE}" && test -z "${HAVE_DECIMAL64X_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_DECIMAL64X\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_DECIMAL128X_TRUE}" && test -z "${HAVE_DECIMAL128X_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_DECIMAL128X\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_EXRAT_TRUE}" && test -z "${ENABLE_EXRAT_FALSE}"; then

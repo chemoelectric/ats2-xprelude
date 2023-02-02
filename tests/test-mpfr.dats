@@ -797,6 +797,61 @@ test11 () : void =
 
     val- true = ((g0f2f (exrat_make (123, 1))) : mpfr) = mpfr_make "123"
     val- true = ((g0f2f (mpfr_make "123")) : exrat) = exrat_make (123, 1)
+
+    #ifdef HAVE_FLOAT16 #then
+      val- true = ((g0f2f ($extval (float16, "123.0f16"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : float16) = $extval (float16, "123.0f16")
+    #endif
+
+    #ifdef HAVE_FLOAT32 #then
+      val- true = ((g0f2f ($extval (float32, "123.0f32"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : float32) = $extval (float32, "123.0f32")
+    #endif
+
+    #ifdef HAVE_FLOAT64 #then
+      val- true = ((g0f2f ($extval (float64, "123.0f64"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : float64) = $extval (float64, "123.0f64")
+    #endif
+
+    #ifdef HAVE_FLOAT128 #then
+      val- true = ((g0f2f ($extval (float128, "123.0f128"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : float128) = $extval (float128, "123.0f128")
+    #endif
+
+    #ifdef HAVE_FLOAT16X #then
+      val- true = ((g0f2f ($extval (float16x, "123.0f16x"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : float16x) = $extval (float16x, "123.0f16x")
+    #endif
+
+    #ifdef HAVE_FLOAT32X #then
+      val- true = ((g0f2f ($extval (float32x, "123.0f32x"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : float32x) = $extval (float32x, "123.0f32x")
+    #endif
+
+    #ifdef HAVE_FLOAT64X #then
+      val- true = ((g0f2f ($extval (float64x, "123.0f64x"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : float64x) = $extval (float64x, "123.0f64x")
+    #endif
+
+    #ifdef HAVE_DECIMAL32 #then
+      val- true = ((g0f2f ($extval (decimal32, "123.0DF"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : decimal32) = $extval (decimal32, "123.0DF")
+    #endif
+
+    #ifdef HAVE_DECIMAL64 #then
+      val- true = ((g0f2f ($extval (decimal64, "123.0DD"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : decimal64) = $extval (decimal64, "123.0DD")
+    #endif
+
+    #ifdef HAVE_DECIMAL128 #then
+      val- true = ((g0f2f ($extval (decimal128, "123.0DL"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : decimal128) = $extval (decimal128, "123.0DL")
+    #endif
+
+    #ifdef HAVE_DECIMAL64X #then
+      val- true = ((g0f2f ($extval (decimal64x, "(_Decimal64x) 123"))) : mpfr) = mpfr_make "123"
+      val- true = ((g0f2f (mpfr_make "123")) : decimal64) = $extval (decimal64x, "(_Decimal64x) 123")
+    #endif
   in
   end
 

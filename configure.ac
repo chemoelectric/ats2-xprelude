@@ -202,11 +202,37 @@ fi
 #
 # Checks for typedefs, structures, and compiler characteristics.
 
+AC_CHECK_TYPE([_Float16])
+AC_CHECK_TYPE([_Float32])
+AC_CHECK_TYPE([_Float64])
 AC_CHECK_TYPE([_Float128])
+AC_CHECK_TYPE([_Float16x])
+AC_CHECK_TYPE([_Float32x])
+AC_CHECK_TYPE([_Float64x])
+AC_CHECK_TYPE([_Float128x])
+AC_CHECK_TYPE([_Decimal32])
+AC_CHECK_TYPE([_Decimal64])
+AC_CHECK_TYPE([_Decimal128])
+AC_CHECK_TYPE([_Decimal64x])
+AC_CHECK_TYPE([_Decimal128x])
 
-AM_CONDITIONAL([HAVE_FLOAT128],[test x"${ac_cv_type__Float128}" = xyes])
-if test x"${ac_cv_type__Float128}" = xyes; then
-  AC_MSG_NOTICE([_Float128 found. The tests will take this into account.])
+m4_foreach_w([T],[Float16 Float32 Float64 Float128
+                  Float16x Float32x Float64x Float128x
+                  Decimal32 Decimal64 Decimal128
+                  Decimal64x Decimal128x],
+[AM_CONDITIONAL([HAVE_]m4_toupper(T),[test x"${ac_cv_type__[]T}" = xyes])
+if test x"${ac_cv_type__[]T}" = xyes; then
+  PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }[-DATS HAVE_]m4_toupper(T)[=1]"
+  CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }[-DHAVE_]m4_toupper(T)[=1]"
+  M4FLAGS="${M4FLAGS}${M4FLAGS+ }[-DHAVE_]m4_toupper(T)[=yes]"
+fi
+])
+if test x"${ac_cv_type__Decimal64}" = xyes; then
+  if test x"${ac_cv_type__Decimal128}" = xyes; then
+    PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }[-DATS MPFR_HAS_DECIMAL=1]"
+    CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }[-DMPFR_HAS_DECIMAL=1]"
+    M4FLAGS="${M4FLAGS}${M4FLAGS+ }[-DMPFR_HAS_DECIMAL=yes]"
+  fi
 fi
 
 #--------------------------------------------------------------------------

@@ -240,8 +240,8 @@ m4_define(`convertible_floattypes',
           `float, double, ldouble,
            float16, float32, float64, float128,
            float16x, float32x, float64x,
-           decimal64, decimal128,
-           fixed32p32, exrat')
+           decimal32, decimal64, decimal128,
+           decimal64x, fixed32p32, exrat')
 
 divert`'dnl
 
@@ -459,9 +459,8 @@ my_extern_prefix`'ldouble_mpfr_replace (REF(ldouble) yp, floatt2c(mpfr) x)
 m4_foreachq(`N',`16, 16x, 32, 32x, 64, 64x, 128',`
 FLOAT_SUPPORT_CHECK(`float'N)
 FLOAT_SUPPORT_CHECK(`float128')
-dnl
-dnl  Be cautious and use float128, if it is available.
-dnl
+
+/* Be cautious and use float128, if it is available. */
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_float`'N`'_replace (REF(mpfr) yp, floatt2c(float`'N) x)
@@ -478,10 +477,9 @@ my_extern_prefix`'float`'N`'_mpfr_replace (REF(float`'N) yp, floatt2c(mpfr) x)
 }
 
 ELSE_FLOAT_SUPPORT_CHECK(`float128')
-dnl
-dnl  If float128 is not available, use ldouble
-dnl  (which is likely faster, anyway).
-dnl
+
+/* If float128 is not available, use ldouble (which likely is faster,
+   anyway). */
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_float`'N`'_replace (REF(mpfr) yp, floatt2c(float`'N) x)
@@ -501,24 +499,84 @@ END_FLOAT_SUPPORT_CHECK(`float128')
 END_FLOAT_SUPPORT_CHECK(`float'N)
 ')dnl
 
-FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal64')
+m4_foreachq(`N',`32, 64',`
+FLOAT_SUPPORT_CHECK(`decimal'N)
+#if `MPFR_HAS_DECIMAL'
 
 atsvoid_t0ype
-my_extern_prefix`'mpfr_decimal64_replace (REF(mpfr) yp, floatt2c(decimal64) x)
+my_extern_prefix`'mpfr_decimal`'N`'_replace (REF(mpfr) yp, floatt2c(decimal`'N) x)
 {
   floatt2c(mpfr) y = DEREF(mpfr, yp);
-  mpfr_set_decimal64 (y[0], x, ROUNDING);
+  mpfr_set_decimal64 (y[0], (floatt2c(decimal64)) x, ROUNDING);
 }
 
 atsvoid_t0ype
-my_extern_prefix`'decimal64_mpfr_replace (REF(decimal64) yp, floatt2c(mpfr) x)
+my_extern_prefix`'decimal`'N`'_mpfr_replace (REF(decimal`'N) yp, floatt2c(mpfr) x)
 {
-  floatt2c(decimal64) *y = (void *) yp;
-  y[0] = mpfr_get_decimal64 (x[0], ROUNDING);
+  floatt2c(decimal`'N) *y = (void *) yp;
+  y[0] = (floatt2c(decimal`'N)) mpfr_get_decimal64 (x[0], ROUNDING);
 }
 
-END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal64')
+#else
 
+atsvoid_t0ype
+my_extern_prefix`'mpfr_decimal`'N`'_replace (REF(mpfr) yp, floatt2c(decimal`'N) x)
+{
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
+  mpfr_set_ld (y[0], (floatt2c(ldouble)) x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'decimal`'N`'_mpfr_replace (REF(decimal`'N) yp, floatt2c(mpfr) x)
+{
+  floatt2c(decimal`'N) *y = (void *) yp;
+  y[0] = (floatt2c(decimal`'N)) mpfr_get_ld (x[0], ROUNDING);
+}
+
+#endif
+END_FLOAT_SUPPORT_CHECK(`decimal'N)
+')dnl
+
+m4_foreachq(`N',`64x,128',`
+FLOAT_SUPPORT_CHECK(`decimal'N)
+#if `MPFR_HAS_DECIMAL'
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_decimal`'N`'_replace (REF(mpfr) yp, floatt2c(decimal`'N) x)
+{
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
+  mpfr_set_decimal64 (y[0], (floatt2c(decimal128)) x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'decimal`'N`'_mpfr_replace (REF(decimal`'N) yp, floatt2c(mpfr) x)
+{
+  floatt2c(decimal`'N) *y = (void *) yp;
+  y[0] = (floatt2c(decimal`'N)) mpfr_get_decimal128 (x[0], ROUNDING);
+}
+
+m4_if(N,`128',,
+`#else
+
+atsvoid_t0ype
+my_extern_prefix`'mpfr_decimal`'N`'_replace (REF(mpfr) yp, floatt2c(decimal`'N) x)
+{
+  floatt2c(mpfr) y = DEREF(mpfr, yp);
+  mpfr_set_ld (y[0], (floatt2c(ldouble)) x, ROUNDING);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'decimal`'N`'_mpfr_replace (REF(decimal`'N) yp, floatt2c(mpfr) x)
+{
+  floatt2c(decimal`'N) *y = (void *) yp;
+  y[0] = (floatt2c(decimal`'N)) mpfr_get_ld (x[0], ROUNDING);
+}
+')
+#endif
+END_FLOAT_SUPPORT_CHECK(`decimal'N)
+')dnl
+
+divert(-1) ?????????????????????????????????????????????????????????????????????????????????????????
 FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal128')
 
 atsvoid_t0ype
@@ -536,6 +594,7 @@ my_extern_prefix`'decimal128_mpfr_replace (REF(decimal128) yp, floatt2c(mpfr) x)
 }
 
 END_FLOAT_SUPPORT_CHECK_FOR_MPFR(`decimal128')
+ ????????????????????????????????????????????????????????????????????????????????????????? divert
 
 atsvoid_t0ype
 my_extern_prefix`'mpfr_fixed32p32_replace (REF(mpfr) yp, floatt2c(fixed32p32) x)
