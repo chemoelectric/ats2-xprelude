@@ -253,7 +253,10 @@ m4_define(`supported_unary_ops',
    digamma, eint, ai, li2, zeta')
 
 m4_define(`supported_binary_ops',
-  `fmod')
+  `copysign,
+   fmod, remainder,
+   pow, powr, hypot,
+   atan2, atan2pi')
 
 divert`'dnl
 

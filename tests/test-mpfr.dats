@@ -705,6 +705,31 @@ test7 () : void =
   in
   end
 
+fn
+test8 () : void =
+  let
+    val- true = fmod (mpfr_make "3", mpfr_make "5") = mpfr_make "3"
+    val- true = fmod (mpfr_make "12", mpfr_make "5") = mpfr_make "2"
+    val- true = fmod (mpfr_make "25", mpfr_make "5") = mpfr_make "0"
+
+    val- true = remainder (mpfr_make "3", mpfr_make "5") = mpfr_make "-2"
+    val- true = remainder (mpfr_make "12", mpfr_make "5") = mpfr_make "2"
+    val- true = remainder (mpfr_make "25", mpfr_make "5") = mpfr_make "0"
+
+    val- true = copysign (mpfr_make "3", mpfr_make "5") = mpfr_make "3"
+    val- true = copysign (mpfr_make "-3", mpfr_make "5") = mpfr_make "3"
+    val- true = copysign (mpfr_make "3", mpfr_make "-5") = mpfr_make "-3"
+    val- true = copysign (mpfr_make "-3", mpfr_make "-5") = mpfr_make "-3"
+
+    val- true = pow (mpfr_make "3", mpfr_make "5") = mpfr_make "243"
+    val- true = powr (mpfr_make "3", mpfr_make "5") = mpfr_make "243"
+    val- true = hypot (mpfr_make "8", mpfr_make "15") = mpfr_make "17"
+
+    val- true = abs (atan2 (mpfr_make "5", mpfr_make "4") - mpfr_make "0.8960553845713") < mpfr_make "0.000001"
+    val- true = abs (atan2pi (mpfr_make "5", mpfr_make "4") - mpfr_make "0.285223287477") < mpfr_make "0.000001"
+  in
+  end
+
 implement
 main () =
   begin
@@ -715,5 +740,6 @@ main () =
     test5 ();
     test6 ();
     test7 ();
+    test8 ();
     0
   end
