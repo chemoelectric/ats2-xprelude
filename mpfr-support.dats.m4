@@ -258,6 +258,9 @@ m4_define(`supported_binary_ops',
    pow, powr, hypot,
    atan2, atan2pi')
 
+m4_define(`supported_trinary_ops',
+  `fma')
+
 divert`'dnl
 
 m4_foreachq(`OP',`infinity, nan, huge_val',`
@@ -291,6 +294,16 @@ my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y)
 {
   floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_maxprec2 (x, y);
   my_extern_prefix`'mpfr_`'OP`'_replace (&z, x, y);
+  return z;
+}
+')dnl
+
+m4_foreachq(`OP',`supported_trinary_ops',`
+floatt2c(mpfr)
+my_extern_prefix`'g0float_`'OP`'_mpfr (floatt2c(mpfr) x, floatt2c(mpfr) y, floatt2c(mpfr) w)
+{
+  floatt2c(mpfr) z = _`'my_extern_prefix`'mpfr_init_maxprec3 (x, y, w);
+  my_extern_prefix`'mpfr_`'OP`'_replace (&z, x, y, w);
   return z;
 }
 ')dnl
@@ -452,6 +465,15 @@ my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr) zp, floatt2c(mpfr) x, floatt2c(
 {
   floatt2c(mpfr) z = DEREF(mpfr, zp);
   mpfr_`'OP (z[0], x[0], y[0], ROUNDING);
+}
+')dnl
+
+m4_foreachq(`OP',`supported_trinary_ops',`
+atsvoid_t0ype
+my_extern_prefix`'mpfr_`'OP`'_replace (REF(mpfr) zp, floatt2c(mpfr) x, floatt2c(mpfr) y, floatt2c(mpfr) w)
+{
+  floatt2c(mpfr) z = DEREF(mpfr, zp);
+  mpfr_`'OP (z[0], x[0], y[0], w[0], ROUNDING);
 }
 ')dnl
 

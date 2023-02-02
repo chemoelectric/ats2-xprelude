@@ -230,6 +230,10 @@ m4_foreachq(`OP',`add, sub, mul, div, binary_ops',
 `fn g0float_`'OP`'_mpfr : (mpfr, mpfr) -<> mpfr = "mac#%"
 ')dnl
 
+m4_foreachq(`OP',`trinary_ops',
+`fn g0float_`'OP`'_mpfr : (mpfr, mpfr, mpfr) -<> mpfr = "mac#%"
+')dnl
+
 fn g0float_unsafe_strto_mpfr : (ptr, ptr) -< !wrt > mpfr = "mac#%"
 
 (*------------------------------------------------------------------*)

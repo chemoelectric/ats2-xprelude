@@ -727,6 +727,8 @@ test8 () : void =
 
     val- true = abs (atan2 (mpfr_make "5", mpfr_make "4") - mpfr_make "0.8960553845713") < mpfr_make "0.000001"
     val- true = abs (atan2pi (mpfr_make "5", mpfr_make "4") - mpfr_make "0.285223287477") < mpfr_make "0.000001"
+
+    val- true = fma (mpfr_make "5", mpfr_make "4", mpfr_make "3") = mpfr_make "23"
   in
   end
 
