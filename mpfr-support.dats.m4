@@ -762,17 +762,11 @@ my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr nptr, ats
 atsvoid_t0ype
 my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string s, uintb2c(size) i)
 {
-  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
-  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
-  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
-  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
-  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
-
   floatt2c(mpfr) z = DEREF(mpfr, zp);
   uintb2c(size) *j = (void *) jp;
   char *startptr = (char *) (void *) s + i;
   char *endptr;
-  mpfr_strtofr (z[0], startptr, &endptr, 10, ROUNDING);
+  mpfr_strtofr (z[0], startptr, &endptr, 0, ROUNDING);
   *j = i + (uintb2c(size)) (endptr - startptr);
 }
 

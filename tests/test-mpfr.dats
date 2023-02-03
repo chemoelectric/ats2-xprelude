@@ -880,9 +880,12 @@ test12 () : void =
     val- true = ((mpfr_strto_prec ("x = 123456e-3;", i2sz 4, OCTUPLE_PREC)).1) = i2sz 13
     val- true = mpfr_get_prec ((mpfr_strto_prec ("x = 123456e-3;", i2sz 4, OCTUPLE_PREC)).0) = g0i2i OCTUPLE_PREC
 
-    (* FIXME: strto for mpfr does not correctly handle hexadecimal inputs. *)
-    val () = println! ((mpfr_strto_prec ("0X7.B74BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A8P+4", i2sz 0, OCTUPLE_PREC)).0)
-    val () = println! ((g0float_strto<flt128knd> ("0X7.B74BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A8P+4", i2sz 0)).0)
+    (* Testing hexadecimal input. By the way, there is also a binary
+       input format, but it is likely not to work with g0float_strto
+       when it is converting the numeral to one of the more
+       conventional floating point types. *)
+    val- true = ((mpfr_strto_prec ("0X7.B74BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A8P+4", i2sz 0, OCTUPLE_PREC)).0) = mpfr_make ("123.456", OCTUPLE_PREC)
+    val- true = ((mpfr_strto_prec ("0x7.b74bc8p+4", i2sz 0, SINGLE_PREC)).0) = mpfr_make ("123.456", SINGLE_PREC)
   in
   end
 
