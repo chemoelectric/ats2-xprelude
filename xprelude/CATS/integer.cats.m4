@@ -20,6 +20,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #ifndef MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__
 #define MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__
 
+#include <assert.h>
 #include <stdint.h>
 #include <`inttypes'.h>
 #include <limits.h>
@@ -44,6 +45,13 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
    | date        = 2023-01-14
    | archiveurl  = http://archive.today/GNADt
    | archivedate = 2023-01-14 }}
+
+  {{cite web
+   | title       = BitScan - Chessprogramming wiki
+   | url         = https://www.chessprogramming.org/index.php?title=BitScan&oldid=22495
+   | date        = 2023-02-03
+   | archiveurl  = http://archive.today/iPXfa
+   | archivedate = 2023-02-03 }}
 
 */
 /*------------------------------------------------------------------*/
@@ -535,6 +543,82 @@ my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
   return x.i;
 }
 ')
+')dnl
+
+/*------------------------------------------------------------------*/
+/* Count trailing zeros. */
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_ctz_uint64_fallback (uintb2c(uint64) n)
+{
+  /* De Bruijn bitscan with separated LS1B. See
+     http://archive.today/iPXfa */
+  return
+    "\0\57\1\70\60\33\2\74\71\61\51\45\34\20\3\75\66\72\43\64\62\52\25\54\46\40\35\27\21\13\4\76\56\67\32\73\50\44\17\65\42\63\24\53\37\26\12\55\31\47\16\41\23\36\11\30\15\22\10\14\7\6\5\77"
+    [((((uint64_t) n) ^ (((uint64_t) n) - 1)) * UINT64_C(0x03f79d71b4cb0a89)) >> 58];
+}
+
+#if defined __GNUC__
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_ctz_uint (uintb2c(uint) n)
+{
+  return __builtin_ctz (n);
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_ctz_ulint (uintb2c(ulint) n)
+{
+  return __builtin_ctzl (n);
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_ctz_ullint (uintb2c(ullint) n)
+{
+  return __builtin_ctzll (n);
+}
+
+m4_foreachq(`INT',`sint, int, int8, int16, int32',
+`#define my_extern_prefix`'g0int_ctz_`'INT`'(n) (my_extern_prefix`'g0uint_ctz_uint ((uintb2c(uint)) (n)))
+')dnl
+m4_foreachq(`INT',`lint',
+`#define my_extern_prefix`'g0int_ctz_`'INT`'(n) (my_extern_prefix`'g0uint_ctz_ulint ((uintb2c(ulint)) (n)))
+')dnl
+m4_foreachq(`INT',`int64, llint, lint64, ssize, intptr, intmax',
+`#define my_extern_prefix`'g0int_ctz_`'INT`'(n) (my_extern_prefix`'g0uint_ctz_ullint ((uintb2c(ullint)) (n)))
+')dnl
+
+m4_foreachq(`UINT',`usint, uint8, uint16, uint32',
+`#define my_extern_prefix`'g0uint_ctz_`'UINT`'(n) (my_extern_prefix`'g0uint_ctz_uint ((uintb2c(uint)) (n)))
+')dnl
+m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
+`#define my_extern_prefix`'g0uint_ctz_`'UINT`'(n) (my_extern_prefix`'g0uint_ctz_ullint ((uintb2c(ullint)) (n)))
+')dnl
+
+#else /* if not __GNUC__ */
+
+_Static_assert (sizeof (uintb2c(uintmax)) <= 64,
+                "the implementation of count trailing zeros "
+                "assumes integers do not exceed 64 bits in size");
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'g0int_ctz_`'INT`'(n)`'dnl
+ (my_extern_prefix`'_ctz_uint64_fallback ((uintb2c(uint)) (n)))
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'g0uint_ctz_`'UINT`'(n)`'dnl
+ (my_extern_prefix`'_ctz_uint64_fallback ((uintb2c(uint)) (n)))
+')dnl
+
+#endif /* if not __GNUC__ */
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'g1int_ctz_`'INT my_extern_prefix`'g0int_ctz_`'INT
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'g1uint_ctz_`'UINT my_extern_prefix`'g0uint_ctz_`'UINT
 ')dnl
 
 /*------------------------------------------------------------------*/

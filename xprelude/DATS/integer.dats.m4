@@ -27,6 +27,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 staload UN = "prelude/SATS/unsafe.sats"
 staload "xprelude/SATS/integer.sats"
 
+staload "xprelude/SATS/arith_prf.sats"
+
 (*------------------------------------------------------------------*)
 (* Printing. *)
 
@@ -297,6 +299,19 @@ implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Counting trailing zeros of a positive number. *)
+
+m4_foreachq(`INT',`intbases',
+`implement g0int_ctz<intb2k(INT)> = g0int_ctz_`'INT
+implement g1int_ctz<intb2k(INT)> = g1int_ctz_`'INT
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`implement g0uint_ctz<uintb2k(UINT)> = g0uint_ctz_`'UINT
+implement g1uint_ctz<uintb2k(UINT)> = g1uint_ctz_`'UINT
+')dnl
+
+(*------------------------------------------------------------------*)
 (* Logical shifts. *)
 
 m4_foreachq(`N',`0,1',
@@ -333,6 +348,140 @@ m4_foreachq(`N',`0,1',
 `implement g`'N`'uint_`'OP<uintb2k(UINT)> = g`'N`'uint_`'OP`'_`'UINT
 ')
 ')
+')dnl
+
+(*------------------------------------------------------------------*)
+(* Greatest common divisor. *)
+
+%{#
+
+/* The C << and >> operators are adequate even for signed numbers,
+   in the following implementation, because they are used only on
+   positive numbers. */
+
+#define my_extern_prefix`'_gcd_shiftleft(x, y) ((x) << (y))
+#define my_extern_prefix`'_gcd_shiftright(x, y) ((x) >> (y))
+
+%}
+
+m4_foreachq(`U',``',`u'',
+`fn {tk : tkind}
+_g0`'U`'int_gcd
+          (u : g0`'U`'int tk,
+           v : g0`'U`'int tk)
+    :<> g0`'U`'int tk =
+  (* Stein’s algorithm. This is an implementation Barry Schwartz
+     originally wrote for Rosetta Code. *)
+  let
+    typedef t = g0`'U`'int tk
+
+    extern fn _gcd_shiftleft : (t, intGte 0) -<> t = "mac#%"
+    extern fn _gcd_shiftright : (t, intGte 0) -<> t = "mac#%"
+    macdef << = _gcd_shiftleft
+    macdef >> = _gcd_shiftright
+
+    (* Use this macro to fake proof that an int is non-negative. *)
+    macdef nonneg (n) = $UNSAFE.cast{intGte 0} ,(n)
+
+    fun
+    loop (x_odd : t,
+          y     : t)
+        :<!ntm> t =
+      let
+        (* Remove twos from y, giving an odd number.
+           Note gcd(x_odd,y_odd) = gcd(x_odd,y). *)
+        val y_odd = (y >> nonneg (ctz y))
+      in
+        if x_odd = y_odd then
+          x_odd
+        else
+          let
+            (* If y_odd < x_odd then swap x_odd and y_odd.
+               This operation does not affect the gcd. *)
+            val x_odd = min (x_odd, y_odd)
+            and y_odd = max (x_odd, y_odd)
+          in
+            loop (x_odd, y_odd - x_odd)
+          end
+      end
+
+    fn {}
+    compute_gcd (u : t,
+                 v : t)
+        :<> t =
+      let
+        (* n = the number of common factors of two in u and v. *)
+        val n = ctz (u lor v)
+
+        (* Remove the common twos from u and v, giving x and y. *)
+        val x = (u >> nonneg n)
+        val y = (v >> nonneg n)
+
+        (* Remove twos from x, giving an odd number.
+           Note gcd(x_odd,y) = gcd(x,y). *)
+        val x_odd = (x >> nonneg (ctz x))
+
+        (* Run the main loop. *)
+        val z = $effmask_ntm (loop (x_odd, y))
+      in
+        (* Put the common factors of two back in. *)
+        (z << nonneg n)
+      end
+
+    (* If v < u then swap u and v. This operation does not
+       affect the gcd. *)
+    val u = min (u, v)
+    and v = max (u, v)
+  in
+    if iseqz u then
+      v
+    else
+      compute_gcd<> (u, v)
+  end
+
+')dnl
+implement {tk}
+g0uint_gcd (i, j) =
+  _g0uint_gcd<tk> (i, j)
+
+implement {tk}
+g1uint_gcd (i, j) =
+  $UN.cast (g0uint_gcd<tk> (i, j))
+
+implement {tk}
+g0int_gcd (i, j) =
+  _g0int_gcd<tk> (abs i, abs j)
+
+implement {tk}
+g1int_gcd (i, j) =
+  $UN.cast (g0int_gcd<tk> (i, j))
+
+if_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`INT',`intbases',
+`implement g1int_gcd_`'INT (i, j) = g1int_gcd<intb2k(INT)> (i, j)
+implement g0int_gcd_`'INT (i, j) = g0ofg1 (g1int_gcd_`'INT (g1ofg0 i, g1ofg0 j))
+')dnl
+')dnl
+
+if_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`UINT',`uintbases',
+`implement g1uint_gcd_`'UINT (i, j) = g1uint_gcd<uintb2k(UINT)> (i, j)
+implement g0uint_gcd_`'UINT (i, j) = g0ofg1 (g1uint_gcd_`'UINT (g1ofg0 i, g1ofg0 j))
+')dnl
+')dnl
+
+if_not_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`INT',`intbases',
+`implement g0int_gcd<intb2k(INT)> = g0int_gcd_`'INT
+implement g1int_gcd<intb2k(INT)> = g1int_gcd_`'INT
+')dnl
+')dnl
+
+if_not_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`UINT',`uintbases',
+`implement g0uint_gcd<uintb2k(UINT)> = g0uint_gcd_`'UINT
+implement g1uint_gcd<uintb2k(UINT)> = g1uint_gcd_`'UINT
+')dnl
 ')dnl
 
 (*------------------------------------------------------------------*)

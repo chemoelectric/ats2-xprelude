@@ -232,15 +232,25 @@ INTEGER_CATS = xprelude/CATS/integer.cats
 INTEGER_SATS_C = xprelude/SATS/integer_sats.c
 INTEGER_DATS_C = xprelude/DATS/integer_dats.c
 
+INTEGER_SUPPORT_DATS =
+INTEGER_SUPPORT_DATS += integer-implementations.dats
+
+INTEGER_SUPPORT_DATS_C =
+INTEGER_SUPPORT_DATS_C += integer-implementations_dats.c
+
+integer-implementations.dats: $(addsuffix .m4, $(INTEGER_DATS))
+$(eval $(call make-compiling-implementations, integer-implementations.dats))
+
 INTEGER_SRC = $(INTEGER_SATS) $(INTEGER_DATS) $(INTEGER_CATS)
-EXTRA_DIST += $(addsuffix .m4, $(INTEGER_SRC))
-BUILT_SOURCES += $(INTEGER_SRC)
-CLEANFILES += $(INTEGER_SRC)
+EXTRA_DIST += $(addsuffix .m4, $(INTEGER_SRC) $(INTEGER_SUPPORT_DATS))
+BUILT_SOURCES += $(INTEGER_SRC) $(INTEGER_SUPPORT_DATS)
+CLEANFILES += $(INTEGER_SRC) $(INTEGER_SUPPORT_DATS)
 
 nobase_nodist_pkginclude_HEADERS += $(INTEGER_SRC)
 
 nodist_libats2_xprelude_la_SOURCES += $(INTEGER_SATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(INTEGER_DATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(INTEGER_SUPPORT_DATS_C)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

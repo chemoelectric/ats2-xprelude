@@ -15,6 +15,10 @@ Extensions to, and bugfixes for, the ATS2 prelude.
     - I have added ‘true Euclidean division’ of signed integers,
       where the remainder is always non-negative.
 
+    - I have added gcd.
+
+    - I have added ‘count trailing zeros’.
+
 * Expanded support for floating point, and workarounds for bugs.
 
 * Support for the following floating point types: float16, float32,
@@ -51,10 +55,11 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 
 ---
 
-* Also possible: gcd and lcm operations. (The prelude removed gcd, but
-  perhaps because gcd is something that can be templatized, using
-  different algorithms, and with interesting proofs. The gcd is not
-  nearly as ‘primitive’ an operation as one might imagine.)
+* Also possible: population count, and other such more obscure
+  operations on integers.
+
+* Also possible: integer ‘pow’. I have often found myself using such a
+  function.
 
 * Also possible: 128-bit integers, using compiler support if possible,
   but perhaps otherwise by library code. (The 32+32-bit fixed point

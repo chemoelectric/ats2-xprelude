@@ -143,6 +143,50 @@ stacst signed_land_int_int : (int, int) -> int
 stacst signed_lor_int_int : (int, int) -> int
 stacst signed_lxor_int_int : (int, int) -> int
 
+(* Count of trailing zeros of a positive number. *)
+stacst ctz_int_int : int -> int
+
+(*------------------------------------------------------------------*)
+(* Greatest common divisor, with gcd(0,0) = 0. *)
+
+stacst gcd_int_int : (int, int) -> int
+
+praxi
+lemma_gcd_isfun :
+  {i1, j1 : int}
+  {i2, j2 : int | i1 == i2; j1 == j2}
+  () -<prf>
+    [gcd_int_int (i1, j1) == gcd_int_int (i2, j2)]
+    void
+
+praxi
+lemma_gcd_commutes :
+  {i, j : int}
+  () -<prf>
+    [gcd_int_int (i, j) == gcd_int_int (j, i)]
+    void
+
+praxi
+lemma_gcd_is_sign_invariant :
+  {i, j : int}
+  () -<prf>
+    [gcd_int_int (i, j) == gcd_int_int (abs i, abs j)]
+    void
+
+praxi
+lemma_gcd_of_zero :
+  {i : int}
+  () -<prf>
+    [gcd_int_int (0, i) == i]
+    void
+
+praxi
+lemma_gcd_of_equals :
+  {i : int}
+  () -<prf>
+    [gcd_int_int (i, i) == i]
+    void
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

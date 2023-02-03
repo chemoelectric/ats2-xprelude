@@ -507,6 +507,135 @@ test15 () : void =
   in
   end
 
+fn
+test16 () : void =
+  let
+    val- true : bool = g0int_ctz 1 = 0
+    val- true : bool = g0int_ctz 2 = 1
+    val- true : bool = g0int_ctz 3 = 0
+    val- true : bool = g0int_ctz 4 = 2
+    val- true : bool = g0int_ctz 5 = 0
+    val- true : bool = g0int_ctz 6 = 1
+    val- true : bool = g0int_ctz 7L = 0
+    val- true : bool = g0int_ctz 8LL = 3
+
+    val- true : bool = ctz 1 = 0
+    val- true : bool = ctz 2 = 1
+    val- true : bool = ctz 3 = 0
+    val- true : bool = ctz 4 = 2
+    val- true : bool = ctz 5 = 0
+    val- true : bool = ctz 6 = 1
+    val- true : bool = ctz 7L = 0
+    val- true : bool = ctz 8LL = 3
+
+    val- true : Bool = g1int_ctz 1 = 0
+    val- true : Bool = g1int_ctz 2L = 1
+    val- true : Bool = g1int_ctz 3LL = 0
+    val- true : Bool = g1int_ctz 4LL = 2
+    val- true : Bool = g1int_ctz 5LL = 0
+    val- true : Bool = g1int_ctz 6LL = 1
+    val- true : Bool = g1int_ctz 7LL = 0
+    val- true : Bool = g1int_ctz 8LL = 3
+
+    val- true : Bool = ctz 1 = 0
+    val- true : Bool = ctz 2L = 1
+    val- true : Bool = ctz 3LL = 0
+    val- true : Bool = ctz 4LL = 2
+    val- true : Bool = ctz 5LL = 0
+    val- true : Bool = ctz 6LL = 1
+    val- true : Bool = ctz 7LL = 0
+    val- true : Bool = ctz 8LL = 3
+
+    val- true : bool = g0uint_ctz 1U = 0
+    val- true : bool = g0uint_ctz 2U = 1
+    val- true : bool = g0uint_ctz 3U = 0
+    val- true : bool = g0uint_ctz 4U = 2
+    val- true : bool = g0uint_ctz 5U = 0
+    val- true : bool = g0uint_ctz 6U = 1
+    val- true : bool = g0uint_ctz 7UL = 0
+    val- true : bool = g0uint_ctz 8ULL = 3
+
+    val- true : bool = ctz 1U = 0
+    val- true : bool = ctz 2U = 1
+    val- true : bool = ctz 3U = 0
+    val- true : bool = ctz 4U = 2
+    val- true : bool = ctz 5U = 0
+    val- true : bool = ctz 6U = 1
+    val- true : bool = ctz 7UL = 0
+    val- true : bool = ctz 8ULL = 3
+
+    val- true : Bool = g1uint_ctz 1U = 0
+    val- true : Bool = g1uint_ctz 2UL = 1
+    val- true : Bool = g1uint_ctz 3ULL = 0
+    val- true : Bool = g1uint_ctz 4ULL = 2
+    val- true : Bool = g1uint_ctz 5ULL = 0
+    val- true : Bool = g1uint_ctz 6ULL = 1
+    val- true : Bool = g1uint_ctz 7ULL = 0
+    val- true : Bool = g1uint_ctz 8ULL = 3
+
+    val- true : Bool = ctz 1U = 0
+    val- true : Bool = ctz 2UL = 1
+    val- true : Bool = ctz 3ULL = 0
+    val- true : Bool = ctz 4ULL = 2
+    val- true : Bool = ctz 5ULL = 0
+    val- true : Bool = ctz 6ULL = 1
+    val- true : Bool = ctz 7ULL = 0
+    val- true : Bool = ctz 8ULL = 3
+
+    (* Test the fallback implementation. *)
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 1) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 2) = 1
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 3) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 4) = 2
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 5) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 6) = 1
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 7) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 8) = 3
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 16) = 4
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 32) = 5
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 64) = 6
+  in
+  end
+
+fn
+test17 () : void =
+  let
+    val- true : bool = g0int_gcd (0, 0) = 0
+    val- true : bool = g0int_gcd (5, 5) = 5
+    val- true : bool = g0int_gcd (0, 5) = 5
+    val- true : bool = g0int_gcd (5, 0) = 5
+    val- true : bool = g0int_gcd (24, 36) = 12
+    val- true : bool = g0int_gcd (36, 24) = 12
+    val- true : bool = g0int_gcd (~36, 24) = 12
+    val- true : bool = g0int_gcd (36, ~24) = 12
+    val- true : bool = g0int_gcd (~36, ~24) = 12
+
+    val- true : bool = g0uint_gcd (0U, 0U) = 0U
+    val- true : bool = g0uint_gcd (5U, 5U) = 5U
+    val- true : bool = g0uint_gcd (0U, 5U) = 5U
+    val- true : bool = g0uint_gcd (5U, 0U) = 5U
+    val- true : bool = g0uint_gcd (24U, 36U) = 12U
+    val- true : bool = g0uint_gcd (36U, 24U) = 12U
+
+    val- true : Bool = g1int_gcd (0, 0) = 0
+    val- true : Bool = g1int_gcd (5, 5) = 5
+    val- true : Bool = g1int_gcd (0, 5) = 5
+    val- true : Bool = g1int_gcd (5, 0) = 5
+    val- true : Bool = g1int_gcd (24, 36) = 12
+    val- true : Bool = g1int_gcd (36, 24) = 12
+    val- true : Bool = g1int_gcd (~36, 24) = 12
+    val- true : Bool = g1int_gcd (36, ~24) = 12
+    val- true : Bool = g1int_gcd (~36, ~24) = 12
+
+    val- true : Bool = g1uint_gcd (0U, 0U) = 0U
+    val- true : Bool = g1uint_gcd (5U, 5U) = 5U
+    val- true : Bool = g1uint_gcd (0U, 5U) = 5U
+    val- true : Bool = g1uint_gcd (5U, 0U) = 5U
+    val- true : Bool = g1uint_gcd (24U, 36U) = 12U
+    val- true : Bool = g1uint_gcd (36U, 24U) = 12U
+  in
+  end
+
 implement
 main () =
   begin
@@ -525,5 +654,7 @@ main () =
     test13 ();
     test14 ();
     test15 ();
+    test16 ();
+    test17 ();
     0
   end

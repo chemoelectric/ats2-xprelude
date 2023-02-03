@@ -425,21 +425,74 @@ fn g1int_euclidrem_`'INT : $d2ctype (g1int_euclidrem<intb2k(INT)>) = "mac#%"
 (* min and max. *)
 
 m4_foreachq(`INT',`intbases',
-`
-fn g0int_min_`'INT : m4_g0int_binary(INT) = "mac#%"
+`fn g0int_min_`'INT : m4_g0int_binary(INT) = "mac#%"
 fn g1int_min_`'INT : {i, j : int} m4_g1int_binary(INT, i, j, i \min j) = "mac#%"
 fn g0int_max_`'INT : m4_g0int_binary(INT) = "mac#%"
 fn g1int_max_`'INT : {i, j : int} m4_g1int_binary(INT, i, j, i \max j) = "mac#%"
-')dnl
 
+')dnl
 m4_foreachq(`UINT',`uintbases',
-`
-fn g0uint_min_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
+`fn g0uint_min_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
 fn g1uint_min_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \min j) = "mac#%"
 fn g0uint_max_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
 fn g1uint_max_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \max j) = "mac#%"
-')dnl
 
+')dnl
+(*------------------------------------------------------------------*)
+(* Counting trailing zeros of a positive number. *)
+
+fn {tk : tkind} g0int_ctz : m4_g0int_unary(tk)
+fn {tk : tkind} g1int_ctz : {i : pos} m4_g1int_unary(tk, i, ctz_int_int i)
+
+fn {tk : tkind} g0uint_ctz : m4_g0uint_unary(tk)
+fn {tk : tkind} g1uint_ctz : {i : pos} m4_g1uint_unary(tk, i, ctz_int_int i)
+
+m4_foreachq(`INT',`intbases',
+`fn g0int_ctz_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_ctz_`'INT : {i : pos} m4_g1int_unary(INT, i, ctz_int_int i) = "mac#%"
+
+')dnl
+m4_foreachq(`UINT',`uintbases',
+`fn g0uint_ctz_`'UINT : m4_g0uint_unary(UINT) = "mac#%"
+fn g1uint_ctz_`'UINT : {i : pos} m4_g1uint_unary(UINT, i, ctz_int_int i) = "mac#%"
+
+')dnl
+overload ctz with g0int_ctz of 0
+overload ctz with g1int_ctz of 1
+overload ctz with g0uint_ctz of 0
+overload ctz with g1uint_ctz of 1
+
+(*------------------------------------------------------------------*)
+(* Greatest common divisor, with gcd(0,0) = 0. *)
+
+fn {tk : tkind}
+g0int_gcd :
+  m4_g0int_binary(tk)
+
+fn {tk : tkind}
+g1int_gcd :
+  {i, j : int}
+  m4_g1int_binary(tk, i, j, gcd_int_int (i, j))
+
+fn {tk : tkind}
+g0uint_gcd :
+  m4_g0uint_binary(tk)
+
+fn {tk : tkind}
+g1uint_gcd :
+  {i, j : int}
+  m4_g1uint_binary(tk, i, j, gcd_int_int (i, j))
+
+m4_foreachq(`INT',`intbases',
+`fn g0int_gcd_`'INT : $d2ctype (g0int_gcd<intb2k(INT)>)
+fn g1int_gcd_`'INT : $d2ctype (g1int_gcd<intb2k(INT)>)
+
+')dnl
+m4_foreachq(`UINT',`uintbases',
+`fn g0uint_gcd_`'UINT : $d2ctype (g0uint_gcd<uintb2k(UINT)>)
+fn g1uint_gcd_`'UINT : $d2ctype (g1uint_gcd<uintb2k(UINT)>)
+
+')dnl
 (*------------------------------------------------------------------*)
 (* Logical shifts. *)
 
