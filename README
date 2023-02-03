@@ -61,14 +61,6 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 * Also possible: integer ‘pow’. I have often found myself using such a
   function.
 
-* Also possible: 128-bit integers, using compiler support if possible,
-  but perhaps otherwise by library code. (The 32+32-bit fixed point
-  support already uses 128-bit integers as an intermediate format
-  during multiplication and division. GCC on AMD64 supports a 128-bit
-  integer type, but it is larger than intmax_t (!) and so IMO best
-  used only for special applications, such as our fixed point
-  implementation.)
-
 * Also possible: C complex types, treated in ATS as floating point
   types. (I have done a demonstration, on Rosetta Code, of this
   approach to complex numbers in ATS.)
