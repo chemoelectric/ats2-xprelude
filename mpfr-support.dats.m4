@@ -111,6 +111,7 @@ my_extern_prefix`'mpfr_support_initialize (void)
 }
 
 /*------------------------------------------------------------------*/
+/* Basic printing. */
 
 static atsvoid_t0ype
 _`'my_extern_prefix`'fprint_mpfr (FILE *outf, floatt2c(mpfr) x)
@@ -134,6 +135,38 @@ atsvoid_t0ype
 my_extern_prefix`'prerr_mpfr (floatt2c(mpfr) x)
 {
   _`'my_extern_prefix`'fprint_mpfr (stderr, x);
+}
+
+/*------------------------------------------------------------------*/
+/* Formatted conversion to a string. */
+
+intb2c(int)
+my_extern_prefix`'g0float_unsafe_strfrom_mpfr (atstype_ptr str,
+                                               uintb2c(size) n,
+                                               atstype_string format,
+                                               floatt2c(mpfr) fp)
+{
+  /* Assuming the format string is valid for g0float_strfrom, convert
+     it to a format string for mpfr_snprintf. That is, insert the
+     letter 'R' before the last character. */
+  size_t format_len = strlen (format);
+  assert (format_len >= 2);
+  char *fmt = ATS_MALLOC (format_len + 2);
+  memcpy (fmt, format, format_len - 1);
+  fmt[format_len - 1] = m4_singlequote`'R`'m4_singlequote;
+  fmt[format_len] = format[format_len - 1];
+  fmt[format_len + 1] = m4_singlequote`'\0`'m4_singlequote;
+
+  /* Using the modified format string, call mpfr_snprintf, in lieu of
+     an actual strfromd-like function. */
+  int retval = mpfr_snprintf (str, n, fmt, fp);
+
+  /* Freeing the temporary format is not necessary, because one our
+     mpfr support assumes a garbage collector. But I think freeing
+     also will do no notable harm. */
+  ATS_MFREE (fmt);
+
+  return retval;
 }
 
 /*------------------------------------------------------------------*/
@@ -729,6 +762,12 @@ my_extern_prefix`'mpfr_unsafe_strto_replace (REF(mpfr) zp, atstype_ptr nptr, ats
 atsvoid_t0ype
 my_extern_prefix`'mpfr_strto_replace (REF(mpfr) zp, REF(size) jp, atstype_string s, uintb2c(size) i)
 {
+  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
+  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
+  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
+  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
+  /* FIXME: THIS CANNOT HANDLE HEXADECIMAL INPUT. */
+
   floatt2c(mpfr) z = DEREF(mpfr, zp);
   uintb2c(size) *j = (void *) jp;
   char *startptr = (char *) (void *) s + i;

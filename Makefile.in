@@ -921,7 +921,7 @@ BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
 
 #--------------------------------------------------------------------------
-AM_M4FLAGS = -DTOP_SRCDIR='$(top_srcdir)'
+AM_M4FLAGS = -DTOP_SRCDIR='$(top_srcdir)' -DVARARGS_MAX=20
 AM_CPPFLAGS = -I$(builddir) -I$(srcdir) -I$(builddir)/lib \
 	-I$(srcdir)/lib -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime/ \
 	-D__STDC_WANT_IEC_60559_ATTRIBS_EXT__=1 \

@@ -60,6 +60,7 @@ stadef mpfrknd = mpfr_kind
 typedef mpfr = g0float mpfrknd
 
 (*------------------------------------------------------------------*)
+(* Basic printing. *)
 
 fn fprint_mpfr : fprint_type mpfr = "mac#%"
 fn print_mpfr : mpfr -> void = "mac#%"
@@ -255,7 +256,29 @@ m4_foreachq(`OP',`floattype_intmax_ops',
 fn {} g0float_npow_mpfr : (mpfr, intGte 0) -<> mpfr
 fn {tki : tkind} g0float_int_pow_mpfr : (mpfr, g0int tki) -<> mpfr
 
-fn g0float_unsafe_strto_mpfr : (ptr, ptr) -< !wrt > mpfr = "mac#%"
+fn g0float_unsafe_strfrom_mpfr : $d2ctype (g0float_unsafe_strfrom<floatt2k(mpfr)>) = "mac#%"
+fn g0float_unsafe_strto_mpfr : $d2ctype (g0float_unsafe_strto<floatt2k(mpfr)>) = "mac#%"
+
+fn {tki : tkind}
+mpfr_strto_prec_gint :
+  {n    : int}
+  {i    : nat | i <= n}
+  {prec : pos}
+  (string n, size_t i, g1int (tki, prec)) -<>
+    [j : nat | j <= n]
+    @(mpfr, size_t j)
+
+fn {tki : tkind}
+mpfr_strto_prec_guint :
+  {n    : int}
+  {i    : nat | i <= n}
+  {prec : pos}
+  (string n, size_t i, g1uint (tki, prec)) -<>
+    [j : nat | j <= n]
+    @(mpfr, size_t j)
+
+overload mpfr_strto_prec with mpfr_strto_prec_gint
+overload mpfr_strto_prec with mpfr_strto_prec_guint
 
 (*------------------------------------------------------------------*)
 dnl

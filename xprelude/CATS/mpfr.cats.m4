@@ -227,7 +227,12 @@ my_extern_prefix`'g0float_isneqz_mpfr (floatt2c(mpfr) x)
 }
 
 /*------------------------------------------------------------------*/
-/* g0float_strto. */
+/* g0float_strfrom and ig0float_strto. */
+
+intb2c(int) my_extern_prefix`'g0float_unsafe_strfrom_mpfr (atstype_ptr str,
+                                                           uintb2c(size) n,
+                                                           atstype_string format,
+                                                           floatt2c(mpfr) fp);
 
 floatt2c(mpfr) my_extern_prefix`'g0float_unsafe_strto_mpfr (atstype_ptr, atstype_ptr);
 

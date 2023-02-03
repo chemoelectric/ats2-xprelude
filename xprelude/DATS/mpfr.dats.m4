@@ -171,7 +171,7 @@ m4_foreachq(`OP',`isfinite, isnormal, isnan, isinf,
                   infinity, nan, huge_val,
                   neg, abs, reciprocal, unary_ops,
                   add, sub, mul, div, binary_ops,
-                  unsafe_strto,
+                  unsafe_strfrom, unsafe_strto,
                   trinary_ops, floattype_intmax_ops',
 `implement g0float_`'OP<mpfrknd> = g0float_`'OP`'_mpfr
 ')dnl
@@ -240,6 +240,67 @@ mpfr_`'CONST`'_defaultprec<> () =
 *)
 
 value_replacement_runtime_for_boxed_types(`mpfr',`floattypes_without_mpfr')
+
+(*------------------------------------------------------------------*)
+(* strto with a precision argument. *)
+
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* General templates. *)
+
+implement {tki}
+mpfr_strto_prec_gint (s, i, prec) =
+  $effmask_wrt
+  let
+    var z = mpfr_make prec
+    var j : size_t
+    val () = g0float_strto_replace<mpfrknd> (z, j, s, i)
+  in
+    @(z, j)
+  end
+
+implement {tki}
+mpfr_strto_prec_guint (s, i, prec) =
+  $effmask_wrt
+  let
+    var z = mpfr_make prec
+    var j : size_t
+    val () = g0float_strto_replace<mpfrknd> (z, j, s, i)
+  in
+    @(z, j)
+  end
+
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* A precompiled library function. This will usually be what is used
+   if the precision is given in one of the integer types supported by
+   xprelude/SATS/integer.sats *)
+
+extern fn _mpfr_strto_prec_uintmax : $d2ctype (mpfr_strto_prec_guint<uintmaxknd>)
+
+if_COMPILING_IMPLEMENTATIONS(
+`implement
+_mpfr_strto_prec_uintmax (s, i, prec) =
+  $effmask_wrt
+  let
+    var z = mpfr_make prec
+    var j : size_t
+    val () = g0float_strto_replace<mpfrknd> (z, j, s, i)
+  in
+    @(z, j)
+  end
+')dnl
+
+if_not_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`INT',`intbases',
+`implement mpfr_strto_prec_gint<intb2k(INT)> (s, i, prec) = _mpfr_strto_prec_uintmax (s, i, g1i2u prec)
+')dnl
+')dnl
+
+if_not_COMPILING_IMPLEMENTATIONS(
+`m4_foreachq(`UINT',`uintbases',
+`implement mpfr_strto_prec_guint<uintb2k(UINT)> (s, i, prec) = _mpfr_strto_prec_uintmax (s, i, g1u2u prec)
+')dnl
+')dnl
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

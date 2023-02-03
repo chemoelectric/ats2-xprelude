@@ -1,8 +1,6 @@
 Extensions to, and bugfixes for, the ATS2 prelude.
 --------------------------------------------------
 
-THIS PROJECT IS A WORK IN PROGRESS.
-
 * Expanded support for integer types, and workarounds for
   bugs. Changes include at least the following:
 
@@ -32,28 +30,40 @@ THIS PROJECT IS A WORK IN PROGRESS.
 * 32+32-bit fixed point, treated as if it were floating point
   (g0float).
 
-* Optionally: exact rationals (via the GNU Multiple Precision
-  Arithmetic Library). These are a nonlinear type (for garbage
+* Optionally: exact rationals, via the GNU Multiple Precision
+  Arithmetic Library (GMP). These are a nonlinear type (for garbage
   collection), and are treated as if they were floating point
   (g0float). ¶ If you enable exact rationals, you also get ‘bisection
   iterators’. These can be useful when one implements an algorithm
   that adaptively bisects intervals.
 
+* Optionally: multiple precision floating point numbers, via the GNU
+  Multiple Precision Floating-Point Reliable Library (MPFR). As with
+  exact rationals, these are a nonlinear type (for garbage
+  collection), and are treated as if they were floating point
+  (g0float). ¶ Currently (and probably forever), if you enable
+  multiple precision floating point, you also must enable exact
+  rationals. However, this should be no problem, because MPFR itself
+  uses GMP: if you have the former, you most likely have the
+  latter. Furthermore, both are necessary to build GCC.
+
 * Sorting, with algorithms selectable via -DATS flag.
 
 ---
 
-* Under development: optional mpfr support.
-
----
-
-* Also possible: C complex types, treated in ATS as floating point
-  types.
-
-* Also possible: gcd and lcm operations. (But probably not in the
-  basic interface, because the prelude avoids having gcd in the basic
-  interface.)
+* Also possible: gcd and lcm operations. (The prelude removed gcd, but
+  perhaps because gcd is something that can be templatized, using
+  different algorithms, and with interesting proofs. The gcd is not
+  nearly as ‘primitive’ an operation as one might imagine.)
 
 * Also possible: 128-bit integers, using compiler support if possible,
-  otherwise by library code.
+  but perhaps otherwise by library code. (The 32+32-bit fixed point
+  support already uses 128-bit integers as an intermediate format
+  during multiplication and division. GCC on AMD64 supports a 128-bit
+  integer type, but it is larger than intmax_t (!) and so IMO best
+  used only for special applications, such as our fixed point
+  implementation.)
 
+* Also possible: C complex types, treated in ATS as floating point
+  types. (I have done a demonstration, on Rosetta Code, of this
+  approach to complex numbers in ATS.)

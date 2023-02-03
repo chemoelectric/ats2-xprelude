@@ -855,6 +855,37 @@ test11 () : void =
   in
   end
 
+fn
+test12 () : void =
+  let
+    val- true = strptr2string (g0float_strfrom ("%f", mpfr_make ("123.456", OCTUPLE_PREC))) = "123.456000"
+    val- true = strptr2string (g0float_strfrom ("%.3e", mpfr_make ("123.456", OCTUPLE_PREC))) = "1.235e+02"
+    val- true = strptr2string (g0float_strfrom ("%.G", mpfr_make ("123.456", OCTUPLE_PREC))) = "1E+02"
+    val- true = strptr2string (g0float_strfrom ("%.3g", mpfr_make ("123.456", OCTUPLE_PREC))) = "123"
+    val- true = strptr2string (g0float_strfrom ("%A", mpfr_make ("123.456", OCTUPLE_PREC))) = "0X7.B74BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A8P+4"
+    val- true = strptr2string (g0float_strfrom ("%a", mpfr_make ("123.456", SINGLE_PREC))) = "0x7.b74bc8p+4"
+
+    val- true = ((g0float_strto<mpfrknd> ("123.456", i2sz 0)).0) = mpfr_make "123.456"
+    val- true = ((g0float_strto<mpfrknd> ("123.456", i2sz 0)).1) = i2sz 7
+    val- true = mpfr_get_prec ((g0float_strto<mpfrknd> ("123.456", i2sz 0)).0) = mpfr_get_default_prec ()
+
+    val- true = ((g0float_strto<mpfrknd> ("x = 123456e-3;", i2sz 4)).0) = mpfr_make "123.456"
+    val- true = ((g0float_strto<mpfrknd> ("x = 123456e-3;", i2sz 4)).1) = i2sz 13
+    val- true = mpfr_get_prec ((g0float_strto<mpfrknd> ("x = 123456e-3;", i2sz 4)).0) = mpfr_get_default_prec ()
+
+    (* Note that, in the following bunch, "123456e-3" will be rounded
+       off, and so you need to test equality with another number of
+       THE SAME precision. *)
+    val- true = ((mpfr_strto_prec ("x = 123456e-3;", i2sz 4, OCTUPLE_PREC)).0) = mpfr_make ("123.456", OCTUPLE_PREC)
+    val- true = ((mpfr_strto_prec ("x = 123456e-3;", i2sz 4, OCTUPLE_PREC)).1) = i2sz 13
+    val- true = mpfr_get_prec ((mpfr_strto_prec ("x = 123456e-3;", i2sz 4, OCTUPLE_PREC)).0) = g0i2i OCTUPLE_PREC
+
+    (* FIXME: strto for mpfr does not correctly handle hexadecimal inputs. *)
+    val () = println! ((mpfr_strto_prec ("0X7.B74BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A8P+4", i2sz 0, OCTUPLE_PREC)).0)
+    val () = println! ((g0float_strto<flt128knd> ("0X7.B74BC6A7EF9DB22D0E5604189374BC6A7EF9DB22D0E5604189374BC6A8P+4", i2sz 0)).0)
+  in
+  end
+
 implement
 main () =
   begin
@@ -869,5 +900,6 @@ main () =
     test9 ();
     test10 ();
     test11 ();
+    test12 ();
     0
   end
