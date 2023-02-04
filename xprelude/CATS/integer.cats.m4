@@ -482,8 +482,7 @@ my_extern_prefix`'g`'N`'int_euclidrem_`'INT (intb2c(INT) n, intb2c(INT) d)
 /* Logical shifts. */
 
 m4_foreachq(`N',`0,1',
-`m4_foreachq(`UINT',`uintbases',
-`
+`m4_foreachq(`UINT',`uintbases',`
 my_extern_prefix`'inline uintb2c(UINT)
 my_extern_prefix`'g`'N`'uint_lsl_`'UINT (uintb2c(UINT) n, atstype_int i)
 {
@@ -501,17 +500,39 @@ my_extern_prefix`'g`'N`'uint_lsr_`'UINT (uintb2c(UINT) n, atstype_int i)
 /*------------------------------------------------------------------*/
 /* Arithmetic shifts. */
 
-/* One should not really rely on << and >> operators to do arithmetic
-   shifts. The following implementations instead use unsafe unions and
-   logical shifts.
+#if defined __GNUC__
+
+/* In GCC, the << and >> operators do arithmetic shifts. */
+
+m4_foreachq(`N',`0,1',
+`m4_foreachq(`INT',`intbases',`
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_asl_`'INT (intb2c(INT) n, atstype_int i)
+{
+  return (i < CHAR_BIT * sizeof n) ? (n << i) : 0;
+}
+
+my_extern_prefix`'inline intb2c(INT)
+my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
+{
+  return (i < CHAR_BIT * sizeof n) ? (n >> i) : (-((intb2c(INT)) (n < 0)));
+}
+')
+')dnl
+
+#else
+
+/* One should not rely on << and >> operators to do arithmetic shifts
+   on every C compiler. The standards do not require it, and some
+   compilers have done otherwise. The following implementations
+   instead use unsafe unions and logical shifts.
 
    Unions seemed a safer way to do the conversion between signed and
    unsigned than did casts. A cast of a negative number to an unsigned
    representation is allowed (by C standards) to signal an error. */
 
 m4_foreachq(`N',`0,1',
-`m4_foreachq(`INT',`intbases',
-`
+`m4_foreachq(`INT',`intbases',`
 my_extern_prefix`'inline intb2c(INT)
 my_extern_prefix`'g`'N`'int_asl_`'INT (intb2c(INT) n, atstype_int i)
 {
@@ -544,6 +565,8 @@ my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
 }
 ')
 ')dnl
+
+#endif
 
 /*------------------------------------------------------------------*/
 /* Count trailing zeros. */

@@ -353,17 +353,6 @@ m4_foreachq(`N',`0,1',
 (*------------------------------------------------------------------*)
 (* Greatest common divisor. *)
 
-%{#
-
-/* The C << and >> operators are adequate even for signed numbers,
-   in the following implementation, because they are used only on
-   positive numbers. */
-
-#define my_extern_prefix`'_gcd_shiftleft(x, y) ((x) << (y))
-#define my_extern_prefix`'_gcd_shiftright(x, y) ((x) >> (y))
-
-%}
-
 m4_foreachq(`U',``',`u'',
 `fn {tk : tkind}
 _g0`'U`'int_gcd
@@ -374,11 +363,6 @@ _g0`'U`'int_gcd
      originally wrote for Rosetta Code. *)
   let
     typedef t = g0`'U`'int tk
-
-    extern fn _gcd_shiftleft : (t, intGte 0) -<> t = "mac#%"
-    extern fn _gcd_shiftright : (t, intGte 0) -<> t = "mac#%"
-    macdef << = _gcd_shiftleft
-    macdef >> = _gcd_shiftright
 
     (* Use this macro to fake proof that an int is non-negative. *)
     macdef nonneg (n) = $UNSAFE.cast{intGte 0} ,(n)
