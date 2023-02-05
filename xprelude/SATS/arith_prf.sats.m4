@@ -21,8 +21,9 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_PACKNAME "ats2-xprelude.arith_prf"
 
 (*------------------------------------------------------------------*)
-(* CHAR_BIT (in <limits.h>) is almost certainly equal to 8, but we
-   will also verify this fact, in xprelude/DATS/arith_prf.dats *)
+(* CHAR_BIT (in <limits.h>) is almost certainly equal to 8, but, in
+   xprelude/DATS/arith_prf.dats, we will also VERIFY that CHAR_BIT
+   does equal 8. *)
 
 #define ATS2_XPRELUDE_ARITH_PRF_CHAR_BIT 8
 

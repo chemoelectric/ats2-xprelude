@@ -25,7 +25,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 staload "xprelude/SATS/arith_prf.sats"
 
 (*------------------------------------------------------------------*)
-(* Verify that CHAR_BIT equals 8. *)
+(* Verify that CHAR_BIT (in <limits.h>) equals 8. *)
 
 %{
 
