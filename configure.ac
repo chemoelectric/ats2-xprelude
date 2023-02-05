@@ -27,6 +27,17 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CANONICAL_BUILD                 dnl On what platform are we compiling?
 AC_CANONICAL_HOST                  dnl For what platform are we compiling?
+
+dnl If we did not invoke AC_USE_SYSTEM_EXCEPTIONS, we would have to
+dnl ourselves define the following macros, because we do want to
+dnl support floating point extensions they enable:
+dnl
+dnl   __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+dnl   __STDC_WANT_IEC_60559_BFP_EXT__
+dnl   __STDC_WANT_IEC_60559_DFP_EXT__
+dnl   __STDC_WANT_IEC_60559_FUNCS_EXT__
+dnl   __STDC_WANT_IEC_60559_TYPES_EXT__
+dnl
 AC_USE_SYSTEM_EXTENSIONS           dnl Define such macros as _GNU_SOURCE.
 
 AM_INIT_AUTOMAKE
