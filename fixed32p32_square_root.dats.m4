@@ -33,10 +33,9 @@ staload _ = "xprelude/DATS/fixed32p32.dats"
 
 %{^
 
-#include <config.h>
-#include <count-leading-zeros.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <limits.h>
 
 #define MASK ((UINT64_C(1) << 32) - 1)
 
@@ -53,10 +52,34 @@ my_extern_prefix`'fixed32p32_square_root__sqrt_initial_estimate
   _Static_assert ((CHAR_BIT * sizeof (unsigned long)) >= 32,
                   "uint32_t is longer than an unsigned long,"
                   " which seems strange");
-  int num_lz =
-    count_leading_zeros_l (n) -
-    ((CHAR_BIT * sizeof (unsigned long)) - 32);
-  int bitsize = 32 - num_lz;
+#if defined __GNUC__
+  const int bitsize =
+    32 - (__builtin_clzl (n) - ((CHAR_BIT * sizeof (unsigned long)) - 32));
+#else
+  /* Convert the leading zeros problem to a trailing ones problem, and
+     then count trailing ones by de Bruijn sequence. See:
+
+     {{cite web
+      | title       = Bit Twiddling Hacks
+      | url         = https://graphics.stanford.edu/~seander/bithacks.html
+      | date        = 2023-01-14
+      | archiveurl  = http://archive.today/GNADt
+      | archivedate = 2023-01-14 }}
+
+     where essentially the same method is used to count trailing
+     zeros. */
+
+  /* Fill in low bits with ones. */
+  n |= n >> 1; 
+  n |= n >> 2;
+  n |= n >> 4;
+  n |= n >> 8;
+  n |= n >> 16;
+
+  const int bitsize =
+    "\0\1\34\2\35\16\30\3\36\26\24\17\31\21\4\10\37\33\15\27\25\23\20\7\32\14\22\6\13\5\12\11"
+    [((~n & (n + 1)) * UINT32_C(0x077CB531)) >> 27];
+#endif
 
   return ((my_extern_prefix`'fixed32p32) 1) << (((bitsize - 1) >> 1) + 33);
 }
