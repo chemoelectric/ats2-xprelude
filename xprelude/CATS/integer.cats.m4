@@ -39,19 +39,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
   Credit for some of the programming ideas employed below belongs to:
 
-  {{cite web
-   | title       = Bit Twiddling Hacks
-   | url         = https://graphics.stanford.edu/~seander/bithacks.html
-   | date        = 2023-01-14
-   | archiveurl  = http://archive.today/GNADt
-   | archivedate = 2023-01-14 }}
-
-  {{cite web
-   | title       = BitScan - Chessprogramming wiki
-   | url         = https://www.chessprogramming.org/index.php?title=BitScan&oldid=22495
-   | date        = 2023-02-03
-   | archiveurl  = http://archive.today/iPXfa
-   | archivedate = 2023-02-03 }}
 
 */
 /*------------------------------------------------------------------*/
@@ -698,7 +685,7 @@ divert`'dnl
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'g0int_fls_int8 (intb2c(int8) n)
 {
-  return lookup_for_find_last_set(7)[n];
+  return lookup_for_find_last_set(7)[n & 0x7F];
 }
 
 my_extern_prefix`'inline intb2c(int)
@@ -826,7 +813,7 @@ divert`'dnl
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'g0int_popcount_int8 (intb2c(int8) n)
 {
-  return lookup_for_popcount(7)[n];
+  return lookup_for_popcount(7)[n & 0x7F];
 }
 
 my_extern_prefix`'inline intb2c(int)
