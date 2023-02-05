@@ -154,6 +154,11 @@ m4_define(`m4_g1uint_logical_shift',`(m4_g1uint($1, $2), int $3) -<> m4_g1uint($
 m4_define(`m4_g0int_arith_shift',`(m4_g0int($1), intGte 0) -<> m4_g0int($1)')
 m4_define(`m4_g1int_arith_shift',`(m4_g1int($1, $2), int $3) -<> m4_g1int($1, $4)')
 
+m4_define(`m4_g0int_to_int',`m4_g0int($1) -<> int')
+m4_define(`m4_g0uint_to_int',`m4_g0uint($1) -<> int')
+m4_define(`m4_g1int_to_int',`m4_g1int($1, $2) -<> [retval : int | retval == ($3)] int retval')
+m4_define(`m4_g1uint_to_int',`m4_g1uint($1, $2) -<> [retval : int | retval == ($3)] int retval')
+
 /*------------------------------------------------------------------*/
 /* Floating point kinds. */
 

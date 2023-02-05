@@ -21,7 +21,104 @@
 #include "share/atspre_staload.hats"
 #include "xprelude/HATS/xprelude.hats"
 
+staload "xprelude/SATS/arith_prf.sats"
+
 staload UN = "prelude/SATS/unsafe.sats"
+
+%{^
+#include <limits.h>
+%}
+
+(*------------------------------------------------------------------*)
+
+val INT_MAX = $extval (int, "INT_MAX")
+val LINT_MAX = $extval (lint, "LONG_MAX")
+val LLINT_MAX = $extval (llint, "LLONG_MAX")
+
+(*------------------------------------------------------------------*)
+(* A simple linear congruential generator. *)
+
+(* The multiplier lcg_a comes from Steele, Guy; Vigna, Sebastiano (28
+   September 2021). "Computationally easy, spectrally good multipliers
+   for congruential pseudorandom number generators".
+   arXiv:2001.05304v3 [cs.DS] *)
+macdef lcg_a = $UN.cast{uint64} 0xf1357aea2e62a9c5LLU
+
+(* lcg_c must be odd. *)
+macdef lcg_c = $UN.cast{uint64} 0xbaceba11beefbeadLLU
+
+var seed : uint64 = $UN.cast 0
+val p_seed = addr@ seed
+
+fn
+random_double () :<!wrt> double =
+  let
+    val (pf, fpf | p_seed) = $UN.ptr0_vtake{uint64} p_seed
+    val old_seed = ptr_get<uint64> (pf | p_seed)
+
+    (* IEEE "binary64" or "double" has 52 bits of precision. We will
+       take the high 48 bits of the seed and divide it by 2**48, to
+       get a number 0.0 <= randnum < 1.0 *)
+    val high_48_bits = $UN.cast{double} (old_seed >> 16)
+    val divisor = $UN.cast{double} (1LLU << 48)
+    val randnum = high_48_bits / divisor
+
+    (* The following operation is modulo 2**64, by virtue of standard
+       C behavior for uint64_t. *)
+    val new_seed = (lcg_a * old_seed) + lcg_c
+
+    val () = ptr_set<uint64> (pf | p_seed, new_seed)
+    prval () = fpf pf
+  in
+    randnum
+  end
+
+(*------------------------------------------------------------------*)
+
+fn {tk : tkind}
+brute_force_popcount_gint
+          (n : g0int tk)
+    : int =
+  let
+    fun
+    loop (i     : size_t,
+          m     : g0int tk,
+          accum : int)
+        : int =
+      if i = 8 * sizeof<g0int tk> then
+        accum
+      else if m mod (g0i2i 2) = g0i2i 1 then
+        loop (succ i, m / (g0i2i 2), succ accum)
+      else
+        loop (succ i, m / (g0i2i 2), accum)
+  in
+    loop (i2sz 0, n, 0)
+  end
+
+fn {tk : tkind}
+brute_force_popcount_guint
+          (n : g0uint tk)
+    : int =
+  let
+    fun
+    loop (i     : size_t,
+          m     : g0uint tk,
+          accum : int)
+        : int =
+      if i = 8 * sizeof<g0uint tk> then
+        accum
+      else if m mod (g0i2u 2) = g0i2u 1 then
+        loop (succ i, m / (g0i2u 2), succ accum)
+      else
+        loop (succ i, m / (g0i2u 2), accum)
+  in
+    loop (i2sz 0, n, 0)
+  end
+
+overload brute_force_popcount with brute_force_popcount_gint
+overload brute_force_popcount with brute_force_popcount_guint
+
+(*------------------------------------------------------------------*)
 
 fn
 test1 () : void =
@@ -878,6 +975,96 @@ test19 () : void =
   in
   end
 
+fn
+test20 () : void =
+  let
+    val num_trials = 100
+    var i : int
+  in
+    for (i := 0; i != num_trials; i := succ i)
+      let
+        val r = random_double ()
+
+        val n1 = (g0f2i (min (floor (r * succ (g0i2f INT_MAX)), g0i2f INT_MAX))) : int
+        val n2 = (g0f2i (min (floor (r * succ (g0i2f LINT_MAX)), g0i2f LINT_MAX))) : lint
+        val n3 = (g0f2i (min (floor (r * succ (g0i2f LLINT_MAX)), g0i2f LLINT_MAX))) : llint
+        val n4 = (g0i2u n1) : uint
+        val n5 = (g0i2u n2) : ulint
+        val n6 = (g0i2u n3) : ullint
+
+        val- true : bool = popcount n1 = brute_force_popcount<intknd> n1
+        val- true : bool = popcount n2 = brute_force_popcount<lintknd> n2
+        val- true : bool = popcount n3 = brute_force_popcount<llintknd> n3
+        val- true : bool = popcount n4 = brute_force_popcount<uintknd> n4
+        val- true : bool = popcount n5 = brute_force_popcount<ulintknd> n5
+        val- true : bool = popcount n6 = brute_force_popcount<ullintknd> n6
+
+        val [m1 : int] m1 = g1ofg0 n1
+        val [m2 : int] m2 = g1ofg0 n2
+        val [m3 : int] m3 = g1ofg0 n3
+        val [m4 : int] m4 = g1ofg0 n4
+        val [m5 : int] m5 = g1ofg0 n5
+        val [m6 : int] m6 = g1ofg0 n6
+
+        val () = assertloc (isgtez m1)
+        val () = assertloc (isgtez m2)
+        val () = assertloc (isgtez m3)
+        prval () = lemma_g1uint_param m4
+        prval () = lemma_g1uint_param m5
+        prval () = lemma_g1uint_param m6
+
+        prval () = lemma_popcount_isnat {m1} ()
+        prval () = lemma_popcount_isnat {m2} ()
+        prval () = lemma_popcount_isnat {m3} ()
+        prval () = lemma_popcount_isnat {m4} ()
+        prval () = lemma_popcount_isnat {m5} ()
+        prval () = lemma_popcount_isnat {m6} ()
+
+        val pc1 = popcount m1
+        val pc2 = popcount m2
+        val pc3 = popcount m3
+        val pc4 = popcount m4
+        val pc5 = popcount m5
+        val pc6 = popcount m6
+
+        prval [pc1 : int] EQINT () = eqint_make_gint pc1
+        prval [pc2 : int] EQINT () = eqint_make_gint pc2
+        prval [pc3 : int] EQINT () = eqint_make_gint pc3
+        prval [pc4 : int] EQINT () = eqint_make_gint pc4
+        prval [pc5 : int] EQINT () = eqint_make_gint pc5
+        prval [pc6 : int] EQINT () = eqint_make_gint pc6
+
+        prval () = prop_verify {0 <= pc1} ()
+        prval () = prop_verify {0 <= pc2} ()
+        prval () = prop_verify {0 <= pc3} ()
+        prval () = prop_verify {0 <= pc4} ()
+        prval () = prop_verify {0 <= pc5} ()
+        prval () = prop_verify {0 <= pc6} ()
+
+        val bfpc1 = g1ofg0 (brute_force_popcount<intknd> m1)
+        val bfpc2 = g1ofg0 (brute_force_popcount<lintknd> m2)
+        val bfpc3 = g1ofg0 (brute_force_popcount<llintknd> m3)
+        val bfpc4 = g1ofg0 (brute_force_popcount<uintknd> m4)
+        val bfpc5 = g1ofg0 (brute_force_popcount<ulintknd> m5)
+        val bfpc6 = g1ofg0 (brute_force_popcount<ullintknd> m6)
+
+        val () = assertloc (0 <= bfpc1)
+        val () = assertloc (0 <= bfpc2)
+        val () = assertloc (0 <= bfpc3)
+        val () = assertloc (0 <= bfpc4)
+        val () = assertloc (0 <= bfpc5)
+        val () = assertloc (0 <= bfpc6)
+
+        val- true : Bool = pc1 = bfpc1
+        val- true : Bool = pc2 = bfpc2
+        val- true : Bool = pc3 = bfpc3
+        val- true : Bool = pc4 = bfpc4
+        val- true : Bool = pc5 = bfpc5
+        val- true : Bool = pc6 = bfpc6
+      in
+      end
+  end
+
 implement
 main () =
   begin
@@ -900,5 +1087,6 @@ main () =
     test17 ();
     test18 ();
     test19 ();
+    test20 ();
     0
   end

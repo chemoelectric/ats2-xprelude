@@ -441,20 +441,20 @@ fn g1uint_max_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \max j) = "ma
 (*------------------------------------------------------------------*)
 (* ‘Counting trailing zeros’ of a positive number. *)
 
-fn {tk : tkind} g0int_ctz : m4_g0int_unary(tk)
-fn {tk : tkind} g1int_ctz : {i : pos} m4_g1int_unary(tk, i, ctz_int_int i)
+fn {tk : tkind} g0int_ctz : m4_g0int_to_int(tk)
+fn {tk : tkind} g1int_ctz : {i : pos} m4_g1int_to_int(tk, i, ctz_int i)
 
-fn {tk : tkind} g0uint_ctz : m4_g0uint_unary(tk)
-fn {tk : tkind} g1uint_ctz : {i : pos} m4_g1uint_unary(tk, i, ctz_int_int i)
+fn {tk : tkind} g0uint_ctz : m4_g0uint_to_int(tk)
+fn {tk : tkind} g1uint_ctz : {i : pos} m4_g1uint_to_int(tk, i, ctz_int i)
 
 m4_foreachq(`INT',`intbases',
-`fn g0int_ctz_`'INT : m4_g0int_unary(INT) = "mac#%"
-fn g1int_ctz_`'INT : {i : pos} m4_g1int_unary(INT, i, ctz_int_int i) = "mac#%"
+`fn g0int_ctz_`'INT : m4_g0int_to_int(INT) = "mac#%"
+fn g1int_ctz_`'INT : {i : pos} m4_g1int_to_int(INT, i, ctz_int i) = "mac#%"
 
 ')dnl
 m4_foreachq(`UINT',`uintbases',
-`fn g0uint_ctz_`'UINT : m4_g0uint_unary(UINT) = "mac#%"
-fn g1uint_ctz_`'UINT : {i : pos} m4_g1uint_unary(UINT, i, ctz_int_int i) = "mac#%"
+`fn g0uint_ctz_`'UINT : m4_g0uint_to_int(UINT) = "mac#%"
+fn g1uint_ctz_`'UINT : {i : pos} m4_g1uint_to_int(UINT, i, ctz_int i) = "mac#%"
 
 ')dnl
 overload ctz with g0int_ctz of 0
@@ -465,30 +465,30 @@ overload ctz with g1uint_ctz of 1
 (*------------------------------------------------------------------*)
 (* ‘Find first set’ and ‘find last set’ of a non-negative number. *)
 
-fn {tk : tkind} g0int_ffs : m4_g0int_unary(tk)
-fn {tk : tkind} g1int_ffs : {i : nat} m4_g1int_unary(tk, i, ffs_int_int i)
+fn {tk : tkind} g0int_ffs : m4_g0int_to_int(tk)
+fn {tk : tkind} g1int_ffs : {i : nat} m4_g1int_to_int(tk, i, ffs_int i)
 
-fn {tk : tkind} g0uint_ffs : m4_g0uint_unary(tk)
-fn {tk : tkind} g1uint_ffs : {i : nat} m4_g1uint_unary(tk, i, ffs_int_int i)
+fn {tk : tkind} g0uint_ffs : m4_g0uint_to_int(tk)
+fn {tk : tkind} g1uint_ffs : {i : nat} m4_g1uint_to_int(tk, i, ffs_int i)
 
-fn {tk : tkind} g0int_fls : m4_g0int_unary(tk)
-fn {tk : tkind} g1int_fls : {i : nat} m4_g1int_unary(tk, i, fls_int_int i)
+fn {tk : tkind} g0int_fls : m4_g0int_to_int(tk)
+fn {tk : tkind} g1int_fls : {i : nat} m4_g1int_to_int(tk, i, fls_int i)
 
-fn {tk : tkind} g0uint_fls : m4_g0uint_unary(tk)
-fn {tk : tkind} g1uint_fls : {i : nat} m4_g1uint_unary(tk, i, fls_int_int i)
+fn {tk : tkind} g0uint_fls : m4_g0uint_to_int(tk)
+fn {tk : tkind} g1uint_fls : {i : nat} m4_g1uint_to_int(tk, i, fls_int i)
 
 m4_foreachq(`INT',`intbases',
-`fn g0int_ffs_`'INT : m4_g0int_unary(INT) = "mac#%"
-fn g1int_ffs_`'INT : {i : nat} m4_g1int_unary(INT, i, ffs_int_int i) = "mac#%"
-fn g0int_fls_`'INT : m4_g0int_unary(INT) = "mac#%"
-fn g1int_fls_`'INT : {i : nat} m4_g1int_unary(INT, i, fls_int_int i) = "mac#%"
+`fn g0int_ffs_`'INT : m4_g0int_to_int(INT) = "mac#%"
+fn g1int_ffs_`'INT : {i : nat} m4_g1int_to_int(INT, i, ffs_int i) = "mac#%"
+fn g0int_fls_`'INT : m4_g0int_to_int(INT) = "mac#%"
+fn g1int_fls_`'INT : {i : nat} m4_g1int_to_int(INT, i, fls_int i) = "mac#%"
 
 ')dnl
 m4_foreachq(`UINT',`uintbases',
-`fn g0uint_ffs_`'UINT : m4_g0uint_unary(UINT) = "mac#%"
-fn g1uint_ffs_`'UINT : {i : nat} m4_g1uint_unary(UINT, i, ffs_int_int i) = "mac#%"
-fn g0uint_fls_`'UINT : m4_g0uint_unary(UINT) = "mac#%"
-fn g1uint_fls_`'UINT : {i : nat} m4_g1uint_unary(UINT, i, fls_int_int i) = "mac#%"
+`fn g0uint_ffs_`'UINT : m4_g0uint_to_int(UINT) = "mac#%"
+fn g1uint_ffs_`'UINT : {i : nat} m4_g1uint_to_int(UINT, i, ffs_int i) = "mac#%"
+fn g0uint_fls_`'UINT : m4_g0uint_to_int(UINT) = "mac#%"
+fn g1uint_fls_`'UINT : {i : nat} m4_g1uint_to_int(UINT, i, fls_int i) = "mac#%"
 
 ')dnl
 overload ffs with g0int_ffs of 0
@@ -500,6 +500,30 @@ overload fls with g0int_fls of 0
 overload fls with g1int_fls of 1
 overload fls with g0uint_fls of 0
 overload fls with g1uint_fls of 1
+
+(*------------------------------------------------------------------*)
+(* Population count of a non-negative number. *)
+
+fn {tk : tkind} g0int_popcount : m4_g0int_to_int(tk)
+fn {tk : tkind} g1int_popcount : {i : nat} m4_g1int_to_int(tk, i, popcount_int i)
+
+fn {tk : tkind} g0uint_popcount : m4_g0uint_to_int(tk)
+fn {tk : tkind} g1uint_popcount : {i : nat} m4_g1uint_to_int(tk, i, popcount_int i)
+
+m4_foreachq(`INT',`intbases',
+`fn g0int_popcount_`'INT : m4_g0int_to_int(INT) = "mac#%"
+fn g1int_popcount_`'INT : {i : nat} m4_g1int_to_int(INT, i, popcount_int i) = "mac#%"
+
+')dnl
+m4_foreachq(`UINT',`uintbases',
+`fn g0uint_popcount_`'UINT : m4_g0uint_to_int(UINT) = "mac#%"
+fn g1uint_popcount_`'UINT : {i : nat} m4_g1uint_to_int(UINT, i, popcount_int i) = "mac#%"
+
+')dnl
+overload popcount with g0int_popcount of 0
+overload popcount with g1int_popcount of 1
+overload popcount with g0uint_popcount of 0
+overload popcount with g1uint_popcount of 1
 
 (*------------------------------------------------------------------*)
 (* Greatest common divisor, with gcd(0,0) = 0. *)

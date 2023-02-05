@@ -569,7 +569,7 @@ my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
 #endif
 
 /*------------------------------------------------------------------*/
-/* Count trailing zeros. */
+/* Count trailing zeros of a positive number. */
 
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'_ctz_uint64_fallback (uintb2c(uint64) n)
@@ -649,7 +649,7 @@ m4_foreachq(`UINT',`uintbases',
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Find first set. */
+/* Find first set of a non-negative number. */
 
 /* For signed integers, one might instead use POSIX’s ffs(3) and the
    GNU extensions ffsl(3) and ffsll(3). */
@@ -679,7 +679,7 @@ m4_foreachq(`UINT',`uintbases',
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Find last set. */
+/* Find last set of a non-negative number. */
 
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'_fls_uint64_fallback (uintb2c(uint64) n)
@@ -761,6 +761,79 @@ m4_foreachq(`INT',`intbases',
 
 m4_foreachq(`UINT',`uintbases',
 `#define my_extern_prefix`'g1uint_fls_`'UINT my_extern_prefix`'g0uint_fls_`'UINT
+')dnl
+
+/*------------------------------------------------------------------*/
+/* Population count of a non-negative number. */
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_popcount_uint64_fallback (uintb2c(uint64) n)
+{
+  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME
+}
+
+#if defined __GNUC__
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_popcount_uint (uintb2c(uint) n)
+{
+  return __builtin_popcount (n);
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_popcount_ulint (uintb2c(ulint) n)
+{
+  return __builtin_popcountl (n);
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_popcount_ullint (uintb2c(ullint) n)
+{
+  return __builtin_popcountll (n);
+}
+
+m4_foreachq(`INT',`sint, int, int8, int16, int32',
+`#define my_extern_prefix`'g0int_popcount_`'INT`'(n) (my_extern_prefix`'g0uint_popcount_uint ((uintb2c(uint)) (n)))
+')dnl
+m4_foreachq(`INT',`lint',
+`#define my_extern_prefix`'g0int_popcount_`'INT`'(n) (my_extern_prefix`'g0uint_popcount_ulint ((uintb2c(ulint)) (n)))
+')dnl
+m4_foreachq(`INT',`int64, llint, lint64, ssize, intptr, intmax',
+`#define my_extern_prefix`'g0int_popcount_`'INT`'(n) (my_extern_prefix`'g0uint_popcount_ullint ((uintb2c(ullint)) (n)))
+')dnl
+
+m4_foreachq(`UINT',`usint, uint8, uint16, uint32',
+`#define my_extern_prefix`'g0uint_popcount_`'UINT`'(n) (my_extern_prefix`'g0uint_popcount_uint ((uintb2c(uint)) (n)))
+')dnl
+m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
+`#define my_extern_prefix`'g0uint_popcount_`'UINT`'(n) (my_extern_prefix`'g0uint_popcount_ullint ((uintb2c(ullint)) (n)))
+')dnl
+
+#else /* if not __GNUC__ */
+
+/* One can easily do away with this limitation, if necessary: */
+_Static_assert (sizeof (uintb2c(uintmax)) <= 64,
+                "the implementation of find last set "
+                "assumes integers do not exceed 64 bits in size");
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'g0int_popcount_`'INT`'(n)`'dnl
+ (my_extern_prefix`'_popcount_uint64_fallback ((uintb2c(uint)) (n)))
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'g0uint_popcount_`'UINT`'(n)`'dnl
+ (my_extern_prefix`'_popcount_uint64_fallback ((uintb2c(uint)) (n)))
+')dnl
+
+#endif /* if not __GNUC__ */
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'g1int_popcount_`'INT my_extern_prefix`'g0int_popcount_`'INT
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'g1uint_popcount_`'UINT my_extern_prefix`'g0uint_popcount_`'UINT
 ')dnl
 
 /*------------------------------------------------------------------*/

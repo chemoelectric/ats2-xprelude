@@ -125,7 +125,7 @@ in (* local *)
 end (* local *)
 
 (*------------------------------------------------------------------*)
-(* Bitwise operations. *)
+(* Bitwise logical operations. *)
 
 stacst lsl_int_int : (int, int) -> int
 stacst lsr_int_int : (int, int) -> int
@@ -143,12 +143,44 @@ stacst signed_land_int_int : (int, int) -> int
 stacst signed_lor_int_int : (int, int) -> int
 stacst signed_lxor_int_int : (int, int) -> int
 
+(*------------------------------------------------------------------*)
 (* ‘Count trailing zeros’ of a positive number. *)
-stacst ctz_int_int : int -> int
 
+stacst ctz_int : int -> int
+
+praxi
+lemma_ctz_isnat :
+  {n : nat}
+  () -<prf>
+    [0 <= ctz_int n]
+    void
+
+(*------------------------------------------------------------------*)
 (* ‘Find first set’ and ‘find last set’ of a non-negative number. *)
-stacst ffs_int_int : int -> int
-stacst fls_int_int : int -> int
+
+stacst ffs_int : int -> int
+stacst fls_int : int -> int
+
+m4_foreachq(`OP',`ffs, fls',
+`praxi
+lemma_`'OP`'_isnat :
+  {n : nat}
+  () -<prf>
+    [0 <= OP`'_int n]
+    void
+
+')dnl
+(*------------------------------------------------------------------*)
+(* Population count of a non-negative number. *)
+
+stacst popcount_int : int -> int
+
+praxi
+lemma_popcount_isnat :
+  {n : nat}
+  () -<prf>
+    [0 <= popcount_int n]
+    void
 
 (*------------------------------------------------------------------*)
 (* Greatest common divisor, with gcd(0,0) = 0. *)
@@ -164,10 +196,18 @@ lemma_gcd_isfun :
     void
 
 praxi
-lemma_gcd_commutes :
+lemma_gcd_is_commutative :
   {i, j : int}
   () -<prf>
     [gcd_int_int (i, j) == gcd_int_int (j, i)]
+    void
+
+praxi
+lemma_gcd_is_associative :
+  {x, y, z : int}
+  () -<prf>
+    [((x \gcd_int_int y) \gcd_int_int z)
+        == (x \gcd_int_int (y \gcd_int_int z))]
     void
 
 praxi

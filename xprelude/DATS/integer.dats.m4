@@ -299,16 +299,18 @@ implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Some bitwise operations. *)
+(* Some of the more obscure bitwise operations. *)
 
-m4_foreachq(`OP',`ctz, ffs, fls',
+m4_define(`obscure_bitwise_operations',`ctz, ffs, fls, popcount')
+
+m4_foreachq(`OP',`obscure_bitwise_operations',
 `m4_foreachq(`INT',`intbases',
 `implement g0int_`'OP<intb2k(INT)> = g0int_`'OP`'_`'INT
 implement g1int_`'OP<intb2k(INT)> = g1int_`'OP`'_`'INT
 ')dnl
 ')dnl
 
-m4_foreachq(`OP',`ctz, ffs, fls',
+m4_foreachq(`OP',`obscure_bitwise_operations',
 `m4_foreachq(`UINT',`uintbases',
 `implement g0uint_`'OP<uintb2k(UINT)> = g0uint_`'OP`'_`'UINT
 implement g1uint_`'OP<uintb2k(UINT)> = g1uint_`'OP`'_`'UINT

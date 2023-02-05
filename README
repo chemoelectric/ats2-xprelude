@@ -18,7 +18,7 @@ Extensions to, and bugfixes for, the ATS2 prelude.
     - I have added gcd.
 
     - I have added ‘count trailing zeros’, ‘find first set’, ‘find
-      last set’.
+      last set’, ‘population count’.
 
 * Expanded support for floating point, and workarounds for bugs.
 
@@ -55,9 +55,6 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 * Sorting, with algorithms selectable via -DATS flag.
 
 ---
-
-* Also possible: population count, and other such more obscure
-  operations on integers.
 
 * Also possible: integer ‘pow’. I have often found myself using such a
   function.
