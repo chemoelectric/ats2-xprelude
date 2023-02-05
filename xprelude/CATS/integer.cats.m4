@@ -569,7 +569,7 @@ my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
 #endif
 
 /*------------------------------------------------------------------*/
-/* Count trailing zeros of a positive number. */
+/* ‘Count trailing zeros’ of a positive number. */
 
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'_ctz_uint64_fallback (uintb2c(uint64) n)
@@ -649,7 +649,7 @@ m4_foreachq(`UINT',`uintbases',
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Find first set of a non-negative number. */
+/* ‘Find first set’ of a non-negative number. */
 
 /* For signed integers, one might instead use POSIX’s ffs(3) and the
    GNU extensions ffsl(3) and ffsll(3). */
@@ -679,30 +679,12 @@ m4_foreachq(`UINT',`uintbases',
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Find last set of a non-negative number. */
-
-my_extern_prefix`'inline intb2c(int)
-my_extern_prefix`'_fls_uint64_fallback (uintb2c(uint64) n)
-{
-  uint64_t x = (uint64_t) n;
-
-  /* Fill in low bits with ones. */
-  x |= x >> 1; 
-  x |= x >> 2;
-  x |= x >> 4;
-  x |= x >> 8;
-  x |= x >> 16;
-  x |= x >> 32;
-
-  x = ~x;
-
-  return (x == 0) ? 64 : (my_extern_prefix`'_ctz_uint64_fallback (x));
-}
+/* ‘Find last set’ of a non-negative number. */
 
 divert(-1)
 /* A lookup table for ‘find last set’ of integers of 8 bits or
    fewer. */
-m4_define(`find_last_set_lookup',
+m4_define(`lookup_for_find_last_set',
 `"m4_forloop(`I',`0',m4_eval((1 << $1) - 1),
 `m4_if(m4_eval((I >> 7) == 1),`1',`\10',
        m4_eval((I >> 6) == 1),`1',`\7',
@@ -716,14 +698,58 @@ divert`'dnl
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'g0int_fls_int8 (intb2c(int8) n)
 {
-  return find_last_set_lookup(7)[n];
+  return lookup_for_find_last_set(7)[n];
 }
 
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'g0uint_fls_uint8 (uintb2c(uint8) n)
 {
-  return find_last_set_lookup(8)[n];
+  return lookup_for_find_last_set(8)[n];
 }
+
+m4_foreachq(`INT',`intbases',
+`m4_if(INT,`int8',,`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_fls_`'INT`'_fallback (intb2c(INT) n)
+{
+  int fls_val;
+
+  if (n == 0)
+    fls_val = 0;
+  else
+    {
+      int shift = CHAR_BIT * ((sizeof n) - 1);
+      while ((n >> shift) == 0)
+        shift -= CHAR_BIT;
+      fls_val = shift + my_extern_prefix`'g0int_fls_int8 (n >> shift);
+    }
+
+  return fls_val;
+}
+')dnl
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`m4_if(UINT,`uint8',,`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_fls_`'UINT`'_fallback (uintb2c(UINT) n)
+{
+  int fls_val;
+
+  if (n == 0)
+    fls_val = 0;
+  else
+    {
+      int shift = CHAR_BIT * ((sizeof n) - 1);
+      while ((n >> shift) == 0)
+        shift -= CHAR_BIT;
+      fls_val = shift + my_extern_prefix`'g0uint_fls_uint8 (n >> shift);
+    }
+
+  return fls_val;
+}
+')dnl
+')dnl
 
 #if defined __GNUC__
 
@@ -764,22 +790,15 @@ m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
 
 #else /* if not __GNUC__ */
 
-/* One can easily do away with this limitation, if necessary: */
-_Static_assert (sizeof (uintb2c(uintmax)) <= 64,
-                "the implementation of find last set "
-                "assumes integers do not exceed 64 bits in size");
-
 m4_foreachq(`INT',`intbases',
 `m4_if(INT,`int8',,
-`#define my_extern_prefix`'g0int_fls_`'INT`'(n)`'dnl
- (my_extern_prefix`'_fls_uint64_fallback ((uintb2c(uint)) (n)))
+`#define my_extern_prefix`'g0int_fls_`'INT my_extern_prefix`'_fls_`'INT`'_fallback
 ')dnl
 ')dnl
 
 m4_foreachq(`UINT',`uintbases',
 `m4_if(UINT,`uint8',,
-`#define my_extern_prefix`'g0uint_fls_`'UINT`'(n)`'dnl
- (my_extern_prefix`'_fls_uint64_fallback ((uintb2c(uint)) (n)))
+`#define my_extern_prefix`'g0uint_fls_`'UINT my_extern_prefix`'_fls_`'UINT`'_fallback
 ')dnl
 ')dnl
 
@@ -794,13 +813,62 @@ m4_foreachq(`UINT',`uintbases',
 ')dnl
 
 /*------------------------------------------------------------------*/
-/* Population count of a non-negative number. */
+/* ‘Population count’ of a non-negative number. */
+
+divert(-1)
+/* A lookup table for ‘population count’ of integers of 8 bits or
+   fewer. */
+m4_define(`lookup_for_popcount',
+`"m4_forloop(`I',`0',m4_eval((1 << $1) - 1),
+`m4_if(m4_popcount8(I),`8',`\10',`\`'m4_popcount8(I)')')"')
+divert`'dnl
 
 my_extern_prefix`'inline intb2c(int)
-my_extern_prefix`'_popcount_uint64_fallback (uintb2c(uint64) n)
+my_extern_prefix`'g0int_popcount_int8 (intb2c(int8) n)
 {
-  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME  // FIXME
+  return lookup_for_popcount(7)[n];
 }
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_popcount_uint8 (uintb2c(uint8) n)
+{
+  return lookup_for_popcount(8)[n];
+}
+
+m4_foreachq(`INT',`intbases',
+`m4_if(INT,`uint8',,`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_popcount_`'INT`'_fallback (intb2c(INT) n)
+{
+  _Static_assert (CHAR_BIT == 8, "CHAR_BIT does not equal 8");
+  uintb2c(int2uintbase(INT)) m = (uintb2c(int2uintbase(INT))) n;
+  int popcnt = 0;
+  for (int i = 0; i < sizeof m; i += 1)
+    {
+      popcnt += my_extern_prefix`'g0uint_popcount_uint8 (m & 0xFF);
+      m >>= CHAR_BIT;
+    }
+  return popcnt;
+}
+')dnl
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`m4_if(UINT,`uint8',,`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_popcount_`'UINT`'_fallback (uintb2c(UINT) n)
+{
+  _Static_assert (CHAR_BIT == 8, "CHAR_BIT does not equal 8");
+  int popcnt = 0;
+  for (int i = 0; i < sizeof n; i += 1)
+    {
+      popcnt += my_extern_prefix`'g0uint_popcount_uint8 (n & 0xFF);
+      n >>= CHAR_BIT;
+    }
+  return popcnt;
+}
+')dnl
+')dnl
 
 #if defined __GNUC__
 
@@ -822,7 +890,7 @@ my_extern_prefix`'g0uint_popcount_ullint (uintb2c(ullint) n)
   return __builtin_popcountll (n);
 }
 
-m4_foreachq(`INT',`sint, int, int8, int16, int32',
+m4_foreachq(`INT',`sint, int, int16, int32',
 `#define my_extern_prefix`'g0int_popcount_`'INT`'(n) (my_extern_prefix`'g0uint_popcount_uint ((uintb2c(uint)) (n)))
 ')dnl
 m4_foreachq(`INT',`lint',
@@ -832,7 +900,7 @@ m4_foreachq(`INT',`int64, llint, lint64, ssize, intptr, intmax',
 `#define my_extern_prefix`'g0int_popcount_`'INT`'(n) (my_extern_prefix`'g0uint_popcount_ullint ((uintb2c(ullint)) (n)))
 ')dnl
 
-m4_foreachq(`UINT',`usint, uint8, uint16, uint32',
+m4_foreachq(`UINT',`usint, uint16, uint32',
 `#define my_extern_prefix`'g0uint_popcount_`'UINT`'(n) (my_extern_prefix`'g0uint_popcount_uint ((uintb2c(uint)) (n)))
 ')dnl
 m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
@@ -841,19 +909,16 @@ m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
 
 #else /* if not __GNUC__ */
 
-/* One can easily do away with this limitation, if necessary: */
-_Static_assert (sizeof (uintb2c(uintmax)) <= 64,
-                "the implementation of find last set "
-                "assumes integers do not exceed 64 bits in size");
-
 m4_foreachq(`INT',`intbases',
-`#define my_extern_prefix`'g0int_popcount_`'INT`'(n)`'dnl
- (my_extern_prefix`'_popcount_uint64_fallback ((uintb2c(uint)) (n)))
+`m4_if(INT,`int8',,
+`#define my_extern_prefix`'g0int_popcount_`'INT my_extern_prefix`'_popcount_`'INT`'_fallback
+')dnl
 ')dnl
 
 m4_foreachq(`UINT',`uintbases',
-`#define my_extern_prefix`'g0uint_popcount_`'UINT`'(n)`'dnl
- (my_extern_prefix`'_popcount_uint64_fallback ((uintb2c(uint)) (n)))
+`m4_if(UINT,`uint8',,
+`#define my_extern_prefix`'g0uint_popcount_`'UINT my_extern_prefix`'_popcount_`'UINT`'_fallback
+')dnl
 ')dnl
 
 #endif /* if not __GNUC__ */

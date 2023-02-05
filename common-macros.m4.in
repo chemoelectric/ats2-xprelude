@@ -78,4 +78,19 @@ m4_define(`m4_toupper',
   `m4_translit(`$1',`abcdefghijklmnopqrstuvwxyz',
                     `ABCDEFGHIJKLMNOPQRSTUVWXYZ')')
 
+dnl
+dnl  m4_popcount8(N) -- population count of a non-negative number of 8 or fewer bits.
+dnl
+m4_define(`m4_popcount8',
+`m4_pushdef(`_x1_',`$1')`'dnl
+m4_pushdef(`_x2_',m4_eval(_x1_ - ((_x1_ >> 1) & 0x55)))`'dnl
+m4_popdef(`_x1_')`'dnl
+m4_pushdef(`_x3_',m4_eval((_x2_ & 0x33) + ((_x2_ >> 2) & 0x33)))`'dnl
+m4_popdef(`_x2_')`'dnl
+m4_pushdef(`_x4_',m4_eval((_x3_ + (_x3_ >> 4)) & 0x0F))`'dnl
+m4_popdef(`_x3_')`'dnl
+m4_eval(_x4_ & 0xFF)`'dnl
+m4_popdef(`_x4_')`'dnl
+')
+
 divert`'dnl

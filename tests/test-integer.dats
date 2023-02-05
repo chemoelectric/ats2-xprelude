@@ -31,6 +31,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (*------------------------------------------------------------------*)
 
+val INT8_MAX = $extval (int, "INT8_MAX")
 val INT_MAX = $extval (int, "INT_MAX")
 val LINT_MAX = $extval (lint, "LONG_MAX")
 val LLINT_MAX = $extval (llint, "LLONG_MAX")
@@ -957,22 +958,6 @@ test19 () : void =
     val- true : Bool = fls 63U = 6
     val- true : Bool = fls 64U = 7
 
-    (* Test the fallback implementation. *)
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 0) = 0
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 1) = 1
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 2) = 2
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 3) = 2
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 4) = 3
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 5) = 3
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 6) = 3
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 7) = 3
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 8) = 4
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 16) = 5
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 31) = 5
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 32) = 6
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 63) = 6
-    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 64) = 7
-
     (* Test table-lookup for one-byte integers. *)
     val- true : bool = fls ((g0i2i 0) : int8) = 0
     val- true : bool = fls ((g0i2i 1) : int8) = 1
@@ -1042,6 +1027,36 @@ test19 () : void =
     val- true : Bool = fls ((g1i2u 127) : [i : nat] uint8 i) = 7
     val- true : Bool = fls ((g1i2u 128) : [i : nat] uint8 i) = 8
     val- true : Bool = fls ((g1i2u 255) : [i : nat] uint8 i) = 8
+
+    (* Test the fallback implementation. *)
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 0) = 0
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 1) = 1
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 2) = 2
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 3) = 2
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 4) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 5) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 6) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 7) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 8) = 4
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 16) = 5
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 31) = 5
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 32) = 6
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 63) = 6
+    val- true = $extfcall (int, "ats2_xprelude__fls_int16_fallback", g0int2int<intknd,int16knd> 64) = 7
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 0) = 0
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 1) = 1
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 2) = 2
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 3) = 2
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 4) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 5) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 6) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 7) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 8) = 4
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 16) = 5
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 31) = 5
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 32) = 6
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 63) = 6
+    val- true = $extfcall (int, "ats2_xprelude__fls_uintmax_fallback", g0int2uint<intknd,uintmaxknd> 64) = 7
   in
   end
 
@@ -1061,6 +1076,8 @@ test20 () : void =
         val n4 = (g0i2u n1) : uint
         val n5 = (g0i2u n2) : ulint
         val n6 = (g0i2u n3) : ullint
+        val n7 = (g0f2i (min (floor (r * succ (g0i2f INT8_MAX)), g0i2f INT8_MAX))) : int8
+        val n8 = (g0i2u n7) : uint8
 
         val- true : bool = popcount n1 = brute_force_popcount<intknd> n1
         val- true : bool = popcount n2 = brute_force_popcount<lintknd> n2
@@ -1068,6 +1085,8 @@ test20 () : void =
         val- true : bool = popcount n4 = brute_force_popcount<uintknd> n4
         val- true : bool = popcount n5 = brute_force_popcount<ulintknd> n5
         val- true : bool = popcount n6 = brute_force_popcount<ullintknd> n6
+        val- true : bool = popcount n7 = brute_force_popcount<int8knd> n7
+        val- true : bool = popcount n8 = brute_force_popcount<uint8knd> n8
 
         val [m1 : int] m1 = g1ofg0 n1
         val [m2 : int] m2 = g1ofg0 n2
@@ -1075,6 +1094,8 @@ test20 () : void =
         val [m4 : int] m4 = g1ofg0 n4
         val [m5 : int] m5 = g1ofg0 n5
         val [m6 : int] m6 = g1ofg0 n6
+        val [m7 : int] m7 = g1ofg0 n7
+        val [m8 : int] m8 = g1ofg0 n8
 
         val () = assertloc (isgtez m1)
         val () = assertloc (isgtez m2)
@@ -1082,6 +1103,8 @@ test20 () : void =
         prval () = lemma_g1uint_param m4
         prval () = lemma_g1uint_param m5
         prval () = lemma_g1uint_param m6
+        val () = assertloc (isgtez m7)
+        prval () = lemma_g1uint_param m8
 
         prval () = lemma_popcount_isnat {m1} ()
         prval () = lemma_popcount_isnat {m2} ()
@@ -1089,6 +1112,8 @@ test20 () : void =
         prval () = lemma_popcount_isnat {m4} ()
         prval () = lemma_popcount_isnat {m5} ()
         prval () = lemma_popcount_isnat {m6} ()
+        prval () = lemma_popcount_isnat {m7} ()
+        prval () = lemma_popcount_isnat {m8} ()
 
         val pc1 = popcount m1
         val pc2 = popcount m2
@@ -1096,6 +1121,8 @@ test20 () : void =
         val pc4 = popcount m4
         val pc5 = popcount m5
         val pc6 = popcount m6
+        val pc7 = popcount m7
+        val pc8 = popcount m8
 
         prval [pc1 : int] EQINT () = eqint_make_gint pc1
         prval [pc2 : int] EQINT () = eqint_make_gint pc2
@@ -1103,6 +1130,8 @@ test20 () : void =
         prval [pc4 : int] EQINT () = eqint_make_gint pc4
         prval [pc5 : int] EQINT () = eqint_make_gint pc5
         prval [pc6 : int] EQINT () = eqint_make_gint pc6
+        prval [pc7 : int] EQINT () = eqint_make_gint pc7
+        prval [pc8 : int] EQINT () = eqint_make_gint pc8
 
         prval () = prop_verify {0 <= pc1} ()
         prval () = prop_verify {0 <= pc2} ()
@@ -1110,6 +1139,8 @@ test20 () : void =
         prval () = prop_verify {0 <= pc4} ()
         prval () = prop_verify {0 <= pc5} ()
         prval () = prop_verify {0 <= pc6} ()
+        prval () = prop_verify {0 <= pc7} ()
+        prval () = prop_verify {0 <= pc8} ()
 
         val bfpc1 = g1ofg0 (brute_force_popcount<intknd> m1)
         val bfpc2 = g1ofg0 (brute_force_popcount<lintknd> m2)
@@ -1117,6 +1148,8 @@ test20 () : void =
         val bfpc4 = g1ofg0 (brute_force_popcount<uintknd> m4)
         val bfpc5 = g1ofg0 (brute_force_popcount<ulintknd> m5)
         val bfpc6 = g1ofg0 (brute_force_popcount<ullintknd> m6)
+        val bfpc7 = g1ofg0 (brute_force_popcount<int8knd> m7)
+        val bfpc8 = g1ofg0 (brute_force_popcount<uint8knd> m8)
 
         val () = assertloc (0 <= bfpc1)
         val () = assertloc (0 <= bfpc2)
@@ -1124,6 +1157,8 @@ test20 () : void =
         val () = assertloc (0 <= bfpc4)
         val () = assertloc (0 <= bfpc5)
         val () = assertloc (0 <= bfpc6)
+        val () = assertloc (0 <= bfpc7)
+        val () = assertloc (0 <= bfpc8)
 
         val- true : Bool = pc1 = bfpc1
         val- true : Bool = pc2 = bfpc2
@@ -1131,6 +1166,16 @@ test20 () : void =
         val- true : Bool = pc4 = bfpc4
         val- true : Bool = pc5 = bfpc5
         val- true : Bool = pc6 = bfpc6
+        val- true : Bool = pc7 = bfpc7
+        val- true : Bool = pc8 = bfpc8
+
+        (* Test fallback implementations. *)
+        val- true = $extfcall (int, "ats2_xprelude__popcount_int_fallback", n1) = bfpc1
+        val- true = $extfcall (int, "ats2_xprelude__popcount_lint_fallback", n2) = bfpc2
+        val- true = $extfcall (int, "ats2_xprelude__popcount_llint_fallback", n3) = bfpc3
+        val- true = $extfcall (int, "ats2_xprelude__popcount_uint_fallback", n4) = bfpc4
+        val- true = $extfcall (int, "ats2_xprelude__popcount_ulint_fallback", n5) = bfpc5
+        val- true = $extfcall (int, "ats2_xprelude__popcount_ullint_fallback", n6) = bfpc6
       in
       end
   end
