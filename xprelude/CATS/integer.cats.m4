@@ -836,7 +836,7 @@ my_extern_prefix`'g0uint_popcount_uint8 (uintb2c(uint8) n)
 }
 
 m4_foreachq(`INT',`intbases',
-`m4_if(INT,`uint8',,`
+`m4_if(INT,`int8',,`
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'_popcount_`'INT`'_fallback (intb2c(INT) n)
 {
