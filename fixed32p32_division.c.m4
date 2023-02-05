@@ -18,18 +18,17 @@
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 /*------------------------------------------------------------------*/
 
-#include <config.h>
-#include <count-leading-zeros.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <limits.h>
 #include <assert.h>
 
 static void
 _`'my_extern_prefix`'short_division (size_t n_u, uint32_t u[n_u],
-                               uint32_t v,
-                               uint32_t *q, uint32_t *r)
+                                     uint32_t v,
+                                     uint32_t *q, uint32_t *r)
 {
   uint32_t remainder = 0;
 
@@ -48,8 +47,8 @@ _`'my_extern_prefix`'short_division (size_t n_u, uint32_t u[n_u],
 
 static void
 _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y, 
-                          uint32_t *q, uint32_t *r,
-                          size_t m, size_t n)
+                                    uint32_t *q, uint32_t *r,
+                                    size_t m, size_t n)
 {
   /* The following implementation is based on Knuth’s Algorithm 4.3.1D
      from Volume 2. */
@@ -61,10 +60,39 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
   _Static_assert ((CHAR_BIT * sizeof (unsigned long)) >= 32,
                   "uint32_t is longer than an unsigned long,"
                   " which seems strange");
+#if defined __GNUC__
   const int num_lz =
-    count_leading_zeros_l (y[n - 1]) -
+    __builtin_clzl (y[n - 1]) -
     ((CHAR_BIT * sizeof (unsigned long)) - 32);
   const int num_nonlz = 32 - num_lz;
+#else
+  /* Convert it to a trailing ones problem, and then count trailing
+     ones by de Bruijn sequence. See:
+
+     {{cite web
+      | title       = Bit Twiddling Hacks
+      | url         = https://graphics.stanford.edu/~seander/bithacks.html
+      | date        = 2023-01-14
+      | archiveurl  = http://archive.today/GNADt
+      | archivedate = 2023-01-14 }}
+
+     where essentially the same method is used to count trailing
+     zeros. */
+
+  uint32_t tmp = y[n - 1];
+
+  /* Fill in low bits with ones. */
+  tmp |= tmp >> 1; 
+  tmp |= tmp >> 2;
+  tmp |= tmp >> 4;
+  tmp |= tmp >> 8;
+  tmp |= tmp >> 16;
+
+  const int num_nonlz =
+    "\0\1\34\2\35\16\30\3\36\26\24\17\31\21\4\10\37\33\15\27\25\23\20\7\32\14\22\6\13\5\12\11"
+    [((~tmp & (tmp + 1)) * UINT32_C(0x077CB531)) >> 27];
+  const int num_lz = 32 - num_nonlz;
+#endif
 
   /* Make v be y normalized so its most significant bit is a one. Any
      normalization factor that achieves this goal will suffice; we
@@ -170,9 +198,9 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
 
 void
 my_extern_prefix`'integer_division (size_t n_x, uint32_t x[n_x],
-                            size_t n_y, uint32_t y[n_y],
-                            size_t n_q, uint32_t q[n_q],
-                            uint32_t *r)
+                                    size_t n_y, uint32_t y[n_y],
+                                    size_t n_q, uint32_t q[n_q],
+                                    uint32_t *r)
 {
   memset (q, 0, n_q * sizeof (uint32_t));
   if (r != NULL)
