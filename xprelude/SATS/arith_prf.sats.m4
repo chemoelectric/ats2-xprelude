@@ -21,6 +21,14 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_PACKNAME "ats2-xprelude.arith_prf"
 
 (*------------------------------------------------------------------*)
+(* CHAR_BIT (in <limits.h>) is almost certainly equal to 8, but we
+   will also verify this fact, in xprelude/DATS/arith_prf.dats *)
+
+#define ATS2_XPRELUDE_ARITH_PRF_CHAR_BIT 8
+
+m4_define(`CHAR_BIT',``ATS2_XPRELUDE_ARITH_PRF_CHAR_BIT'')dnl
+dnl
+(*------------------------------------------------------------------*)
 (* Lemmas for division that return more information than do their
    equivalents in the prelude. *)
 
@@ -150,9 +158,27 @@ stacst ctz_int : int -> int
 
 praxi
 lemma_ctz_isnat :
-  {n : nat}
+  {n : pos}
   () -<prf>
     [0 <= ctz_int n]
+    void
+
+praxi
+lemma_ctz_bounds_gint :
+  {tk : tkind}
+  {n  : pos}
+  g1int (tk, n) -<prf>
+    [0 <= ctz_int n;
+     ctz_int n < CHAR_BIT * sizeof (g1int (tk, n))]
+    void
+
+praxi
+lemma_ctz_bounds_guint :
+  {tk : tkind}
+  {n  : pos}
+  g1int (tk, n) -<prf>
+    [0 <= ctz_int n;
+     ctz_int n < CHAR_BIT * sizeof (g1uint (tk, n))]
     void
 
 (*------------------------------------------------------------------*)
@@ -169,6 +195,24 @@ lemma_`'OP`'_isnat :
     [0 <= OP`'_int n]
     void
 
+praxi
+lemma_`'OP`'_bounds_gint :
+  {tk : tkind}
+  {n  : nat}
+  g1int (tk, n) -<prf>
+    [0 <= OP`'_int n;
+     OP`'_int n <= CHAR_BIT * sizeof (g1int (tk, n))]
+    void
+
+praxi
+lemma_`'OP`'_bounds_guint :
+  {tk : tkind}
+  {n  : nat}
+  g1int (tk, n) -<prf>
+    [0 <= OP`'_int n;
+     OP`'_int n <= CHAR_BIT * sizeof (g1uint (tk, n))]
+    void
+
 ')dnl
 (*------------------------------------------------------------------*)
 (* Population count of a non-negative number. *)
@@ -180,6 +224,24 @@ lemma_popcount_isnat :
   {n : nat}
   () -<prf>
     [0 <= popcount_int n]
+    void
+
+praxi
+lemma_popcount_bounds_gint :
+  {tk : tkind}
+  {n  : nat}
+  g1int (tk, n) -<prf>
+    [0 <= popcount_int n;
+     popcount_int n <= CHAR_BIT * sizeof (g1int (tk, n))]
+    void
+
+praxi
+lemma_popcount_bounds_guint :
+  {tk : tkind}
+  {n  : nat}
+  g1int (tk, n) -<prf>
+    [0 <= popcount_int n;
+     popcount_int n <= CHAR_BIT * sizeof (g1uint (tk, n))]
     void
 
 (*------------------------------------------------------------------*)

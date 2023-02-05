@@ -25,6 +25,16 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 staload "xprelude/SATS/arith_prf.sats"
 
 (*------------------------------------------------------------------*)
+(* Verify that CHAR_BIT equals 8. *)
+
+%{
+
+#include <limits.h>
+_Static_assert (CHAR_BIT == 8, "CHAR_BIT does not equal 8");
+
+%}
+
+(*------------------------------------------------------------------*)
 
 primplement
 eucliddiv_elim {n, d} {q, r} pf =
