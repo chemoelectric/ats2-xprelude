@@ -21,14 +21,21 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_PACKNAME "ats2-xprelude.arith_prf"
 
 (*------------------------------------------------------------------*)
-(* CHAR_BIT (in <limits.h>) is almost certainly equal to 8, but, in
-   xprelude/DATS/arith_prf.dats, we will also VERIFY that CHAR_BIT
-   does equal 8. *)
+(* CHAR_BIT (in <limits.h>) is almost certainly equal to 8. We use a
+   _Static_assert to verify that it does indeed equal 8. *)
 
-#define ATS2_XPRELUDE_ARITH_PRF_CHAR_BIT 8
+#define MY_EXTERN_PREFIX`'ARITH_PRF_CHAR_BIT 8
 
-m4_define(`CHAR_BIT',``ATS2_XPRELUDE_ARITH_PRF_CHAR_BIT'')dnl
+m4_define(`MY_CHAR_BIT',`MY_EXTERN_PREFIX`'`ARITH_PRF_CHAR_BIT'')dnl
 dnl
+%{
+#ifndef MY_EXTERN_PREFIX`'`ARITH_PRF_CHAR_BIT__VERIFIED'
+#include <limits.h>
+_Static_assert (`CHAR_BIT' == 8, "`CHAR_BIT' does not equal 8");
+#define MY_EXTERN_PREFIX`'`ARITH_PRF_CHAR_BIT__VERIFIED' 1
+#endif
+%}
+
 (*------------------------------------------------------------------*)
 (* Lemmas for division that return more information than do their
    equivalents in the prelude. *)
@@ -170,7 +177,7 @@ lemma_ctz_bounds_gint :
   {n  : pos}
   g1int (tk, n) -<prf>
     [0 <= ctz_int n;
-     ctz_int n < CHAR_BIT * sizeof (g1int (tk, n))]
+     ctz_int n < MY_CHAR_BIT * sizeof (g1int (tk, n))]
     void
 
 praxi
@@ -179,7 +186,7 @@ lemma_ctz_bounds_guint :
   {n  : pos}
   g1int (tk, n) -<prf>
     [0 <= ctz_int n;
-     ctz_int n < CHAR_BIT * sizeof (g1uint (tk, n))]
+     ctz_int n < MY_CHAR_BIT * sizeof (g1uint (tk, n))]
     void
 
 (*------------------------------------------------------------------*)
@@ -202,7 +209,7 @@ lemma_`'OP`'_bounds_gint :
   {n  : nat}
   g1int (tk, n) -<prf>
     [0 <= OP`'_int n;
-     OP`'_int n <= CHAR_BIT * sizeof (g1int (tk, n))]
+     OP`'_int n <= MY_CHAR_BIT * sizeof (g1int (tk, n))]
     void
 
 praxi
@@ -211,7 +218,7 @@ lemma_`'OP`'_bounds_guint :
   {n  : nat}
   g1int (tk, n) -<prf>
     [0 <= OP`'_int n;
-     OP`'_int n <= CHAR_BIT * sizeof (g1uint (tk, n))]
+     OP`'_int n <= MY_CHAR_BIT * sizeof (g1uint (tk, n))]
     void
 
 ')dnl
@@ -233,7 +240,7 @@ lemma_popcount_bounds_gint :
   {n  : nat}
   g1int (tk, n) -<prf>
     [0 <= popcount_int n;
-     popcount_int n <= CHAR_BIT * sizeof (g1int (tk, n))]
+     popcount_int n <= MY_CHAR_BIT * sizeof (g1int (tk, n))]
     void
 
 praxi
@@ -242,7 +249,7 @@ lemma_popcount_bounds_guint :
   {n  : nat}
   g1int (tk, n) -<prf>
     [0 <= popcount_int n;
-     popcount_int n <= CHAR_BIT * sizeof (g1uint (tk, n))]
+     popcount_int n <= MY_CHAR_BIT * sizeof (g1uint (tk, n))]
     void
 
 (*------------------------------------------------------------------*)
