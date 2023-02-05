@@ -35,13 +35,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #endif
 
 /*------------------------------------------------------------------*/
-/*
-
-  Credit for some of the programming ideas employed below belongs to:
-
-
-*/
-/*------------------------------------------------------------------*/
 /* intmax_t and uintmax_t */
 
 typedef intmax_t my_extern_prefix`'intmax;
