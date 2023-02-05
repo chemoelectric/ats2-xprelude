@@ -699,6 +699,32 @@ my_extern_prefix`'_fls_uint64_fallback (uintb2c(uint64) n)
   return (x == 0) ? 64 : (my_extern_prefix`'_ctz_uint64_fallback (x));
 }
 
+divert(-1)
+/* A lookup table for ‘find last set’ of integers of 8 bits or
+   fewer. */
+m4_define(`find_last_set_lookup',
+`"m4_forloop(`I',`0',m4_eval((1 << $1) - 1),
+`m4_if(m4_eval((I >> 7) == 1),`1',`\10',
+       m4_eval((I >> 6) == 1),`1',`\7',
+       m4_eval((I >> 5) == 1),`1',`\6',
+       m4_eval((I >> 4) == 1),`1',`\5',
+       m4_eval((I >> 3) == 1),`1',`\4',
+       m4_eval((I >> 2) == 1),`1',`\3',
+       m4_eval((I >> 1) == 1),`1',`\2',`\I')')"')')
+divert`'dnl
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0int_fls_int8 (intb2c(int8) n)
+{
+  return find_last_set_lookup(7)[n];
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_fls_uint8 (uintb2c(uint8) n)
+{
+  return find_last_set_lookup(8)[n];
+}
+
 #if defined __GNUC__
 
 my_extern_prefix`'inline intb2c(int)
@@ -719,7 +745,7 @@ my_extern_prefix`'g0uint_fls_ullint (uintb2c(ullint) n)
   return (n == 0) ? 0 : ((CHAR_BIT * sizeof (unsigned long long int)) - __builtin_clzll (n));
 }
 
-m4_foreachq(`INT',`sint, int, int8, int16, int32',
+m4_foreachq(`INT',`sint, int, int16, int32',
 `#define my_extern_prefix`'g0int_fls_`'INT`'(n) (my_extern_prefix`'g0uint_fls_uint ((uintb2c(uint)) (n)))
 ')dnl
 m4_foreachq(`INT',`lint',
@@ -729,7 +755,7 @@ m4_foreachq(`INT',`int64, llint, lint64, ssize, intptr, intmax',
 `#define my_extern_prefix`'g0int_fls_`'INT`'(n) (my_extern_prefix`'g0uint_fls_ullint ((uintb2c(ullint)) (n)))
 ')dnl
 
-m4_foreachq(`UINT',`usint, uint8, uint16, uint32',
+m4_foreachq(`UINT',`usint, uint16, uint32',
 `#define my_extern_prefix`'g0uint_fls_`'UINT`'(n) (my_extern_prefix`'g0uint_fls_uint ((uintb2c(uint)) (n)))
 ')dnl
 m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
@@ -744,13 +770,17 @@ _Static_assert (sizeof (uintb2c(uintmax)) <= 64,
                 "assumes integers do not exceed 64 bits in size");
 
 m4_foreachq(`INT',`intbases',
+`m4_if(INT,`int8',,
 `#define my_extern_prefix`'g0int_fls_`'INT`'(n)`'dnl
  (my_extern_prefix`'_fls_uint64_fallback ((uintb2c(uint)) (n)))
 ')dnl
+')dnl
 
 m4_foreachq(`UINT',`uintbases',
+`m4_if(UINT,`uint8',,
 `#define my_extern_prefix`'g0uint_fls_`'UINT`'(n)`'dnl
  (my_extern_prefix`'_fls_uint64_fallback ((uintb2c(uint)) (n)))
+')dnl
 ')dnl
 
 #endif /* if not __GNUC__ */

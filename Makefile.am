@@ -225,19 +225,29 @@ INTEGER_SUPPORT_DATS += integer-implementations.dats
 INTEGER_SUPPORT_DATS_C =
 INTEGER_SUPPORT_DATS_C += integer-implementations_dats.c
 
+INTEGER_SUPPORT_C =
+INTEGER_SUPPORT_C += ipow.c
+
 integer-implementations.dats: $(addsuffix .m4, $(INTEGER_DATS))
 $(eval $(call make-compiling-implementations, integer-implementations.dats))
 
 INTEGER_SRC = $(INTEGER_SATS) $(INTEGER_DATS) $(INTEGER_CATS)
-EXTRA_DIST += $(addsuffix .m4, $(INTEGER_SRC) $(INTEGER_SUPPORT_DATS))
-BUILT_SOURCES += $(INTEGER_SRC) $(INTEGER_SUPPORT_DATS)
-CLEANFILES += $(INTEGER_SRC) $(INTEGER_SUPPORT_DATS)
+EXTRA_DIST += $(addsuffix .m4, $(INTEGER_SRC))
+EXTRA_DIST += $(addsuffix .m4, $(INTEGER_SUPPORT_DATS))
+EXTRA_DIST += $(addsuffix .m4, $(INTEGER_SUPPORT_C))
+BUILT_SOURCES += $(INTEGER_SRC)
+BUILT_SOURCES += $(INTEGER_SUPPORT_DATS)
+BUILT_SOURCES += $(INTEGER_SUPPORT_C)
+CLEANFILES += $(INTEGER_SRC)
+CLEANFILES += $(INTEGER_SUPPORT_DATS)
+CLEANFILES += $(INTEGER_SUPPORT_C)
 
 nobase_nodist_pkginclude_HEADERS += $(INTEGER_SRC)
 
 nodist_libats2_xprelude_la_SOURCES += $(INTEGER_SATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(INTEGER_DATS_C)
 nodist_libats2_xprelude_la_SOURCES += $(INTEGER_SUPPORT_DATS_C)
+nodist_libats2_xprelude_la_SOURCES += $(INTEGER_SUPPORT_C)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

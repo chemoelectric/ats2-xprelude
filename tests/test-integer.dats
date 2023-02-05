@@ -972,6 +972,76 @@ test19 () : void =
     val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 32) = 6
     val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 63) = 6
     val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 64) = 7
+
+    (* Test table-lookup for one-byte integers. *)
+    val- true : bool = fls ((g0i2i 0) : int8) = 0
+    val- true : bool = fls ((g0i2i 1) : int8) = 1
+    val- true : bool = fls ((g0i2i 2) : int8) = 2
+    val- true : bool = fls ((g0i2i 3) : int8) = 2
+    val- true : bool = fls ((g0i2i 4) : int8) = 3
+    val- true : bool = fls ((g0i2i 5) : int8) = 3
+    val- true : bool = fls ((g0i2i 6) : int8) = 3
+    val- true : bool = fls ((g0i2i 7) : int8) = 3
+    val- true : bool = fls ((g0i2i 8) : int8) = 4
+    val- true : bool = fls ((g0i2i 15) : int8) = 4
+    val- true : bool = fls ((g0i2i 16) : int8) = 5
+    val- true : bool = fls ((g0i2i 31) : int8) = 5
+    val- true : bool = fls ((g0i2i 32) : int8) = 6
+    val- true : bool = fls ((g0i2i 63) : int8) = 6
+    val- true : bool = fls ((g0i2i 64) : int8) = 7
+    val- true : bool = fls ((g0i2i 127) : int8) = 7
+    val- true : Bool = fls ((g1i2i 0) : [i : nat] int8 i) = 0
+    val- true : Bool = fls ((g1i2i 1) : [i : nat] int8 i) = 1
+    val- true : Bool = fls ((g1i2i 2) : [i : nat] int8 i) = 2
+    val- true : Bool = fls ((g1i2i 3) : [i : nat] int8 i) = 2
+    val- true : Bool = fls ((g1i2i 4) : [i : nat] int8 i) = 3
+    val- true : Bool = fls ((g1i2i 5) : [i : nat] int8 i) = 3
+    val- true : Bool = fls ((g1i2i 6) : [i : nat] int8 i) = 3
+    val- true : Bool = fls ((g1i2i 7) : [i : nat] int8 i) = 3
+    val- true : Bool = fls ((g1i2i 8) : [i : nat] int8 i) = 4
+    val- true : Bool = fls ((g1i2i 15) : [i : nat] int8 i) = 4
+    val- true : Bool = fls ((g1i2i 16) : [i : nat] int8 i) = 5
+    val- true : Bool = fls ((g1i2i 31) : [i : nat] int8 i) = 5
+    val- true : Bool = fls ((g1i2i 32) : [i : nat] int8 i) = 6
+    val- true : Bool = fls ((g1i2i 63) : [i : nat] int8 i) = 6
+    val- true : Bool = fls ((g1i2i 64) : [i : nat] int8 i) = 7
+    val- true : Bool = fls ((g1i2i 127) : [i : nat] int8 i) = 7
+    val- true : bool = fls ((g0i2u 0) : uint8) = 0
+    val- true : bool = fls ((g0i2u 1) : uint8) = 1
+    val- true : bool = fls ((g0i2u 2) : uint8) = 2
+    val- true : bool = fls ((g0i2u 3) : uint8) = 2
+    val- true : bool = fls ((g0i2u 4) : uint8) = 3
+    val- true : bool = fls ((g0i2u 5) : uint8) = 3
+    val- true : bool = fls ((g0i2u 6) : uint8) = 3
+    val- true : bool = fls ((g0i2u 7) : uint8) = 3
+    val- true : bool = fls ((g0i2u 8) : uint8) = 4
+    val- true : bool = fls ((g0i2u 15) : uint8) = 4
+    val- true : bool = fls ((g0i2u 16) : uint8) = 5
+    val- true : bool = fls ((g0i2u 31) : uint8) = 5
+    val- true : bool = fls ((g0i2u 32) : uint8) = 6
+    val- true : bool = fls ((g0i2u 63) : uint8) = 6
+    val- true : bool = fls ((g0i2u 64) : uint8) = 7
+    val- true : bool = fls ((g0i2u 127) : uint8) = 7
+    val- true : bool = fls ((g0i2u 128) : uint8) = 8
+    val- true : bool = fls ((g0i2u 255) : uint8) = 8
+    val- true : Bool = fls ((g1i2u 0) : [i : nat] uint8 i) = 0
+    val- true : Bool = fls ((g1i2u 1) : [i : nat] uint8 i) = 1
+    val- true : Bool = fls ((g1i2u 2) : [i : nat] uint8 i) = 2
+    val- true : Bool = fls ((g1i2u 3) : [i : nat] uint8 i) = 2
+    val- true : Bool = fls ((g1i2u 4) : [i : nat] uint8 i) = 3
+    val- true : Bool = fls ((g1i2u 5) : [i : nat] uint8 i) = 3
+    val- true : Bool = fls ((g1i2u 6) : [i : nat] uint8 i) = 3
+    val- true : Bool = fls ((g1i2u 7) : [i : nat] uint8 i) = 3
+    val- true : Bool = fls ((g1i2u 8) : [i : nat] uint8 i) = 4
+    val- true : Bool = fls ((g1i2u 15) : [i : nat] uint8 i) = 4
+    val- true : Bool = fls ((g1i2u 16) : [i : nat] uint8 i) = 5
+    val- true : Bool = fls ((g1i2u 31) : [i : nat] uint8 i) = 5
+    val- true : Bool = fls ((g1i2u 32) : [i : nat] uint8 i) = 6
+    val- true : Bool = fls ((g1i2u 63) : [i : nat] uint8 i) = 6
+    val- true : Bool = fls ((g1i2u 64) : [i : nat] uint8 i) = 7
+    val- true : Bool = fls ((g1i2u 127) : [i : nat] uint8 i) = 7
+    val- true : Bool = fls ((g1i2u 128) : [i : nat] uint8 i) = 8
+    val- true : Bool = fls ((g1i2u 255) : [i : nat] uint8 i) = 8
   in
   end
 
