@@ -636,6 +636,248 @@ test17 () : void =
   in
   end
 
+fn
+test18 () : void =
+  let
+    val- true : bool = g0int_ffs 0 = 0
+    val- true : bool = g0int_ffs 1 = 1
+    val- true : bool = g0int_ffs 2 = 2
+    val- true : bool = g0int_ffs 3 = 1
+    val- true : bool = g0int_ffs 4 = 3
+    val- true : bool = g0int_ffs 5 = 1
+    val- true : bool = g0int_ffs 6 = 2
+    val- true : bool = g0int_ffs 7L = 1
+    val- true : bool = g0int_ffs 8LL = 4
+
+    val- true : bool = ffs 0 = 0
+    val- true : bool = ffs 1 = 1
+    val- true : bool = ffs 2 = 2
+    val- true : bool = ffs 3 = 1
+    val- true : bool = ffs 4 = 3
+    val- true : bool = ffs 5 = 1
+    val- true : bool = ffs 6 = 2
+    val- true : bool = ffs 7L = 1
+    val- true : bool = ffs 8LL = 4
+
+    val- true : Bool = g1int_ffs 0 = 0
+    val- true : Bool = g1int_ffs 1 = 1
+    val- true : Bool = g1int_ffs 2L = 2
+    val- true : Bool = g1int_ffs 3LL = 1
+    val- true : Bool = g1int_ffs 4LL = 3
+    val- true : Bool = g1int_ffs 5LL = 1
+    val- true : Bool = g1int_ffs 6LL = 2
+    val- true : Bool = g1int_ffs 7LL = 1
+    val- true : Bool = g1int_ffs 8LL = 4
+
+    val- true : Bool = ffs 0 = 0
+    val- true : Bool = ffs 1 = 1
+    val- true : Bool = ffs 2L = 2
+    val- true : Bool = ffs 3LL = 1
+    val- true : Bool = ffs 4LL = 3
+    val- true : Bool = ffs 5LL = 1
+    val- true : Bool = ffs 6LL = 2
+    val- true : Bool = ffs 7LL = 1
+    val- true : Bool = ffs 8LL = 4
+
+    val- true : bool = g0uint_ffs 0U = 0
+    val- true : bool = g0uint_ffs 1U = 1
+    val- true : bool = g0uint_ffs 2U = 2
+    val- true : bool = g0uint_ffs 3U = 1
+    val- true : bool = g0uint_ffs 4U = 3
+    val- true : bool = g0uint_ffs 5U = 1
+    val- true : bool = g0uint_ffs 6U = 2
+    val- true : bool = g0uint_ffs 7UL = 1
+    val- true : bool = g0uint_ffs 8ULL = 4
+
+    val- true : bool = ffs 0U = 0
+    val- true : bool = ffs 1U = 1
+    val- true : bool = ffs 2U = 2
+    val- true : bool = ffs 3U = 1
+    val- true : bool = ffs 4U = 3
+    val- true : bool = ffs 5U = 1
+    val- true : bool = ffs 6U = 2
+    val- true : bool = ffs 7UL = 1
+    val- true : bool = ffs 8ULL = 4
+
+    val- true : Bool = g1uint_ffs 0U = 0
+    val- true : Bool = g1uint_ffs 1U = 1
+    val- true : Bool = g1uint_ffs 2UL = 2
+    val- true : Bool = g1uint_ffs 3ULL = 1
+    val- true : Bool = g1uint_ffs 4ULL = 3
+    val- true : Bool = g1uint_ffs 5ULL = 1
+    val- true : Bool = g1uint_ffs 6ULL = 2
+    val- true : Bool = g1uint_ffs 7ULL = 1
+    val- true : Bool = g1uint_ffs 8ULL = 4
+
+    val- true : Bool = ffs 0U = 0
+    val- true : Bool = ffs 1U = 1
+    val- true : Bool = ffs 2UL = 2
+    val- true : Bool = ffs 3ULL = 1
+    val- true : Bool = ffs 4ULL = 3
+    val- true : Bool = ffs 5ULL = 1
+    val- true : Bool = ffs 6ULL = 2
+    val- true : Bool = ffs 7ULL = 1
+    val- true : Bool = ffs 8ULL = 4
+  in
+  end
+
+fn
+test19 () : void =
+  let
+    val- true : bool = g0int_fls 0 = 0
+    val- true : bool = g0int_fls 1 = 1
+    val- true : bool = g0int_fls 2 = 2
+    val- true : bool = g0int_fls 3 = 2
+    val- true : bool = g0int_fls 4 = 3
+    val- true : bool = g0int_fls 5 = 3
+    val- true : bool = g0int_fls 6 = 3
+    val- true : bool = g0int_fls 7 = 3
+    val- true : bool = g0int_fls 8 = 4
+    val- true : bool = g0int_fls 16 = 5
+    val- true : bool = g0int_fls 17 = 5
+    val- true : bool = g0int_fls 31 = 5
+    val- true : bool = g0int_fls 32 = 6
+    val- true : bool = g0int_fls 33 = 6
+    val- true : bool = g0int_fls 63 = 6
+    val- true : bool = g0int_fls 64 = 7
+
+    val- true : bool = fls 0 = 0
+    val- true : bool = fls 1 = 1
+    val- true : bool = fls 2 = 2
+    val- true : bool = fls 3 = 2
+    val- true : bool = fls 4 = 3
+    val- true : bool = fls 5 = 3
+    val- true : bool = fls 6 = 3
+    val- true : bool = fls 7 = 3
+    val- true : bool = fls 8 = 4
+    val- true : bool = fls 16 = 5
+    val- true : bool = fls 17 = 5
+    val- true : bool = fls 31 = 5
+    val- true : bool = fls 32 = 6
+    val- true : bool = fls 33 = 6
+    val- true : bool = fls 63 = 6
+    val- true : bool = fls 64 = 7
+
+    val- true : Bool = g1int_fls 0 = 0
+    val- true : Bool = g1int_fls 1 = 1
+    val- true : Bool = g1int_fls 2 = 2
+    val- true : Bool = g1int_fls 3 = 2
+    val- true : Bool = g1int_fls 4 = 3
+    val- true : Bool = g1int_fls 5 = 3
+    val- true : Bool = g1int_fls 6 = 3
+    val- true : Bool = g1int_fls 7 = 3
+    val- true : Bool = g1int_fls 8 = 4
+    val- true : Bool = g1int_fls 16 = 5
+    val- true : Bool = g1int_fls 17 = 5
+    val- true : Bool = g1int_fls 31 = 5
+    val- true : Bool = g1int_fls 32 = 6
+    val- true : Bool = g1int_fls 33 = 6
+    val- true : Bool = g1int_fls 63 = 6
+    val- true : Bool = g1int_fls 64 = 7
+
+    val- true : Bool = fls 0 = 0
+    val- true : Bool = fls 1 = 1
+    val- true : Bool = fls 2 = 2
+    val- true : Bool = fls 3 = 2
+    val- true : Bool = fls 4 = 3
+    val- true : Bool = fls 5 = 3
+    val- true : Bool = fls 6 = 3
+    val- true : Bool = fls 7 = 3
+    val- true : Bool = fls 8 = 4
+    val- true : Bool = fls 16 = 5
+    val- true : Bool = fls 17 = 5
+    val- true : Bool = fls 31 = 5
+    val- true : Bool = fls 32 = 6
+    val- true : Bool = fls 33 = 6
+    val- true : Bool = fls 63 = 6
+    val- true : Bool = fls 64 = 7
+
+    val- true : bool = g0uint_fls 0U = 0
+    val- true : bool = g0uint_fls 1U = 1
+    val- true : bool = g0uint_fls 2U = 2
+    val- true : bool = g0uint_fls 3U = 2
+    val- true : bool = g0uint_fls 4U = 3
+    val- true : bool = g0uint_fls 5U = 3
+    val- true : bool = g0uint_fls 6U = 3
+    val- true : bool = g0uint_fls 7U = 3
+    val- true : bool = g0uint_fls 8U = 4
+    val- true : bool = g0uint_fls 16U = 5
+    val- true : bool = g0uint_fls 17U = 5
+    val- true : bool = g0uint_fls 31U = 5
+    val- true : bool = g0uint_fls 32U = 6
+    val- true : bool = g0uint_fls 33U = 6
+    val- true : bool = g0uint_fls 63U = 6
+    val- true : bool = g0uint_fls 64U = 7
+
+    val- true : bool = fls 0U = 0
+    val- true : bool = fls 1U = 1
+    val- true : bool = fls 2U = 2
+    val- true : bool = fls 3U = 2
+    val- true : bool = fls 4U = 3
+    val- true : bool = fls 5U = 3
+    val- true : bool = fls 6U = 3
+    val- true : bool = fls 7U = 3
+    val- true : bool = fls 8U = 4
+    val- true : bool = fls 16U = 5
+    val- true : bool = fls 17U = 5
+    val- true : bool = fls 31U = 5
+    val- true : bool = fls 32U = 6
+    val- true : bool = fls 33U = 6
+    val- true : bool = fls 63U = 6
+    val- true : bool = fls 64U = 7
+
+    val- true : Bool = g1uint_fls 0U = 0
+    val- true : Bool = g1uint_fls 1U = 1
+    val- true : Bool = g1uint_fls 2U = 2
+    val- true : Bool = g1uint_fls 3U = 2
+    val- true : Bool = g1uint_fls 4U = 3
+    val- true : Bool = g1uint_fls 5U = 3
+    val- true : Bool = g1uint_fls 6U = 3
+    val- true : Bool = g1uint_fls 7U = 3
+    val- true : Bool = g1uint_fls 8U = 4
+    val- true : Bool = g1uint_fls 16U = 5
+    val- true : Bool = g1uint_fls 17U = 5
+    val- true : Bool = g1uint_fls 31U = 5
+    val- true : Bool = g1uint_fls 32U = 6
+    val- true : Bool = g1uint_fls 33U = 6
+    val- true : Bool = g1uint_fls 63U = 6
+    val- true : Bool = g1uint_fls 64U = 7
+
+    val- true : Bool = fls 0U = 0
+    val- true : Bool = fls 1U = 1
+    val- true : Bool = fls 2U = 2
+    val- true : Bool = fls 3U = 2
+    val- true : Bool = fls 4U = 3
+    val- true : Bool = fls 5U = 3
+    val- true : Bool = fls 6U = 3
+    val- true : Bool = fls 7U = 3
+    val- true : Bool = fls 8U = 4
+    val- true : Bool = fls 16U = 5
+    val- true : Bool = fls 17U = 5
+    val- true : Bool = fls 31U = 5
+    val- true : Bool = fls 32U = 6
+    val- true : Bool = fls 33U = 6
+    val- true : Bool = fls 63U = 6
+    val- true : Bool = fls 64U = 7
+
+    (* Test the fallback implementation. *)
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 0) = 0
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 1) = 1
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 2) = 2
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 3) = 2
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 4) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 5) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 6) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 7) = 3
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 8) = 4
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 16) = 5
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 31) = 5
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 32) = 6
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 63) = 6
+    val- true = $extfcall (int, "ats2_xprelude__fls_uint64_fallback", g0int2uint<intknd,uint64knd> 64) = 7
+  in
+  end
+
 implement
 main () =
   begin
@@ -656,5 +898,7 @@ main () =
     test15 ();
     test16 ();
     test17 ();
+    test18 ();
+    test19 ();
     0
   end

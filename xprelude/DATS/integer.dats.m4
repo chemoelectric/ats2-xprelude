@@ -299,16 +299,20 @@ implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
 ')dnl
 
 (*------------------------------------------------------------------*)
-(* Counting trailing zeros of a positive number. *)
+(* Some bitwise operations. *)
 
-m4_foreachq(`INT',`intbases',
-`implement g0int_ctz<intb2k(INT)> = g0int_ctz_`'INT
-implement g1int_ctz<intb2k(INT)> = g1int_ctz_`'INT
+m4_foreachq(`OP',`ctz, ffs, fls',
+`m4_foreachq(`INT',`intbases',
+`implement g0int_`'OP<intb2k(INT)> = g0int_`'OP`'_`'INT
+implement g1int_`'OP<intb2k(INT)> = g1int_`'OP`'_`'INT
+')dnl
 ')dnl
 
-m4_foreachq(`UINT',`uintbases',
-`implement g0uint_ctz<uintb2k(UINT)> = g0uint_ctz_`'UINT
-implement g1uint_ctz<uintb2k(UINT)> = g1uint_ctz_`'UINT
+m4_foreachq(`OP',`ctz, ffs, fls',
+`m4_foreachq(`UINT',`uintbases',
+`implement g0uint_`'OP<uintb2k(UINT)> = g0uint_`'OP`'_`'UINT
+implement g1uint_`'OP<uintb2k(UINT)> = g1uint_`'OP`'_`'UINT
+')dnl
 ')dnl
 
 (*------------------------------------------------------------------*)

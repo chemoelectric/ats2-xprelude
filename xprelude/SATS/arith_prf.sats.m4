@@ -143,8 +143,12 @@ stacst signed_land_int_int : (int, int) -> int
 stacst signed_lor_int_int : (int, int) -> int
 stacst signed_lxor_int_int : (int, int) -> int
 
-(* Count of trailing zeros of a positive number. *)
+(* ‘Count trailing zeros’ of a positive number. *)
 stacst ctz_int_int : int -> int
+
+(* ‘Find first set’ and ‘find last set’ of a non-negative number. *)
+stacst ffs_int_int : int -> int
+stacst fls_int_int : int -> int
 
 (*------------------------------------------------------------------*)
 (* Greatest common divisor, with gcd(0,0) = 0. *)

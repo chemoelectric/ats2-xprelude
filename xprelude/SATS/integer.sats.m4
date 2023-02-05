@@ -439,7 +439,7 @@ fn g1uint_max_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \max j) = "ma
 
 ')dnl
 (*------------------------------------------------------------------*)
-(* Counting trailing zeros of a positive number. *)
+(* ‘Counting trailing zeros’ of a positive number. *)
 
 fn {tk : tkind} g0int_ctz : m4_g0int_unary(tk)
 fn {tk : tkind} g1int_ctz : {i : pos} m4_g1int_unary(tk, i, ctz_int_int i)
@@ -461,6 +461,45 @@ overload ctz with g0int_ctz of 0
 overload ctz with g1int_ctz of 1
 overload ctz with g0uint_ctz of 0
 overload ctz with g1uint_ctz of 1
+
+(*------------------------------------------------------------------*)
+(* ‘Find first set’ and ‘find last set’ of a non-negative number. *)
+
+fn {tk : tkind} g0int_ffs : m4_g0int_unary(tk)
+fn {tk : tkind} g1int_ffs : {i : nat} m4_g1int_unary(tk, i, ffs_int_int i)
+
+fn {tk : tkind} g0uint_ffs : m4_g0uint_unary(tk)
+fn {tk : tkind} g1uint_ffs : {i : nat} m4_g1uint_unary(tk, i, ffs_int_int i)
+
+fn {tk : tkind} g0int_fls : m4_g0int_unary(tk)
+fn {tk : tkind} g1int_fls : {i : nat} m4_g1int_unary(tk, i, fls_int_int i)
+
+fn {tk : tkind} g0uint_fls : m4_g0uint_unary(tk)
+fn {tk : tkind} g1uint_fls : {i : nat} m4_g1uint_unary(tk, i, fls_int_int i)
+
+m4_foreachq(`INT',`intbases',
+`fn g0int_ffs_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_ffs_`'INT : {i : nat} m4_g1int_unary(INT, i, ffs_int_int i) = "mac#%"
+fn g0int_fls_`'INT : m4_g0int_unary(INT) = "mac#%"
+fn g1int_fls_`'INT : {i : nat} m4_g1int_unary(INT, i, fls_int_int i) = "mac#%"
+
+')dnl
+m4_foreachq(`UINT',`uintbases',
+`fn g0uint_ffs_`'UINT : m4_g0uint_unary(UINT) = "mac#%"
+fn g1uint_ffs_`'UINT : {i : nat} m4_g1uint_unary(UINT, i, ffs_int_int i) = "mac#%"
+fn g0uint_fls_`'UINT : m4_g0uint_unary(UINT) = "mac#%"
+fn g1uint_fls_`'UINT : {i : nat} m4_g1uint_unary(UINT, i, fls_int_int i) = "mac#%"
+
+')dnl
+overload ffs with g0int_ffs of 0
+overload ffs with g1int_ffs of 1
+overload ffs with g0uint_ffs of 0
+overload ffs with g1uint_ffs of 1
+
+overload fls with g0int_fls of 0
+overload fls with g1int_fls of 1
+overload fls with g0uint_fls of 0
+overload fls with g1uint_fls of 1
 
 (*------------------------------------------------------------------*)
 (* Greatest common divisor, with gcd(0,0) = 0. *)

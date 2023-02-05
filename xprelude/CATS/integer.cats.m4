@@ -620,6 +620,10 @@ m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
 
 #else /* if not __GNUC__ */
 
+/* Use the ‘fallback’ routine. For small signed integers, one might
+   instead use ffs(3). */
+
+/* One can easily do away with this limitation, if necessary: */
 _Static_assert (sizeof (uintb2c(uintmax)) <= 64,
                 "the implementation of count trailing zeros "
                 "assumes integers do not exceed 64 bits in size");
@@ -642,6 +646,121 @@ m4_foreachq(`INT',`intbases',
 
 m4_foreachq(`UINT',`uintbases',
 `#define my_extern_prefix`'g1uint_ctz_`'UINT my_extern_prefix`'g0uint_ctz_`'UINT
+')dnl
+
+/*------------------------------------------------------------------*/
+/* Find first set. */
+
+/* For signed integers, one might instead use POSIX’s ffs(3) and the
+   GNU extensions ffsl(3) and ffsll(3). */
+
+m4_foreachq(`INT',`intbases',`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0int_ffs_`'INT (intb2c(INT) n)
+{
+  return (n == 0) ? 0 : (my_extern_prefix`'g0int_ctz_`'INT (n) + 1);
+}
+')dnl
+
+m4_foreachq(`UINT',`uintbases',`
+my_extern_prefix`'inline uintb2c(uint)
+my_extern_prefix`'g0uint_ffs_`'UINT (uintb2c(UINT) n)
+{
+  return (n == 0) ? 0 : (my_extern_prefix`'g0uint_ctz_`'UINT (n) + 1);
+}
+')dnl
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'g1int_ffs_`'INT my_extern_prefix`'g0int_ffs_`'INT
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'g1uint_ffs_`'UINT my_extern_prefix`'g0uint_ffs_`'UINT
+')dnl
+
+/*------------------------------------------------------------------*/
+/* Find last set. */
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_fls_uint64_fallback (uintb2c(uint64) n)
+{
+  uint64_t x = (uint64_t) n;
+
+  /* Fill in low bits with ones. */
+  x |= x >> 1; 
+  x |= x >> 2;
+  x |= x >> 4;
+  x |= x >> 8;
+  x |= x >> 16;
+  x |= x >> 32;
+
+  x = ~x;
+
+  return (x == 0) ? 64 : (my_extern_prefix`'_ctz_uint64_fallback (x));
+}
+
+#if defined __GNUC__
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_fls_uint (uintb2c(uint) n)
+{
+  return (n == 0) ? 0 : ((CHAR_BIT * sizeof (unsigned int)) - __builtin_clz (n));
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_fls_ulint (uintb2c(ulint) n)
+{
+  return (n == 0) ? 0 : ((CHAR_BIT * sizeof (unsigned long int)) - __builtin_clzl (n));
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_fls_ullint (uintb2c(ullint) n)
+{
+  return (n == 0) ? 0 : ((CHAR_BIT * sizeof (unsigned long long int)) - __builtin_clzll (n));
+}
+
+m4_foreachq(`INT',`sint, int, int8, int16, int32',
+`#define my_extern_prefix`'g0int_fls_`'INT`'(n) (my_extern_prefix`'g0uint_fls_uint ((uintb2c(uint)) (n)))
+')dnl
+m4_foreachq(`INT',`lint',
+`#define my_extern_prefix`'g0int_fls_`'INT`'(n) (my_extern_prefix`'g0uint_fls_ulint ((uintb2c(ulint)) (n)))
+')dnl
+m4_foreachq(`INT',`int64, llint, lint64, ssize, intptr, intmax',
+`#define my_extern_prefix`'g0int_fls_`'INT`'(n) (my_extern_prefix`'g0uint_fls_ullint ((uintb2c(ullint)) (n)))
+')dnl
+
+m4_foreachq(`UINT',`usint, uint8, uint16, uint32',
+`#define my_extern_prefix`'g0uint_fls_`'UINT`'(n) (my_extern_prefix`'g0uint_fls_uint ((uintb2c(uint)) (n)))
+')dnl
+m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
+`#define my_extern_prefix`'g0uint_fls_`'UINT`'(n) (my_extern_prefix`'g0uint_fls_ullint ((uintb2c(ullint)) (n)))
+')dnl
+
+#else /* if not __GNUC__ */
+
+/* One can easily do away with this limitation, if necessary: */
+_Static_assert (sizeof (uintb2c(uintmax)) <= 64,
+                "the implementation of find last set "
+                "assumes integers do not exceed 64 bits in size");
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'g0int_fls_`'INT`'(n)`'dnl
+ (my_extern_prefix`'_fls_uint64_fallback ((uintb2c(uint)) (n)))
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'g0uint_fls_`'UINT`'(n)`'dnl
+ (my_extern_prefix`'_fls_uint64_fallback ((uintb2c(uint)) (n)))
+')dnl
+
+#endif /* if not __GNUC__ */
+
+m4_foreachq(`INT',`intbases',
+`#define my_extern_prefix`'g1int_fls_`'INT my_extern_prefix`'g0int_fls_`'INT
+')dnl
+
+m4_foreachq(`UINT',`uintbases',
+`#define my_extern_prefix`'g1uint_fls_`'UINT my_extern_prefix`'g0uint_fls_`'UINT
 ')dnl
 
 /*------------------------------------------------------------------*/
