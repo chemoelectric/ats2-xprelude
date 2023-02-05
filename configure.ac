@@ -21,8 +21,6 @@
 AC_PREREQ([2.71])
 AC_INIT([ats2-xprelude],[1.0.0],[],[ats2-xprelude],[])
 
-AC_CONFIG_HEADERS([config.h])      dnl This is needed for Gnulib.
-
 AC_CONFIG_SRCDIR([xprelude/SATS])
 
 AC_CONFIG_MACRO_DIR([m4])
@@ -121,7 +119,6 @@ AC_ARG_ENABLE([exceptions-demo],
 # Checks for programs.
 
 AC_PROG_CC
-gl_EARLY
 AC_PROG_CC_C_O
 AC_PROG_CXX
 AC_PROG_CXX_C_O
@@ -135,8 +132,6 @@ AC_PROG_AWK
 AC_PROG_SED
 AC_PROG_FGREP
 AC_PROG_EGREP
-
-gl_INIT
 
 # Enable optional code coverage analysis.
 AX_CODE_COVERAGE
@@ -299,11 +294,6 @@ M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DDEFAULT_LIST_STABLE_SORT=\"${default_list_stabl
 CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }\$(CODE_COVERAGE_CPPFLAGS)"
 CFLAGS="${CFLAGS}${CFLAGS+ }\$(CODE_COVERAGE_CFLAGS)"
 
-# Rename symbols in libgnu.
-CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros=ats2_poly_count_leading_zeros"
-CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros_l=ats2_poly_count_leading_zeros_l"
-CPPFLAGS="${CPPFLAGS}${CPPFLAGS+ }-Dcount_leading_zeros_ll=ats2_poly_count_leading_zeros_ll"
-
 if test x"${with_ats2_timsort}" = xyes; then
   PATSOPTFLAGS="${PATSOPTFLAGS}${PATSOPTFLAGS+ }\$(TIMSORT_PATSOPTFLAGS)"
   CFLAGS="${CFLAGS}${CFLAGS+ }\$(TIMSORT_CFLAGS)"
@@ -343,7 +333,6 @@ StM_CONFIG_MAKEFILES
 AC_CONFIG_FILES([list-ats-dependencies.dats])
 AC_CONFIG_FILES([common-macros.m4])
 AC_CONFIG_FILES([ats2-xprelude-macros.m4])
-AC_CONFIG_FILES([lib/Makefile])
 case x"${enable_exceptions_demo}" in
   x"no" )
     ;;

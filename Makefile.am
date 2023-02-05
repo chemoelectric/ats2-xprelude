@@ -28,8 +28,6 @@ include $(top_srcdir)/aminclude_static.am
 @GNU@ include $(top_srcdir)/silent-rules.mk
 @GNU@ -include ats-dependencies/*.mk
 
-SUBDIRS = lib
-
 EXTRA_DIST =
 MOSTLYCLEANFILES =
 CLEANFILES =
@@ -53,7 +51,6 @@ libats2_xprelude_la_LIBADD =
 nodist_pkgconfig_DATA =
 
 EXTRA_DIST += autogen.sh
-EXTRA_DIST += m4/gnulib-cache.m4
 EXTRA_DIST += $(srcdir)/silent-rules.mk
 EXTRA_DIST += COPYING
 EXTRA_DIST += INSTALL
@@ -65,15 +62,8 @@ DISTCLEANFILES += GNUmakefile
 
 AM_CPPFLAGS += -I$(builddir)
 AM_CPPFLAGS += -I$(srcdir)
-AM_CPPFLAGS += -I$(builddir)/lib
-AM_CPPFLAGS += -I$(srcdir)/lib
 AM_CPPFLAGS += -I$(PATSHOME)
 AM_CPPFLAGS += -I$(PATSHOME)/ccomp/runtime/
-AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_ATTRIBS_EXT__=1
-AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_BFP_EXT__=1
-AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_DFP_EXT__=1
-AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_FUNCS_EXT__=1
-AM_CPPFLAGS += -D__STDC_WANT_IEC_60559_TYPES_EXT__=1
 
 LDADD += $(CODE_COVERAGE_LIBS)
 
@@ -89,7 +79,6 @@ distclean-local: code-coverage-dist-clean ats-includes-distclean
 #--------------------------------------------------------------------------
 
 AM_M4FLAGS += -DTOP_SRCDIR='$(top_srcdir)'
-AM_M4FLAGS += -DVARARGS_MAX=20
 
 TOTAL_M4FLAGS =
 TOTAL_M4FLAGS += $(AM_M4FLAGS)
@@ -190,8 +179,6 @@ endif !DEPENDENCY_TRACKING
 #
 
 lib_LTLIBRARIES += libats2-xprelude.la
-
-libats2_xprelude_la_LIBADD += lib/libgnu.la
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

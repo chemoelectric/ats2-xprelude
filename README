@@ -17,7 +17,8 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 
     - I have added gcd.
 
-    - I have added ‘count trailing zeros’.
+    - I have added ‘count trailing zeros’, ‘find first set’, ‘find
+      last set’.
 
 * Expanded support for floating point, and workarounds for bugs.
 

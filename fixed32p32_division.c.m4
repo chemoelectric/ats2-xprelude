@@ -66,8 +66,8 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
     ((CHAR_BIT * sizeof (unsigned long)) - 32);
   const int num_nonlz = 32 - num_lz;
 #else
-  /* Convert it to a trailing ones problem, and then count trailing
-     ones by de Bruijn sequence. See:
+  /* Convert the leading zeros problem to a trailing ones problem, and
+     then count trailing ones by de Bruijn sequence. See:
 
      {{cite web
       | title       = Bit Twiddling Hacks

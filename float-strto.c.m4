@@ -18,7 +18,6 @@
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 /*------------------------------------------------------------------*/
 
-#include <config.h>
 #include <xprelude/CATS/float.cats>
 
 /*------------------------------------------------------------------*/
