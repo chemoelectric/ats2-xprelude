@@ -206,44 +206,43 @@ am__objects_1 = xprelude/SATS/arith_prf_sats.lo
 am__objects_2 = xprelude/DATS/arith_prf_dats.lo
 am__objects_3 = xprelude/SATS/integer_sats.lo
 am__objects_4 = xprelude/DATS/integer_dats.lo
-am__objects_5 = integer-implementations_dats.lo
-am__objects_6 = ipow.lo
-am__objects_7 = xprelude/SATS/float_sats.lo
-am__objects_8 = xprelude/DATS/float_dats.lo
-am__objects_9 = strfrom-support_dats.lo strto-support_dats.lo \
+am__objects_5 = ipow_dats.lo integer-implementations_dats.lo
+am__objects_6 = xprelude/SATS/float_sats.lo
+am__objects_7 = xprelude/DATS/float_dats.lo
+am__objects_8 = strfrom-support_dats.lo strto-support_dats.lo \
 	float-implementations_dats.lo
-am__objects_10 = xprelude/SATS/fixed32p32_sats.lo
-am__objects_11 = xprelude/DATS/fixed32p32_dats.lo
-am__objects_12 = fixed32p32_square_root_dats.lo \
+am__objects_9 = xprelude/SATS/fixed32p32_sats.lo
+am__objects_10 = xprelude/DATS/fixed32p32_dats.lo
+am__objects_11 = fixed32p32_square_root_dats.lo \
 	tostrptr_fixed32p32_dats.lo fixed32p32-implementations_dats.lo
-am__objects_13 = fixed32p32_multiplication.lo fixed32p32_division.lo
-am__objects_14 = gmp-support_dats.lo
-@WITH_GMP_TRUE@am__objects_15 = $(am__objects_14)
-am__objects_16 = xprelude/SATS/exrat_sats.lo
-am__objects_17 = xprelude/DATS/exrat_dats.lo
-am__objects_18 = exrat-support_dats.lo exrat-implementations_dats.lo
-@ENABLE_EXRAT_TRUE@am__objects_19 = $(am__objects_16) \
-@ENABLE_EXRAT_TRUE@	$(am__objects_17) $(am__objects_18)
-am__objects_20 = xprelude/SATS/bisection_iterator_sats.lo
-am__objects_21 = xprelude/DATS/bisection_iterator_dats.lo
-am__objects_22 = bisection_iterator-support_dats.lo
-@ENABLE_BISECTION_ITERATOR_TRUE@am__objects_23 = $(am__objects_20) \
-@ENABLE_BISECTION_ITERATOR_TRUE@	$(am__objects_21) \
-@ENABLE_BISECTION_ITERATOR_TRUE@	$(am__objects_22)
-am__objects_24 = xprelude/SATS/mpfr_sats.lo
-am__objects_25 = xprelude/DATS/mpfr_dats.lo
-am__objects_26 = mpfr-support_dats.lo mpfr-implementations_dats.lo
-@ENABLE_MPFR_TRUE@am__objects_27 = $(am__objects_24) $(am__objects_25) \
-@ENABLE_MPFR_TRUE@	$(am__objects_26)
-am__objects_28 = xprelude/SATS/sort_sats.lo
-am__objects_29 = xprelude/DATS/sort_dats.lo
+am__objects_12 = fixed32p32_multiplication.lo fixed32p32_division.lo
+am__objects_13 = gmp-support_dats.lo
+@WITH_GMP_TRUE@am__objects_14 = $(am__objects_13)
+am__objects_15 = xprelude/SATS/exrat_sats.lo
+am__objects_16 = xprelude/DATS/exrat_dats.lo
+am__objects_17 = exrat-support_dats.lo exrat-implementations_dats.lo
+@ENABLE_EXRAT_TRUE@am__objects_18 = $(am__objects_15) \
+@ENABLE_EXRAT_TRUE@	$(am__objects_16) $(am__objects_17)
+am__objects_19 = xprelude/SATS/bisection_iterator_sats.lo
+am__objects_20 = xprelude/DATS/bisection_iterator_dats.lo
+am__objects_21 = bisection_iterator-support_dats.lo
+@ENABLE_BISECTION_ITERATOR_TRUE@am__objects_22 = $(am__objects_19) \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(am__objects_20) \
+@ENABLE_BISECTION_ITERATOR_TRUE@	$(am__objects_21)
+am__objects_23 = xprelude/SATS/mpfr_sats.lo
+am__objects_24 = xprelude/DATS/mpfr_dats.lo
+am__objects_25 = mpfr-support_dats.lo mpfr-implementations_dats.lo
+@ENABLE_MPFR_TRUE@am__objects_26 = $(am__objects_23) $(am__objects_24) \
+@ENABLE_MPFR_TRUE@	$(am__objects_25)
+am__objects_27 = xprelude/SATS/sort_sats.lo
+am__objects_28 = xprelude/DATS/sort_dats.lo
 nodist_libats2_xprelude_la_OBJECTS = $(am__objects_1) $(am__objects_2) \
 	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
 	$(am__objects_6) $(am__objects_7) $(am__objects_8) \
 	$(am__objects_9) $(am__objects_10) $(am__objects_11) \
-	$(am__objects_12) $(am__objects_13) $(am__objects_15) \
-	$(am__objects_19) $(am__objects_23) $(am__objects_27) \
-	$(am__objects_28) $(am__objects_29)
+	$(am__objects_12) $(am__objects_14) $(am__objects_18) \
+	$(am__objects_22) $(am__objects_26) $(am__objects_27) \
+	$(am__objects_28)
 libats2_xprelude_la_OBJECTS = $(dist_libats2_xprelude_la_OBJECTS) \
 	$(nodist_libats2_xprelude_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -347,7 +346,7 @@ am__depfiles_remade = ./$(DEPDIR)/bisection_iterator-support_dats.Plo \
 	./$(DEPDIR)/float-implementations_dats.Plo \
 	./$(DEPDIR)/gmp-support_dats.Plo \
 	./$(DEPDIR)/integer-implementations_dats.Plo \
-	./$(DEPDIR)/ipow.Plo \
+	./$(DEPDIR)/ipow_dats.Plo \
 	./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po \
 	./$(DEPDIR)/mpfr-implementations_dats.Plo \
 	./$(DEPDIR)/mpfr-support_dats.Plo \
@@ -828,9 +827,8 @@ EXTRA_DIST = autogen.sh $(srcdir)/silent-rules.mk COPYING INSTALL \
 	README AUTHORS $(addsuffix .m4, $(XPRELUDE_HATS)) $(addsuffix \
 	.m4, $(ARITH_PRF_SRC)) $(addsuffix .m4, $(INTEGER_SRC)) \
 	$(addsuffix .m4, $(INTEGER_SUPPORT_DATS)) $(addsuffix .m4, \
-	$(INTEGER_SUPPORT_C)) $(addsuffix .m4, $(FLOAT_SRC) \
-	$(FLOAT_SUPPORT_DATS) float-strto.c) $(addsuffix .m4, \
-	$(FIXED32P32_SRC)) $(addsuffix .m4, \
+	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c) $(addsuffix \
+	.m4, $(FIXED32P32_SRC)) $(addsuffix .m4, \
 	$(FIXED32P32_SUPPORT_DATS)) $(addsuffix .m4, \
 	$(FIXED32P32_SUPPORT_C)) $(addsuffix .m4, $(GMP_SUPPORT_DATS)) \
 	$(addsuffix .m4, $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)) \
@@ -845,22 +843,21 @@ EXTRA_DIST = autogen.sh $(srcdir)/silent-rules.mk COPYING INSTALL \
 	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
 CLEANFILES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
-	$(INTEGER_SUPPORT_DATS) $(INTEGER_SUPPORT_C) $(FLOAT_SRC) \
-	$(FLOAT_SUPPORT_DATS) float-strto.c $(FIXED32P32_SRC) \
-	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
-	$(GMP_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
-	$(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS) \
-	$(MPFR_SRC) $(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS) \
-	$(TESTS) list-ats-dependencies \
-	list-ats-dependencies_depsprog.c
+	$(INTEGER_SUPPORT_DATS) $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) \
+	float-strto.c $(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS) \
+	$(FIXED32P32_SUPPORT_C) $(GMP_SUPPORT_DATS) $(EXRAT_SRC) \
+	$(EXRAT_SUPPORT_DATS) $(BISECTION_ITERATOR_SRC) \
+	$(BISECTION_ITERATOR_SUPPORT_DATS) $(MPFR_SRC) \
+	$(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS) $(TESTS) \
+	list-ats-dependencies list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
-	$(INTEGER_SUPPORT_DATS) $(INTEGER_SUPPORT_C) $(FLOAT_SRC) \
-	$(FLOAT_SUPPORT_DATS) float-strto.c $(FIXED32P32_SRC) \
-	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
-	$(GMP_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
-	$(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS) \
-	$(MPFR_SRC) $(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
+	$(INTEGER_SUPPORT_DATS) $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) \
+	float-strto.c $(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS) \
+	$(FIXED32P32_SUPPORT_C) $(GMP_SUPPORT_DATS) $(EXRAT_SRC) \
+	$(EXRAT_SUPPORT_DATS) $(BISECTION_ITERATOR_SRC) \
+	$(BISECTION_ITERATOR_SUPPORT_DATS) $(MPFR_SRC) \
+	$(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS)
 
 #--------------------------------------------------------------------------
 AM_M4FLAGS = -DTOP_SRCDIR='$(top_srcdir)'
@@ -882,8 +879,8 @@ nobase_nodist_pkginclude_HEADERS = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) \
 dist_libats2_xprelude_la_SOURCES = 
 nodist_libats2_xprelude_la_SOURCES = $(ARITH_PRF_SATS_C) \
 	$(ARITH_PRF_DATS_C) $(INTEGER_SATS_C) $(INTEGER_DATS_C) \
-	$(INTEGER_SUPPORT_DATS_C) $(INTEGER_SUPPORT_C) $(FLOAT_SATS_C) \
-	$(FLOAT_DATS_C) $(FLOAT_SUPPORT_DATS_C) $(FIXED32P32_SATS_C) \
+	$(INTEGER_SUPPORT_DATS_C) $(FLOAT_SATS_C) $(FLOAT_DATS_C) \
+	$(FLOAT_SUPPORT_DATS_C) $(FIXED32P32_SATS_C) \
 	$(FIXED32P32_DATS_C) $(FIXED32P32_SUPPORT_DATS_C) \
 	$(FIXED32P32_SUPPORT_C) $(am__append_1) $(am__append_3) \
 	$(am__append_5) $(am__append_7) $(SORT_SATS_C) $(SORT_DATS_C)
@@ -918,9 +915,8 @@ INTEGER_DATS = xprelude/DATS/integer.dats
 INTEGER_CATS = xprelude/CATS/integer.cats
 INTEGER_SATS_C = xprelude/SATS/integer_sats.c
 INTEGER_DATS_C = xprelude/DATS/integer_dats.c
-INTEGER_SUPPORT_DATS = integer-implementations.dats
-INTEGER_SUPPORT_DATS_C = integer-implementations_dats.c
-INTEGER_SUPPORT_C = ipow.c
+INTEGER_SUPPORT_DATS = ipow.dats integer-implementations.dats
+INTEGER_SUPPORT_DATS_C = ipow_dats.c integer-implementations_dats.c
 INTEGER_SRC = $(INTEGER_SATS) $(INTEGER_DATS) $(INTEGER_CATS)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1288,7 +1284,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/float-implementations_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gmp-support_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/integer-implementations_dats.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipow.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipow_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpfr-implementations_dats.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpfr-support_dats.Plo@am__quote@ # am--include-marker
@@ -2074,7 +2070,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/float-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/gmp-support_dats.Plo
 	-rm -f ./$(DEPDIR)/integer-implementations_dats.Plo
-	-rm -f ./$(DEPDIR)/ipow.Plo
+	-rm -f ./$(DEPDIR)/ipow_dats.Plo
 	-rm -f ./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po
 	-rm -f ./$(DEPDIR)/mpfr-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/mpfr-support_dats.Plo
@@ -2164,7 +2160,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/float-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/gmp-support_dats.Plo
 	-rm -f ./$(DEPDIR)/integer-implementations_dats.Plo
-	-rm -f ./$(DEPDIR)/ipow.Plo
+	-rm -f ./$(DEPDIR)/ipow_dats.Plo
 	-rm -f ./$(DEPDIR)/list_ats_dependencies-list-ats-dependencies_depsprog.Po
 	-rm -f ./$(DEPDIR)/mpfr-implementations_dats.Plo
 	-rm -f ./$(DEPDIR)/mpfr-support_dats.Plo

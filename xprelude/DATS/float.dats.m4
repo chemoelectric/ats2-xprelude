@@ -1,4 +1,4 @@
-(*
+`(*
   Copyright © 2022, 2023 Barry Schwartz
 
   This program is free software: you can redistribute it and/or
@@ -14,7 +14,7 @@
   You should have received copies of the GNU General Public License
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
-*)
+*)'
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 (*------------------------------------------------------------------*)
 

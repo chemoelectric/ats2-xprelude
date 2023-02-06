@@ -1,4 +1,4 @@
-(*
+`(*
   Copyright © 2023 Barry Schwartz
 
   This program is free software: you can redistribute it and/or
@@ -14,7 +14,7 @@
   You should have received copies of the GNU General Public License
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
-*)
+*)'
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #define ATS_PACKNAME "ats2-xprelude.integer"
 #define ATS_EXTERN_PREFIX "my_extern_prefix"
@@ -438,6 +438,64 @@ fn g0uint_max_`'UINT : m4_g0uint_binary(UINT) = "mac#%"
 fn g1uint_max_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \max j) = "mac#%"
 
 ')dnl
+(*------------------------------------------------------------------*)
+(* Raising an integer to a non-negative integer power.
+
+  If the first argument is a g0uint, then the result will be the power
+  of the first argument, modulo the number of values that argument’s
+  type can represent.
+
+  Zero raised to the power zero equals one.
+
+ *)
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0int_ipow_guint :
+  (g0int tk1, g0uint tk2) -<> g0int tk1
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0int_ipow_gint :
+  (g0int tk1, g0int tk2) -<> g0int tk1
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0uint_ipow_guint :
+  (g0uint tk1, g0uint tk2) -<> g0uint tk1
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g0uint_ipow_gint :
+  (g0uint tk1, g0int tk2) -<> g0uint tk1
+
+m4_foreachq(`INT1',`conventional_intbases',
+`m4_foreachq(`UINT2',`conventional_uintbases',
+`fn g0int_ipow_`'INT1`'_`'UINT2 : $d2ctype (g0int_ipow_guint<intb2k(INT1)><uintb2k(UINT2)>) = "mac#%"
+')')
+
+m4_foreachq(`INT1',`conventional_intbases',
+`m4_foreachq(`INT2',`conventional_intbases',
+`fn g0int_ipow_`'INT1`'_`'INT2 : $d2ctype (g0int_ipow_gint<intb2k(INT1)><intb2k(INT2)>) = "mac#%"
+')')
+
+m4_foreachq(`UINT1',`conventional_uintbases',
+`m4_foreachq(`UINT2',`conventional_uintbases',
+`fn g0uint_ipow_`'UINT1`'_`'UINT2 : $d2ctype (g0uint_ipow_guint<uintb2k(UINT1)><uintb2k(UINT2)>) = "mac#%"
+')')
+
+m4_foreachq(`UINT1',`conventional_uintbases',
+`m4_foreachq(`INT2',`conventional_intbases',
+`fn g0uint_ipow_`'UINT1`'_`'INT2 : $d2ctype (g0uint_ipow_gint<uintb2k(UINT1)><intb2k(INT2)>) = "mac#%"
+')')
+
+overload g0int_ipow with g0int_ipow_gint
+overload g0int_ipow with g0int_ipow_guint
+overload g0uint_ipow with g0uint_ipow_gint
+overload g0uint_ipow with g0uint_ipow_guint
+
+overload ** with g0uint_ipow
+
 (*------------------------------------------------------------------*)
 (* ‘Counting trailing zeros’ of a positive number. *)
 

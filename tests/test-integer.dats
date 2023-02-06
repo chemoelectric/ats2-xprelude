@@ -1234,6 +1234,15 @@ test20 () : void =
       end
   end
 
+fn
+test21 () : void =
+  let
+    val () = println! (g0uint_ipow_uint_uint (5U, 3U))
+    val () = println! ((~2 ** 10))
+    val () = println! ((0 ** 0))
+  in
+  end
+
 implement
 main () =
   begin
@@ -1257,5 +1266,6 @@ main () =
     test18 ();
     test19 ();
     test20 ();
+    test21 ();
     0
   end

@@ -1,4 +1,4 @@
-(*
+`(*
   Copyright © 2023 Barry Schwartz
 
   This program is free software: you can redistribute it and/or
@@ -14,7 +14,7 @@
   You should have received copies of the GNU General Public License
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
-*)
+*)'
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #define ATS_DYNLOADFLAG 0
@@ -297,6 +297,29 @@ m4_foreachq(`N',`0,1',
 implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
 ')
 ')dnl
+
+(*------------------------------------------------------------------*)
+(* Raising an integer to a non-negative integer power. *)
+
+m4_foreachq(`INT1',`conventional_intbases',
+`m4_foreachq(`UINT2',`conventional_uintbases',
+`implement g0int_ipow_guint<intb2k(INT1)><uintb2k(UINT2)> = g0int_ipow_`'INT1`'_`'UINT2
+')')
+
+m4_foreachq(`INT1',`conventional_intbases',
+`m4_foreachq(`INT2',`conventional_intbases',
+`implement g0int_ipow_gint<intb2k(INT1)><intb2k(INT2)> = g0int_ipow_`'INT1`'_`'INT2
+')')
+
+m4_foreachq(`UINT1',`conventional_uintbases',
+`m4_foreachq(`UINT2',`conventional_uintbases',
+`implement g0uint_ipow_guint<intb2k(UINT1)><uintb2k(UINT2)> = g0uint_ipow_`'UINT1`'_`'UINT2
+')')
+
+m4_foreachq(`UINT1',`conventional_uintbases',
+`m4_foreachq(`INT2',`conventional_intbases',
+`implement g0uint_ipow_gint<intb2k(UINT1)><intb2k(INT2)> = g0uint_ipow_`'UINT1`'_`'INT2
+')')
 
 (*------------------------------------------------------------------*)
 (* Some of the more obscure bitwise operations. *)

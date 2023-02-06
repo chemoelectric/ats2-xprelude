@@ -1,4 +1,4 @@
-/*
+`/*
   Copyright © 2023 Barry Schwartz
 
   This program is free software: you can redistribute it and/or
@@ -14,7 +14,7 @@
   You should have received copies of the GNU General Public License
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
-*/
+*/'
 include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 #ifndef MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__
@@ -456,6 +456,35 @@ my_extern_prefix`'g`'N`'int_euclidrem_`'INT (intb2c(INT) n, intb2c(INT) d)
           (r0 + d));
 }
 ')
+')dnl
+
+/*------------------------------------------------------------------*/
+/* Raising an integer to a non-negative integer power. */
+
+m4_foreachq(`INT1',`conventional_intbases',
+`m4_foreachq(`UINT2',`conventional_uintbases',
+`intb2c(INT1) my_extern_prefix`'g0int_ipow_`'INT1`'_`'UINT2 (intb2c(INT1), uintb2c(UINT2));
+')dnl
+')dnl
+
+m4_foreachq(`UINT1',`conventional_uintbases',
+`m4_foreachq(`UINT2',`conventional_uintbases',
+`uintb2c(UINT1) my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'UINT2 (uintb2c(UINT1), uintb2c(UINT2));
+')dnl
+')dnl
+
+m4_foreachq(`INT1',`conventional_intbases',
+`m4_foreachq(`INT2',`conventional_intbases',
+`#define my_extern_prefix`'g0int_ipow_`'INT1`'_`'INT2`'(b, i)`'dnl
+ (my_extern_prefix`'g0uint_ipow_`'INT1`'_`'int2uintbase(INT2) ((b), ((uintb2c(int2uintbase(INT2))) (i))))
+')dnl
+')dnl
+
+m4_foreachq(`UINT1',`conventional_uintbases',
+`m4_foreachq(`INT2',`conventional_intbases',
+`#define my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'INT2`'(b, i)`'dnl
+ (my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'int2uintbase(INT2) ((b), ((uintb2c(int2uintbase(INT2))) (i))))
+')dnl
 ')dnl
 
 /*------------------------------------------------------------------*/
