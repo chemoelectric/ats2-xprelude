@@ -81,6 +81,8 @@ m4_define(`m4_toupper',
 dnl
 dnl  m4_popcount8(N) -- population count of a non-negative number of 8 or fewer bits.
 dnl
+dnl  An implementation without loops. See the references in the README file.
+dnl
 m4_define(`m4_popcount8',
 `m4_pushdef(`_x1_',`$1')`'dnl
 m4_pushdef(`_x2_',m4_eval(_x1_ - ((_x1_ >> 1) & 0x55)))`'dnl

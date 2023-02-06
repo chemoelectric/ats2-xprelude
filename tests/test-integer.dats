@@ -680,7 +680,61 @@ test16 () : void =
     val- true : Bool = ctz 7ULL = 0
     val- true : Bool = ctz 8ULL = 3
 
-    (* Test the fallback implementation. *)
+    (* Test lookup tables. *)
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 1) = 0
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 2) = 1
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 3) = 0
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 4) = 2
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 5) = 0
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 6) = 1
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 7) = 0
+    val- true : bool = g0int_ctz (g0int2int<intknd,int8knd> 8) = 3
+    val- true : bool = ctz (g0int2int<intknd,int8knd> 124) = 2
+    val- true : bool = ctz (g0int2int<intknd,int8knd> 125) = 0
+    val- true : bool = ctz (g0int2int<intknd,int8knd> 126) = 1
+    val- true : bool = ctz (g0int2int<intknd,int8knd> 127) = 0
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 1) = 0
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 2) = 1
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 3) = 0
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 4) = 2
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 5) = 0
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 6) = 1
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 7) = 0
+    val- true : bool = g0uint_ctz (g0int2uint<intknd,uint8knd> 8) = 3
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 124) = 2
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 125) = 0
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 126) = 1
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 127) = 0
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 252) = 2
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 253) = 0
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 254) = 1
+    val- true : bool = ctz (g0int2uint<intknd,uint8knd> 255) = 0
+    val- true : Bool = g1int_ctz (g1int2int<intknd,int8knd> 8) = 3
+    val- true : Bool = g1uint_ctz (g1int2uint<intknd,uint8knd> 8) = 3
+
+    (* Test fallback implementations. *)
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 1) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 2) = 1
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 3) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 4) = 2
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 5) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 6) = 1
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 7) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 8) = 3
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 16) = 4
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 32) = 5
+    val- true = $extfcall (int, "ats2_xprelude__ctz_intmax_fallback", g0int2int<intknd,intmaxknd> 64) = 6
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 1) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 2) = 1
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 3) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 4) = 2
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 5) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 6) = 1
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 7) = 0
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 8) = 3
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 16) = 4
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 32) = 5
+    val- true = $extfcall (int, "ats2_xprelude__ctz_uint32_fallback", g0int2uint<intknd,uint32knd> 64) = 6
     val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 1) = 0
     val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 2) = 1
     val- true = $extfcall (int, "ats2_xprelude__ctz_uint64_fallback", g0int2uint<intknd,uint64knd> 3) = 0

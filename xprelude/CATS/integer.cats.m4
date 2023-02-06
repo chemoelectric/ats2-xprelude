@@ -551,15 +551,102 @@ my_extern_prefix`'g`'N`'int_asr_`'INT (intb2c(INT) n, atstype_int i)
 /*------------------------------------------------------------------*/
 /* ‘Count trailing zeros’ of a positive number. */
 
+divert(-1)
+/* A lookup table for ‘count trailing zeros’ of integers of 8 bits or
+   fewer. This table gives a value of 0 if the index is 0. It is an
+   arbitrary value, chosen not to exceed the range [0..7]. */
+m4_define(`lookup_for_count_trailing_zeros',
+`"m4_forloop(`I',`0',m4_eval((1 << $1) - 1),
+`m4_if(m4_eval((I & 1) == 1),`1',`\0',
+       m4_eval((I & 2) == 2),`1',`\1',
+       m4_eval((I & 4) == 4),`1',`\2',
+       m4_eval((I & 8) == 8),`1',`\3',
+       m4_eval((I & 16) == 16),`1',`\4',
+       m4_eval((I & 32) == 32),`1',`\5',
+       m4_eval((I & 64) == 64),`1',`\6',
+       m4_eval((I & 128) == 128),`1',`\7',
+       `\0')')"')')
+divert`'dnl
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0int_ctz_int8 (intb2c(int8) n)
+{
+  return lookup_for_count_trailing_zeros(7)[n & 0x7F];
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'g0uint_ctz_uint8 (uintb2c(uint8) n)
+{
+  return lookup_for_count_trailing_zeros(8)[n];
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_ctz_uint32_fallback (uintb2c(uint64) n)
+{
+  /* De Bruijn bitscan with isolated LS1B. See the references in the
+     README file. */
+  return
+    "\0\1\34\2\35\16\30\3\36\26\24\17\31\21\4\10\37\33\15\27\25\23\20\7\32\14\22\6\13\5\12\11"
+    [(((n & ((~n) + 1)) * UINT32_C(0x077CB531)) >> 27) & UINT32_C(31)];
+}
+
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'_ctz_uint64_fallback (uintb2c(uint64) n)
 {
-  /* De Bruijn bitscan with separated LS1B. See
-     http://archive.today/iPXfa */
+  /* De Bruijn bitscan with separated LS1B. See the references in the
+     README file. */
   return
     "\0\57\1\70\60\33\2\74\71\61\51\45\34\20\3\75\66\72\43\64\62\52\25\54\46\40\35\27\21\13\4\76\56\67\32\73\50\44\17\65\42\63\24\53\37\26\12\55\31\47\16\41\23\36\11\30\15\22\10\14\7\6\5\77"
-    [((((uint64_t) n) ^ (((uint64_t) n) - 1)) * UINT64_C(0x03f79d71b4cb0a89)) >> 58];
+    [(((((uint64_t) n) ^ (((uint64_t) n) - 1)) * UINT64_C(0x03f79d71b4cb0a89)) >> 58) & UINT64_C(63)];
 }
+
+m4_foreachq(`UINT',`uintbases',
+`m4_if(UINT,`uint8',,
+      UINT,`uint16',
+`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_ctz_uint16_fallback (uintb2c(uint16) n)
+{
+  return my_extern_prefix`'_ctz_uint32_fallback ((uintb2c(uint32)) n);
+}
+',
+      UINT,`uint32',,
+      UINT,`uint64',,
+`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_ctz_`'UINT`'_fallback (uintb2c(UINT) n)
+{
+  intb2c(int) ctz_val;
+  if (sizeof n <= 32)
+    ctz_val = my_extern_prefix`'_ctz_uint32_fallback ((uintb2c(uint32)) n);
+  else if (sizeof n <= 64)
+    ctz_val = my_extern_prefix`'_ctz_uint64_fallback ((uintb2c(uint64)) n);
+  else
+    {
+      assert (n != 0);
+      ctz_val = 0;
+      while ((n & UINT64_C(0xFFFFFFFFFFFFFFFF)) == 0)
+        {
+          ctz_val += 64;
+          n = my_extern_prefix`'g0uint_lsr_`'UINT (n, 64);
+        }
+      ctz_val += my_extern_prefix`'_ctz_uint64_fallback ((uintb2c(uint64)) n);
+    }
+  return ctz_val;
+}
+')dnl
+')dnl
+
+m4_foreachq(`INT',`intbases',
+`m4_if(INT,`int8',,
+`
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'_ctz_`'INT`'_fallback (intb2c(INT) n)
+{
+  return my_extern_prefix`'_ctz_`'int2uintbase(INT)`'_fallback ((uintb2c(int2uintbase(INT))) n);
+}
+')dnl
+')dnl
 
 #if defined __GNUC__
 
@@ -581,17 +668,17 @@ my_extern_prefix`'g0uint_ctz_ullint (uintb2c(ullint) n)
   return __builtin_ctzll (n);
 }
 
-m4_foreachq(`INT',`sint, int, int8, int16, int32',
+m4_foreachq(`INT',`sint, int, int16, int32',
 `#define my_extern_prefix`'g0int_ctz_`'INT`'(n) (my_extern_prefix`'g0uint_ctz_uint ((uintb2c(uint)) (n)))
 ')dnl
 m4_foreachq(`INT',`lint',
 `#define my_extern_prefix`'g0int_ctz_`'INT`'(n) (my_extern_prefix`'g0uint_ctz_ulint ((uintb2c(ulint)) (n)))
 ')dnl
-m4_foreachq(`INT',`int64, llint, lint64, ssize, intptr, intmax',
+m4_foreachq(`INT',`int64, llint, ssize, intptr, intmax',
 `#define my_extern_prefix`'g0int_ctz_`'INT`'(n) (my_extern_prefix`'g0uint_ctz_ullint ((uintb2c(ullint)) (n)))
 ')dnl
 
-m4_foreachq(`UINT',`usint, uint8, uint16, uint32',
+m4_foreachq(`UINT',`usint, uint16, uint32',
 `#define my_extern_prefix`'g0uint_ctz_`'UINT`'(n) (my_extern_prefix`'g0uint_ctz_uint ((uintb2c(uint)) (n)))
 ')dnl
 m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
@@ -600,22 +687,18 @@ m4_foreachq(`UINT',`uint64, size, uintptr, uintmax',
 
 #else /* if not __GNUC__ */
 
-/* Use the ‘fallback’ routine. For small signed integers, one might
-   instead use ffs(3). */
-
-/* One can easily do away with this limitation, if necessary: */
-_Static_assert (sizeof (uintb2c(uintmax)) <= 64,
-                "the implementation of count trailing zeros "
-                "assumes integers do not exceed 64 bits in size");
-
 m4_foreachq(`INT',`intbases',
-`#define my_extern_prefix`'g0int_ctz_`'INT`'(n)`'dnl
- (my_extern_prefix`'_ctz_uint64_fallback ((uintb2c(uint)) (n)))
+`m4_if(INT,`int8',,
+`#define my_extern_prefix`'g0int_ctz_`'INT`'(n) dnl
+ (my_extern_prefix`'_ctz_`'INT`'_fallback ((n)))
+')dnl
 ')dnl
 
 m4_foreachq(`UINT',`uintbases',
-`#define my_extern_prefix`'g0uint_ctz_`'UINT`'(n)`'dnl
- (my_extern_prefix`'_ctz_uint64_fallback ((uintb2c(uint)) (n)))
+`m4_if(UINT,`uint8',,
+`#define my_extern_prefix`'g0uint_ctz_`'UINT`'(n) dnl
+ (my_extern_prefix`'_ctz_`'UINT`'_fallback ((n)))
+')dnl
 ')dnl
 
 #endif /* if not __GNUC__ */
