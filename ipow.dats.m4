@@ -46,14 +46,6 @@ staload "xprelude/SATS/integer.sats"
 
 divert(-1)
 
-`Eight bits of exponent is already more than enough for a power of two
-to overflow a uintmax on a typical machine (and an intmax would be
-allowed to raise a signal): '
-
-  m4_define(`NUM_BITS_PER_LOOP',`8')
-
-`Thus seldom will the exponent exceed eight bits.'
-
 `As an exercise, in handle_next_bit I avoid branches, although it
 seems to me that the more obvious implementation with a branch is
 likely to be faster on many machines: '
@@ -63,12 +55,7 @@ m4_define(`handle_next_bit',
   $1 *= $1;
 ')
 
-m4_define(`handle_n_bits_continuous',
-`m4_forloop(`I',`1',`$1',`
-handle_next_bit(`$2',`$3',`$4')')
-')
-
-m4_define(`handle_up_to_n_bits_final',
+m4_define(`handle_up_to_n_bits',
 `m4_forloop(`I',`2',`$1',`
 case m4_eval(($1) - I + 2):
 handle_next_bit(`$2',`$3',`$4')')
@@ -79,25 +66,110 @@ case 0:
   /* Do nothing. */ ;
 ')
 
-m4_define(`write_ipow_function',`
+m4_define(`write_ipow_function_actual_function',`
 $2
 my_extern_prefix`'g0$5int_ipow_$1_$3 ($2 base, $4 exponent)
 {
   $2 power = 1;
-  int last_set = my_extern_prefix`'g0uint_fls_$3 (exponent);
-  if (CHAR_BIT * sizeof exponent > NUM_BITS_PER_LOOP)
-    while (last_set > NUM_BITS_PER_LOOP)
-      {
-        handle_n_bits_continuous(NUM_BITS_PER_LOOP,`base',`exponent',`power')
-        last_set -= NUM_BITS_PER_LOOP;
-      }
-  switch (last_set)
+  switch (my_extern_prefix`'g0uint_fls_$3 (exponent))
     {
-      handle_up_to_n_bits_final(NUM_BITS_PER_LOOP,`base',`exponent',`power')
+      handle_up_to_n_bits(integer_bitsize($3),`base',`exponent',`power')
     }
   return power;
 }
-')dnl
+')
+
+m4_define(`write_ipow_function_calling_another',`
+$2
+my_extern_prefix`'g0$5int_ipow_$1_$3 ($2 base, $4 exponent)
+{
+  return my_extern_prefix`'g0$5int_ipow_$5int$6_uint$7 (base, exponent);
+}
+')
+
+m4_define(`write_ipow_function',
+`m4_if($1$3,`int8uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint8uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int16uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint16uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int32uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint32uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int64uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint64uint8',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+
+       $1$3,`int8uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`8',`32')',
+       $1$3,`uint8uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`8',`32')',
+       $1$3,`int16uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`16',`32')',
+       $1$3,`uint16uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`16',`32')',
+       $1$3,`int32uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`32')',
+       $1$3,`uint32uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`32')',
+       $1$3,`int64uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`32')',
+       $1$3,`uint64uint16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`32')',
+
+       $1$3,`int8uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint8uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int16uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint16uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int32uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint32uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int64uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint64uint32',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+
+       $1$3,`int8uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint8uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int16uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint16uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int32uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint32uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`int64uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+       $1$3,`uint64uint64',`write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')',
+
+       integer_bitsize($1)`:'integer_bitsize($3),`8:8',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`8',`8')',
+       integer_bitsize($1)`:'integer_bitsize($3),`16:8',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`16',`8')',
+       integer_bitsize($1)`:'integer_bitsize($3),`32:8',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`8')',
+       integer_bitsize($1)`:'integer_bitsize($3),`64:8',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`64',`8')',
+
+       integer_bitsize($1)`:'integer_bitsize($3),`8:16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`8',`32')',
+       integer_bitsize($1)`:'integer_bitsize($3),`16:16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`16',`32')',
+       integer_bitsize($1)`:'integer_bitsize($3),`32:16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`32')',
+       integer_bitsize($1)`:'integer_bitsize($3),`64:16',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`64',`32')',
+
+       integer_bitsize($1)`:'integer_bitsize($3),`8:32',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`8',`32')',
+       integer_bitsize($1)`:'integer_bitsize($3),`16:32',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`16',`32')',
+       integer_bitsize($1)`:'integer_bitsize($3),`32:32',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`32')',
+       integer_bitsize($1)`:'integer_bitsize($3),`64:32',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`64',`32')',
+
+       integer_bitsize($1)`:'integer_bitsize($3),`8:64',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`8',`64')',
+       integer_bitsize($1)`:'integer_bitsize($3),`16:64',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`16',`64')',
+       integer_bitsize($1)`:'integer_bitsize($3),`32:64',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`32',`64')',
+       integer_bitsize($1)`:'integer_bitsize($3),`64:64',
+          `write_ipow_function_calling_another(`$1',`$2',`$3',`$4',`$5',`64',`64')',
+
+       `write_ipow_function_actual_function(`$1',`$2',`$3',`$4',`$5')')dnl
+')
 
 divert`'dnl
 

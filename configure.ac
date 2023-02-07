@@ -239,6 +239,64 @@ if test x"${ac_cv_type__Decimal64}" = xyes; then
   fi
 fi
 
+AC_COMPUTE_INT([char_bit],[CHAR_BIT],[#include <limits.h>])
+AC_MSG_NOTICE([CHAR_BIT is ${char_bit}.])
+
+AC_CHECK_SIZEOF([short])
+AC_CHECK_SIZEOF([int])
+AC_CHECK_SIZEOF([long])
+AC_CHECK_SIZEOF([long long])
+AC_CHECK_SIZEOF([ssize_t])
+AC_CHECK_SIZEOF([intptr_t])
+AC_CHECK_SIZEOF([intmax_t])
+
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DBITSIZEOF_SINT="`expr ${char_bit} '*' ${ac_cv_sizeof_short}`
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DBITSIZEOF_INT="`expr ${char_bit} '*' ${ac_cv_sizeof_int}`
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DBITSIZEOF_LINT="`expr ${char_bit} '*' ${ac_cv_sizeof_long}`
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DBITSIZEOF_LLINT="`expr ${char_bit} '*' ${ac_cv_sizeof_long_long}`
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DBITSIZEOF_SSIZE="`expr ${char_bit} '*' ${ac_cv_sizeof_ssize_t}`
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DBITSIZEOF_INTPTR="`expr ${char_bit} '*' ${ac_cv_sizeof_intptr_t}`
+M4FLAGS="${M4FLAGS}${M4FLAGS+ }-DBITSIZEOF_INTMAX="`expr ${char_bit} '*' ${ac_cv_sizeof_intmax_t}`
+
+AC_CHECK_SIZEOF([unsigned short])
+AC_CHECK_SIZEOF([unsigned int])
+AC_CHECK_SIZEOF([unsigned long])
+AC_CHECK_SIZEOF([unsigned long long])
+AC_CHECK_SIZEOF([size_t])
+AC_CHECK_SIZEOF([uintptr_t])
+AC_CHECK_SIZEOF([uintmax_t])
+
+AC_CHECK_SIZEOF([int8_t])
+AC_CHECK_SIZEOF([uint8_t])
+AC_CHECK_SIZEOF([int16_t])
+AC_CHECK_SIZEOF([uint16_t])
+AC_CHECK_SIZEOF([int32_t])
+AC_CHECK_SIZEOF([uint32_t])
+AC_CHECK_SIZEOF([int64_t])
+AC_CHECK_SIZEOF([uint64_t])
+
+AC_MSG_CHECKING([if the integer sizes make sense to me])
+if test ${ac_cv_sizeof_short} != ${ac_cv_sizeof_unsigned_short} ||
+   test ${ac_cv_sizeof_int} != ${ac_cv_sizeof_unsigned_int} ||
+   test ${ac_cv_sizeof_long} != ${ac_cv_sizeof_unsigned_long} ||
+   test ${ac_cv_sizeof_long_long} != ${ac_cv_sizeof_unsigned_long_long} ||
+   test ${ac_cv_sizeof_ssize_t} != ${ac_cv_sizeof_size_t} ||
+   test ${ac_cv_sizeof_intptr_t} != ${ac_cv_sizeof_uintptr_t} ||
+   test ${ac_cv_sizeof_intmax_t} != ${ac_cv_sizeof_uintmax_t} ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_int8_t}` != 8 ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_uint8_t}` != 8 ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_int16_t}` != 16 ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_uint16_t}` != 16 ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_int32_t}` != 32 ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_uint32_t}` != 32 ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_int64_t}` != 64 ||
+   test `expr ${char_bit} '*' ${ac_cv_sizeof_uint64_t}` != 64; then
+  AC_MSG_RESULT([no])
+  AC_MSG_ERROR([The sizes of integers seem too strange for me to handle.])
+else
+  AC_MSG_RESULT([yes])
+fi
+
 #--------------------------------------------------------------------------
 #
 # Checks for library functions.

@@ -93,6 +93,7 @@ m4_define(`uintbases',
   `m4_shift(m4_foreachq(`X',`intbases',`,int2uintbase(X)'))')
 
 m4_define(`int2uintbase',`m4_if($1,`ssize',`size',`u$1')')
+m4_define(`uint2intbase',`m4_if($1,`size',`ssize',`m4_substr($1,1)')')
 m4_define(`intb2k',`$1knd')
 m4_define(`uintb2k',`$1knd')
 m4_define(`intb2t',`m4_if($1,`ssize',`ssize_t',`$1')')
@@ -158,6 +159,33 @@ m4_define(`m4_g0int_to_int',`m4_g0int($1) -<> int')
 m4_define(`m4_g0uint_to_int',`m4_g0uint($1) -<> int')
 m4_define(`m4_g1int_to_int',`m4_g1int($1, $2) -<> [retval : int | retval == ($3)] int retval')
 m4_define(`m4_g1uint_to_int',`m4_g1uint($1, $2) -<> [retval : int | retval == ($3)] int retval')
+
+/* Platform-dependent information that should not go into the
+   installed headers, but instead should be used only for compiled
+   code: */
+m4_define(`integer_bitsize',
+`m4_if($1,`sint',BITSIZEOF_SINT,
+       $1,`usint',BITSIZEOF_SINT,
+       $1,`int',BITSIZEOF_INT,
+       $1,`uint',BITSIZEOF_INT,
+       $1,`lint',BITSIZEOF_LINT,
+       $1,`ulint',BITSIZEOF_LINT,
+       $1,`llint',BITSIZEOF_LLINT,
+       $1,`ullint',BITSIZEOF_LLINT,
+       $1,`int8',`8',
+       $1,`uint8',`8',
+       $1,`int16',`16',
+       $1,`uint16',`16',
+       $1,`int32',`32',
+       $1,`uint32',`32',
+       $1,`int64',`64',
+       $1,`uint64',`64',
+       $1,`ssize',BITSIZEOF_SSIZE,
+       $1,`size',BITSIZEOF_SSIZE,
+       $1,`intptr',BITSIZEOF_INTPTR,
+       $1,`uintptr',BITSIZEOF_INTPTR,
+       $1,`intmax',BITSIZEOF_INTMAX,
+       $1,`uintmax',BITSIZEOF_INTMAX)')
 
 /*------------------------------------------------------------------*/
 /* Floating point kinds. */
