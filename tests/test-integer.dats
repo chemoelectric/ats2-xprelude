@@ -1240,6 +1240,7 @@ test21 () : void =
     val () = println! (g0uint_ipow_uint_uint (5U, 3U))
     val () = println! ((~2) ** 10)
     val () = println! (0UL ** 0)
+    val () = println! (0U ** 0U)
     val () = println! ((~1) ** 20000U)
     val () = println! ((~1) ** 1001)
   in

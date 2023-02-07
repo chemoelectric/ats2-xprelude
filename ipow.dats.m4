@@ -73,8 +73,7 @@ m4_define(`write_ipow_calculation_in_simplest_form',
     {
       handle_up_to_n_bits(integer_bitsize($3),`base',`exponent',`power')
     }
-  return power;
-')
+  return power;')
 
 m4_define(`write_ipow_function_actual_function',`
 $2
@@ -100,8 +99,7 @@ m4_if($5,`u',`write_ipow_calculation_in_simplest_form(`$1',`$2',`$3',`$4',`$5')'
     power = 1 - (exponent & 1);
   else /* base == -1 */
     power = 1 - (2 * (exponent & 1));
-  return power;
-')
+  return power;')
 }
 ')
 

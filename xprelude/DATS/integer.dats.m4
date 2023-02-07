@@ -301,6 +301,130 @@ implement g`'N`'int_euclidrem<intb2k(INT)> = g`'N`'int_euclidrem_`'INT
 (*------------------------------------------------------------------*)
 (* Raising an integer to a non-negative integer power. *)
 
+implement {tk1} {tk2}
+g0int_ipow_guint (b, i) =
+  $effmask_wrt
+  let
+    val i = g1ofg0 i
+    prval [i : int] EQINT () = eqint_make_guint i
+
+    val last_set = fls i
+    prval [last_set : int] EQINT () = eqint_make_gint last_set
+    prval () = lemma_fls_isnat {i} ()
+
+    var j : intGte 0
+    var power : g0int tk1 = g0i2i 1
+    var base : g0int tk1 = b
+    var exponent : g0uint tk2 = i
+  in
+    for* {j : nat | j <= last_set}
+         .<last_set - j>.
+         (j : int j) =>
+      (j := 0; j <> last_set; j := succ j)
+        let
+          val exponent_halved = half exponent
+        in
+          if exponent_halved + exponent_halved <> exponent then
+            power := power * base;
+          exponent := exponent_halved;
+          base := base * base
+        end;
+    power
+  end
+
+implement {tk1} {tk2}
+g0int_ipow_gint (b, i) =
+  $effmask_wrt
+  let
+    prval [i : int] EQINT () = eqint_make_gint i
+    prval () = prop_verify {0 <= i} ()
+
+    val last_set = fls i
+    prval [last_set : int] EQINT () = eqint_make_gint last_set
+    prval () = lemma_fls_isnat {i} ()
+
+    var j : intGte 0
+    var power : g0int tk1 = g0i2i 1
+    var base : g0int tk1 = b
+    var exponent : [expnt : nat] g1int (tk2, expnt) = i
+  in
+    for* {j : nat | j <= last_set}
+         .<last_set - j>.
+         (j : int j) =>
+      (j := 0; j <> last_set; j := succ j)
+        let
+          val exponent_halved = half exponent
+        in
+          if exponent_halved + exponent_halved <> exponent then
+            power := power * base;
+          exponent := exponent_halved;
+          base := base * base
+        end;
+    power
+  end
+
+implement {tk1} {tk2}
+g0uint_ipow_guint (b, i) =
+  $effmask_wrt
+  let
+    val i = g1ofg0 i
+    prval [i : int] EQINT () = eqint_make_guint i
+
+    val last_set = fls i
+    prval [last_set : int] EQINT () = eqint_make_gint last_set
+    prval () = lemma_fls_isnat {i} ()
+
+    var j : intGte 0
+    var power : g0uint tk1 = g0i2u 1
+    var base : g0uint tk1 = b
+    var exponent : g0uint tk2 = i
+  in
+    for* {j : nat | j <= last_set}
+         .<last_set - j>.
+         (j : int j) =>
+      (j := 0; j <> last_set; j := succ j)
+        let
+          val exponent_halved = half exponent
+        in
+          if exponent_halved + exponent_halved <> exponent then
+            power := power * base;
+          exponent := exponent_halved;
+          base := base * base
+        end;
+    power
+  end
+
+implement {tk1} {tk2}
+g0uint_ipow_gint (b, i) =
+  $effmask_wrt
+  let
+    prval [i : int] EQINT () = eqint_make_gint i
+    prval () = prop_verify {0 <= i} ()
+
+    val last_set = fls i
+    prval [last_set : int] EQINT () = eqint_make_gint last_set
+    prval () = lemma_fls_isnat {i} ()
+
+    var j : intGte 0
+    var power : g0uint tk1 = g0i2u 1
+    var base : g0uint tk1 = b
+    var exponent : [expnt : nat] g1int (tk2, expnt) = i
+  in
+    for* {j : nat | j <= last_set}
+         .<last_set - j>.
+         (j : int j) =>
+      (j := 0; j <> last_set; j := succ j)
+        let
+          val exponent_halved = half exponent
+        in
+          if exponent_halved + exponent_halved <> exponent then
+            power := power * base;
+          exponent := exponent_halved;
+          base := base * base
+        end;
+    power
+  end
+
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',
 `implement g0int_ipow_guint<intb2k(INT1)><uintb2k(UINT2)> = g0int_ipow_`'INT1`'_`'UINT2
@@ -320,11 +444,6 @@ m4_foreachq(`UINT1',`conventional_uintbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `implement g0uint_ipow_gint<intb2k(UINT1)><intb2k(INT2)> = g0uint_ipow_`'UINT1`'_`'INT2
 ')')
-
-(* Provide optimized (one hopes) implementations of g0int_npow. *)
-m4_foreachq(`INT1',`conventional_intbases',
-`implement g0int_npow<intb2k(INT1)> (b, i) = g0int_ipow_gint<intb2k(INT1)><intknd> (b, i)
-')dnl
 
 (*------------------------------------------------------------------*)
 (* Some of the more obscure bitwise operations. *)
