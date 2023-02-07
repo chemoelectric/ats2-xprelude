@@ -42,6 +42,7 @@ staload "xprelude/SATS/integer.sats"
 
 %{^
 
+#include <assert.h>
 #include <limits.h>
 
 divert(-1)
@@ -66,16 +67,41 @@ case 0:
   /* Do nothing. */ ;
 ')
 
-m4_define(`write_ipow_function_actual_function',`
-$2
-my_extern_prefix`'g0$5int_ipow_$1_$3 ($2 base, $4 exponent)
-{
-  $2 power = 1;
+m4_define(`write_ipow_calculation_in_simpest_form',
+`  $2 power = 1;
   switch (my_extern_prefix`'g0uint_fls_$3 (exponent))
     {
       handle_up_to_n_bits(integer_bitsize($3),`base',`exponent',`power')
     }
   return power;
+')
+
+m4_define(`write_ipow_function_actual_function',`
+$2
+my_extern_prefix`'g0$5int_ipow_$1_$3 ($2 base, $4 exponent)
+{
+m4_if($5,`u',`write_ipow_calculation_in_simpest_form(`$1',`$2',`$3',`$4',`$5')',
+      m4_eval(integer_bitsize($3) <= 8),`1',`write_ipow_calculation_in_simpest_form(`$1',`$2',`$3',`$4',`$5')',
+      m4_eval(256 < integer_bitsize($1)),`1',`write_ipow_calculation_in_simpest_form(`$1',`$2',`$3',`$4',`$5')',
+`  $2 power;
+  if ((base < -1) | (1 < base))
+    {
+      /* Any exponent larger than uint8 is going to cause a signed
+         integer to overflow, so ignore any bits left of the least
+         significant byte. The result would have been ‘undefined’,
+         anyway, and possibly the calculation would have raised a
+         signal. (Only UNSIGNED integers are guaranteed by C to ‘wrap
+         around’ on overflow.) */
+      power = my_extern_prefix`'g0$5int_ipow_$1_uint8 (base, (uint8_t) exponent);
+    }
+  else if (base == 1)
+    power = 1;
+  else if (base == 0)
+    power = 1 - (exponent & 1);
+  else /* base == -1 */
+    power = 1 - (2 * (exponent & 1));
+  return power;
+')
 }
 ')
 
