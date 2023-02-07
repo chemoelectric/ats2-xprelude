@@ -425,35 +425,58 @@ g0uint_ipow_gint (b, i) =
     power
   end
 
+implement {tk1} {tk2}
+g1int_ipow_guint (b, i) =
+  $UN.cast (g0int_ipow_guint<tk1><tk2> (b, i))
+
+implement {tk1} {tk2}
+g1int_ipow_gint (b, i) =
+  $UN.cast (g0int_ipow_gint<tk1><tk2> (b, i))
+
+implement {tk1} {tk2}
+g1uint_ipow_guint (b, i) =
+  $UN.cast (g0uint_ipow_guint<tk1><tk2> (b, i))
+
+implement {tk1} {tk2}
+g1uint_ipow_gint (b, i) =
+  $UN.cast (g0uint_ipow_gint<tk1><tk2> (b, i))
+
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',
 `implement g0int_ipow_guint<intb2k(INT1)><uintb2k(UINT2)> = g0int_ipow_`'INT1`'_`'UINT2
+implement g1int_ipow_guint<intb2k(INT1)><uintb2k(UINT2)> = g1int_ipow_`'INT1`'_`'UINT2
 ')')
 
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `implement g0int_ipow_gint<intb2k(INT1)><intb2k(INT2)> = g0int_ipow_`'INT1`'_`'INT2
+implement g1int_ipow_gint<intb2k(INT1)><intb2k(INT2)> = g1int_ipow_`'INT1`'_`'INT2
 ')')
 
 m4_foreachq(`UINT1',`conventional_uintbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',
 `implement g0uint_ipow_guint<intb2k(UINT1)><uintb2k(UINT2)> = g0uint_ipow_`'UINT1`'_`'UINT2
+implement g1uint_ipow_guint<intb2k(UINT1)><uintb2k(UINT2)> = g1uint_ipow_`'UINT1`'_`'UINT2
 ')')
 
 m4_foreachq(`UINT1',`conventional_uintbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `implement g0uint_ipow_gint<intb2k(UINT1)><intb2k(INT2)> = g0uint_ipow_`'UINT1`'_`'INT2
+implement g1uint_ipow_gint<intb2k(UINT1)><intb2k(INT2)> = g1uint_ipow_`'UINT1`'_`'INT2
 ')')
 
-(* We can now re-implement g0int_npow in terms of g0int_ipow_gint,
-   and so get the precompiled implementations.
-   //
-   //
-   WARNING: YOU MIGHT GET RESULTS DIFFERENT FROM WHAT THE PRELUDE’S
-   IMPLEMENTATION WOULD GIVE YOU. But the differences should occur
-   only in cases of signed-integer overflow.
-   //
-   // *)
+(*
+
+  We can now re-implement g0int_npow in terms of g0int_ipow_gint,
+  and so get the precompiled implementations.
+
+  // // // // // // // // // // // // // // // // // // // // // //
+  WARNING: YOU MIGHT GET RESULTS DIFFERENT FROM WHAT THE PRELUDE’S
+  IMPLEMENTATION WOULD GIVE YOU. But the differences should occur
+  only in cases of signed-integer overflow.
+  // // // // // // // // // // // // // // // // // // // // // //
+
+*)
 implement {tk} g0int_npow = g0int_ipow_gint<tk><intknd>
 
 (*------------------------------------------------------------------*)

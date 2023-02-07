@@ -445,9 +445,7 @@ fn g1uint_max_`'UINT : {i, j : int} m4_g1uint_binary(UINT, i, j, i \max j) = "ma
   of the first argument, modulo the number of values that argument’s
   type can represent.
 
-  Zero raised to the power zero equals one.
-
- *)
+  Zero raised to the power zero equals one. *)
 
 fn {tk1 : tkind}
    {tk2 : tkind}
@@ -469,34 +467,78 @@ fn {tk1 : tkind}
 g0uint_ipow_gint :
   (g0uint tk1, [i : nat] g1int (tk2, i)) -<> g0uint tk1
 
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g1int_ipow_guint :
+  {b : int}
+  {i : int}
+  (g1int (tk1, b), g1uint (tk2, i)) -<>
+    g1int (tk1, ipow_int_int (b, i))
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g1int_ipow_gint :  
+  {b : int}
+  {i : nat}
+  (g1int (tk1, b), g1int (tk2, i)) -<>
+    g1int (tk1, ipow_int_int (b, i))
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g1uint_ipow_guint :
+  {b : int}
+  {i : int}
+  (g1uint (tk1, b), g1uint (tk2, i)) -<>
+    g1uint (tk1, ipow_int_int (b, i))
+
+fn {tk1 : tkind}
+   {tk2 : tkind}
+g1uint_ipow_gint :  
+  {b : int}
+  {i : nat}
+  (g1uint (tk1, b), g1int (tk2, i)) -<>
+    g1uint (tk1, ipow_int_int (b, i))
+
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',
 `fn g0int_ipow_`'INT1`'_`'UINT2 : $d2ctype (g0int_ipow_guint<intb2k(INT1)><uintb2k(UINT2)>) = "mac#%"
+fn g1int_ipow_`'INT1`'_`'UINT2 : $d2ctype (g1int_ipow_guint<intb2k(INT1)><uintb2k(UINT2)>) = "mac#%"
 ')')
 
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `fn g0int_ipow_`'INT1`'_`'INT2 : $d2ctype (g0int_ipow_gint<intb2k(INT1)><intb2k(INT2)>) = "mac#%"
+fn g1int_ipow_`'INT1`'_`'INT2 : $d2ctype (g1int_ipow_gint<intb2k(INT1)><intb2k(INT2)>) = "mac#%"
 ')')
 
 m4_foreachq(`UINT1',`conventional_uintbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',
 `fn g0uint_ipow_`'UINT1`'_`'UINT2 : $d2ctype (g0uint_ipow_guint<uintb2k(UINT1)><uintb2k(UINT2)>) = "mac#%"
+fn g1uint_ipow_`'UINT1`'_`'UINT2 : $d2ctype (g1uint_ipow_guint<uintb2k(UINT1)><uintb2k(UINT2)>) = "mac#%"
 ')')
 
 m4_foreachq(`UINT1',`conventional_uintbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `fn g0uint_ipow_`'UINT1`'_`'INT2 : $d2ctype (g0uint_ipow_gint<uintb2k(UINT1)><intb2k(INT2)>) = "mac#%"
+fn g1uint_ipow_`'UINT1`'_`'INT2 : $d2ctype (g1uint_ipow_gint<uintb2k(UINT1)><intb2k(INT2)>) = "mac#%"
 ')')
 
 (* The overloads are given precedence higher than that of
    g0int_npow in the prelude. *)
+
 overload g0int_ipow with g0int_ipow_gint of 1
 overload g0int_ipow with g0int_ipow_guint of 1
 overload g0uint_ipow with g0uint_ipow_gint of 1
 overload g0uint_ipow with g0uint_ipow_guint of 1
 overload ** with g0int_ipow of 1
 overload ** with g0uint_ipow of 1
+
+overload g1int_ipow with g1int_ipow_gint of 2
+overload g1int_ipow with g1int_ipow_guint of 2
+overload g1uint_ipow with g1uint_ipow_gint of 2
+overload g1uint_ipow with g1uint_ipow_guint of 2
+overload ** with g1int_ipow of 2
+overload ** with g1uint_ipow of 2
 
 (*------------------------------------------------------------------*)
 (* ‘Counting trailing zeros’ of a positive number. *)

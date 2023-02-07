@@ -1268,12 +1268,104 @@ test21 () : void =
     val- true : bool = g0int_ipow_int_int (~1, 1234568) = 1
     val- true : bool = g0int_npow (~1, 1234568) = 1
 
-    val () = println! (g0uint_ipow_uint_uint (5U, 3U))
-    val () = println! ((~2) ** 10)
-    val () = println! (0UL ** 0)
-    val () = println! (0U ** 0U)
-    val () = println! ((~1) ** 20000U)
-    val () = println! ((~1) ** 1001)
+    val- true : Bool = g1int_ipow_int_uint (~5, 3U) = ~125
+    val- true : Bool = g1int_ipow_int_int (~5, 3) = ~125
+    val- true : Bool = g1uint_ipow_uint_uint (5U, 3U) = 125U
+    val- true : Bool = g1uint_ipow_uint_int (5U, 3) = 125U
+
+    val- true : Bool = g1int_ipow_int_uint (0, 3U) = 0
+    val- true : Bool = g1int_ipow_int_int (0, 3) = 0
+    val- true : Bool = g1uint_ipow_uint_uint (0U, 3U) = 0U
+    val- true : Bool = g1uint_ipow_uint_int (0U, 3) = 0U
+
+    val- true : Bool = g1int_ipow_int_uint (0, 0U) = 1
+    val- true : Bool = g1int_ipow_int_int (0, 0) = 1
+    val- true : Bool = g1uint_ipow_uint_uint (0U, 0U) = 1U
+    val- true : Bool = g1uint_ipow_uint_int (0U, 0) = 1U
+
+    val- true : Bool = g1int_ipow_int_uint (1, 1234567U) = 1
+    val- true : Bool = g1int_ipow_int_int (1, 1234567) = 1
+    val- true : Bool = g1uint_ipow_uint_uint (1U, 1234567U) = 1U
+    val- true : Bool = g1uint_ipow_uint_int (1U, 1234567) = 1U
+
+    val- true : Bool = g1int_ipow_int_uint (~1, 1234567U) = ~1
+    val- true : Bool = g1int_ipow_int_int (~1, 1234567) = ~1
+    val- true : Bool = g1int_ipow_int_uint (~1, 1234568U) = 1
+    val- true : Bool = g1int_ipow_int_int (~1, 1234568) = 1
+
+    val- true : bool = ((~2) ** 10) = 1024
+    val- true : bool = ((~2) ** 11) = ~2048
+    val- true : bool = ((~2LL) ** 10L) = 1024
+    val- true : bool = ((~2L) ** 11LL) = ~2048
+    val- true : bool = ((~2L) ** 10ULL) = 1024L
+    val- true : bool = ((~2LL) ** 11UL) = ~2048LL
+    val- true : bool = ((2ULL) ** 10L) = 1024ULL
+    val- true : bool = ((2UL) ** 10LL) = 1024UL
+    val- true : bool = ((2ULL) ** 10UL) = 1024ULL
+    val- true : bool = ((2UL) ** 10LL) = 1024UL
+    val- true : bool = $extval (int8, "-5") ** $extval (int8 3, "3") = $extval (int8, "-125")
+    val- true : bool = $extval (uintmax, "3") ** $extval (int8 16, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (int16 16, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (int32 16, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (int64 16, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (intmax 16, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (int8, "-5") ** $extval (uint8, "3") = $extval (int8, "-125")
+    val- true : bool = $extval (uintmax, "3") ** $extval (uint8, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (uint16, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (uint32, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (uint64, "16") = $extval (uintmax, "43046721")
+    val- true : bool = $extval (uintmax, "3") ** $extval (uintmax, "16") = $extval (uintmax, "43046721")
+
+    val- true : Bool = ((~2) ** 10) = 1024
+    val- true : Bool = ((~2) ** 11) = ~2048
+    val- true : Bool = ((~2LL) ** 10L) = 1024
+    val- true : Bool = ((~2L) ** 11LL) = ~2048
+    val- true : Bool = ((~2L) ** 10ULL) = 1024L
+    val- true : Bool = ((~2LL) ** 11UL) = ~2048LL
+    val- true : Bool = ((2ULL) ** 10L) = 1024ULL
+    val- true : Bool = ((2UL) ** 10LL) = 1024UL
+    val- true : Bool = ((2ULL) ** 10UL) = 1024ULL
+    val- true : Bool = ((2UL) ** 10LL) = 1024UL
+    val- true : Bool = $extval (Int8, "-5") ** $extval (int8 3, "3") = $extval (Int8, "-125")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (int8 16, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (int16 16, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (int32 16, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (int64 16, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (intmax 16, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (Int8, "-5") ** $extval (uInt8, "3") = $extval (Int8, "-125")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (uInt8, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (uInt16, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (uInt32, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (uInt64, "16") = $extval (uIntmax, "43046721")
+    val- true : Bool = $extval (uIntmax, "3") ** $extval (uIntmax, "16") = $extval (uIntmax, "43046721")
+
+    val- true : bool = ((~1) ** 2000000) = 1
+    val- true : bool = ((~1) ** 2000001) = ~1
+    val- true : bool = (0 ** 0) = 1
+    val- true : bool = (0 ** 2000000) = 0
+    val- true : bool = (0 ** 2000001) = 0
+    val- true : bool = (1 ** 2000000) = 1
+    val- true : bool = (1 ** 2000001) = 1
+
+    val- true : bool = ((~1) ** 2000000U) = 1
+    val- true : bool = ((~1) ** 2000001U) = ~1
+    val- true : bool = (0 ** 0U) = 1
+    val- true : bool = (0 ** 2000000U) = 0
+    val- true : bool = (0 ** 2000001U) = 0
+    val- true : bool = (1 ** 2000000U) = 1
+    val- true : bool = (1 ** 2000001U) = 1
+
+    val- true : bool = (0U ** 0) = 1U
+    val- true : bool = (0U ** 2000000) = 0U
+    val- true : bool = (0U ** 2000001) = 0U
+    val- true : bool = (1U ** 2000000) = 1U
+    val- true : bool = (1U ** 2000001) = 1U
+
+    val- true : bool = (0U ** 0U) = 1U
+    val- true : bool = (0U ** 2000000U) = 0U
+    val- true : bool = (0U ** 2000001U) = 0U
+    val- true : bool = (1U ** 2000000U) = 1U
+    val- true : bool = (1U ** 2000001U) = 1U
   in
   end
 

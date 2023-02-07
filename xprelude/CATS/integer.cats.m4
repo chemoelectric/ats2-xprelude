@@ -464,12 +464,14 @@ my_extern_prefix`'g`'N`'int_euclidrem_`'INT (intb2c(INT) n, intb2c(INT) d)
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',
 `intb2c(INT1) my_extern_prefix`'g0int_ipow_`'INT1`'_`'UINT2 (intb2c(INT1), uintb2c(UINT2));
+#define my_extern_prefix`'g1int_ipow_`'INT1`'_`'UINT2 my_extern_prefix`'g0int_ipow_`'INT1`'_`'UINT2
 ')dnl
 ')dnl
 
 m4_foreachq(`UINT1',`conventional_uintbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',
 `uintb2c(UINT1) my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'UINT2 (uintb2c(UINT1), uintb2c(UINT2));
+#define my_extern_prefix`'g1uint_ipow_`'UINT1`'_`'UINT2 my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'UINT2
 ')dnl
 ')dnl
 
@@ -477,6 +479,7 @@ m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `#define my_extern_prefix`'g0int_ipow_`'INT1`'_`'INT2`'(b, i)`'dnl
  (my_extern_prefix`'g0int_ipow_`'INT1`'_`'int2uintbase(INT2) ((b), ((uintb2c(int2uintbase(INT2))) (i))))
+#define my_extern_prefix`'g1int_ipow_`'INT1`'_`'INT2 my_extern_prefix`'g0int_ipow_`'INT1`'_`'INT2
 ')dnl
 ')dnl
 
@@ -484,6 +487,7 @@ m4_foreachq(`UINT1',`conventional_uintbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `#define my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'INT2`'(b, i)`'dnl
  (my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'int2uintbase(INT2) ((b), ((uintb2c(int2uintbase(INT2))) (i))))
+#define my_extern_prefix`'g1uint_ipow_`'UINT1`'_`'INT2 my_extern_prefix`'g0uint_ipow_`'UINT1`'_`'INT2
 ')dnl
 ')dnl
 

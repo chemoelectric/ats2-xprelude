@@ -160,6 +160,26 @@ stacst signed_lor_int_int : (int, int) -> int
 stacst signed_lxor_int_int : (int, int) -> int
 
 (*------------------------------------------------------------------*)
+(* Powers. *)
+
+stacst ipow_int_int : (int, int) -> int
+
+praxi
+ipow_int_int_to_prop :
+  {b : int}
+  {i : nat}
+  () -<prf> EXP (b, i, ipow_int_int (b, i))
+
+praxi
+ipow_int_int_from_prop :
+  {b : int}
+  {i : nat}
+  {n : int}
+  EXP (b, i, n) -<prf>
+    [n == ipow_int_int (b, i)]
+    void
+
+(*------------------------------------------------------------------*)
 (* ‘Count trailing zeros’ of a positive number. *)
 
 stacst ctz_int : int -> int
