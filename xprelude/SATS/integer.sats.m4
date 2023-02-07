@@ -456,9 +456,8 @@ g0int_ipow_guint :
 
 fn {tk1 : tkind}
    {tk2 : tkind}
-g0int_ipow_gint :
-  {exponent : nat}
-  (g0int tk1, g1int (tk2, exponent)) -<> g0int tk1
+g0int_ipow_gint :  
+  (g0int tk1, [i : nat] g1int (tk2, i)) -<> g0int tk1
 
 fn {tk1 : tkind}
    {tk2 : tkind}
@@ -468,8 +467,7 @@ g0uint_ipow_guint :
 fn {tk1 : tkind}
    {tk2 : tkind}
 g0uint_ipow_gint :
-  {exponent : nat}
-  (g0uint tk1, g1int (tk2, exponent)) -<> g0uint tk1
+  (g0uint tk1, [i : nat] g1int (tk2, i)) -<> g0uint tk1
 
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',

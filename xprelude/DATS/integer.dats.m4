@@ -445,6 +445,17 @@ m4_foreachq(`UINT1',`conventional_uintbases',
 `implement g0uint_ipow_gint<intb2k(UINT1)><intb2k(INT2)> = g0uint_ipow_`'UINT1`'_`'INT2
 ')')
 
+(* We can now re-implement g0int_npow in terms of g0int_ipow_gint,
+   and so get the precompiled implementations.
+   //
+   //
+   WARNING: YOU MIGHT GET RESULTS DIFFERENT FROM WHAT THE PRELUDE’S
+   IMPLEMENTATION WOULD GIVE YOU. But the differences should occur
+   only in cases of signed-integer overflow.
+   //
+   // *)
+implement {tk} g0int_npow = g0int_ipow_gint<tk><intknd>
+
 (*------------------------------------------------------------------*)
 (* Some of the more obscure bitwise operations. *)
 
