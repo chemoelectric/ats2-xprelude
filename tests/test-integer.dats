@@ -1238,8 +1238,10 @@ fn
 test21 () : void =
   let
     val () = println! (g0uint_ipow_uint_uint (5U, 3U))
-    val () = println! ((~2 ** 10))
-    val () = println! ((0 ** 0))
+    val () = println! ((~2) ** 10)
+    val () = println! (0UL ** 0)
+    val () = println! ((~1) ** 20000U)
+    val () = println! ((~1) ** 1001)
   in
   end
 

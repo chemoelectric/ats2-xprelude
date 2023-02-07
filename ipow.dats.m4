@@ -42,15 +42,23 @@ staload "xprelude/SATS/integer.sats"
 
 %{^
 
-#include <assert.h>
 #include <limits.h>
 
 divert(-1)
 
-m4_define(`NUM_BITS_PER_LOOP',`8')
+`Eight bits of exponent is already more than enough for a power of two
+to overflow a uintmax on a typical machine (and an intmax would be
+allowed to raise a signal): '
 
+  m4_define(`NUM_BITS_PER_LOOP',`8')
+
+`Thus seldom will the exponent exceed eight bits.'
+
+`As an exercise, in handle_next_bit I avoid branches, although it
+seems to me that the more obvious implementation with a branch is
+likely to be faster on many machines: '
 m4_define(`handle_next_bit',
-`  $3 *= ($2 & 1) * $1;
+`  $3 *= (1 - ($2 & 1)) + (($2 & 1) * $1);
   $2 >>= 1;
   $1 *= $1;
 ')
@@ -73,9 +81,8 @@ case 0:
 
 m4_define(`write_ipow_function',`
 $2
-my_extern_prefix`'g0uint_ipow_$1_$3 ($2 base, $4 exponent)
+my_extern_prefix`'g0$5int_ipow_$1_$3 ($2 base, $4 exponent)
 {
-  assert (0 <= exponent);
   $2 power = 1;
   int last_set = my_extern_prefix`'g0uint_fls_$3 (exponent);
   if (CHAR_BIT * sizeof exponent > NUM_BITS_PER_LOOP)
@@ -102,7 +109,7 @@ write_ipow_function(UINT1, uintb2c(UINT1), UINT2, uintb2c(UINT2), `u')
 
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`UINT2',`conventional_uintbases',`
-write_ipow_function(INT1, intb2c(INT1), UINT2, uintb2c(UINT2), `u')
+write_ipow_function(INT1, intb2c(INT1), UINT2, uintb2c(UINT2), `')
 ')dnl
 ')dnl
 

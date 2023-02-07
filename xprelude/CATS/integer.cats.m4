@@ -476,7 +476,7 @@ m4_foreachq(`UINT1',`conventional_uintbases',
 m4_foreachq(`INT1',`conventional_intbases',
 `m4_foreachq(`INT2',`conventional_intbases',
 `#define my_extern_prefix`'g0int_ipow_`'INT1`'_`'INT2`'(b, i)`'dnl
- (my_extern_prefix`'g0uint_ipow_`'INT1`'_`'int2uintbase(INT2) ((b), ((uintb2c(int2uintbase(INT2))) (i))))
+ (my_extern_prefix`'g0int_ipow_`'INT1`'_`'int2uintbase(INT2) ((b), ((uintb2c(int2uintbase(INT2))) (i))))
 ')dnl
 ')dnl
 
