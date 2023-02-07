@@ -12,6 +12,9 @@ Extensions to, and bugfixes for, the ATS2 prelude.
     - I have tightened the postconditions of g1 versions of mod and
       nmod.
 
+    - I have expanded the set of integer power routines, and
+      pre-compile versions that are loop-free.
+
     - I have added ‘true Euclidean division’ of signed integers,
       where the remainder is always non-negative.
 
@@ -55,9 +58,6 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 * Sorting, with algorithms selectable via -DATS flag.
 
 ---
-
-* Possible future feature: integer ‘ipow’. I have often found myself
-  using such a function. (I am working on one right now.)
 
 * Possible future feature: bigint type, using GMP. One would get this
   at the same time as exact rationals.
