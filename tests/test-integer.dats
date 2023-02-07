@@ -1237,6 +1237,31 @@ test20 () : void =
 fn
 test21 () : void =
   let
+    val- true : bool = g0int_ipow_int_uint (~5, 3U) = ~125
+    val- true : bool = g0int_ipow_int_int (~5, 3) = ~125
+    val- true : bool = g0uint_ipow_uint_uint (5U, 3U) = 125U
+    val- true : bool = g0uint_ipow_uint_int (5U, 3) = 125U
+
+    val- true : bool = g0int_ipow_int_uint (0, 3U) = 0
+    val- true : bool = g0int_ipow_int_int (0, 3) = 0
+    val- true : bool = g0uint_ipow_uint_uint (0U, 3U) = 0U
+    val- true : bool = g0uint_ipow_uint_int (0U, 3) = 0U
+
+    val- true : bool = g0int_ipow_int_uint (0, 0U) = 1
+    val- true : bool = g0int_ipow_int_int (0, 0) = 1
+    val- true : bool = g0uint_ipow_uint_uint (0U, 0U) = 1U
+    val- true : bool = g0uint_ipow_uint_int (0U, 0) = 1U
+
+    val- true : bool = g0int_ipow_int_uint (1, 1234567U) = 1
+    val- true : bool = g0int_ipow_int_int (1, 1234567) = 1
+    val- true : bool = g0uint_ipow_uint_uint (1U, 1234567U) = 1U
+    val- true : bool = g0uint_ipow_uint_int (1U, 1234567) = 1U
+
+    val- true : bool = g0int_ipow_int_uint (~1, 1234567U) = ~1
+    val- true : bool = g0int_ipow_int_int (~1, 1234567) = ~1
+    val- true : bool = g0int_ipow_int_uint (~1, 1234568U) = 1
+    val- true : bool = g0int_ipow_int_int (~1, 1234568) = 1
+
     val () = println! (g0uint_ipow_uint_uint (5U, 3U))
     val () = println! ((~2) ** 10)
     val () = println! (0UL ** 0)
