@@ -67,7 +67,7 @@ case 0:
   /* Do nothing. */ ;
 ')
 
-m4_define(`write_ipow_calculation_in_simpest_form',
+m4_define(`write_ipow_calculation_in_simplest_form',
 `  $2 power = 1;
   switch (my_extern_prefix`'g0uint_fls_$3 (exponent))
     {
@@ -80,9 +80,9 @@ m4_define(`write_ipow_function_actual_function',`
 $2
 my_extern_prefix`'g0$5int_ipow_$1_$3 ($2 base, $4 exponent)
 {
-m4_if($5,`u',`write_ipow_calculation_in_simpest_form(`$1',`$2',`$3',`$4',`$5')',
-      m4_eval(integer_bitsize($3) <= 8),`1',`write_ipow_calculation_in_simpest_form(`$1',`$2',`$3',`$4',`$5')',
-      m4_eval(256 < integer_bitsize($1)),`1',`write_ipow_calculation_in_simpest_form(`$1',`$2',`$3',`$4',`$5')',
+m4_if($5,`u',`write_ipow_calculation_in_simplest_form(`$1',`$2',`$3',`$4',`$5')',
+      m4_eval(integer_bitsize($3) <= 8),`1',`write_ipow_calculation_in_simplest_form(`$1',`$2',`$3',`$4',`$5')',
+      m4_eval(256 < integer_bitsize($1)),`1',`write_ipow_calculation_in_simplest_form(`$1',`$2',`$3',`$4',`$5')',
 `  $2 power;
   if ((base < -1) | (1 < base))
     {
