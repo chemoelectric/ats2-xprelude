@@ -321,6 +321,11 @@ m4_foreachq(`UINT1',`conventional_uintbases',
 `implement g0uint_ipow_gint<intb2k(UINT1)><intb2k(INT2)> = g0uint_ipow_`'UINT1`'_`'INT2
 ')')
 
+(* Provide optimized (one hopes) implementations of g0int_npow. *)
+m4_foreachq(`INT1',`conventional_intbases',
+`implement g0int_npow<intb2k(INT1)> (b, i) = g0int_ipow_gint<intb2k(INT1)><intknd> (b, i)
+')dnl
+
 (*------------------------------------------------------------------*)
 (* Some of the more obscure bitwise operations. *)
 
