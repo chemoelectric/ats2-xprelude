@@ -556,6 +556,13 @@ CLEANFILES += $(TESTS)
 
 #--------------------------------------------------------------------------
 #
+# Pkg-config support.
+#
+
+nodist_pkgconfig_DATA += ats2-xprelude.pc
+
+#--------------------------------------------------------------------------
+#
 # Computation of dependencies.
 #
 

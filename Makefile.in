@@ -33,7 +33,7 @@
 #
 
 # aminclude_static.am generated automatically by Autoconf
-# from AX_AM_MACROS_STATIC on Tue Feb  7 10:03:48 CST 2023
+# from AX_AM_MACROS_STATIC on Wed Feb  8 12:35:30 CST 2023
 
 
 
@@ -156,8 +156,9 @@ DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = list-ats-dependencies.dats common-macros.m4 \
-	ats2-xprelude-macros.m4 pats_ccomp_exception.h
+CONFIG_CLEAN_FILES = ats2-xprelude.pc list-ats-dependencies.dats \
+	common-macros.m4 ats2-xprelude-macros.m4 \
+	pats_ccomp_exception.h
 CONFIG_CLEAN_VPATH_FILES =
 @HAVE_FLOAT128_TRUE@am__EXEEXT_1 = tests/test-float128$(EXEEXT)
 @ENABLE_EXRAT_TRUE@am__EXEEXT_2 = tests/test-exrat$(EXEEXT)
@@ -613,7 +614,7 @@ TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
 am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(srcdir)/ats2-xprelude-macros.m4.in \
-	$(srcdir)/common-macros.m4.in \
+	$(srcdir)/ats2-xprelude.pc.in $(srcdir)/common-macros.m4.in \
 	$(srcdir)/list-ats-dependencies.dats.in \
 	$(srcdir)/pats_ccomp_exception.h.array \
 	$(top_srcdir)/aminclude_static.am \
@@ -886,7 +887,12 @@ nodist_libats2_xprelude_la_SOURCES = $(ARITH_PRF_SATS_C) \
 	$(FIXED32P32_SUPPORT_C) $(am__append_1) $(am__append_3) \
 	$(am__append_5) $(am__append_7) $(SORT_SATS_C) $(SORT_DATS_C)
 libats2_xprelude_la_LIBADD = 
-nodist_pkgconfig_DATA = 
+
+#--------------------------------------------------------------------------
+#
+# Pkg-config support.
+#
+nodist_pkgconfig_DATA = ats2-xprelude.pc
 CODE_COVERAGE_IGNORE_PATTERN = /usr/include/* /usr/include/*/* \
 	$(PATSHOME)/ccomp/runtime/* $(PATSHOME)/prelude/CATS/*
 TOTAL_M4FLAGS = $(AM_M4FLAGS) $(M4FLAGS) $(XM4FLAGS)
@@ -1064,6 +1070,8 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
+ats2-xprelude.pc: $(top_builddir)/config.status $(srcdir)/ats2-xprelude.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 list-ats-dependencies.dats: $(top_builddir)/config.status $(srcdir)/list-ats-dependencies.dats.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 common-macros.m4: $(top_builddir)/config.status $(srcdir)/common-macros.m4.in
