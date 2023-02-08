@@ -869,8 +869,8 @@ with_aix_soname
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
-enable_exrat
-enable_mpfr
+with_gmp
+with_mpfr
 with_ats2_timsort
 with_ats2_quicksorts
 enable_default_sorts
@@ -1549,11 +1549,6 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-exrat          enable garbage-collected exact rational types;
-                          requires https://gmplib.org [default=yes]
-  --enable-mpfr           enable garbage-collected multiple precision floating
-                          point types; requires https://www.mpfr.org and
-                          --enable-exrat=yes [default=yes]
   --enable-default-sorts=N,N,N,N
                           enable the given sorts as defaults; order is array
                           sort, array stable sort, list sort, list stable
@@ -1575,6 +1570,13 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
+  --with-gmp              link with GMP, enabling garbage-collected exact
+                          rational types; requires https://gmplib.org
+                          [default=yes]
+  --with-mpfr             link with MPFR, enabling garbage-collected multiple
+                          precision floating point types; requires
+                          https://www.mpfr.org and --with-gmp=yes
+                          [default=yes]
   --with-ats2-timsort     include support for ats2-timsort [default=yes]
   --with-ats2-quicksorts  include support for ats2-quicksorts [default=yes]
   --with-gcov=GCOV        use given GCOV for coverage (GCOV=gcov).
@@ -13267,35 +13269,39 @@ else
 fi
 
 
-# Check whether --enable-exrat was given.
-if test ${enable_exrat+y}
+
+# Check whether --with-gmp was given.
+if test ${with_gmp+y}
 then :
-  enableval=$enable_exrat;
+  withval=$with_gmp;
 else $as_nop
-  enable_exrat=yes
+  with_gmp=yes
 fi
 
-if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
-  as_fn_error $? "please specify --enable-exrat=yes or --enable-exrat=no" "$LINENO" 5
+if test x"${with_gmp}" != xyes && test x"${with_gmp}" != xno; then
+  as_fn_error $? "please specify --with-gmp=yes or --with-gmp=no" "$LINENO" 5
 fi
+enable_exrat="${with_gmp}"
 
 # We make MPFR support require exrat support, to simplify the
 # code. After all, exrat is GMP, and one needs GMP, anyway, if you are
 # using MPFR.
-# Check whether --enable-mpfr was given.
-if test ${enable_mpfr+y}
+
+# Check whether --with-mpfr was given.
+if test ${with_mpfr+y}
 then :
-  enableval=$enable_mpfr;
+  withval=$with_mpfr;
 else $as_nop
-  enable_mpfr=yes
+  with_mpfr=yes
 fi
 
-if test x"${enable_mpfr}" != xyes && test x"${enable_mpfr}" != xno; then
-  as_fn_error $? "please specify --enable-mpfr=yes or --enable-mpfr=no" "$LINENO" 5
+if test x"${with_mpfr}" != xyes && test x"${with_mpfr}" != xno; then
+  as_fn_error $? "please specify --with-mpfr=yes or --with-mpfr=no" "$LINENO" 5
 fi
-if test x"${enable_mpfr}" = xyes && test x"${enable_exrat}" = xno; then
-  as_fn_error $? "--enable-mpfr=yes requires --enable-exrat=yes" "$LINENO" 5
+if test x"${with_mpfr}" = xyes && test x"${with_exrat}" = xno; then
+  as_fn_error $? "--with-mpfr=yes requires --with-gmp=yes" "$LINENO" 5
 fi
+enable_mpfr="${with_mpfr}"
 
 
 # Check whether --with-ats2-timsort was given.

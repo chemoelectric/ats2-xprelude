@@ -63,33 +63,35 @@ AC_ARG_VAR([PATSOPTFLAGS],[ATS2 compiler (patsopt) flags])
 AM_CONDITIONAL([DEPENDENCY_TRACKING],
   [test x"${enable_dependency_tracking}" != xno])
 
-AC_ARG_ENABLE([exrat],
-  [AS_HELP_STRING([--enable-exrat],
-      [enable garbage-collected exact rational types;
+AC_ARG_WITH([gmp],
+  [AS_HELP_STRING([--with-gmp],
+      [link with GMP, enabling garbage-collected exact rational types;
         requires https://gmplib.org
         [default=yes]])],
   [],
-  [enable_exrat=yes])
-if test x"${enable_exrat}" != xyes && test x"${enable_exrat}" != xno; then
-  AC_MSG_ERROR([please specify --enable-exrat=yes or --enable-exrat=no])
+  [with_gmp=yes])
+if test x"${with_gmp}" != xyes && test x"${with_gmp}" != xno; then
+  AC_MSG_ERROR([please specify --with-gmp=yes or --with-gmp=no])
 fi
+enable_exrat="${with_gmp}"
 
 # We make MPFR support require exrat support, to simplify the
 # code. After all, exrat is GMP, and one needs GMP, anyway, if you are
 # using MPFR.
-AC_ARG_ENABLE([mpfr],
-  [AS_HELP_STRING([--enable-mpfr],
-      [enable garbage-collected multiple precision floating point types;
-        requires https://www.mpfr.org and --enable-exrat=yes
+AC_ARG_WITH([mpfr],
+  [AS_HELP_STRING([--with-mpfr],
+      [link with MPFR, enabling garbage-collected multiple precision floating point types;
+        requires https://www.mpfr.org and --with-gmp=yes
         [default=yes]])],
   [],
-  [enable_mpfr=yes])
-if test x"${enable_mpfr}" != xyes && test x"${enable_mpfr}" != xno; then
-  AC_MSG_ERROR([please specify --enable-mpfr=yes or --enable-mpfr=no])
+  [with_mpfr=yes])
+if test x"${with_mpfr}" != xyes && test x"${with_mpfr}" != xno; then
+  AC_MSG_ERROR([please specify --with-mpfr=yes or --with-mpfr=no])
 fi
-if test x"${enable_mpfr}" = xyes && test x"${enable_exrat}" = xno; then
-  AC_MSG_ERROR([--enable-mpfr=yes requires --enable-exrat=yes])
+if test x"${with_mpfr}" = xyes && test x"${with_exrat}" = xno; then
+  AC_MSG_ERROR([--with-mpfr=yes requires --with-gmp=yes])
 fi
+enable_mpfr="${with_mpfr}"
 
 AC_ARG_WITH([ats2-timsort],
   [AS_HELP_STRING([--with-ats2-timsort],
