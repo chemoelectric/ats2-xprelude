@@ -67,7 +67,14 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 
 * Possible future feature: C complex types, treated in ATS as floating
   point types. (I have done a demonstration, on Rosetta Code, of this
-  approach to complex numbers in ATS.)
+  approach to complex numbers in ATS.) ¶ If one were to choose this
+  option, there might also be optional support for libcerf.
+
+* Possible future feature: mpc support, for multiple precision complex
+  numbers.
+
+* Possible future (but quite unlikely) feature: mpfi support, for
+  interval arithmetic.
 
 ---
 
