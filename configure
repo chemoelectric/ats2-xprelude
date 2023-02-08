@@ -661,6 +661,7 @@ am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
 GNU_MAKE
+REQUIRED_PACKAGES
 GNU
 WITH_GMP_FALSE
 WITH_GMP_TRUE
@@ -16953,6 +16954,20 @@ fi
 # Automake. (By the way, you often can use ‘$(eval ...)’ as well, but
 # @GNU@ here may be better.)
 
+
+
+if test x"${enable_exrat}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }gmp"
+fi
+if test x"${enable_mpfr}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }mpfr"
+fi
+if test x"${with_ats2_timsort}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }ats2-timsort"
+fi
+if test x"${with_ats2_quicksorts}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }ats2-quicksorts"
+fi
 
 { :;
   { :;

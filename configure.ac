@@ -396,6 +396,20 @@ fi
 # @GNU@ here may be better.)
 AC_SUBST([GNU],[])
 
+AC_SUBST([REQUIRED_PACKAGES])
+if test x"${enable_exrat}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }gmp"
+fi
+if test x"${enable_mpfr}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }mpfr"
+fi
+if test x"${with_ats2_timsort}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }ats2-timsort"
+fi
+if test x"${with_ats2_quicksorts}" = xyes; then
+  REQUIRED_PACKAGES="${REQUIRED_PACKAGES}${REQUIRED_PACKAGES+ }ats2-quicksorts"
+fi
+
 StM_REQUIRE_GNU_MAKE_IN_PATH
 StM_CONFIG_MAKEFILES
 

@@ -22,5 +22,6 @@ PATSCCFLAGS="-IIATS ${pkgincludedir}"
 Name: ${package}
 Description: Extensions to the ATS2 prelude
 Version: ${version}
+Requires.private: @REQUIRED_PACKAGES@
 Libs: -L${libdir} -lats2-xprelude
 Cflags: ${CPPFLAGS}
