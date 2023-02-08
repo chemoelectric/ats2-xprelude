@@ -422,6 +422,7 @@ MPFR_SRC = $(MPFR_SATS) $(MPFR_DATS) $(MPFR_CATS)
 EXTRA_DIST += $(addsuffix .m4, $(MPFR_SRC) $(MPFR_SUPPORT_DATS))
 BUILT_SOURCES += $(MPFR_SRC) $(MPFR_SUPPORT_DATS)
 CLEANFILES += $(MPFR_SRC) $(MPFR_SUPPORT_DATS)
+CLEANFILES += tests/mpfr-fprint_val.out
 
 mpfr-implementations.dats: $(addsuffix .m4, $(MPFR_DATS))
 $(eval $(call make-compiling-implementations, mpfr-implementations.dats))

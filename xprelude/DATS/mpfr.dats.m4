@@ -302,6 +302,13 @@ if_not_COMPILING_IMPLEMENTATIONS(
 ')dnl
 
 (*------------------------------------------------------------------*)
+(* Generics. *)
+
+implement fprint_val<mpfr> = fprint_mpfr
+implement gequal_val_val<mpfr> = g0float_eq<floatt2k(mpfr)>
+implement gcompare_val_val<mpfr> = g0float_compare<floatt2k(mpfr)>
+
+(*------------------------------------------------------------------*)
 dnl
 dnl local variables:
 dnl mode: ATS

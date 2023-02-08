@@ -848,8 +848,9 @@ CLEANFILES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(FIXED32P32_SUPPORT_C) $(GMP_SUPPORT_DATS) $(EXRAT_SRC) \
 	$(EXRAT_SUPPORT_DATS) $(BISECTION_ITERATOR_SRC) \
 	$(BISECTION_ITERATOR_SUPPORT_DATS) $(MPFR_SRC) \
-	$(MPFR_SUPPORT_DATS) $(SORT_SRC) $(SORT_HATS) $(TESTS) \
-	list-ats-dependencies list-ats-dependencies_depsprog.c
+	$(MPFR_SUPPORT_DATS) tests/mpfr-fprint_val.out $(SORT_SRC) \
+	$(SORT_HATS) $(TESTS) list-ats-dependencies \
+	list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
 BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
 	$(INTEGER_SUPPORT_DATS) $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) \

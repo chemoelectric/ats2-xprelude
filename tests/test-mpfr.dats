@@ -889,6 +889,38 @@ test12 () : void =
   in
   end
 
+fn
+test13 () : void =
+  let
+    val- true = gequal_val_val<mpfr> (mpfr_make "123456", mpfr_make "123456")
+    val- false = gequal_val_val<mpfr> (mpfr_make "123456", mpfr_make "654321")
+
+    val- 1 = ~gcompare_val_val<mpfr> (mpfr_make "123456", mpfr_make "654321")
+    val- 0 = gcompare_val_val<mpfr> (mpfr_make "654321", mpfr_make "654321")
+    val- 1 = gcompare_val_val<mpfr> (mpfr_make "654321", mpfr_make "123456")
+
+    val outf = fileref_open_exn ("tests/mpfr-fprint_val.out", file_mode_w)
+    val () = fprint_val<mpfr> (outf, mpfr_make "654321")
+    val () = fileref_close outf
+    val inpf = fileref_open_exn ("tests/mpfr-fprint_val.out", file_mode_r)
+    val- true = fileref_getc inpf = char2int0 '6'
+    val- true = fileref_getc inpf = char2int0 '5'
+    val- true = fileref_getc inpf = char2int0 '4'
+    val- true = fileref_getc inpf = char2int0 '3'
+    val- true = fileref_getc inpf = char2int0 '2'
+    val- true = fileref_getc inpf = char2int0 '1'
+    val- true = fileref_getc inpf = char2int0 '.'
+    val- true = fileref_getc inpf = char2int0 '0'
+    val- true = fileref_getc inpf = char2int0 '0'
+    val- true = fileref_getc inpf = char2int0 '0'
+    val- true = fileref_getc inpf = char2int0 '0'
+    val- true = fileref_getc inpf = char2int0 '0'
+    val- true = fileref_getc inpf = char2int0 '0'
+    val- true = isltz (fileref_getc inpf)
+    val () = fileref_close outf
+  in
+  end
+
 implement
 main () =
   begin
@@ -904,5 +936,6 @@ main () =
     test10 ();
     test11 ();
     test12 ();
+    test13 ();
     0
   end
