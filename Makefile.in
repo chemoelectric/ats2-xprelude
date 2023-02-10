@@ -826,11 +826,12 @@ AUTOMAKE_OPTIONS = foreign subdir-objects -Wno-portability
 @CODE_COVERAGE_ENABLED_TRUE@code_coverage_sanitize = $(subst -,_,$(subst .,_,$(1)))
 @CODE_COVERAGE_ENABLED_TRUE@AM_DISTCHECK_CONFIGURE_FLAGS := $(AM_DISTCHECK_CONFIGURE_FLAGS) --disable-code-coverage
 EXTRA_DIST = autogen.sh $(srcdir)/silent-rules.mk COPYING INSTALL \
-	README AUTHORS $(addsuffix .m4, $(XPRELUDE_HATS)) $(addsuffix \
-	.m4, $(ARITH_PRF_SRC)) $(addsuffix .m4, $(INTEGER_SRC)) \
-	$(addsuffix .m4, $(INTEGER_SUPPORT_DATS)) $(addsuffix .m4, \
-	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c) $(addsuffix \
-	.m4, $(FIXED32P32_SRC)) $(addsuffix .m4, \
+	README AUTHORS $(addsuffix .m4, $(MISCELLANEOUS_CATS)) \
+	$(addsuffix .m4, $(XPRELUDE_HATS)) $(addsuffix .m4, \
+	$(ARITH_PRF_SRC)) $(addsuffix .m4, $(INTEGER_SRC)) $(addsuffix \
+	.m4, $(INTEGER_SUPPORT_DATS)) $(addsuffix .m4, $(FLOAT_SRC) \
+	$(FLOAT_SUPPORT_DATS) float-strto.c) $(addsuffix .m4, \
+	$(FIXED32P32_SRC)) $(addsuffix .m4, \
 	$(FIXED32P32_SUPPORT_DATS)) $(addsuffix .m4, \
 	$(FIXED32P32_SUPPORT_C)) $(addsuffix .m4, $(GMP_SUPPORT_DATS)) \
 	$(addsuffix .m4, $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS)) \
@@ -844,19 +845,20 @@ EXTRA_DIST = autogen.sh $(srcdir)/silent-rules.mk COPYING INSTALL \
 	tests/test-mpfr.dats tests/test-sort.dats \
 	list-ats-dependencies.dats
 MOSTLYCLEANFILES = 
-CLEANFILES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
-	$(INTEGER_SUPPORT_DATS) $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) \
-	float-strto.c $(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS) \
-	$(FIXED32P32_SUPPORT_C) $(GMP_SUPPORT_DATS) $(EXRAT_SRC) \
-	$(EXRAT_SUPPORT_DATS) $(BISECTION_ITERATOR_SRC) \
-	$(BISECTION_ITERATOR_SUPPORT_DATS) $(MPFR_SRC) \
-	$(MPFR_SUPPORT_DATS) tests/mpfr-fprint_val.out $(SORT_SRC) \
-	$(SORT_HATS) $(TESTS) list-ats-dependencies \
+CLEANFILES = $(MISCELLANEOUS_CATS) $(XPRELUDE_HATS) $(ARITH_PRF_SRC) \
+	$(INTEGER_SRC) $(INTEGER_SUPPORT_DATS) $(FLOAT_SRC) \
+	$(FLOAT_SUPPORT_DATS) float-strto.c $(FIXED32P32_SRC) \
+	$(FIXED32P32_SUPPORT_DATS) $(FIXED32P32_SUPPORT_C) \
+	$(GMP_SUPPORT_DATS) $(EXRAT_SRC) $(EXRAT_SUPPORT_DATS) \
+	$(BISECTION_ITERATOR_SRC) $(BISECTION_ITERATOR_SUPPORT_DATS) \
+	$(MPFR_SRC) $(MPFR_SUPPORT_DATS) tests/mpfr-fprint_val.out \
+	$(SORT_SRC) $(SORT_HATS) $(TESTS) list-ats-dependencies \
 	list-ats-dependencies_depsprog.c
 DISTCLEANFILES = Makefile GNUmakefile
-BUILT_SOURCES = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) \
-	$(INTEGER_SUPPORT_DATS) $(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) \
-	float-strto.c $(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS) \
+BUILT_SOURCES = $(MISCELLANEOUS_CATS) $(XPRELUDE_HATS) \
+	$(ARITH_PRF_SRC) $(INTEGER_SRC) $(INTEGER_SUPPORT_DATS) \
+	$(FLOAT_SRC) $(FLOAT_SUPPORT_DATS) float-strto.c \
+	$(FIXED32P32_SRC) $(FIXED32P32_SUPPORT_DATS) \
 	$(FIXED32P32_SUPPORT_C) $(GMP_SUPPORT_DATS) $(EXRAT_SRC) \
 	$(EXRAT_SUPPORT_DATS) $(BISECTION_ITERATOR_SRC) \
 	$(BISECTION_ITERATOR_SUPPORT_DATS) $(MPFR_SRC) \
@@ -876,9 +878,10 @@ LDADD = $(CODE_COVERAGE_LIBS)
 #
 lib_LTLIBRARIES = libats2-xprelude.la
 nobase_dist_pkginclude_HEADERS = 
-nobase_nodist_pkginclude_HEADERS = $(XPRELUDE_HATS) $(ARITH_PRF_SRC) \
-	$(INTEGER_SRC) $(FLOAT_SRC) $(FIXED32P32_SRC) $(am__append_2) \
-	$(am__append_4) $(am__append_6) $(SORT_SRC) $(SORT_HATS)
+nobase_nodist_pkginclude_HEADERS = $(MISCELLANEOUS_CATS) \
+	$(XPRELUDE_HATS) $(ARITH_PRF_SRC) $(INTEGER_SRC) $(FLOAT_SRC) \
+	$(FIXED32P32_SRC) $(am__append_2) $(am__append_4) \
+	$(am__append_6) $(SORT_SRC) $(SORT_HATS)
 dist_libats2_xprelude_la_SOURCES = 
 nodist_libats2_xprelude_la_SOURCES = $(ARITH_PRF_SATS_C) \
 	$(ARITH_PRF_DATS_C) $(INTEGER_SATS_C) $(INTEGER_DATS_C) \
@@ -905,6 +908,9 @@ AM_PATSOPTFLAGS = -IATS $(builddir) -IATS $(srcdir)
 TOTAL_PATSOPTFLAGS = $(AM_PATSOPTFLAGS) $(PATSOPTFLAGS) \
 	$(XPATSOPTFLAGS)
 TESTS_PATSOPTFLAGS = -IATS $(builddir)/tests -IATS $(srcdir)/tests
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+MISCELLANEOUS_CATS = xprelude/CATS/attributes.cats
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 XPRELUDE_HATS = xprelude/HATS/xprelude_sats.hats \

@@ -20,13 +20,10 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #ifndef MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__
 #define MY_EXTERN_PREFIX`'CATS__FLOAT_CATS__HEADER_GUARD__
 
-#ifndef my_extern_prefix`'inline
-#define my_extern_prefix`'inline ATSinline ()
-#endif
-
+#include <xprelude/CATS/attributes.cats>
+#include <xprelude/CATS/integer.cats>
 #include <float.h>
 #include <math.h>
-#include <xprelude/CATS/integer.cats>
 
 #ifndef my_extern_prefix`'boolc2ats
 #define my_extern_prefix`'boolc2ats(B) \
@@ -207,25 +204,25 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 m4_foreachq(`FLT1',`conventional_floattypes',
 `FLOAT_SUPPORT_CHECK(FLT1)
 
-my_extern_prefix`'inline atstype_int
+my_extern_prefix`'pure_inline atstype_int
 my_extern_prefix`'g0float_sgn_`'FLT1 (floatt2c(FLT1) x)
 {
   return (x > 0) - (x < 0);
 }
 
-my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_abs_`'FLT1 (floatt2c(FLT1) x)
 {
   return (x < 0) ? (-x) : (x);
 }
 
-my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_neg_`'FLT1 (floatt2c(FLT1) x)
 {
   return (-x);
 }
 
-my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_reciprocal_`'FLT1 (floatt2c(FLT1) x)
 {
   return (1 / x);
@@ -264,18 +261,18 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 m4_foreachq(`FLT1',`conventional_floattypes',
 `FLOAT_SUPPORT_CHECK(FLT1)
 m4_foreachq(`OP',`comparisons',
-`my_extern_prefix`'inline atstype_bool
+`my_extern_prefix`'pure_inline atstype_bool
 my_extern_prefix`'g0float_`'OP`'_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 {
   return my_extern_prefix`'boolc2ats (x ats_cmp_c(OP) y);
 }
-my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'pure_inline atstype_bool
 my_extern_prefix`'g0float_is`'OP`'z_`'FLT1 (floatt2c(FLT1) x)
 {
   return my_extern_prefix`'boolc2ats (x ats_cmp_c(OP) ((floatt2c(FLT1)) 0));
 }
 ')dnl
-my_extern_prefix`'inline atstype_int
+my_extern_prefix`'pure_inline atstype_int
 my_extern_prefix`'g0float_compare_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 {
   return (x > y) - (x < y);
@@ -289,12 +286,12 @@ END_FLOAT_SUPPORT_CHECK(FLT1)
 m4_foreachq(`FLT1',`conventional_floattypes',
 `
 FLOAT_SUPPORT_CHECK(FLT1)
-my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_succ_`'FLT1 (floatt2c(FLT1) x)
 {
   return (x + 1);
 }
-my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_pred_`'FLT1 (floatt2c(FLT1) x)
 {
   return (x - 1);
@@ -304,18 +301,18 @@ END_FLOAT_SUPPORT_CHECK(FLT1)
 
 m4_foreachq(`FLT1',`conventional_floattypes',`
 FLOAT_SUPPORT_CHECK(FLT1)
-my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_min_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 {
   return ((x < y) ? x : y);
 }
-my_extern_prefix`'inline floatt2c(FLT1)
+my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_max_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 {
   return ((x > y) ? x : y);
 }
 m4_foreachq(`OP',`add,sub,mul,div',
-`my_extern_prefix`'inline floatt2c(FLT1)
+`my_extern_prefix`'pure_inline floatt2c(FLT1)
 my_extern_prefix`'g0float_`'OP`'_`'FLT1 (floatt2c(FLT1) x, floatt2c(FLT1) y)
 {
   return (x ats_binop_c(OP) y);

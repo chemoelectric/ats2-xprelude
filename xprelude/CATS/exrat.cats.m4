@@ -22,10 +22,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 /*------------------------------------------------------------------*/
 
-#ifndef my_extern_prefix`'inline
-#define my_extern_prefix`'inline ATSinline ()
-#endif
-
+#include <xprelude/CATS/attributes.cats>
 #include <stdatomic.h>
 #include <stdlib.h>
 #include <stdio.h>

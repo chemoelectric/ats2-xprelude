@@ -182,6 +182,18 @@ lib_LTLIBRARIES += libats2-xprelude.la
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+MISCELLANEOUS_CATS =
+
+MISCELLANEOUS_CATS += xprelude/CATS/attributes.cats
+
+EXTRA_DIST += $(addsuffix .m4, $(MISCELLANEOUS_CATS))
+BUILT_SOURCES += $(MISCELLANEOUS_CATS) 
+CLEANFILES += $(MISCELLANEOUS_CATS)
+
+nobase_nodist_pkginclude_HEADERS += $(MISCELLANEOUS_CATS)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 XPRELUDE_HATS =
 
 XPRELUDE_HATS += xprelude/HATS/xprelude_sats.hats

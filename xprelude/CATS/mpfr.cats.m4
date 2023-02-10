@@ -20,10 +20,6 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #ifndef MY_EXTERN_PREFIX`'CATS__MPFR_CATS__HEADER_GUARD__
 #define MY_EXTERN_PREFIX`'CATS__MPFR_CATS__HEADER_GUARD__
 
-#ifndef my_extern_prefix`'inline
-#define my_extern_prefix`'inline ATSinline ()
-#endif
-
 FLOAT_SUPPORT_CHECK(`float128')
 #define MPFR_WANT_FLOAT128 1
 END_FLOAT_SUPPORT_CHECK(`float128')
@@ -34,6 +30,7 @@ FLOAT_SUPPORT_CHECK(`decimal128')
 END_FLOAT_SUPPORT_CHECK(`decimal128')
 END_FLOAT_SUPPORT_CHECK(`decimal64')
 
+#include <xprelude/CATS/attributes.cats>
 #include <stdatomic.h>
 #include <stdlib.h>
 #include <stdio.h>

@@ -35,7 +35,7 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 
 %{
 
-static void *
+my_extern_prefix`'function_malloc static void *
 my_extern_prefix`'gmp_support_malloc (size_t alloc_size)
 {
   return ATS_MALLOC (alloc_size);

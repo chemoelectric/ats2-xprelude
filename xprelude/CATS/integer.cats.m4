@@ -20,14 +20,11 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #ifndef MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__
 #define MY_EXTERN_PREFIX`'CATS__INTEGER_CATS__HEADER_GUARD__
 
+#include <xprelude/CATS/attributes.cats>
 #include <assert.h>
 #include <stdint.h>
 #include <`inttypes'.h>
 #include <limits.h>
-
-#ifndef my_extern_prefix`'inline
-#define my_extern_prefix`'inline ATSinline ()
-#endif
 
 #ifndef my_extern_prefix`'boolc2ats
 #define my_extern_prefix`'boolc2ats(B) \
