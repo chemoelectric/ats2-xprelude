@@ -193,7 +193,7 @@ fn {tki : tkind} g0float_div_2exp_exrat : (exrat, g0int tki) -<> exrat
 
 (*------------------------------------------------------------------*)
 (* Get either the numerator or denominator of an exrat. The result is
-   returned as an exrat with denominator 1. *)
+   returned as an exrat with denominator equal to 1. *)
 
 fn exrat_numerator : exrat -<> exrat = "mac#%"
 fn exrat_denominator : exrat -<> exrat = "mac#%"
@@ -203,14 +203,26 @@ fn exrat_denominator : exrat -<> exrat = "mac#%"
 
 fn exrat_is_integer : exrat -<> bool = "mac#%"
 
-(* Even and odd tests. These return false if the number is not an
-   integer. *)
-fn exrat_is_even : exrat -<> bool = "mac#%"
-fn exrat_is_odd : exrat -<> bool = "mac#%"
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* Operations on the numerators of exrats. These operations ignore the
+   denominators. Integer values are returned as exrat with denominator
+   equal to 1. *)
 
-(* Like the POSIX "ffs" function, but for the numerator of an
-   exrat. *)
-fn exrat_ffs : exrat -<> ulint = "mac#%"
+fn exrat_numerator_is_even : exrat -<> bool = "mac#%"
+fn exrat_numerator_is_odd : exrat -<> bool = "mac#%"
+fn exrat_numerator_is_perfect_power : exrat -<> bool = "mac#%"
+fn exrat_numerator_is_perfect_square : exrat -<> bool = "mac#%"
+
+(* ‘Find first set’: like the POSIX "ffs" function. *)
+fn exrat_numerator_ffs : exrat -<> ulint = "mac#%"
+
+(* Integer nth root. *)
+fn exrat_numerator_root : (exrat, ulint) -<> exrat = "mac#%"
+fn {} exrat_numerator_rootrem : (exrat, ulint) -<> @(exrat, exrat)
+
+(* Integer square root. *)
+fn exrat_numerator_sqrt : exrat -<> exrat = "mac#%"
+fn {} exrat_numerator_sqrtrem : exrat -<> @(exrat, exrat)
 
 (*------------------------------------------------------------------*)
 dnl

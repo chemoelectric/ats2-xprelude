@@ -29,6 +29,11 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include <gmp.h>
 #include <xprelude/CATS/fixed32p32.cats>
 
+#ifndef my_extern_prefix`'boolc2ats
+#define my_extern_prefix`'boolc2ats(B) \
+  ((B) ? (atsbool_true) : (atsbool_false))
+#endif
+
 /*------------------------------------------------------------------*/
 
 extern volatile atomic_int my_extern_prefix`'exrat_support_is_initialized;
@@ -143,20 +148,20 @@ floatt2c(exrat) my_extern_prefix`'g0float_max_exrat (floatt2c(exrat) x,
                                                      floatt2c(exrat) y);
 
 atstype_bool my_extern_prefix`'g0float_eq_exrat (floatt2c(exrat) x,
-                                             floatt2c(exrat) y);
+                                                 floatt2c(exrat) y);
 atstype_bool my_extern_prefix`'g0float_neq_exrat (floatt2c(exrat) x,
-                                              floatt2c(exrat) y);
+                                                  floatt2c(exrat) y);
 atstype_bool my_extern_prefix`'g0float_lt_exrat (floatt2c(exrat) x,
-                                             floatt2c(exrat) y);
+                                                 floatt2c(exrat) y);
 atstype_bool my_extern_prefix`'g0float_lte_exrat (floatt2c(exrat) x,
-                                              floatt2c(exrat) y);
+                                                  floatt2c(exrat) y);
 atstype_bool my_extern_prefix`'g0float_gt_exrat (floatt2c(exrat) x,
-                                             floatt2c(exrat) y);
+                                                 floatt2c(exrat) y);
 atstype_bool my_extern_prefix`'g0float_gte_exrat (floatt2c(exrat) x,
-                                              floatt2c(exrat) y);
+                                                  floatt2c(exrat) y);
 
 atstype_int my_extern_prefix`'g0float_compare_exrat (floatt2c(exrat) x,
-                                                 floatt2c(exrat) y);
+                                                     floatt2c(exrat) y);
 
 floatt2c(exrat) my_extern_prefix`'g0float_mul_exrat (floatt2c(exrat) x,
                                                      floatt2c(exrat) y);
@@ -183,40 +188,62 @@ floatt2c(exrat) my_extern_prefix`'g0float_npow_exrat (floatt2c(exrat) x,
                                                       atstype_int n);
 
 floatt2c(exrat) my_extern_prefix`'_g0float_intmax_pow_exrat (floatt2c(exrat) x,
-                                                      intb2c(intmax) n);
+                                                             intb2c(intmax) n);
 
-floatt2c(exrat) floatt2c(exrat)_numerator (floatt2c(exrat) x);
-floatt2c(exrat) floatt2c(exrat)_denominator (floatt2c(exrat) x);
+floatt2c(exrat) my_extern_prefix`'_g0float_mul_2exp_intmax_exrat (floatt2c(exrat),
+                                                                  intb2c(intmax));
+
+/*------------------------------------------------------------------*/
+/* Support for integers. */
+
+floatt2c(exrat) my_extern_prefix`'exrat_numerator (floatt2c(exrat) x);
+floatt2c(exrat) my_extern_prefix`'exrat_denominator (floatt2c(exrat) x);
 
 my_extern_prefix`'inline atstype_bool
-floatt2c(exrat)_is_integer (floatt2c(exrat) x)
+my_extern_prefix`'exrat_is_integer (floatt2c(exrat) x)
 {
   return (mpz_cmp_si (mpq_denref (x[0]), 1) == 0);
 }
 
 my_extern_prefix`'inline atstype_bool
-floatt2c(exrat)_is_even (floatt2c(exrat) x)
+my_extern_prefix`'exrat_numerator_is_even (floatt2c(exrat) x)
 {
-  return (mpz_cmp_si (mpq_denref (x[0]), 1) == 0
-          && mpz_tstbit (mpq_numref (x[0]), 0) == 0);
+  return my_extern_prefix`'boolc2ats (mpz_tstbit (mpq_numref (x[0]), 0) == 0);
 }
 
 my_extern_prefix`'inline atstype_bool
-floatt2c(exrat)_is_odd (floatt2c(exrat) x)
+my_extern_prefix`'exrat_numerator_is_odd (floatt2c(exrat) x)
 {
-  return (mpz_cmp_si (mpq_denref (x[0]), 1) == 0
-          && mpz_tstbit (mpq_numref (x[0]), 0) != 0);
+  return my_extern_prefix`'boolc2ats (mpz_tstbit (mpq_numref (x[0]), 0) != 0);
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'exrat_numerator_is_perfect_power (floatt2c(exrat) x)
+{
+  return my_extern_prefix`'boolc2ats (mpz_perfect_power_p (mpq_numref (x[0])));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'exrat_numerator_is_perfect_square (floatt2c(exrat) x)
+{
+  return my_extern_prefix`'boolc2ats (mpz_perfect_square_p (mpq_numref (x[0])));
 }
 
 my_extern_prefix`'inline atstype_ulint
-floatt2c(exrat)_ffs (floatt2c(exrat) x)
+my_extern_prefix`'exrat_numerator_ffs (floatt2c(exrat) x)
 {
   return ((mpz_sgn (mpq_numref (x[0])) == 0) ?
           (0) :
           (mpz_scan1 (mpq_numref (x[0]), 0) + 1));
 }
 
-floatt2c(exrat) my_extern_prefix`'_g0float_mul_2exp_intmax_exrat (floatt2c(exrat), intb2c(intmax));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_root (floatt2c(exrat), intb2c(ulint));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_sqrt (floatt2c(exrat));
+
+atsvoid_t0ype my_extern_prefix`'_exrat_numerator_rootrem (REF(exrat) q, REF(exrat) r,
+                                                 floatt2c(exrat) x, intb2c(ulint) n);
+atsvoid_t0ype my_extern_prefix`'_exrat_numerator_sqrtrem (REF(exrat) q, REF(exrat) r,
+                                                 floatt2c(exrat) x);
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */

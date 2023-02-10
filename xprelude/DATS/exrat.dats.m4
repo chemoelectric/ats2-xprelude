@@ -151,6 +151,37 @@ g0float_div_2exp<exratknd><intb2k(INT)> =
 
 ')dnl
 (*------------------------------------------------------------------*)
+(* Integer operations. *)
+
+implement {}
+exrat_numerator_rootrem (x, n) =
+  let
+    extern fn
+    _exrat_numerator_rootrem :
+      (&exrat >> _, &exrat >> _, exrat, ulint) -<> void = "mac#%"
+
+    var q : exrat = g0i2f 0
+    var r : exrat = g0i2f 0
+  in
+    _exrat_numerator_rootrem (q, r, x, n);
+    @(q, r)
+  end
+
+implement {}
+exrat_numerator_sqrtrem x =
+  let
+    extern fn
+    _exrat_numerator_sqrtrem :
+      (&exrat >> _, &exrat >> _, exrat) -<> void = "mac#%"
+
+    var q : exrat = g0i2f 0
+    var r : exrat = g0i2f 0
+  in
+    _exrat_numerator_sqrtrem (q, r, x);
+    @(q, r)
+  end
+
+(*------------------------------------------------------------------*)
 (* Value replacement. *)
 
 value_replacement_runtime_for_boxed_types(`exrat',`floattypes_without_exrat')

@@ -837,6 +837,43 @@ my_extern_prefix`'_g0float_mul_2exp_intmax_exrat (floatt2c(exrat) x, intb2c(intm
   return z;
 }
 
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_root (floatt2c(exrat) x, intb2c(ulint) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_root (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_sqrt (floatt2c(exrat) x)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_sqrt (mpq_numref (z[0]), mpq_numref (x[0]));
+  return z;
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_rootrem (REF(exrat) qp, REF(exrat) rp,
+                                            floatt2c(exrat) x, intb2c(ulint) n)
+{
+  floatt2c(exrat) q = DEREF(exrat, qp);
+  floatt2c(exrat) r = DEREF(exrat, rp);
+  mpz_rootrem (mpq_numref (q[0]), mpq_numref (r[0]),
+               mpq_numref (x[0]), n);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_sqrtrem (REF(exrat) qp, REF(exrat) rp,
+                                            floatt2c(exrat) x)
+{
+  floatt2c(exrat) q = DEREF(exrat, qp);
+  floatt2c(exrat) r = DEREF(exrat, rp);
+  mpz_sqrtrem (mpq_numref (q[0]), mpq_numref (r[0]),
+               mpq_numref (x[0]));
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 

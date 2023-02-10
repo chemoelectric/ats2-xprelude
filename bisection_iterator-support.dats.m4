@@ -134,7 +134,8 @@ bisection_iterator_next iter =
           } = iter
 
       val numer = succ numer
-      val shift_amount = (g0u2i (pred (exrat_ffs numer))) : intmax
+      val shift_amount =
+        (g0u2i (pred (exrat_numerator_ffs numer))) : intmax
     in
       '{
         numerator = div_2exp (numer, shift_amount),
