@@ -69,9 +69,9 @@ my_extern_prefix`'g0int2float_int64_fixed32p32 (atstype_int64 x)
 }
 
 m4_foreachq(`INT',`intbases',
-            `#define my_extern_prefix`'g0int2float_`'INT`'_fixed32p32(x) dnl
-            (my_extern_prefix`'g0int2float_int64_fixed32p32 ((atstype_int64) (x)))
-            ')dnl
+`#define my_extern_prefix`'g0int2float_`'INT`'_fixed32p32(x)`'dnl
+ (my_extern_prefix`'g0int2float_int64_fixed32p32 ((atstype_int64) (x)))
+')dnl
 
 my_extern_prefix`'pure_inline atstype_int64
 my_extern_prefix`'g0float2int_fixed32p32_int64 (floatt2c(fixed32p32) x)
@@ -82,9 +82,9 @@ my_extern_prefix`'g0float2int_fixed32p32_int64 (floatt2c(fixed32p32) x)
 }
 
 m4_foreachq(`INT',`intbases',
-            `#define my_extern_prefix`'g0float2int_fixed32p32_`'INT`'(x) dnl
-            ((intb2c(INT)) my_extern_prefix`'g0float2int_fixed32p32_int64 (x))
-            ')dnl
+`#define my_extern_prefix`'g0float2int_fixed32p32_`'INT`'(x)`'dnl
+ ((intb2c(INT)) my_extern_prefix`'g0float2int_fixed32p32_int64 (x))
+')dnl
 
 #define _my_extern_prefix`'g0float2float_ldouble_fixed32p32(x)  \
   ((floatt2c(fixed32p32))                                       \
@@ -199,47 +199,14 @@ my_extern_prefix`'g0float_max_fixed32p32 (floatt2c(fixed32p32) x,
   return (x < y) ? y : x;
 }
 
+m4_foreachq(`OP',`comparisons',`
 my_extern_prefix`'pure_inline atstype_bool
-my_extern_prefix`'g0float_eq_fixed32p32 (floatt2c(fixed32p32) x,
-                                         floatt2c(fixed32p32) y)
+my_extern_prefix`'g0float_`'OP`'_fixed32p32 (floatt2c(fixed32p32) x,
+                                             floatt2c(fixed32p32) y)
 {
-  return my_extern_prefix`'boolc2ats (x == y);
+  return my_extern_prefix`'boolc2ats (x ats_cmp_c(OP) y);
 }
-
-my_extern_prefix`'pure_inline atstype_bool
-my_extern_prefix`'g0float_neq_fixed32p32 (floatt2c(fixed32p32) x,
-                                          floatt2c(fixed32p32) y)
-{
-  return my_extern_prefix`'boolc2ats (x != y);
-}
-
-my_extern_prefix`'pure_inline atstype_bool
-my_extern_prefix`'g0float_lt_fixed32p32 (floatt2c(fixed32p32) x,
-                                         floatt2c(fixed32p32) y)
-{
-  return my_extern_prefix`'boolc2ats (x < y);
-}
-
-my_extern_prefix`'pure_inline atstype_bool
-my_extern_prefix`'g0float_lte_fixed32p32 (floatt2c(fixed32p32) x,
-                                          floatt2c(fixed32p32) y)
-{
-  return my_extern_prefix`'boolc2ats (x <= y);
-}
-
-my_extern_prefix`'pure_inline atstype_bool
-my_extern_prefix`'g0float_gt_fixed32p32 (floatt2c(fixed32p32) x,
-                                         floatt2c(fixed32p32) y)
-{
-  return my_extern_prefix`'boolc2ats (x > y);
-}
-
-my_extern_prefix`'pure_inline atstype_bool
-my_extern_prefix`'g0float_gte_fixed32p32 (floatt2c(fixed32p32) x,
-                                          floatt2c(fixed32p32) y)
-{
-  return my_extern_prefix`'boolc2ats (x >= y);
-}
+')dnl
 
 my_extern_prefix`'pure_inline atstype_int
 my_extern_prefix`'g0float_compare_fixed32p32 (floatt2c(fixed32p32) x,
