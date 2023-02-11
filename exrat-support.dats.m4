@@ -1003,6 +1003,12 @@ my_extern_prefix`'_exrat_two_lucas_numbers (REF(exrat) xp, REF(exrat) yp, uintb2
   mpz_lucnum2_ui (mpq_numref (x[0]), mpq_numref (y[0]), n);
 }
 
+intb2c(int)
+my_extern_prefix`'_exrat_numerator_prime_test (floatt2c(exrat) n, intb2c(int) repetitions)
+{
+  return mpz_probab_prime_p (mpq_numref (n[0]), repetitions);
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 
@@ -1461,6 +1467,19 @@ exrat_two_lucas_numbers n =
   in
     $effmask_wrt _exrat_two_lucas_numbers (x, y, n);
     @(x, y)
+  end
+
+implement
+exrat_numerator_prime_test (n, repetitions) =
+  let
+    extern fn
+    _exrat_numerator_prime_test :
+      (exrat, intGte 1) -<> int = "mac#%"
+  in
+    case- _exrat_numerator_prime_test (n, repetitions) of
+    | 0 => definitely_not_prime
+    | 1 => probably_prime
+    | 2 => definitely_prime
   end
 
 (*------------------------------------------------------------------*)

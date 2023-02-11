@@ -274,6 +274,15 @@ fn exrat_lucas_number : ulint -<> exrat = "mac#%"
 fn exrat_two_fibonacci_numbers : ulint -<> @(exrat, exrat)
 fn exrat_two_lucas_numbers : ulint -<> @(exrat, exrat)
 
+(* Probabilistic algorithms regarding prime numbers. *)
+datatype prime_test_result =
+  | definitely_not_prime
+  | probably_prime
+  | definitely_prime
+fn exrat_numerator_prime_test
+          (n : exrat, repetitions : intGte 1)
+    :<> prime_test_result
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

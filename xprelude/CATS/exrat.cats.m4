@@ -289,6 +289,8 @@ floatt2c(exrat) my_extern_prefix`'exrat_lucas_number (uintb2c(ulint));
 atsvoid_t0ype my_extern_prefix`'_exrat_two_fibonacci_numbers (REF(exrat), REF(exrat), uintb2c(ulint));
 atsvoid_t0ype my_extern_prefix`'_exrat_two_lucas_numbers (REF(exrat), REF(exrat), uintb2c(ulint));
 
+intb2c(int) my_extern_prefix`'_exrat_numerator_prime_test (floatt2c(exrat), intb2c(int));
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 
