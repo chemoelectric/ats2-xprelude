@@ -224,6 +224,22 @@ fn {} exrat_numerator_rootrem : (exrat, ulint) -<> @(exrat, exrat)
 fn exrat_numerator_sqrt : exrat -<> exrat = "mac#%"
 fn {} exrat_numerator_sqrtrem : exrat -<> @(exrat, exrat)
 
+(* Greatest common divisor and least common multiple. *)
+fn exrat_numerator_gcd : (exrat, exrat) -<> exrat = "mac#%"
+fn exrat_numerator_lcm : (exrat, exrat) -<> exrat = "mac#%"
+
+(* Find the greatest common divisor and find a solution of its Bézout
+   identity. *)
+fn {} exrat_numerator_gcdext : (exrat, exrat) -<> (exrat, exrat, exrat)
+
+(* Invert the numerator of the first argument modulo the numerator of
+   the second argument. *)
+fn {} exrat_numerator_invert : (exrat, exrat) -<> Option exrat
+
+(* Jacobi and Legendre symbols. *)
+fn exrat_numerator_jacobi : (exrat, exrat) -<> int = "mac#%"
+fn exrat_numerator_legendre : (exrat, exrat) -<> int = "mac#%"
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

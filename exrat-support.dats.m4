@@ -157,7 +157,7 @@ _`'my_extern_prefix`'exrat_init (void)
 
 my_extern_prefix`'exrat
 my_extern_prefix`'g0float_exrat_make_ulint_ulint (atstype_ulint n,
-                                              atstype_ulint d)
+                                                  atstype_ulint d)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
   mpq_set_ui (y[0], n, d);
@@ -167,7 +167,7 @@ my_extern_prefix`'g0float_exrat_make_ulint_ulint (atstype_ulint n,
 
 my_extern_prefix`'exrat
 my_extern_prefix`'g0float_exrat_make_lint_ulint (intb2c(lint) n,
-                                             atstype_ulint d)
+                                                 atstype_ulint d)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
   mpq_set_si (y[0], n, d);
@@ -177,9 +177,9 @@ my_extern_prefix`'g0float_exrat_make_lint_ulint (intb2c(lint) n,
 
 atsvoid_t0ype
 my_extern_prefix`'_g0float_exrat_make_from_string (atstype_string s,
-                                               atstype_int base,
-                                               REF(exrat) p_y,
-                                               REF(int) p_status)
+                                                   atstype_int base,
+                                                   REF(exrat) p_y,
+                                                   REF(int) p_status)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
   int status = mpq_set_str (y[0], (const char *) s, base);
@@ -191,14 +191,14 @@ my_extern_prefix`'_g0float_exrat_make_from_string (atstype_string s,
 
 atstype_string
 my_extern_prefix`'tostrptr_exrat_given_base (floatt2c(exrat) x,
-                                         int base)
+                                             int base)
 {
   return mpq_get_str (NULL, base, x[0]);
 }
 
 atstype_string
 my_extern_prefix`'tostring_exrat_given_base (floatt2c(exrat) x,
-                                         int base)
+                                             int base)
 {
   return my_extern_prefix`'tostrptr_exrat_given_base (x, base);
 }
@@ -219,7 +219,8 @@ my_extern_prefix`'exrat
 my_extern_prefix`'g0int2float_lint_exrat (intb2c(lint) x)
 {
   floatt2c(exrat) y = _`'my_extern_prefix`'exrat_init ();
-  mpq_set_si (y[0], x, 1);
+  if (x != 0)
+    mpz_set_si (mpq_numref (y[0]), x);
   return y;
 }
 
@@ -872,6 +873,45 @@ my_extern_prefix`'_exrat_numerator_sqrtrem (REF(exrat) qp, REF(exrat) rp,
   floatt2c(exrat) r = DEREF(exrat, rp);
   mpz_sqrtrem (mpq_numref (q[0]), mpq_numref (r[0]),
                mpq_numref (x[0]));
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_gcd (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_gcd (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_lcm (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_lcm (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'_exrat_numerator_gcdext (REF(exrat) gp, REF(exrat) sp, REF(exrat) tp,
+                                           floatt2c(exrat) a, floatt2c(exrat) b)
+{
+  floatt2c(exrat) g = DEREF(exrat, gp);
+  floatt2c(exrat) s = DEREF(exrat, sp);
+  floatt2c(exrat) t = DEREF(exrat, tp);
+  mpz_gcdext (mpq_numref (g[0]), mpq_numref (s[0]), mpq_numref (t[0]),
+              mpq_numref (a[0]), mpq_numref (b[0]));
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_invert (REF(bool) successp, REF(exrat) zp,
+                                           floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  atstype_bool *success = (void *) successp;
+  floatt2c(exrat) z = DEREF(exrat, zp);
+  if (mpz_sgn (mpq_numref (y[0])) == 0)
+    *success = atsbool_false;
+  else
+    *success = (mpz_invert (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0])) != 0);
 }
 
 /*------------------------------------------------------------------*/

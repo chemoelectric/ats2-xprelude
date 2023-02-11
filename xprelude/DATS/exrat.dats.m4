@@ -158,12 +158,12 @@ exrat_numerator_rootrem (x, n) =
   let
     extern fn
     _exrat_numerator_rootrem :
-      (&exrat >> _, &exrat >> _, exrat, ulint) -<> void = "mac#%"
+      (&exrat >> _, &exrat >> _, exrat, ulint) -< !wrt > void = "mac#%"
 
     var q : exrat = g0i2f 0
     var r : exrat = g0i2f 0
   in
-    _exrat_numerator_rootrem (q, r, x, n);
+    $effmask_wrt _exrat_numerator_rootrem (q, r, x, n);
     @(q, r)
   end
 
@@ -172,13 +172,45 @@ exrat_numerator_sqrtrem x =
   let
     extern fn
     _exrat_numerator_sqrtrem :
-      (&exrat >> _, &exrat >> _, exrat) -<> void = "mac#%"
+      (&exrat >> _, &exrat >> _, exrat) -< !wrt > void = "mac#%"
 
     var q : exrat = g0i2f 0
     var r : exrat = g0i2f 0
   in
-    _exrat_numerator_sqrtrem (q, r, x);
+    $effmask_wrt _exrat_numerator_sqrtrem (q, r, x);
     @(q, r)
+  end
+
+implement {}
+exrat_numerator_gcdext (a, b) =
+  let
+    extern fn
+    _exrat_numerator_gcdext :
+      (&exrat >> _, &exrat >> _, &exrat >> _, exrat, exrat) -< !wrt > void = "mac#%"
+
+    var g : exrat = g0i2f 0
+    var s : exrat = g0i2f 0
+    var t : exrat = g0i2f 0
+  in
+    $effmask_wrt _exrat_numerator_gcdext (g, s, t, a, b);
+    @(g, s, t)
+  end
+
+implement {}
+exrat_numerator_invert (x, y) =
+  let
+    extern fn
+    _exrat_numerator_invert :
+      (&bool? >> bool, &exrat >> _, exrat, exrat) -< !wrt > void = "mac#%"
+
+    var success : bool
+    var z : exrat = g0i2f 0
+  in
+    $effmask_wrt _exrat_numerator_invert (success, z, x, y);
+    if success then
+      Some z
+    else
+      None ()
   end
 
 (*------------------------------------------------------------------*)

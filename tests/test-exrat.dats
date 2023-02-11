@@ -646,6 +646,29 @@ test6 () : void =
     val @(q, r) = exrat_numerator_sqrtrem (exrat_make (29, 1))
     val- true = q = exrat_make (5, 1)
     val- true = r = exrat_make (4, 1)
+
+    val- true = exrat_numerator_gcd (i2ex 36, i2ex 24) = i2ex 12
+    val- true = exrat_numerator_lcm (i2ex 36, i2ex 24) = (i2ex 36 * i2ex 24) / exrat_numerator_gcd (i2ex 36, i2ex 24)
+    val @(d, p, q) = exrat_numerator_gcdext (i2ex 36, i2ex 24)
+    val- true = d = i2ex 12
+    val- true = (p * i2ex 36) + (q * i2ex 24) = d
+
+    val- Some z = exrat_numerator_invert (i2ex 7, i2ex 9)
+    val- true = z = i2ex 4
+    val- Some z = exrat_numerator_invert (i2ex 4, i2ex 9)
+    val- true = z = i2ex 7
+    val- Some z = exrat_numerator_invert (i2ex 13, i2ex 16)
+    val- true = z = i2ex 5
+    val- Some z = exrat_numerator_invert (i2ex 5, i2ex 16)
+    val- true = z = i2ex 13
+    val- None () = exrat_numerator_invert (i2ex 5, i2ex 10)
+    val- None () = exrat_numerator_invert (i2ex 13, i2ex 13)
+    val- None () = exrat_numerator_invert (i2ex 13, i2ex 0)
+
+    val- true = exrat_numerator_jacobi (i2ex 14, i2ex 31) = 1
+    val- true = exrat_numerator_jacobi (i2ex 14, i2ex 33) = ~1
+    val- true = exrat_numerator_legendre (i2ex 14, i2ex 31) = 1
+    val- true = exrat_numerator_legendre (i2ex 14, i2ex 33) = ~1
   in
   end
 

@@ -229,12 +229,24 @@ my_extern_prefix`'exrat_numerator_is_perfect_square (floatt2c(exrat) x)
   return my_extern_prefix`'boolc2ats (mpz_perfect_square_p (mpq_numref (x[0])));
 }
 
-my_extern_prefix`'inline atstype_ulint
+my_extern_prefix`'inline uintb2c(ulint)
 my_extern_prefix`'exrat_numerator_ffs (floatt2c(exrat) x)
 {
   return ((mpz_sgn (mpq_numref (x[0])) == 0) ?
           (0) :
           (mpz_scan1 (mpq_numref (x[0]), 0) + 1));
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'exrat_numerator_jacobi (floatt2c(exrat) a, floatt2c(exrat) b)
+{
+  return mpz_jacobi (mpq_numref (a[0]), mpq_numref (b[0]));
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'exrat_numerator_legendre (floatt2c(exrat) a, floatt2c(exrat) p)
+{
+  return mpz_legendre (mpq_numref (a[0]), mpq_numref (p[0]));
 }
 
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_root (floatt2c(exrat), intb2c(ulint));
@@ -244,6 +256,15 @@ atsvoid_t0ype my_extern_prefix`'_exrat_numerator_rootrem (REF(exrat) q, REF(exra
                                                  floatt2c(exrat) x, intb2c(ulint) n);
 atsvoid_t0ype my_extern_prefix`'_exrat_numerator_sqrtrem (REF(exrat) q, REF(exrat) r,
                                                  floatt2c(exrat) x);
+
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_gcd (floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_lcm (floatt2c(exrat), floatt2c(exrat));
+
+floatt2c(exrat) my_extern_prefix`'_exrat_numerator_gcdext (REF(exrat), REF(exrat), REF(exrat),
+                                                           floatt2c(exrat), floatt2c(exrat));
+
+atsvoid_t0ype my_extern_prefix`'_exrat_numerator_invert (REF(bool), REF(exrat),
+                                                         floatt2c(exrat), floatt2c(exrat));
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
