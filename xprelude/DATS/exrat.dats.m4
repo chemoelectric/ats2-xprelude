@@ -213,6 +213,20 @@ exrat_numerator_modular_inverse (x, y) =
       None ()
   end
 
+implement {}
+exrat_numerator_remove_factor (x, y) =
+  let
+    extern fn
+    _exrat_numerator_remove_factor :
+      (&exrat >> _, &uintmax? >> uintmax, exrat, exrat) -< !wrt > void = "mac#%"
+
+    var z : exrat = g0i2f 0
+    var n : uintmax
+  in
+    $effmask_wrt _exrat_numerator_remove_factor (z, n, x, y);
+    @(z, n)
+  end
+
 (*------------------------------------------------------------------*)
 (* Value replacement. *)
 

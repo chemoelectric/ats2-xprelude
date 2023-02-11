@@ -914,6 +914,15 @@ my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool) successp, REF(exra
     *success = (mpz_invert (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0])) != 0);
 }
 
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_remove_factor (REF(exrat) zp, REF(uintmax) np,
+                                                  floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = DEREF(exrat, zp);
+  uintb2c(uintmax) *n = (void *) np;
+  *n = mpz_remove (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 

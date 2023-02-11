@@ -229,7 +229,7 @@ my_extern_prefix`'exrat_numerator_is_perfect_square (floatt2c(exrat) x)
   return my_extern_prefix`'boolc2ats (mpz_perfect_square_p (mpq_numref (x[0])));
 }
 
-my_extern_prefix`'inline uintb2c(ulint)
+my_extern_prefix`'inline uintb2c(uintmax)
 my_extern_prefix`'exrat_numerator_ffs (floatt2c(exrat) x)
 {
   return ((mpz_sgn (mpq_numref (x[0])) == 0) ?
@@ -259,9 +259,9 @@ floatt2c(exrat) my_extern_prefix`'exrat_numerator_root (floatt2c(exrat), intb2c(
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_sqrt (floatt2c(exrat));
 
 atsvoid_t0ype my_extern_prefix`'_exrat_numerator_rootrem (REF(exrat) q, REF(exrat) r,
-                                                 floatt2c(exrat) x, intb2c(ulint) n);
+                                                          floatt2c(exrat) x, intb2c(ulint) n);
 atsvoid_t0ype my_extern_prefix`'_exrat_numerator_sqrtrem (REF(exrat) q, REF(exrat) r,
-                                                 floatt2c(exrat) x);
+                                                          floatt2c(exrat) x);
 
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_gcd (floatt2c(exrat), floatt2c(exrat));
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_lcm (floatt2c(exrat), floatt2c(exrat));
@@ -271,6 +271,9 @@ floatt2c(exrat) my_extern_prefix`'_exrat_numerator_gcdext (REF(exrat), REF(exrat
 
 atsvoid_t0ype my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool), REF(exrat),
                                                                   floatt2c(exrat), floatt2c(exrat));
+
+atsvoid_t0ype my_extern_prefix`'_exrat_numerator_remove_factor (REF(exrat), REF(uintmax),
+                                                                floatt2c(exrat), floatt2c(exrat));
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */

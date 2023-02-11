@@ -362,15 +362,15 @@ test0 () : void =
     val- false = exrat_is_integer (exrat_make (~4, 3))
     val- false = exrat_is_integer (exrat_make (8, 3))
 
-    val- true = exrat_numerator_ffs (exrat_make (0, 1)) = 0UL
-    val- true = exrat_numerator_ffs (exrat_make (1, 1)) = 1UL
-    val- true = exrat_numerator_ffs (exrat_make (2, 1)) = 2UL
-    val- true = exrat_numerator_ffs (exrat_make (3, 1)) = 1UL
-    val- true = exrat_numerator_ffs (exrat_make (4, 1)) = 3UL
-    val- true = exrat_numerator_ffs (exrat_make (5, 1)) = 1UL
-    val- true = exrat_numerator_ffs (exrat_make (6, 1)) = 2UL
-    val- true = exrat_numerator_ffs (exrat_make (7, 1)) = 1UL
-    val- true = exrat_numerator_ffs (exrat_make (8, 1)) = 4UL
+    val- true = exrat_numerator_ffs (exrat_make (0, 1)) = g0i2u 0
+    val- true = exrat_numerator_ffs (exrat_make (1, 1)) = g0i2u 1
+    val- true = exrat_numerator_ffs (exrat_make (2, 1)) = g0i2u 2
+    val- true = exrat_numerator_ffs (exrat_make (3, 1)) = g0i2u 1
+    val- true = exrat_numerator_ffs (exrat_make (4, 1)) = g0i2u 3
+    val- true = exrat_numerator_ffs (exrat_make (5, 1)) = g0i2u 1
+    val- true = exrat_numerator_ffs (exrat_make (6, 1)) = g0i2u 2
+    val- true = exrat_numerator_ffs (exrat_make (7, 1)) = g0i2u 1
+    val- true = exrat_numerator_ffs (exrat_make (8, 1)) = g0i2u 4
 
     val- true = abs (g0float2float<ldblknd,exratknd> 0.25L - exrat_make (1, 4)) < g0f2f 0.0000001
     val- true = abs (g0float2float<ldblknd,exratknd> ~0.25L + exrat_make (1, 4)) < g0f2f 0.0000001
@@ -671,6 +671,10 @@ test6 () : void =
     val- true = exrat_numerator_jacobi_symbol (i2ex 14, i2ex 33) = ~1
     val- true = exrat_numerator_kronecker_symbol (i2ex 17, i2ex 10) = ~1
     val- true = exrat_numerator_kronecker_symbol (i2ex 26, i2ex 2) = 0
+
+    val @(z, n) = exrat_numerator_remove_factor (i2ex 125 * i2ex 3, i2ex 5)
+    val- true = z = i2ex 3
+    val- true = n = g0i2u 3
   in
   end
 

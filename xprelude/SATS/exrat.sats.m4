@@ -214,7 +214,7 @@ fn exrat_numerator_is_perfect_power : exrat -<> bool = "mac#%"
 fn exrat_numerator_is_perfect_square : exrat -<> bool = "mac#%"
 
 (* ‘Find first set’: like the POSIX "ffs" function. *)
-fn exrat_numerator_ffs : exrat -<> ulint = "mac#%"
+fn exrat_numerator_ffs : exrat -<> uintmax = "mac#%"
 
 (* Integer nth root. *)
 fn exrat_numerator_root : (exrat, ulint) -<> exrat = "mac#%"
@@ -240,6 +240,10 @@ fn {} exrat_numerator_modular_inverse : (exrat, exrat) -<> Option exrat
 fn exrat_numerator_legendre_symbol : (exrat, exrat) -<> int = "mac#%"
 fn exrat_numerator_jacobi_symbol : (exrat, exrat) -<> int = "mac#%"
 fn exrat_numerator_kronecker_symbol : (exrat, exrat) -<> int = "mac#%"
+
+(* Remove all occurrences of a factor (the second argument) from the
+   first argument, and return also the multiplicity of the factor. *)
+fn {} exrat_numerator_remove_factor : (exrat, exrat) -<> @(exrat, uintmax)
 
 (*------------------------------------------------------------------*)
 dnl
