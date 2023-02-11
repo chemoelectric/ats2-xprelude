@@ -892,8 +892,8 @@ my_extern_prefix`'exrat_numerator_lcm (floatt2c(exrat) x, floatt2c(exrat) y)
 }
 
 floatt2c(exrat)
-my_extern_prefix`'_exrat_numerator_gcdext (REF(exrat) gp, REF(exrat) sp, REF(exrat) tp,
-                                           floatt2c(exrat) a, floatt2c(exrat) b)
+my_extern_prefix`'_exrat_numerator_gcd_bezout (REF(exrat) gp, REF(exrat) sp, REF(exrat) tp,
+                                               floatt2c(exrat) a, floatt2c(exrat) b)
 {
   floatt2c(exrat) g = DEREF(exrat, gp);
   floatt2c(exrat) s = DEREF(exrat, sp);
@@ -1235,6 +1235,10 @@ dnl------------------------------------------------------------------
 (*------------------------------------------------------------------*)
 
 extern fn
+_exrat_make_zero :
+  () -<> exrat = "mac#_`'my_extern_prefix`'exrat_init"
+
+extern fn
 _g0float_exrat_make_from_string
           (s      : string,
            base   : int,
@@ -1276,6 +1280,80 @@ g0float_exrat_make_string_opt_base10 s =
 implement
 g0float_exrat_make_string_exn_base10 s =
   g0float_exrat_make_string_exn_given_base (s, 10)
+
+implement
+exrat_numerator_rootrem (x, n) =
+  let
+    extern fn
+    _exrat_numerator_rootrem :
+      (&exrat >> _, &exrat >> _, exrat, ulint) -< !wrt > void = "mac#%"
+
+    var q : exrat = _exrat_make_zero ()
+    var r : exrat = _exrat_make_zero ()
+  in
+    $effmask_wrt _exrat_numerator_rootrem (q, r, x, n);
+    @(q, r)
+  end
+
+implement
+exrat_numerator_sqrtrem x =
+  let
+    extern fn
+    _exrat_numerator_sqrtrem :
+      (&exrat >> _, &exrat >> _, exrat) -< !wrt > void = "mac#%"
+
+    var q : exrat = _exrat_make_zero ()
+    var r : exrat = _exrat_make_zero ()
+  in
+    $effmask_wrt _exrat_numerator_sqrtrem (q, r, x);
+    @(q, r)
+  end
+
+implement
+exrat_numerator_gcd_bezout (a, b) =
+  let
+    extern fn
+    _exrat_numerator_gcd_bezout :
+      (&exrat >> _, &exrat >> _, &exrat >> _, exrat, exrat) -< !wrt > void = "mac#%"
+
+    var g : exrat = _exrat_make_zero ()
+    var s : exrat = _exrat_make_zero ()
+    var t : exrat = _exrat_make_zero ()
+  in
+    $effmask_wrt _exrat_numerator_gcd_bezout (g, s, t, a, b);
+    @(g, s, t)
+  end
+
+implement
+exrat_numerator_modular_inverse (x, y) =
+  let
+    extern fn
+    _exrat_numerator_modular_inverse :
+      (&bool? >> bool, &exrat >> _, exrat, exrat) -< !wrt > void = "mac#%"
+
+    var success : bool
+    var z : exrat = _exrat_make_zero ()
+  in
+    $effmask_wrt _exrat_numerator_modular_inverse (success, z, x, y);
+    if success then
+      Some z
+    else
+      None ()
+  end
+
+implement
+exrat_numerator_remove_factor (x, y) =
+  let
+    extern fn
+    _exrat_numerator_remove_factor :
+      (&exrat >> _, &uintmax? >> uintmax, exrat, exrat) -< !wrt > void = "mac#%"
+
+    var z : exrat = _exrat_make_zero ()
+    var n : uintmax
+  in
+    $effmask_wrt _exrat_numerator_remove_factor (z, n, x, y);
+    @(z, n)
+  end
 
 (*------------------------------------------------------------------*)
 dnl

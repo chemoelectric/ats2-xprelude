@@ -266,8 +266,8 @@ atsvoid_t0ype my_extern_prefix`'_exrat_numerator_sqrtrem (REF(exrat) q, REF(exra
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_gcd (floatt2c(exrat), floatt2c(exrat));
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_lcm (floatt2c(exrat), floatt2c(exrat));
 
-floatt2c(exrat) my_extern_prefix`'_exrat_numerator_gcdext (REF(exrat), REF(exrat), REF(exrat),
-                                                           floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'_exrat_numerator_gcd_bezout (REF(exrat), REF(exrat), REF(exrat),
+                                                               floatt2c(exrat), floatt2c(exrat));
 
 atsvoid_t0ype my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool), REF(exrat),
                                                                   floatt2c(exrat), floatt2c(exrat));

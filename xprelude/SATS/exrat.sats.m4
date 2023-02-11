@@ -218,11 +218,11 @@ fn exrat_numerator_ffs : exrat -<> uintmax = "mac#%"
 
 (* Integer nth root. *)
 fn exrat_numerator_root : (exrat, ulint) -<> exrat = "mac#%"
-fn {} exrat_numerator_rootrem : (exrat, ulint) -<> @(exrat, exrat)
+fn exrat_numerator_rootrem : (exrat, ulint) -<> @(exrat, exrat)
 
 (* Integer square root. *)
 fn exrat_numerator_sqrt : exrat -<> exrat = "mac#%"
-fn {} exrat_numerator_sqrtrem : exrat -<> @(exrat, exrat)
+fn exrat_numerator_sqrtrem : exrat -<> @(exrat, exrat)
 
 (* Greatest common divisor and least common multiple. *)
 fn exrat_numerator_gcd : (exrat, exrat) -<> exrat = "mac#%"
@@ -230,11 +230,11 @@ fn exrat_numerator_lcm : (exrat, exrat) -<> exrat = "mac#%"
 
 (* Find the greatest common divisor and find a solution of its Bézout
    identity. *)
-fn {} exrat_numerator_gcdext : (exrat, exrat) -<> (exrat, exrat, exrat)
+fn exrat_numerator_gcd_bezout : (exrat, exrat) -<> (exrat, exrat, exrat)
 
 (* Invert the numerator of the first argument modulo the numerator of
    the second argument. *)
-fn {} exrat_numerator_modular_inverse : (exrat, exrat) -<> Option exrat
+fn exrat_numerator_modular_inverse : (exrat, exrat) -<> Option exrat
 
 (* Legendre, Jacobi, Kronecker symbols. *)
 fn exrat_numerator_legendre_symbol : (exrat, exrat) -<> int = "mac#%"
@@ -243,7 +243,7 @@ fn exrat_numerator_kronecker_symbol : (exrat, exrat) -<> int = "mac#%"
 
 (* Remove all occurrences of a factor (the second argument) from the
    first argument, and return also the multiplicity of the factor. *)
-fn {} exrat_numerator_remove_factor : (exrat, exrat) -<> @(exrat, uintmax)
+fn exrat_numerator_remove_factor : (exrat, exrat) -<> @(exrat, uintmax)
 
 (*------------------------------------------------------------------*)
 dnl

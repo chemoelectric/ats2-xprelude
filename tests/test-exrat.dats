@@ -649,7 +649,7 @@ test6 () : void =
 
     val- true = exrat_numerator_gcd (i2ex 36, i2ex 24) = i2ex 12
     val- true = exrat_numerator_lcm (i2ex 36, i2ex 24) = (i2ex 36 * i2ex 24) / exrat_numerator_gcd (i2ex 36, i2ex 24)
-    val @(d, p, q) = exrat_numerator_gcdext (i2ex 36, i2ex 24)
+    val @(d, p, q) = exrat_numerator_gcd_bezout (i2ex 36, i2ex 24)
     val- true = d = i2ex 12
     val- true = (p * i2ex 36) + (q * i2ex 24) = d
 
