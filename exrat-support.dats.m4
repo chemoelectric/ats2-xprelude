@@ -923,6 +923,30 @@ my_extern_prefix`'_exrat_numerator_remove_factor (REF(exrat) zp, REF(uintmax) np
   *n = mpz_remove (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
 }
 
+floatt2c(exrat)
+my_extern_prefix`'exrat_factorial (uintb2c(ulint) n)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fac_ui (mpq_numref (z[0]), n);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_double_factorial (uintb2c(ulint) n)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_2fac_ui (mpq_numref (z[0]), n);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_multifactorial (uintb2c(ulint) n, uintb2c(ulint) m)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_mfac_uiui (mpq_numref (z[0]), n, m);
+  return z;
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 

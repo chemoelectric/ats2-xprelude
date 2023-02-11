@@ -275,6 +275,10 @@ atsvoid_t0ype my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool), REF
 atsvoid_t0ype my_extern_prefix`'_exrat_numerator_remove_factor (REF(exrat), REF(uintmax),
                                                                 floatt2c(exrat), floatt2c(exrat));
 
+floatt2c(exrat) my_extern_prefix`'exrat_factorial (uintb2c(ulint));
+floatt2c(exrat) my_extern_prefix`'exrat_double_factorial (uintb2c(ulint));
+floatt2c(exrat) my_extern_prefix`'exrat_multifactorial (uintb2c(ulint), uintb2c(ulint));
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 

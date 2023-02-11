@@ -245,6 +245,17 @@ fn exrat_numerator_kronecker_symbol : (exrat, exrat) -<> int = "mac#%"
    first argument, and return also the multiplicity of the factor. *)
 fn exrat_numerator_remove_factor : (exrat, exrat) -<> @(exrat, uintmax)
 
+(* The ordinary single factorial. *)
+fn exrat_factorial : ulint -<> exrat = "mac#%"
+
+(* Double factorial: the product of integers having the same parity
+   (odd or even) as the argument. *)
+fn exrat_double_factorial : ulint -<> exrat = "mac#%"
+
+(* The multiple factorial: the product of integers separated from each
+   other by a given amount. *)
+fn exrat_multifactorial : (ulint, ulint) -<> exrat = "mac#%"
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:

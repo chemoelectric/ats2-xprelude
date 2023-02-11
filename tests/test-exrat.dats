@@ -675,6 +675,10 @@ test6 () : void =
     val @(z, n) = exrat_numerator_remove_factor (i2ex 125 * i2ex 3, i2ex 5)
     val- true = z = i2ex 3
     val- true = n = g0i2u 3
+
+    val- true = exrat_factorial 5UL = exrat_make (5 * 4 * 3 * 2 * 1, 1)
+    val- true = exrat_double_factorial 7UL = exrat_make (7 * 5 * 3 * 1, 1)
+    val- true = exrat_multifactorial (10UL, 3UL) = exrat_make (10 * 7 * 4 * 1, 1)
   in
   end
 
