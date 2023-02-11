@@ -278,6 +278,10 @@ atsvoid_t0ype my_extern_prefix`'_exrat_numerator_remove_factor (REF(exrat), REF(
 floatt2c(exrat) my_extern_prefix`'exrat_factorial (uintb2c(ulint));
 floatt2c(exrat) my_extern_prefix`'exrat_double_factorial (uintb2c(ulint));
 floatt2c(exrat) my_extern_prefix`'exrat_multifactorial (uintb2c(ulint), uintb2c(ulint));
+floatt2c(exrat) my_extern_prefix`'exrat_primorial (uintb2c(ulint));
+
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_bincoef (floatt2c(exrat), uintb2c(ulint));
+floatt2c(exrat) my_extern_prefix`'exrat_bincoef (uintb2c(ulint), uintb2c(ulint));
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */

@@ -679,6 +679,11 @@ test6 () : void =
     val- true = exrat_factorial 5UL = exrat_make (5 * 4 * 3 * 2 * 1, 1)
     val- true = exrat_double_factorial 7UL = exrat_make (7 * 5 * 3 * 1, 1)
     val- true = exrat_multifactorial (10UL, 3UL) = exrat_make (10 * 7 * 4 * 1, 1)
+    val- true = exrat_primorial 21UL = i2ex 19 * i2ex 17 * i2ex 13 * i2ex 11 * i2ex 7 * i2ex 5 * i2ex 3 * i2ex 2
+
+    val- true = exrat_numerator_bincoef (i2ex 10, 6UL) = i2ex 210
+    val- true = exrat_numerator_bincoef (i2ex ~10, 6UL) = exrat_numerator_bincoef (i2ex 15, 6UL)
+    val- true = exrat_bincoef (10UL, 6UL) = i2ex 210
   in
   end
 

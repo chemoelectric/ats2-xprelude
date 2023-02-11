@@ -947,6 +947,30 @@ my_extern_prefix`'exrat_multifactorial (uintb2c(ulint) n, uintb2c(ulint) m)
   return z;
 }
 
+floatt2c(exrat)
+my_extern_prefix`'exrat_primorial (uintb2c(ulint) n)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_primorial_ui (mpq_numref (z[0]), n);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_bincoef (floatt2c(exrat) n, uintb2c(ulint) k)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_bin_ui (mpq_numref (z[0]), mpq_numref (n[0]), k);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_bincoef (uintb2c(ulint) n, uintb2c(ulint) k)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_bin_uiui (mpq_numref (z[0]), n, k);
+  return z;
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 

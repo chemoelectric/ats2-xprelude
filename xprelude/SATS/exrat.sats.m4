@@ -256,6 +256,15 @@ fn exrat_double_factorial : ulint -<> exrat = "mac#%"
    other by a given amount. *)
 fn exrat_multifactorial : (ulint, ulint) -<> exrat = "mac#%"
 
+(* Primorial: the product of prime numbers no greater than the
+   argument. *)
+fn exrat_primorial : ulint -<> exrat = "mac#%"
+
+(* Binomial coefficients. The first form accepts negative values of
+   the first argument: C(n,k) = (-1)**k * C(-n+k-1,k), for n<0. *)
+fn exrat_numerator_bincoef : (exrat, ulint) -<> exrat = "mac#%"
+fn exrat_bincoef : (ulint, ulint) -<> exrat = "mac#%"
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:
