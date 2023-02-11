@@ -971,6 +971,38 @@ my_extern_prefix`'exrat_bincoef (uintb2c(ulint) n, uintb2c(ulint) k)
   return z;
 }
 
+floatt2c(exrat)
+my_extern_prefix`'exrat_fibonacci_number (uintb2c(ulint) n)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fib_ui (mpq_numref (z[0]), n);
+  return z;  
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_lucas_number (uintb2c(ulint) n)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_lucnum_ui (mpq_numref (z[0]), n);
+  return z;
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_two_fibonacci_numbers (REF(exrat) xp, REF(exrat) yp, uintb2c(ulint) n)
+{
+  floatt2c(exrat) x = DEREF(exrat, xp);
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpz_fib2_ui (mpq_numref (x[0]), mpq_numref (y[0]), n);
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_two_lucas_numbers (REF(exrat) xp, REF(exrat) yp, uintb2c(ulint) n)
+{
+  floatt2c(exrat) x = DEREF(exrat, xp);
+  floatt2c(exrat) y = DEREF(exrat, yp);
+  mpz_lucnum2_ui (mpq_numref (x[0]), mpq_numref (y[0]), n);
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 
@@ -1401,6 +1433,34 @@ exrat_numerator_remove_factor (x, y) =
   in
     $effmask_wrt _exrat_numerator_remove_factor (z, n, x, y);
     @(z, n)
+  end
+
+implement
+exrat_two_fibonacci_numbers n =
+  let
+    extern fn
+    _exrat_two_fibonacci_numbers :
+      (&exrat >> _, &exrat >> _, ulint) -< !wrt > void = "mac#%"
+
+    var x : exrat = _exrat_make_zero ()
+    var y : exrat = _exrat_make_zero ()
+  in
+    $effmask_wrt _exrat_two_fibonacci_numbers (x, y, n);
+    @(x, y)
+  end
+
+implement
+exrat_two_lucas_numbers n =
+  let
+    extern fn
+    _exrat_two_lucas_numbers :
+      (&exrat >> _, &exrat >> _, ulint) -< !wrt > void = "mac#%"
+
+    var x : exrat = _exrat_make_zero ()
+    var y : exrat = _exrat_make_zero ()
+  in
+    $effmask_wrt _exrat_two_lucas_numbers (x, y, n);
+    @(x, y)
   end
 
 (*------------------------------------------------------------------*)

@@ -684,6 +684,15 @@ test6 () : void =
     val- true = exrat_numerator_bincoef (i2ex 10, 6UL) = i2ex 210
     val- true = exrat_numerator_bincoef (i2ex ~10, 6UL) = exrat_numerator_bincoef (i2ex 15, 6UL)
     val- true = exrat_bincoef (10UL, 6UL) = i2ex 210
+
+    val- true = exrat_fibonacci_number 12UL = i2ex 144
+    val- true = exrat_lucas_number 12UL = i2ex 322
+    val @(x, y) = exrat_two_fibonacci_numbers 12UL
+    val- true = x = i2ex 144
+    val- true = y = i2ex 89
+    val @(x, y) = exrat_two_lucas_numbers 12UL
+    val- true = x = i2ex 322
+    val- true = y = i2ex 199
   in
   end
 

@@ -265,6 +265,15 @@ fn exrat_primorial : ulint -<> exrat = "mac#%"
 fn exrat_numerator_bincoef : (exrat, ulint) -<> exrat = "mac#%"
 fn exrat_bincoef : (ulint, ulint) -<> exrat = "mac#%"
 
+(* Calculation of a Fibonacci or Lucas number. *)
+fn exrat_fibonacci_number : ulint -<> exrat = "mac#%"
+fn exrat_lucas_number : ulint -<> exrat = "mac#%"
+
+(* Calculation of two adjacent Fibonacci or Lucas numbers. You can
+   use these two numbers as the start of a Fibonacci sequence. *)
+fn exrat_two_fibonacci_numbers : ulint -<> @(exrat, exrat)
+fn exrat_two_lucas_numbers : ulint -<> @(exrat, exrat)
+
 (*------------------------------------------------------------------*)
 dnl
 dnl local variables:
