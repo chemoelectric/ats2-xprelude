@@ -208,13 +208,13 @@ my_extern_prefix`'exrat_is_integer (floatt2c(exrat) x)
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'exrat_numerator_is_even (floatt2c(exrat) x)
 {
-  return my_extern_prefix`'boolc2ats (mpz_tstbit (mpq_numref (x[0]), 0) == 0);
+  return my_extern_prefix`'boolc2ats (mpz_even_p (mpq_numref (x[0])));
 }
 
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'exrat_numerator_is_odd (floatt2c(exrat) x)
 {
-  return my_extern_prefix`'boolc2ats (mpz_tstbit (mpq_numref (x[0]), 0) != 0);
+  return my_extern_prefix`'boolc2ats (mpz_odd_p (mpq_numref (x[0])));
 }
 
 my_extern_prefix`'inline atstype_bool
