@@ -1009,6 +1009,14 @@ my_extern_prefix`'_exrat_numerator_prime_test (floatt2c(exrat) n, intb2c(int) re
   return mpz_probab_prime_p (mpq_numref (n[0]), repetitions);
 }
 
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_probable_next_prime (floatt2c(exrat) n)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_nextprime (mpq_numref (z[0]), mpq_numref (n[0]));
+  return z;
+}
+
 /*------------------------------------------------------------------*/
 /* Value-replacement. */
 

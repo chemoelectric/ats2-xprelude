@@ -698,6 +698,15 @@ test6 () : void =
     val- definitely_prime () = exrat_numerator_prime_test (i2ex 13, 15)
     val n = exrat_make_string_exn ("359334085968622831041960188598043661065388726959079837", 10) (* A Bell prime. *)
     val- probably_prime () = exrat_numerator_prime_test (n, 50)
+
+    val- true = exrat_numerator_probable_next_prime (i2ex 7) = i2ex 11
+    val- true = exrat_numerator_probable_next_prime (i2ex 7907) = i2ex 7919
+    val- definitely_prime () = exrat_numerator_prime_test (i2ex 7907, 50)
+    val- definitely_prime () = exrat_numerator_prime_test (i2ex 7919, 50)
+    val n = exrat_make_string_exn ("8683317618811886495518194401279999999", 10) (* A factorial prime. *)
+    val p = exrat_numerator_probable_next_prime n (* p = 8683317618811886495518194401280000037 when I tried it. *)
+    val- probably_prime () = exrat_numerator_prime_test (n, 50)
+    val- probably_prime () = exrat_numerator_prime_test (p, 50)
   in
   end
 

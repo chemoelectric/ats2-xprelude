@@ -290,6 +290,7 @@ atsvoid_t0ype my_extern_prefix`'_exrat_two_fibonacci_numbers (REF(exrat), REF(ex
 atsvoid_t0ype my_extern_prefix`'_exrat_two_lucas_numbers (REF(exrat), REF(exrat), uintb2c(ulint));
 
 intb2c(int) my_extern_prefix`'_exrat_numerator_prime_test (floatt2c(exrat), intb2c(int));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_probable_next_prime (floatt2c(exrat));
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */

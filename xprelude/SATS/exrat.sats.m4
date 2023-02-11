@@ -279,9 +279,9 @@ datatype prime_test_result =
   | definitely_not_prime
   | probably_prime
   | definitely_prime
-fn exrat_numerator_prime_test
-          (n : exrat, repetitions : intGte 1)
-    :<> prime_test_result
+fn exrat_numerator_prime_test :
+  (exrat, (* repetitions *) intGte 1) -<> prime_test_result
+fn exrat_numerator_probable_next_prime : exrat -<> exrat = "mac#%"
 
 (*------------------------------------------------------------------*)
 dnl
