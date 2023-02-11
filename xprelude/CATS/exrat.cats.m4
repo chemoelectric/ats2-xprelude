@@ -238,15 +238,21 @@ my_extern_prefix`'exrat_numerator_ffs (floatt2c(exrat) x)
 }
 
 my_extern_prefix`'inline intb2c(int)
-my_extern_prefix`'exrat_numerator_jacobi (floatt2c(exrat) a, floatt2c(exrat) b)
+my_extern_prefix`'exrat_numerator_legendre_symbol (floatt2c(exrat) a, floatt2c(exrat) b)
+{
+  return mpz_legendre (mpq_numref (a[0]), mpq_numref (b[0]));
+}
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'exrat_numerator_jacobi_symbol (floatt2c(exrat) a, floatt2c(exrat) b)
 {
   return mpz_jacobi (mpq_numref (a[0]), mpq_numref (b[0]));
 }
 
 my_extern_prefix`'inline intb2c(int)
-my_extern_prefix`'exrat_numerator_legendre (floatt2c(exrat) a, floatt2c(exrat) p)
+my_extern_prefix`'exrat_numerator_kronecker_symbol (floatt2c(exrat) a, floatt2c(exrat) b)
 {
-  return mpz_legendre (mpq_numref (a[0]), mpq_numref (p[0]));
+  return mpz_kronecker (mpq_numref (a[0]), mpq_numref (b[0]));
 }
 
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_root (floatt2c(exrat), intb2c(ulint));
@@ -263,8 +269,8 @@ floatt2c(exrat) my_extern_prefix`'exrat_numerator_lcm (floatt2c(exrat), floatt2c
 floatt2c(exrat) my_extern_prefix`'_exrat_numerator_gcdext (REF(exrat), REF(exrat), REF(exrat),
                                                            floatt2c(exrat), floatt2c(exrat));
 
-atsvoid_t0ype my_extern_prefix`'_exrat_numerator_invert (REF(bool), REF(exrat),
-                                                         floatt2c(exrat), floatt2c(exrat));
+atsvoid_t0ype my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool), REF(exrat),
+                                                                  floatt2c(exrat), floatt2c(exrat));
 
 /*------------------------------------------------------------------*/
 /* Value-replacement. */

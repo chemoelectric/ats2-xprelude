@@ -197,16 +197,16 @@ exrat_numerator_gcdext (a, b) =
   end
 
 implement {}
-exrat_numerator_invert (x, y) =
+exrat_numerator_modular_inverse (x, y) =
   let
     extern fn
-    _exrat_numerator_invert :
+    _exrat_numerator_modular_inverse :
       (&bool? >> bool, &exrat >> _, exrat, exrat) -< !wrt > void = "mac#%"
 
     var success : bool
     var z : exrat = g0i2f 0
   in
-    $effmask_wrt _exrat_numerator_invert (success, z, x, y);
+    $effmask_wrt _exrat_numerator_modular_inverse (success, z, x, y);
     if success then
       Some z
     else

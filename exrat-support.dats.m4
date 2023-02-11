@@ -903,8 +903,8 @@ my_extern_prefix`'_exrat_numerator_gcdext (REF(exrat) gp, REF(exrat) sp, REF(exr
 }
 
 atsvoid_t0ype
-my_extern_prefix`'_exrat_numerator_invert (REF(bool) successp, REF(exrat) zp,
-                                           floatt2c(exrat) x, floatt2c(exrat) y)
+my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool) successp, REF(exrat) zp,
+                                                    floatt2c(exrat) x, floatt2c(exrat) y)
 {
   atstype_bool *success = (void *) successp;
   floatt2c(exrat) z = DEREF(exrat, zp);

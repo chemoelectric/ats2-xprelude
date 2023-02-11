@@ -234,11 +234,12 @@ fn {} exrat_numerator_gcdext : (exrat, exrat) -<> (exrat, exrat, exrat)
 
 (* Invert the numerator of the first argument modulo the numerator of
    the second argument. *)
-fn {} exrat_numerator_invert : (exrat, exrat) -<> Option exrat
+fn {} exrat_numerator_modular_inverse : (exrat, exrat) -<> Option exrat
 
-(* Jacobi and Legendre symbols. *)
-fn exrat_numerator_jacobi : (exrat, exrat) -<> int = "mac#%"
-fn exrat_numerator_legendre : (exrat, exrat) -<> int = "mac#%"
+(* Legendre, Jacobi, Kronecker symbols. *)
+fn exrat_numerator_legendre_symbol : (exrat, exrat) -<> int = "mac#%"
+fn exrat_numerator_jacobi_symbol : (exrat, exrat) -<> int = "mac#%"
+fn exrat_numerator_kronecker_symbol : (exrat, exrat) -<> int = "mac#%"
 
 (*------------------------------------------------------------------*)
 dnl

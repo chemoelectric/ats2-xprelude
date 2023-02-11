@@ -653,22 +653,24 @@ test6 () : void =
     val- true = d = i2ex 12
     val- true = (p * i2ex 36) + (q * i2ex 24) = d
 
-    val- Some z = exrat_numerator_invert (i2ex 7, i2ex 9)
+    val- Some z = exrat_numerator_modular_inverse (i2ex 7, i2ex 9)
     val- true = z = i2ex 4
-    val- Some z = exrat_numerator_invert (i2ex 4, i2ex 9)
+    val- Some z = exrat_numerator_modular_inverse (i2ex 4, i2ex 9)
     val- true = z = i2ex 7
-    val- Some z = exrat_numerator_invert (i2ex 13, i2ex 16)
+    val- Some z = exrat_numerator_modular_inverse (i2ex 13, i2ex 16)
     val- true = z = i2ex 5
-    val- Some z = exrat_numerator_invert (i2ex 5, i2ex 16)
+    val- Some z = exrat_numerator_modular_inverse (i2ex 5, i2ex 16)
     val- true = z = i2ex 13
-    val- None () = exrat_numerator_invert (i2ex 5, i2ex 10)
-    val- None () = exrat_numerator_invert (i2ex 13, i2ex 13)
-    val- None () = exrat_numerator_invert (i2ex 13, i2ex 0)
+    val- None () = exrat_numerator_modular_inverse (i2ex 5, i2ex 10)
+    val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 13)
+    val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 0)
 
-    val- true = exrat_numerator_jacobi (i2ex 14, i2ex 31) = 1
-    val- true = exrat_numerator_jacobi (i2ex 14, i2ex 33) = ~1
-    val- true = exrat_numerator_legendre (i2ex 14, i2ex 31) = 1
-    val- true = exrat_numerator_legendre (i2ex 14, i2ex 33) = ~1
+    val- true = exrat_numerator_legendre_symbol (i2ex 14, i2ex 31) = 1
+    val- true = exrat_numerator_legendre_symbol (i2ex 14, i2ex 33) = ~1
+    val- true = exrat_numerator_jacobi_symbol (i2ex 14, i2ex 31) = 1
+    val- true = exrat_numerator_jacobi_symbol (i2ex 14, i2ex 33) = ~1
+    val- true = exrat_numerator_kronecker_symbol (i2ex 17, i2ex 10) = ~1
+    val- true = exrat_numerator_kronecker_symbol (i2ex 26, i2ex 2) = 0
   in
   end
 
