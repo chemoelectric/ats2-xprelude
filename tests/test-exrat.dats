@@ -654,9 +654,6 @@ test6 () : void =
     val- true = exrat_numerator_hamming_distance (i2ex 1234, i2ex 5432)
                     = exrat_numerator_popcount (exrat_numerator_lxor (i2ex 1234, i2ex 5432))
 
-    val- true = exrat_numerator_modular_pow (i2ex 5, i2ex 3, i2ex 7) = i2ex 6
-    val- true = exrat_numerator_modular_pow (i2ex 5, i2ex 3, i2ex 23) = i2ex 10
-
     val- true = exrat_numerator_root (i2ex 125, 3UL) = i2ex 5
     val- true = exrat_numerator_sqrt (i2ex 25) = i2ex 5
 
@@ -673,18 +670,6 @@ test6 () : void =
     val @(d, p, q) = exrat_numerator_gcd_bezout (i2ex 36, i2ex 24)
     val- true = d = i2ex 12
     val- true = (p * i2ex 36) + (q * i2ex 24) = d
-
-    val- Some z = exrat_numerator_modular_inverse (i2ex 7, i2ex 9)
-    val- true = z = i2ex 4
-    val- Some z = exrat_numerator_modular_inverse (i2ex 4, i2ex 9)
-    val- true = z = i2ex 7
-    val- Some z = exrat_numerator_modular_inverse (i2ex 13, i2ex 16)
-    val- true = z = i2ex 5
-    val- Some z = exrat_numerator_modular_inverse (i2ex 5, i2ex 16)
-    val- true = z = i2ex 13
-    val- None () = exrat_numerator_modular_inverse (i2ex 5, i2ex 10)
-    val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 13)
-    val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 0)
 
     val- true = exrat_numerator_legendre_symbol (i2ex 14, i2ex 31) = 1
     val- true = exrat_numerator_legendre_symbol (i2ex 14, i2ex 33) = ~1
@@ -714,6 +699,27 @@ test6 () : void =
     val @(x, y) = exrat_two_lucas_numbers 12UL
     val- true = x = i2ex 322
     val- true = y = i2ex 199
+
+    val- true = exrat_numerator_congruent (i2ex 5, i2ex 3, i2ex 2)
+    val- false = exrat_numerator_congruent (i2ex 5, i2ex 3, i2ex 3)
+
+    val- true = exrat_numerator_congruent_2exp (i2ex 5, i2ex 3, g0i2u 1)
+    val- false = exrat_numerator_congruent_2exp (i2ex 5, i2ex 3, g0i2u 2)
+
+    val- true = exrat_numerator_modular_pow (i2ex 5, i2ex 3, i2ex 7) = i2ex 6
+    val- true = exrat_numerator_modular_pow (i2ex 5, i2ex 3, i2ex 23) = i2ex 10
+
+    val- Some z = exrat_numerator_modular_inverse (i2ex 7, i2ex 9)
+    val- true = z = i2ex 4
+    val- Some z = exrat_numerator_modular_inverse (i2ex 4, i2ex 9)
+    val- true = z = i2ex 7
+    val- Some z = exrat_numerator_modular_inverse (i2ex 13, i2ex 16)
+    val- true = z = i2ex 5
+    val- Some z = exrat_numerator_modular_inverse (i2ex 5, i2ex 16)
+    val- true = z = i2ex 13
+    val- None () = exrat_numerator_modular_inverse (i2ex 5, i2ex 10)
+    val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 13)
+    val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 0)
 
     val- definitely_not_prime () = exrat_numerator_prime_test (i2ex 12, 15)
     val- definitely_prime () = exrat_numerator_prime_test (i2ex 13, 15)

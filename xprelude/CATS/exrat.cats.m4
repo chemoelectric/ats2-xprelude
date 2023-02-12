@@ -282,9 +282,6 @@ my_extern_prefix`'exrat_numerator_kronecker_symbol (floatt2c(exrat) a, floatt2c(
   return mpz_kronecker (mpq_numref (a[0]), mpq_numref (b[0]));
 }
 
-floatt2c(exrat) my_extern_prefix`'exrat_numerator_modular_pow (floatt2c(exrat), floatt2c(exrat),
-                                                               floatt2c(exrat));
-
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_root (floatt2c(exrat), intb2c(ulint));
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_sqrt (floatt2c(exrat));
 
@@ -298,9 +295,6 @@ floatt2c(exrat) my_extern_prefix`'exrat_numerator_lcm (floatt2c(exrat), floatt2c
 
 floatt2c(exrat) my_extern_prefix`'_exrat_numerator_gcd_bezout (REF(exrat), REF(exrat), REF(exrat),
                                                                floatt2c(exrat), floatt2c(exrat));
-
-atsvoid_t0ype my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool), REF(exrat),
-                                                                  floatt2c(exrat), floatt2c(exrat));
 
 atsvoid_t0ype my_extern_prefix`'_exrat_numerator_remove_factor (REF(exrat), REF(uintmax),
                                                                 floatt2c(exrat), floatt2c(exrat));
@@ -318,6 +312,24 @@ floatt2c(exrat) my_extern_prefix`'exrat_lucas_number (uintb2c(ulint));
 
 atsvoid_t0ype my_extern_prefix`'_exrat_two_fibonacci_numbers (REF(exrat), REF(exrat), uintb2c(ulint));
 atsvoid_t0ype my_extern_prefix`'_exrat_two_lucas_numbers (REF(exrat), REF(exrat), uintb2c(ulint));
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'exrat_numerator_congruent (floatt2c(exrat) x, floatt2c(exrat) y, floatt2c(exrat) d)
+{
+  return my_extern_prefix`'boolc2ats (mpz_congruent_p (mpq_numref (x[0]), mpq_numref (y[0]),
+                                                       mpq_numref (d[0])));
+}
+
+my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'exrat_numerator_congruent_2exp (floatt2c(exrat) x, floatt2c(exrat) y, uintb2c(uintmax) i)
+{
+  return my_extern_prefix`'boolc2ats (mpz_congruent_2exp_p (mpq_numref (x[0]), mpq_numref (y[0]), i));
+}
+
+atsvoid_t0ype my_extern_prefix`'_exrat_numerator_modular_inverse (REF(bool), REF(exrat),
+                                                                  floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_modular_pow (floatt2c(exrat), floatt2c(exrat),
+                                                               floatt2c(exrat));
 
 intb2c(int) my_extern_prefix`'_exrat_numerator_prime_test (floatt2c(exrat), intb2c(int));
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_probable_next_prime (floatt2c(exrat));

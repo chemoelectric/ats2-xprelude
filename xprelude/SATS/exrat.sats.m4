@@ -240,9 +240,6 @@ fn exrat_numerator_rootrem : (exrat, ulint) -<> @(exrat, exrat)
 fn exrat_numerator_sqrt : exrat -<> exrat = "mac#%"
 fn exrat_numerator_sqrtrem : exrat -<> @(exrat, exrat)
 
-(* Modular powers. *)
-fn exrat_numerator_modular_pow : (exrat, exrat, exrat) -<> exrat = "mac#%"
-
 (* Greatest common divisor and least common multiple. *)
 fn exrat_numerator_gcd : (exrat, exrat) -<> exrat = "mac#%"
 fn exrat_numerator_lcm : (exrat, exrat) -<> exrat = "mac#%"
@@ -250,10 +247,6 @@ fn exrat_numerator_lcm : (exrat, exrat) -<> exrat = "mac#%"
 (* Find the greatest common divisor and find a solution of its Bézout
    identity. *)
 fn exrat_numerator_gcd_bezout : (exrat, exrat) -<> (exrat, exrat, exrat)
-
-(* Invert the numerator of the first argument modulo the numerator of
-   the second argument. *)
-fn exrat_numerator_modular_inverse : (exrat, exrat) -<> Option exrat
 
 (* Legendre, Jacobi, Kronecker symbols. *)
 fn exrat_numerator_legendre_symbol : (exrat, exrat) -<> int = "mac#%"
@@ -293,13 +286,32 @@ fn exrat_lucas_number : ulint -<> exrat = "mac#%"
 fn exrat_two_fibonacci_numbers : ulint -<> @(exrat, exrat)
 fn exrat_two_lucas_numbers : ulint -<> @(exrat, exrat)
 
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* Modular operations. *)
+
+(* Modular congruence. *)
+fn exrat_numerator_congruent : (exrat, exrat, exrat) -<> bool = "mac#%"
+
+(* Congruence modulo a power of two. *)
+fn exrat_numerator_congruent_2exp : (exrat, exrat, uintmax) -<> bool = "mac#%"
+
+(* Invert the numerator of the first argument modulo the numerator of
+   the second argument. *)
+fn exrat_numerator_modular_inverse : (exrat, exrat) -<> Option exrat
+
+(* Modular powers. *)
+fn exrat_numerator_modular_pow : (exrat, exrat, exrat) -<> exrat = "mac#%"
+
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
 (* Probabilistic algorithms regarding prime numbers. *)
+
 datatype prime_test_result =
   | definitely_not_prime
   | probably_prime
   | definitely_prime
 fn exrat_numerator_prime_test :
   (exrat, (* repetitions *) intGte 1) -<> prime_test_result
+
 fn exrat_numerator_probable_next_prime : exrat -<> exrat = "mac#%"
 
 (*------------------------------------------------------------------*)
