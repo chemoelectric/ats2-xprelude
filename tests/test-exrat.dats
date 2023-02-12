@@ -721,6 +721,106 @@ test6 () : void =
     val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 13)
     val- None () = exrat_numerator_modular_inverse (i2ex 13, i2ex 0)
 
+    val- true = exrat_numerator_euclid_quotient (i2ex 26, i2ex 4) = i2ex 6
+    val- true = exrat_numerator_euclid_remainder (i2ex 26, i2ex 4) = i2ex 2
+    val- true = exrat_numerator_euclid_quotient (i2ex ~26, i2ex 4) = i2ex ~7
+    val- true = exrat_numerator_euclid_remainder (i2ex ~26, i2ex 4) = i2ex 2
+    val- true = exrat_numerator_euclid_quotient (i2ex 26, i2ex ~4) = i2ex ~6
+    val- true = exrat_numerator_euclid_remainder (i2ex 26, i2ex ~4) = i2ex 2
+    val- true = exrat_numerator_euclid_quotient (i2ex ~26, i2ex ~4) = i2ex 7
+    val- true = exrat_numerator_euclid_remainder (i2ex ~26, i2ex ~4) = i2ex 2
+    val- true = exrat_numerator_euclid_quotient_2exp (i2ex 26, g0i2u 2) = i2ex 6
+    val- true = exrat_numerator_euclid_remainder_2exp (i2ex 26, g0i2u 2) = i2ex 2
+    val- true = exrat_numerator_euclid_quotient_2exp (i2ex ~26, g0i2u 2) = i2ex ~7
+    val- true = exrat_numerator_euclid_remainder_2exp (i2ex ~26, g0i2u 2) = i2ex 2
+    val @(q, r) = exrat_numerator_euclid_division (i2ex 26, i2ex 4)
+    val- true = q = exrat_numerator_euclid_quotient (i2ex 26, i2ex 4)
+    val- true = r = exrat_numerator_euclid_remainder (i2ex 26, i2ex 4)
+    val @(q, r) = exrat_numerator_euclid_division (i2ex ~26, i2ex 4)
+    val- true = q = exrat_numerator_euclid_quotient (i2ex ~26, i2ex 4)
+    val- true = r = exrat_numerator_euclid_remainder (i2ex ~26, i2ex 4)
+    val @(q, r) = exrat_numerator_euclid_division (i2ex 26, i2ex ~4)
+    val- true = q = exrat_numerator_euclid_quotient (i2ex 26, i2ex ~4)
+    val- true = r = exrat_numerator_euclid_remainder (i2ex 26, i2ex ~4)
+    val @(q, r) = exrat_numerator_euclid_division (i2ex ~26, i2ex ~4)
+    val- true = q = exrat_numerator_euclid_quotient (i2ex ~26, i2ex ~4)
+    val- true = r = exrat_numerator_euclid_remainder (i2ex ~26, i2ex ~4)
+
+    val- true = exrat_numerator_floor_quotient (i2ex 26, i2ex 4) = i2ex 6
+    val- true = exrat_numerator_floor_remainder (i2ex 26, i2ex 4) = i2ex 2
+    val- true = exrat_numerator_floor_quotient (i2ex ~26, i2ex 4) = i2ex ~7
+    val- true = exrat_numerator_floor_remainder (i2ex ~26, i2ex 4) = i2ex 2
+    val- true = exrat_numerator_floor_quotient (i2ex 26, i2ex ~4) = i2ex ~7
+    val- true = exrat_numerator_floor_remainder (i2ex 26, i2ex ~4) = i2ex ~2
+    val- true = exrat_numerator_floor_quotient (i2ex ~26, i2ex ~4) = i2ex 6
+    val- true = exrat_numerator_floor_remainder (i2ex ~26, i2ex ~4) = i2ex ~2
+    val- true = exrat_numerator_floor_quotient_2exp (i2ex 26, g0i2u 2) = i2ex 6
+    val- true = exrat_numerator_floor_remainder_2exp (i2ex 26, g0i2u 2) = i2ex 2
+    val- true = exrat_numerator_floor_quotient_2exp (i2ex ~26, g0i2u 2) = i2ex ~7
+    val- true = exrat_numerator_floor_remainder_2exp (i2ex ~26, g0i2u 2) = i2ex 2
+    val @(q, r) = exrat_numerator_floor_division (i2ex 26, i2ex 4)
+    val- true = q = exrat_numerator_floor_quotient (i2ex 26, i2ex 4)
+    val- true = r = exrat_numerator_floor_remainder (i2ex 26, i2ex 4)
+    val @(q, r) = exrat_numerator_floor_division (i2ex ~26, i2ex 4)
+    val- true = q = exrat_numerator_floor_quotient (i2ex ~26, i2ex 4)
+    val- true = r = exrat_numerator_floor_remainder (i2ex ~26, i2ex 4)
+    val @(q, r) = exrat_numerator_floor_division (i2ex 26, i2ex ~4)
+    val- true = q = exrat_numerator_floor_quotient (i2ex 26, i2ex ~4)
+    val- true = r = exrat_numerator_floor_remainder (i2ex 26, i2ex ~4)
+    val @(q, r) = exrat_numerator_floor_division (i2ex ~26, i2ex ~4)
+    val- true = q = exrat_numerator_floor_quotient (i2ex ~26, i2ex ~4)
+    val- true = r = exrat_numerator_floor_remainder (i2ex ~26, i2ex ~4)
+
+    val- true = exrat_numerator_ceil_quotient (i2ex 26, i2ex 4) = i2ex 7
+    val- true = exrat_numerator_ceil_remainder (i2ex 26, i2ex 4) = i2ex ~2
+    val- true = exrat_numerator_ceil_quotient (i2ex ~26, i2ex 4) = i2ex ~6
+    val- true = exrat_numerator_ceil_remainder (i2ex ~26, i2ex 4) = i2ex ~2
+    val- true = exrat_numerator_ceil_quotient (i2ex 26, i2ex ~4) = i2ex ~6
+    val- true = exrat_numerator_ceil_remainder (i2ex 26, i2ex ~4) = i2ex 2
+    val- true = exrat_numerator_ceil_quotient (i2ex ~26, i2ex ~4) = i2ex 7
+    val- true = exrat_numerator_ceil_remainder (i2ex ~26, i2ex ~4) = i2ex 2
+    val- true = exrat_numerator_ceil_quotient_2exp (i2ex 26, g0i2u 2) = i2ex 7
+    val- true = exrat_numerator_ceil_remainder_2exp (i2ex 26, g0i2u 2) = i2ex ~2
+    val- true = exrat_numerator_ceil_quotient_2exp (i2ex ~26, g0i2u 2) = i2ex ~6
+    val- true = exrat_numerator_ceil_remainder_2exp (i2ex ~26, g0i2u 2) = i2ex ~2
+    val @(q, r) = exrat_numerator_ceil_division (i2ex 26, i2ex 4)
+    val- true = q = exrat_numerator_ceil_quotient (i2ex 26, i2ex 4)
+    val- true = r = exrat_numerator_ceil_remainder (i2ex 26, i2ex 4)
+    val @(q, r) = exrat_numerator_ceil_division (i2ex ~26, i2ex 4)
+    val- true = q = exrat_numerator_ceil_quotient (i2ex ~26, i2ex 4)
+    val- true = r = exrat_numerator_ceil_remainder (i2ex ~26, i2ex 4)
+    val @(q, r) = exrat_numerator_ceil_division (i2ex 26, i2ex ~4)
+    val- true = q = exrat_numerator_ceil_quotient (i2ex 26, i2ex ~4)
+    val- true = r = exrat_numerator_ceil_remainder (i2ex 26, i2ex ~4)
+    val @(q, r) = exrat_numerator_ceil_division (i2ex ~26, i2ex ~4)
+    val- true = q = exrat_numerator_ceil_quotient (i2ex ~26, i2ex ~4)
+    val- true = r = exrat_numerator_ceil_remainder (i2ex ~26, i2ex ~4)
+
+    val- true = exrat_numerator_trunc_quotient (i2ex 26, i2ex 4) = i2ex 6
+    val- true = exrat_numerator_trunc_remainder (i2ex 26, i2ex 4) = i2ex 2
+    val- true = exrat_numerator_trunc_quotient (i2ex ~26, i2ex 4) = i2ex ~6
+    val- true = exrat_numerator_trunc_remainder (i2ex ~26, i2ex 4) = i2ex ~2
+    val- true = exrat_numerator_trunc_quotient (i2ex 26, i2ex ~4) = i2ex ~6
+    val- true = exrat_numerator_trunc_remainder (i2ex 26, i2ex ~4) = i2ex 2
+    val- true = exrat_numerator_trunc_quotient (i2ex ~26, i2ex ~4) = i2ex 6
+    val- true = exrat_numerator_trunc_remainder (i2ex ~26, i2ex ~4) = i2ex ~2
+    val- true = exrat_numerator_trunc_quotient_2exp (i2ex 26, g0i2u 2) = i2ex 6
+    val- true = exrat_numerator_trunc_remainder_2exp (i2ex 26, g0i2u 2) = i2ex 2
+    val- true = exrat_numerator_trunc_quotient_2exp (i2ex ~26, g0i2u 2) = i2ex ~6
+    val- true = exrat_numerator_trunc_remainder_2exp (i2ex ~26, g0i2u 2) = i2ex ~2
+    val @(q, r) = exrat_numerator_trunc_division (i2ex 26, i2ex 4)
+    val- true = q = exrat_numerator_trunc_quotient (i2ex 26, i2ex 4)
+    val- true = r = exrat_numerator_trunc_remainder (i2ex 26, i2ex 4)
+    val @(q, r) = exrat_numerator_trunc_division (i2ex ~26, i2ex 4)
+    val- true = q = exrat_numerator_trunc_quotient (i2ex ~26, i2ex 4)
+    val- true = r = exrat_numerator_trunc_remainder (i2ex ~26, i2ex 4)
+    val @(q, r) = exrat_numerator_trunc_division (i2ex 26, i2ex ~4)
+    val- true = q = exrat_numerator_trunc_quotient (i2ex 26, i2ex ~4)
+    val- true = r = exrat_numerator_trunc_remainder (i2ex 26, i2ex ~4)
+    val @(q, r) = exrat_numerator_trunc_division (i2ex ~26, i2ex ~4)
+    val- true = q = exrat_numerator_trunc_quotient (i2ex ~26, i2ex ~4)
+    val- true = r = exrat_numerator_trunc_remainder (i2ex ~26, i2ex ~4)
+
     val- definitely_not_prime () = exrat_numerator_prime_test (i2ex 12, 15)
     val- definitely_prime () = exrat_numerator_prime_test (i2ex 13, 15)
     val n = exrat_make_string_exn ("359334085968622831041960188598043661065388726959079837", 10) (* A Bell prime. *)

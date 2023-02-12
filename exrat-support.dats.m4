@@ -1067,6 +1067,179 @@ my_extern_prefix`'_exrat_two_lucas_numbers (REF(exrat) xp, REF(exrat) yp, uintb2
   mpz_lucnum2_ui (mpq_numref (x[0]), mpq_numref (y[0]), n);
 }
 
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_euclid_quotient (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  if (0 <= mpz_sgn (mpq_numref (y[0])))
+    mpz_fdiv_q (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  else
+    mpz_cdiv_q (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_floor_quotient (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fdiv_q (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_ceil_quotient (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_cdiv_q (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_trunc_quotient (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_tdiv_q (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_euclid_remainder (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  if (0 <= mpz_sgn (mpq_numref (y[0])))
+    mpz_fdiv_r (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  else
+    mpz_cdiv_r (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_floor_remainder (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fdiv_r (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_ceil_remainder (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_cdiv_r (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_trunc_remainder (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_tdiv_r (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_euclid_quotient_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fdiv_q_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_floor_quotient_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fdiv_q_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_ceil_quotient_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_cdiv_q_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_trunc_quotient_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_tdiv_q_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_euclid_remainder_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fdiv_r_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_floor_remainder_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_fdiv_r_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_ceil_remainder_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_cdiv_r_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_trunc_remainder_2exp (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_tdiv_r_2exp (mpq_numref (z[0]), mpq_numref (x[0]), i);
+  return z;
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_euclid_division (REF(exrat) qp, REF(exrat) rp,
+                                                    floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) q = DEREF(exrat, qp);
+  floatt2c(exrat) r = DEREF(exrat, rp);
+  if (0 <= mpz_sgn (mpq_numref (y[0])))
+    mpz_fdiv_qr (mpq_numref (q[0]), mpq_numref (r[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  else
+    mpz_cdiv_qr (mpq_numref (q[0]), mpq_numref (r[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_floor_division (REF(exrat) qp, REF(exrat) rp,
+                                                   floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) q = DEREF(exrat, qp);
+  floatt2c(exrat) r = DEREF(exrat, rp);
+  mpz_fdiv_qr (mpq_numref (q[0]), mpq_numref (r[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_ceil_division (REF(exrat) qp, REF(exrat) rp,
+                                                  floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) q = DEREF(exrat, qp);
+  floatt2c(exrat) r = DEREF(exrat, rp);
+  mpz_cdiv_qr (mpq_numref (q[0]), mpq_numref (r[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+}
+
+atsvoid_t0ype
+my_extern_prefix`'_exrat_numerator_trunc_division (REF(exrat) qp, REF(exrat) rp,
+                                                   floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) q = DEREF(exrat, qp);
+  floatt2c(exrat) r = DEREF(exrat, rp);
+  mpz_tdiv_qr (mpq_numref (q[0]), mpq_numref (r[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+}
+
 intb2c(int)
 my_extern_prefix`'_exrat_numerator_prime_test (floatt2c(exrat) n, intb2c(int) repetitions)
 {
@@ -1540,6 +1713,22 @@ exrat_two_lucas_numbers n =
     $effmask_wrt _exrat_two_lucas_numbers (x, y, n);
     @(x, y)
   end
+
+m4_foreachq(`ROUND',`euclid, floor, ceil, trunc',`
+implement
+exrat_numerator_`'ROUND`'_division (x, y) =
+  let
+    extern fn
+    _exrat_numerator_`'ROUND`'_division :
+      (&exrat >> _, &exrat >> _, exrat, exrat) -< !wrt > void = "mac#%"
+
+    var q : exrat = _exrat_make_zero ()
+    var r : exrat = _exrat_make_zero ()
+  in
+    $effmask_wrt _exrat_numerator_`'ROUND`'_division (q, r, x, y);
+    @(q, r)
+  end
+')dnl
 
 implement
 exrat_numerator_prime_test (n, repetitions) =

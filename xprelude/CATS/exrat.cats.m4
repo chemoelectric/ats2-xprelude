@@ -313,6 +313,15 @@ floatt2c(exrat) my_extern_prefix`'exrat_lucas_number (uintb2c(ulint));
 atsvoid_t0ype my_extern_prefix`'_exrat_two_fibonacci_numbers (REF(exrat), REF(exrat), uintb2c(ulint));
 atsvoid_t0ype my_extern_prefix`'_exrat_two_lucas_numbers (REF(exrat), REF(exrat), uintb2c(ulint));
 
+m4_foreachq(`ROUND',`euclid, floor, ceil, trunc',
+`floatt2c(exrat) my_extern_prefix`'exrat_numerator_`'ROUND`'_quotient (floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_`'ROUND`'_remainder (floatt2c(exrat), floatt2c(exrat));
+atsvoid_t0ype my_extern_prefix`'_exrat_numerator_`'ROUND`'_division (REF(exrat), REF(exrat),
+                                                                     floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_`'ROUND`'_quotient_2exp (floatt2c(exrat), uintb2c(uintmax));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_`'ROUND`'_remainder_2exp (floatt2c(exrat), uintb2c(uintmax));
+')dnl
+
 my_extern_prefix`'inline atstype_bool
 my_extern_prefix`'exrat_numerator_congruent (floatt2c(exrat) x, floatt2c(exrat) y, floatt2c(exrat) d)
 {

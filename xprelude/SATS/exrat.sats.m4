@@ -287,6 +287,22 @@ fn exrat_two_fibonacci_numbers : ulint -<> @(exrat, exrat)
 fn exrat_two_lucas_numbers : ulint -<> @(exrat, exrat)
 
 (*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
+(* Integer division. The ‘euclid’ versions are for division with a
+   remainder that is never negative. *)
+
+m4_foreachq(`ROUND',`euclid, floor, ceil, trunc',
+`fn exrat_numerator_`'ROUND`'_quotient : (exrat, exrat) -<> exrat = "mac#%"
+fn exrat_numerator_`'ROUND`'_remainder : (exrat, exrat) -<> exrat = "mac#%"
+fn exrat_numerator_`'ROUND`'_division : (exrat, exrat) -<> @(exrat, exrat)
+')dnl
+
+(* Division by a power of two. *)
+m4_foreachq(`ROUND',`euclid, floor, ceil, trunc',
+`fn exrat_numerator_`'ROUND`'_quotient_2exp : (exrat, uintmax) -<> exrat = "mac#%"
+fn exrat_numerator_`'ROUND`'_remainder_2exp : (exrat, uintmax) -<> exrat = "mac#%"
+')dnl
+
+(*  -    -    -    -    -    -    -    -    -    -    -    -    -   *)
 (* Modular operations. *)
 
 (* Modular congruence. *)
