@@ -216,6 +216,22 @@ fn exrat_numerator_is_perfect_square : exrat -<> bool = "mac#%"
 (* ‘Find first set’: like the POSIX "ffs" function. *)
 fn exrat_numerator_ffs : exrat -<> uintmax = "mac#%"
 
+(* Bitwise logical operations. *)
+fn exrat_numerator_land : (exrat, exrat) -<> exrat = "mac#%"
+fn exrat_numerator_lor : (exrat, exrat) -<> exrat = "mac#%"
+fn exrat_numerator_lxor : (exrat, exrat) -<> exrat = "mac#%"
+fn exrat_numerator_lnot : exrat -<> exrat = "mac#%"
+
+(* Bit access by index (index = 0 for the least significant bit). *)
+fn exrat_numerator_bit_ltest : (exrat, uintmax) -<> natLte 1 = "mac#%"
+fn exrat_numerator_bit_lset : (exrat, uintmax, natLte 1) -<> exrat = "mac#%"
+fn exrat_numerator_bit_lnot : (exrat, uintmax) -<> exrat = "mac#%"
+
+(* Population count and Hamming distance. A very large integer will be
+   returned, if the count/distance is actually infinite. *)
+fn exrat_numerator_popcount : exrat -<> uintmax = "mac#%"
+fn exrat_numerator_hamming_distance : (exrat, exrat) -<> uintmax = "mac#%"
+
 (* Integer nth root. *)
 fn exrat_numerator_root : (exrat, ulint) -<> exrat = "mac#%"
 fn exrat_numerator_rootrem : (exrat, ulint) -<> @(exrat, exrat)
@@ -223,6 +239,9 @@ fn exrat_numerator_rootrem : (exrat, ulint) -<> @(exrat, exrat)
 (* Integer square root. *)
 fn exrat_numerator_sqrt : exrat -<> exrat = "mac#%"
 fn exrat_numerator_sqrtrem : exrat -<> @(exrat, exrat)
+
+(* Modular powers. *)
+fn exrat_numerator_modular_pow : (exrat, exrat, exrat) -<> exrat = "mac#%"
 
 (* Greatest common divisor and least common multiple. *)
 fn exrat_numerator_gcd : (exrat, exrat) -<> exrat = "mac#%"

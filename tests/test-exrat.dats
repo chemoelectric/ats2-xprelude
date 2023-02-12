@@ -630,22 +630,43 @@ test6 () : void =
     val- true = exrat_numerator_is_odd (exrat_make (~11, 2))
     val- true = exrat_numerator_is_odd (exrat_make (5, 1))
 
-    val- true = exrat_numerator_is_perfect_power (exrat_make (125, 1))
-    val- false = exrat_numerator_is_perfect_power (exrat_make (126, 1))
+    val- true = exrat_numerator_is_perfect_power (i2ex 125)
+    val- false = exrat_numerator_is_perfect_power (i2ex 126)
 
-    val- true = exrat_numerator_is_perfect_square (exrat_make (25, 1))
-    val- false = exrat_numerator_is_perfect_square (exrat_make (125, 1))
+    val- true = exrat_numerator_is_perfect_square (i2ex 25)
+    val- false = exrat_numerator_is_perfect_square (i2ex 125)
 
-    val- true = exrat_numerator_root (exrat_make (125, 1), 3UL) = exrat_make (5, 1)
-    val- true = exrat_numerator_sqrt (exrat_make (25, 1)) = exrat_make (5, 1)
+    val- true = exrat_numerator_land (i2ex 15, i2ex 254) = i2ex 14
+    val- true = exrat_numerator_lor (i2ex 15, i2ex 254) = i2ex 255
+    val- true = exrat_numerator_lxor (i2ex 15, i2ex 254) = i2ex 241
+    val- true = exrat_numerator_lnot (i2ex 254) = pred (i2ex ~254) (* Two’s complement, minus 1. *)
 
-    val @(q, r) = exrat_numerator_rootrem (exrat_make (127, 1), 3UL)
-    val- true = q = exrat_make (5, 1)
-    val- true = r = exrat_make (2, 1)
+    val- true = exrat_numerator_bit_lset (i2ex 5, g0i2u 3, 1) = i2ex 13
+    val- true = exrat_numerator_bit_lset (i2ex 15, g0i2u 1, 0) = i2ex 13
+    val- true = exrat_numerator_bit_lnot (i2ex 15, g0i2u 1) = i2ex 13
+    val- true = exrat_numerator_bit_lnot (i2ex 13, g0i2u 1) = i2ex 15
+    val- true = exrat_numerator_bit_ltest (i2ex 13, g0i2u 1) = 0
+    val- true = exrat_numerator_bit_ltest (i2ex 15, g0i2u 1) = 1
 
-    val @(q, r) = exrat_numerator_sqrtrem (exrat_make (29, 1))
-    val- true = q = exrat_make (5, 1)
-    val- true = r = exrat_make (4, 1)
+    val- true = exrat_numerator_popcount (i2ex 15) = g0i2u 4
+    val- true = exrat_numerator_popcount (i2ex 254) = g0i2u 7
+    val- true = exrat_numerator_hamming_distance (i2ex 0x15, i2ex 0x1E) = g0i2u 3
+    val- true = exrat_numerator_hamming_distance (i2ex 1234, i2ex 5432)
+                    = exrat_numerator_popcount (exrat_numerator_lxor (i2ex 1234, i2ex 5432))
+
+    val- true = exrat_numerator_modular_pow (i2ex 5, i2ex 3, i2ex 7) = i2ex 6
+    val- true = exrat_numerator_modular_pow (i2ex 5, i2ex 3, i2ex 23) = i2ex 10
+
+    val- true = exrat_numerator_root (i2ex 125, 3UL) = i2ex 5
+    val- true = exrat_numerator_sqrt (i2ex 25) = i2ex 5
+
+    val @(q, r) = exrat_numerator_rootrem (i2ex 127, 3UL)
+    val- true = q = i2ex 5
+    val- true = r = i2ex 2
+
+    val @(q, r) = exrat_numerator_sqrtrem (i2ex 29)
+    val- true = q = i2ex 5
+    val- true = r = i2ex 4
 
     val- true = exrat_numerator_gcd (i2ex 36, i2ex 24) = i2ex 12
     val- true = exrat_numerator_lcm (i2ex 36, i2ex 24) = (i2ex 36 * i2ex 24) / exrat_numerator_gcd (i2ex 36, i2ex 24)

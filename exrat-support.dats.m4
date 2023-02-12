@@ -838,6 +838,70 @@ my_extern_prefix`'_g0float_mul_2exp_intmax_exrat (floatt2c(exrat) x, intb2c(intm
   return z;
 }
 
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_land (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_and (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_lor (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_ior (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_lxor (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_xor (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (y[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_lnot (floatt2c(exrat) x)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_com (mpq_numref (z[0]), mpq_numref (x[0]));
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_bit_lset (floatt2c(exrat) x,
+                                            uintb2c(uintmax) i,
+                                            intb2c(int) b)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_set (mpq_numref (z[0]), mpq_numref (x[0]));
+  if (b == 0)
+    mpz_clrbit (mpq_numref (z[0]), i);
+  else
+    mpz_setbit (mpq_numref (z[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_bit_lnot (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_set (mpq_numref (z[0]), mpq_numref (x[0]));
+  mpz_combit (mpq_numref (z[0]), i);
+  return z;
+}
+
+floatt2c(exrat)
+my_extern_prefix`'exrat_numerator_modular_pow (floatt2c(exrat) x,
+                                               floatt2c(exrat) n,
+                                               floatt2c(exrat) m)
+{
+  floatt2c(exrat) z = _`'my_extern_prefix`'exrat_init ();
+  mpz_powm (mpq_numref (z[0]), mpq_numref (x[0]), mpq_numref (n[0]), mpq_numref (m[0]));
+  return z;
+}
 
 floatt2c(exrat)
 my_extern_prefix`'exrat_numerator_root (floatt2c(exrat) x, intb2c(ulint) i)

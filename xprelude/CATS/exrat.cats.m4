@@ -237,6 +237,33 @@ my_extern_prefix`'exrat_numerator_ffs (floatt2c(exrat) x)
           (mpz_scan1 (mpq_numref (x[0]), 0) + 1));
 }
 
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_land (floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_lor (floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_lxor (floatt2c(exrat), floatt2c(exrat));
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_lnot (floatt2c(exrat));
+
+my_extern_prefix`'inline intb2c(int)
+my_extern_prefix`'exrat_numerator_bit_ltest (floatt2c(exrat) x, uintb2c(uintmax) i)
+{
+  return mpz_tstbit (mpq_numref (x[0]), i);
+}
+
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_bit_lset (floatt2c(exrat) x, uintb2c(uintmax) i,
+                                                            intb2c(int) b);
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_bit_lnot (floatt2c(exrat) x, uintb2c(uintmax) i);
+
+my_extern_prefix`'inline uintb2c(uintmax)
+my_extern_prefix`'exrat_numerator_popcount (floatt2c(exrat) x)
+{
+  return mpz_popcount (mpq_numref (x[0]));
+}
+
+my_extern_prefix`'inline uintb2c(uintmax)
+my_extern_prefix`'exrat_numerator_hamming_distance (floatt2c(exrat) x, floatt2c(exrat) y)
+{
+  return mpz_hamdist (mpq_numref (x[0]), mpq_numref (y[0]));
+}
+
 my_extern_prefix`'inline intb2c(int)
 my_extern_prefix`'exrat_numerator_legendre_symbol (floatt2c(exrat) a, floatt2c(exrat) b)
 {
@@ -254,6 +281,9 @@ my_extern_prefix`'exrat_numerator_kronecker_symbol (floatt2c(exrat) a, floatt2c(
 {
   return mpz_kronecker (mpq_numref (a[0]), mpq_numref (b[0]));
 }
+
+floatt2c(exrat) my_extern_prefix`'exrat_numerator_modular_pow (floatt2c(exrat), floatt2c(exrat),
+                                                               floatt2c(exrat));
 
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_root (floatt2c(exrat), intb2c(ulint));
 floatt2c(exrat) my_extern_prefix`'exrat_numerator_sqrt (floatt2c(exrat));
