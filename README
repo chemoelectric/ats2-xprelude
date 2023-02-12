@@ -44,9 +44,11 @@ Extensions to, and bugfixes for, the ATS2 prelude.
 * Optionally: exact rationals, via the GNU Multiple Precision
   Arithmetic Library (GMP). These are a nonlinear type (for garbage
   collection), and are treated as if they were floating point
-  (g0float). ¶ If you enable exact rationals, you also get ‘bisection
-  iterators’. These can be useful when one implements an algorithm
-  that adaptively bisects intervals.
+  (g0float). ¶ The exact rationals support ‘big integer’ operations on
+  their numerators, and thus you can represent a big integer as an
+  exrat with denominator one. ¶ If you enable exact rationals, you
+  also get ‘bisection iterators’. These can be useful when one
+  implements an algorithm that adaptively bisects intervals.
 
 * Optionally: multiple precision floating point numbers, via the GNU
   Multiple Precision Floating-Point Reliable Library (MPFR). As with
