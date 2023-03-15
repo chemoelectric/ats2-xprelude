@@ -40,23 +40,27 @@ ats2_xprelude_test_integer_division_add_back (void)
   uint32_t u[4];
   uint32_t v[3];
 
-  /* u = 1054e9c3 5f1efdbd 2dcc3129 650c41e8 */
+  /* u = 1054e9c3 5f1efdbd 2dcc3129 650c41e8
+       = 21708542149043462564083168143014117864 */
   u[3] = 0x1054e9c3LU;
   u[2] = 0x5f1efdbdLU;
   u[1] = 0x2dcc3129LU;
   u[0] = 0x650c41e8LU;
 
-  /* v = 1092d73e 5eb87854 36831474 */
+  /* v = 1092d73e 5eb87854 36831474
+       = 5129279786122544041183876212 */
   v[2] = 0x1092d73eLU;
   v[1] = 0x5eb87854LU;
   v[0] = 0x36831474LU;
 
-  /* Expected quotient = 00000000 fc437319 */
+  /* Expected quotient = 00000000 fc437319
+                       = 4232278809 */
   uint32_t q_expected[2];
   q_expected[1] = 0;
   q_expected[0] = 0xfc437319LU;
 
-  /* Expected remainder = 0f86935e ac075002 a5b32694 */
+  /* Expected remainder = 0f86935e ac075002 a5b32694
+                        = 4804967141411425578487326356 */
   uint32_t r_expected[3];
   r_expected[2] = 0x0f86935eLU;
   r_expected[1] = 0xac075002LU;
