@@ -55,7 +55,6 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
 
   uint32_t u[m + n + 1];
   uint32_t v[n];
-  uint32_t qhat_v[n + 1];       /* Temporary storage. See below. */
 
   _Static_assert ((CHAR_BIT * sizeof (unsigned long)) >= 32,
                   "uint32_t is longer than an unsigned long,"
