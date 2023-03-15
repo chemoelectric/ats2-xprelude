@@ -120,57 +120,50 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
       size_t j = j1 - 1;
 
       /* Calculate qhat. */
-      uint64_t tmp = (((uint64_t) u[j + n]) << 32) | u[j + n - 1];
-      uint64_t qhat = tmp / v[n - 1];
-      uint64_t rhat = tmp % v[n - 1];
-      bool adjust;
-      do
-        {
-          adjust =
-            ((qhat >> 32) != 0)
-            || ((qhat * v[n - 2]) > ((rhat << 32) | u[j + n - 2]));
-          if (adjust)
-            {
-              qhat -= 1;
-              rhat += v[n - 1];
-              adjust = ((rhat >> 32) != 0);
-            }
-        }
-      while (adjust);
+      uint64_t qhat;
+      {
+        uint64_t tmp = (((uint64_t) u[j + n]) << 32) | u[j + n - 1];
+        qhat = tmp / v[n - 1];
+        uint64_t rhat = tmp % v[n - 1];
+        bool adjust;
+        do
+          {
+            adjust =
+              ((qhat >> 32) != 0)
+              || ((qhat * v[n - 2]) > ((rhat << 32) | u[j + n - 2]));
+            if (adjust)
+              {
+                qhat -= 1;
+                rhat += v[n - 1];
+                adjust = ((rhat >> 32) != 0);
+              }
+          }
+        while (adjust);
+      }
 
-      /* Multiply and subtract. For simplicity and readability, I do a
-         multiplication and then a subtraction (rather than combine
-         the operations). Doing it this way, however, requires linear
-         workspace qhat_v. */
-      /* First do multiplication. */
+      /* Multiply and subtract. */
       uint64_t carry = 0;
-      for (size_t i = 0; i != n; i += 1)
-        {
-          uint64_t product = (qhat * v[i]) + carry;
-          carry = (product >> 32);
-          qhat_v[i] = (uint32_t) product;
-        }
-      qhat_v[n] = carry;
-      /* Then do subtraction. */
-      /* I call the ‘borrow’ a ‘carry’, because I do manual
-         subtraction with carries instead of the borrows that most
-         Americans do. I was taught subtraction with borrows in a New
-         Jersey public school in the 1960s. Then I was taught
-         subtraction with carries by my mother, who went to Bronx
-         public schools in the 1940s, before there was the New Math,
-         etc. Subtraction with carries is much cleaner and I have
-         always subtracted that way since. Instead of borrowing a one
-         from the minuend digit (which requires a lot of writing), you
-         carry a one to the subtrahend digit (with a little ‘1’ mark).
-         This means to subtract an extra one in that column. You get
-         the correct result. */
-      carry = 0;
-      for (size_t i = 0; i != n + 1; i += 1)
-        {
-          uint64_t subtrahend = ((uint64_t) qhat_v[i]) + carry;
-          carry = (u[j + i] < subtrahend);
-          u[j + i] -= subtrahend;
-        }
+      {
+        uint32_t mul_carry = 0;
+        for (size_t i = 0; i != n + 1; i += 1)
+          {
+            /* Multiplication. */
+            uint64_t qhat_v_64 =
+              (i != n) ? ((qhat * v[i]) + mul_carry) : mul_carry;
+            mul_carry = (qhat_v_64 >> 32);
+            uint32_t qhat_v = (uint32_t) qhat_v_64;
+
+            /* Subtraction. If the difference is negative, the
+               unsigned integers will simply wrap around. We use a
+               carry to the subtrahend rather than a borrow from the
+               minuend. (Carrying to the subtrahend is, by the way, a
+               much faster and easier way to do subtraction by hand,
+               than is borrowing from the minuend.) */
+            uint64_t subtrahend = qhat_v + carry;
+            carry = (u[j + i] < subtrahend);
+            u[j + i] -= subtrahend;
+          }
+      }
 
       q[j] = (uint32_t) qhat;
       if (carry)
