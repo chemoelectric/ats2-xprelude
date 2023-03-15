@@ -172,9 +172,9 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
           carry = 0;
           for (size_t i = 0; i != n; i += 1)
             {
-              uint64_t sum = ((uint64_t) u[i] + v[i]) + carry;
+              uint64_t sum = ((uint64_t) u[j + i] + v[i]) + carry;
               carry = (sum >> 32);
-              u[i] = (uint32_t) sum;
+              u[j + i] = (uint32_t) sum;
             }
         }
     }
