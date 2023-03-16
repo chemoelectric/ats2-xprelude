@@ -26,85 +26,88 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload "xprelude/SATS/fixed32p32.sats"
 staload _ = "xprelude/DATS/fixed32p32.dats"
 
+(*------------------------------------------------------------------*)
+(* A regression test for the fallback long division routine. *)
+
 %{^
-
-static atstype_bool
-ats2_xprelude_test_integer_division_add_back (void)
-{
-  /* Test the ‘Add back’ branch of long division. The test case was
-     found by random search, and expected results were computed with
-     CHICKEN Scheme 5. */
-
-  atstype_bool success = atsbool_true;
-
-  uint32_t u[4];
-  uint32_t v[3];
-
-  /* u = 1054e9c3 5f1efdbd 2dcc3129 650c41e8
-       = 21708542149043462564083168143014117864 */
-  u[3] = 0x1054e9c3LU;
-  u[2] = 0x5f1efdbdLU;
-  u[1] = 0x2dcc3129LU;
-  u[0] = 0x650c41e8LU;
-
-  /* v = 1092d73e 5eb87854 36831474
-       = 5129279786122544041183876212 */
-  v[2] = 0x1092d73eLU;
-  v[1] = 0x5eb87854LU;
-  v[0] = 0x36831474LU;
-
-  /* Expected quotient = 00000000 fc437319
-                       = 4232278809 */
-  uint32_t q_expected[2];
-  q_expected[1] = 0;
-  q_expected[0] = 0xfc437319LU;
-
-  /* Expected remainder = 0f86935e ac075002 a5b32694
-                        = 4804967141411425578487326356 */
-  uint32_t r_expected[3];
-  r_expected[2] = 0x0f86935eLU;
-  r_expected[1] = 0xac075002LU;
-  r_expected[0] = 0xa5b32694LU;
-
-  uint32_t q[2];
-  uint32_t r[3];
-  ats2_xprelude_integer_division (4, u, 3, v, 2, q, r);
-  for (int i = 1; i != -1; i -= 1)
-    {
-      //printf("%08lx\n", (unsigned long) q[i]);
-      if (q[i] != q_expected[i])
-        success = atsbool_false;
-    }
-  for (int i = 2; i != -1; i -= 1)
-    {
-      //printf("%08lx\n", (unsigned long) r[i]);
-      if (r[i] != r_expected[i])
-        success = atsbool_false;
-    }
-
-  return success;
-}
-
+extern volatile unsigned long int _ats2_xprelude_add_back_count;
+extern void _ats2_xprelude_long_division (uint32_t *x, uint32_t *y, 
+                                          uint32_t *q, uint32_t *r,
+                                          size_t m, size_t n);
 %}
 
+fn
+fallback_long_division_test () : void =
+  let
+    var u = @[uint32][3] ($UN.cast{uint32} 0)
+    var v = @[uint32][2] ($UN.cast{uint32} 0)
+    var q = @[uint32][2] ($UN.cast{uint32} 0)
+    var r = @[uint32][2] ($UN.cast{uint32} 0)
+
+    (* Let us use some numbers known to require the ‘add back’
+       step. *)
+
+    val () = u[2] := $UN.cast{uint32} 0x347B91D6
+    val () = u[1] := $UN.cast{uint32} 0x7FE07CA4
+    val () = u[0] := $UN.cast{uint32} 0x1DB2A9F8
+    val () = v[1] := $UN.cast{uint32} 0x464ED4AC
+    val () = v[0] := $UN.cast{uint32} 0x63E99212
+    val () = $extfcall (void, "_ats2_xprelude_long_division",
+                        addr@ u, addr@ v, addr@ q, addr@ r,
+                        i2sz 1, i2sz 2)
+    val- true = q[1] = $UN.cast{uint32} 0x00000000
+    val- true = q[0] = $UN.cast{uint32} 0xBF189819
+    val- true = r[1] = $UN.cast{uint32} 0x4532BA9A
+    val- true = r[0] = $UN.cast{uint32} 0x8D78B636
+
+    val () = u[2] := $UN.cast{uint32} 0x43F0AC5A
+    val () = u[1] := $UN.cast{uint32} 0x12098BEC
+    val () = u[0] := $UN.cast{uint32} 0x652354A9
+    val () = v[1] := $UN.cast{uint32} 0x09DDE46D
+    val () = v[0] := $UN.cast{uint32} 0x1EF860AD
+    val () = $extfcall (void, "_ats2_xprelude_long_division",
+                        addr@ u, addr@ v, addr@ q, addr@ r,
+                        i2sz 1, i2sz 2)
+    val- true = q[1] = $UN.cast{uint32} 0x00000006
+    val- true = q[0] = $UN.cast{uint32} 0xE2C0C83C
+    val- true = r[1] = $UN.cast{uint32} 0x0691FE77
+    val- true = r[0] = $UN.cast{uint32} 0xDBA5841D
+
+    val () = u[2] := $UN.cast{uint32} 0x490E9C7B
+    val () = u[1] := $UN.cast{uint32} 0x6FEB471D
+    val () = u[0] := $UN.cast{uint32} 0x3086143F
+    val () = v[1] := $UN.cast{uint32} 0x4B7A3264
+    val () = v[0] := $UN.cast{uint32} 0x6C0CEEA0
+    val () = $extfcall (void, "_ats2_xprelude_long_division",
+                        addr@ u, addr@ v, addr@ q, addr@ r,
+                        i2sz 1, i2sz 2)
+    val- true = q[1] = $UN.cast{uint32} 0x00000000
+    val- true = q[0] = $UN.cast{uint32} 0xF7CA85C5
+    val- true = r[1] = $UN.cast{uint32} 0x37369742
+    val- true = r[0] = $UN.cast{uint32} 0xA859531F
+
+  in
+  end
+
+(*------------------------------------------------------------------*)
 (* Test our code for multiplication, even on systems where we do not
    use it. *)
+
 extern fn
 fixed32p32_multiplication :
   (fixed32p32, fixed32p32) -<> fixed32p32 = "mac#%"
 macdef mul = fixed32p32_multiplication
 
+(*------------------------------------------------------------------*)
 (* Test our code for division, even on systems where we do not use
    it. *)
+
 extern fn
 fixed32p32_division :
   (fixed32p32, fixed32p32) -<> fixed32p32 = "mac#%"
 macdef div = fixed32p32_division
 
-(* Test an uncommonly executed branch of the long division routine. *)
-extern fn
-test_integer_division_add_back :
-  () -> bool = "mac#%"
+(*------------------------------------------------------------------*)
 
 macdef i2fx = g0int2float<intknd,fix32p32knd>
 macdef d2fx = g0float2float<dblknd,fix32p32knd>
@@ -210,7 +213,8 @@ fn test0 () : void =
     (* Here is the same test but using / instead of \div. *)
     val- true = abs ((((g0f2f 7.25) : fixed32p32) / (g0f2f 1.2345)) - g0f2f 5.8728) < g0f2f 0.001
 
-    val- true = test_integer_division_add_back ()
+    (* val- true = test_integer_division_add_back () *)
+    val () = fallback_long_division_test ()
 
     (* Test that epsilon is 1/(1<<32) *)
     val- true = epsilon<fix32p32knd> () * g0i2f (1 << 16) * g0i2f (1 << 16) = g0i2f 1

@@ -15,9 +15,11 @@
   along with this program. If not, see
   <https://www.gnu.org/licenses/>.
 */
-include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
-/*------------------------------------------------------------------*/
 
+/* A program for finding numbers that require the ‘add back’ step in
+   long division. */
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -25,30 +27,12 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include <limits.h>
 #include <assert.h>
 
-static void
-_`'my_extern_prefix`'short_division (size_t n_u, uint32_t u[n_u],
-                                     uint32_t v,
-                                     uint32_t *q, uint32_t *r)
-{
-  uint32_t remainder = 0;
-
-  for (size_t j1 = n_u; j1 != 0; j1 -= 1)
-    {
-      size_t j = j1 - 1;
-
-      uint64_t tmp = (((uint64_t) remainder) << 32) | u[j];
-      q[j] = tmp / v;
-      remainder = tmp % v;
-    }
-
-  if (r != NULL)
-    r[0] = remainder;
-}
+unsigned long int add_back_count = 0;
 
 void
-_`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y, 
-                                    uint32_t *q, uint32_t *r,
-                                    size_t m, size_t n)
+long_division (uint32_t *x, uint32_t *y, 
+               uint32_t *q, uint32_t *r,
+               size_t m, size_t n)
 {
   /* The following implementation is based on Knuth’s Algorithm 4.3.1D
      from Volume 2. */
@@ -56,42 +40,10 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
   uint32_t u[m + n + 1];
   uint32_t v[n];
 
-  _Static_assert ((CHAR_BIT * sizeof (unsigned long)) >= 32,
-                  "uint32_t is longer than an unsigned long,"
-                  " which seems strange");
-#if defined __GNUC__
   const int num_lz =
     __builtin_clzl (y[n - 1]) -
     ((CHAR_BIT * sizeof (unsigned long)) - 32);
   const int num_nonlz = 32 - num_lz;
-#else
-  /* Convert the leading zeros problem to a trailing ones problem, and
-     then count trailing ones by de Bruijn sequence. See:
-
-     {{cite web
-      | title       = Bit Twiddling Hacks
-      | url         = https://graphics.stanford.edu/~seander/bithacks.html
-      | date        = 2023-01-14
-      | archiveurl  = http://archive.today/GNADt
-      | archivedate = 2023-01-14 }}
-
-     where essentially the same method is used to count trailing
-     zeros. */
-
-  uint32_t tmp = y[n - 1];
-
-  /* Fill in low bits with ones. */
-  tmp |= tmp >> 1; 
-  tmp |= tmp >> 2;
-  tmp |= tmp >> 4;
-  tmp |= tmp >> 8;
-  tmp |= tmp >> 16;
-
-  const int num_nonlz =
-    "\0\1\34\2\35\16\30\3\36\26\24\17\31\21\4\10\37\33\15\27\25\23\20\7\32\14\22\6\13\5\12\11"
-    [((~tmp & (tmp + 1)) * UINT32_C(0x077CB531)) >> 27];
-  const int num_lz = 32 - num_nonlz;
-#endif
 
   /* Make v be y normalized so its most significant bit is a one. Any
      normalization factor that achieves this goal will suffice; we
@@ -175,6 +127,8 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
               carry = (sum >> 32);
               u[j + i] = (uint32_t) sum;
             }
+
+          add_back_count += 1;
         }
     }
 
@@ -187,50 +141,54 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
     }
 }
 
-void
-my_extern_prefix`'integer_division (size_t n_x, uint32_t x[n_x],
-                                    size_t n_y, uint32_t y[n_y],
-                                    size_t n_q, uint32_t q[n_q],
-                                    uint32_t *r)
+int
+main (void)
 {
-  memset (q, 0, n_q * sizeof (uint32_t));
-  if (r != NULL)
-    memset (r, 0, n_y * sizeof (uint32_t));
+  srand48 (0);
 
-  size_t n = n_y;
-  while (y[n - 1] == 0)
-    n -= 1;
-  size_t m = n_x - n;
+  uint32_t u[4];
+  uint32_t v[4];
+  uint32_t q[4];
+  uint32_t r[4];
 
-  if (n == 1)
-    _`'my_extern_prefix`'short_division (n_x, x, y[0], q, r);
-  else
-    _`'my_extern_prefix`'long_division (x, y, q, r, m, n);
+  add_back_count = 0;
+  while (add_back_count != 5)
+    {
+      for (int i = 0; i != 4; i += 1)
+        {
+          u[i] = 0;
+          v[i] = 0;
+          q[i] = 0;
+          r[i] = 0;
+        }
+
+      for (int i = 0; i != 3; i += 1)
+        u[i] = (uint32_t) lrand48 ();
+      for (int i = 0; i != 2; i += 1)
+        v[i] = (uint32_t) lrand48 ();
+      if (v[1] == 0)
+        v[1] = 1;            /* Ensure a big enough divisor. */
+
+      unsigned long int old_count = add_back_count;
+      long_division (u, v, q, r, 1, 2);
+
+      if (add_back_count != old_count)
+        {
+          printf ("\n");
+          for (int i = 3; i != -1; i -= 1)
+            printf ("%.8jX ", (uintmax_t) u[i]);
+          printf ("\n");
+          for (int i = 3; i != -1; i -= 1)
+            printf ("%.8jX ", (uintmax_t) v[i]);
+          printf ("\n");
+          for (int i = 3; i != -1; i -= 1)
+            printf ("%.8jX ", (uintmax_t) q[i]);
+          printf ("\n");
+          for (int i = 3; i != -1; i -= 1)
+            printf ("%.8jX ", (uintmax_t) r[i]);
+          printf ("\n");
+        }
+    }
+
+  return 0;
 }
-
-int64_t
-my_extern_prefix`'fixed32p32_division (int64_t x, int64_t y)
-{
-  int is_negative = (x < 0) ^ (y < 0);
-  uint64_t xmagn = (x < 0) ? -x : x;
-  uint64_t ymagn = (y < 0) ? -y : y;
-
-  uint32_t u[3];                /* xmagn times 2**32 */
-  uint32_t v[2];                /* ymagn */
-  uint32_t q[2];                /* quotient */
-  u[0] = 0;
-  u[1] = (uint32_t) xmagn;
-  u[2] = (uint32_t) (xmagn >> 32);
-  v[0] = (uint32_t) ymagn;
-  v[1] = (uint32_t) (ymagn >> 32);
-  my_extern_prefix`'integer_division (3, u, 2, v, 2, q, NULL);
-  uint64_t quotient = ((uint64_t) q[0]) | (((uint64_t) q[1]) << 32);
-
-  return (is_negative) ? -((int64_t) quotient) : ((int64_t) quotient);
-}
-
-/*------------------------------------------------------------------*/
-dnl
-dnl local variables:
-dnl mode: C
-dnl end:
