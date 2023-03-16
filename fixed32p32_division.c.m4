@@ -113,7 +113,6 @@ _`'my_extern_prefix`'long_division (uint32_t *x, uint32_t *y,
     u[i] = (x[i] << num_lz) | (x[i - 1] >> num_nonlz);
   u[m + n] = (x[m + n - 1] >> num_nonlz);
 
-  size_t j1 = m + 1;
   for (size_t j1 = m + 1; j1 != 0; j1 -= 1)
     {
       size_t j = j1 - 1;
