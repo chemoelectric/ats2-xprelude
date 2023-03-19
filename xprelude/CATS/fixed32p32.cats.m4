@@ -27,6 +27,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 #include <stdio.h>
 #include <stdint.h>
 #include <`inttypes'.h>
+#include <xprelude/CATS/integer.cats>
+#include <xprelude/CATS/float.cats>
 
 #ifndef my_extern_prefix`'boolc2ats
 #define my_extern_prefix`'boolc2ats(B) \

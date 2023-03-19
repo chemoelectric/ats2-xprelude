@@ -35,6 +35,9 @@ END_FLOAT_SUPPORT_CHECK(`decimal64')
 #include <stdlib.h>
 #include <stdio.h>
 #include <mpfr.h>
+#include <xprelude/CATS/integer.cats>
+#include <xprelude/CATS/float.cats>
+#include <xprelude/CATS/exrat.cats>
 
 #ifndef my_extern_prefix`'boolc2ats
 #define my_extern_prefix`'boolc2ats(B) \
