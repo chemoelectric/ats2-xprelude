@@ -890,7 +890,7 @@ nodist_libats2_xprelude_la_SOURCES = $(ARITH_PRF_SATS_C) \
 	$(FIXED32P32_DATS_C) $(FIXED32P32_SUPPORT_DATS_C) \
 	$(FIXED32P32_SUPPORT_C) $(am__append_1) $(am__append_3) \
 	$(am__append_5) $(am__append_7) $(SORT_SATS_C) $(SORT_DATS_C)
-libats2_xprelude_la_LIBADD = 
+libats2_xprelude_la_LIBADD = -lm
 
 #--------------------------------------------------------------------------
 #

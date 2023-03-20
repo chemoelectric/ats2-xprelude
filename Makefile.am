@@ -180,6 +180,8 @@ endif !DEPENDENCY_TRACKING
 
 lib_LTLIBRARIES += libats2-xprelude.la
 
+libats2_xprelude_la_LIBADD += -lm
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 MISCELLANEOUS_CATS =
