@@ -75,7 +75,7 @@ overload prerr with prerr_mpfr
 fn g0float_isfinite_mpfr : mpfr -<> bool = "mac#%"
 fn g0float_isnormal_mpfr : mpfr -<> bool = "mac#%"
 fn g0float_isnan_mpfr : mpfr -<> bool = "mac#%"
-fn g0float_isinf_mpfr : mpfr -<> bool = "mac#%"
+fn g0float_isinf_mpfr : mpfr -<> intBtwe (~1, 1) = "mac#%"
 
 (*------------------------------------------------------------------*)
 (* Precision. *)

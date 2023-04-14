@@ -57,7 +57,7 @@ test1 () : void =
     val- false = isnan x
     val- true = isnormal x
     val- true = isfinite x
-    val- false = isinf x
+    val- 0 = isinf x
 
     val- true = abs (x - mpfr_make ("1.2345", OCTUPLE_PREC)) <= mpfr_make ("0.0000001", QUAD_PREC)
     val- true = abs (x - mpfr_make ("1.2345")) <= mpfr_make ("0.00001")
@@ -68,35 +68,36 @@ test1 () : void =
     val- true = isnan v3
     val- false = isnormal v3
     val- false = isfinite v3
-    val- false = isinf v3
+    val- 0 = isinf v3
 
     val v4 = mpfr_make "1" / mpfr_make "0"
 
     val- false = isnan v4
     val- false = isnormal v4
     val- false = isfinite v4
-    val- true = isinf v4
+    val- 1 = isinf v4
+    val- 1 = ~isinf (~v4)
 
     val v5 : mpfr = infinity ()
 
     val- false = isnan v5
     val- false = isnormal v5
     val- false = isfinite v5
-    val- true = isinf v5
+    val- 1 = isinf v5
 
     val v6 : mpfr = huge_val ()
 
     val- false = isnan v6
     val- false = isnormal v6
     val- false = isfinite v6
-    val- true = isinf v6
+    val- 1 = isinf v6
 
     val v7 : mpfr = g0float_nan ()
 
     val- true = isnan v7
     val- false = isnormal v7
     val- false = isfinite v7
-    val- false = isinf v7
+    val- 0 = isinf v7
 
     var x : mpfr = infinity ()
     val () = nan_replace x
@@ -104,14 +105,14 @@ test1 () : void =
     val- true = isnan x
     val- false = isnormal x
     val- false = isfinite x
-    val- false = isinf x
+    val- 0 = isinf x
 
     val v8 = mpfr_make ()
 
     val- true = isnan v8
     val- false = isnormal v8
     val- false = isfinite v8
-    val- false = isinf v8
+    val- 0 = isinf v8
 
     val- true =
       begin
@@ -164,7 +165,7 @@ test2 () : void =
     (* Reciprocals. *)
     val- true = reciprocal (mpfr_make "2") = mpfr_make "0.5"
     val- true = reciprocal (mpfr_make "-2") = mpfr_make "-0.5"
-    val- true = isinf (reciprocal (mpfr_make "0"))
+    val- 1 = isinf (reciprocal (mpfr_make "0"))
 
     (* Radicals. *)
     val- true = sqrt (mpfr_make "16") = mpfr_make "4"

@@ -96,10 +96,17 @@ my_extern_prefix`'g0float_isnan_mpfr (floatt2c(mpfr) x)
   return my_extern_prefix`'boolc2ats (mpfr_nan_p (x[0]));
 }
 
-my_extern_prefix`'inline atstype_bool
+my_extern_prefix`'inline atstype_int
 my_extern_prefix`'g0float_isinf_mpfr (floatt2c(mpfr) x)
 {
-  return my_extern_prefix`'boolc2ats (mpfr_inf_p (x[0]));
+  int retval;
+  if (!mpfr_inf_p (x[0]))
+    retval = 0;
+  else if (mpfr_sgn (x[0]) < 0)
+    retval = -1;
+  else
+    retval = 1;
+  return retval;
 }
 
 /*------------------------------------------------------------------*/

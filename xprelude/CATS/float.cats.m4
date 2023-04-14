@@ -189,10 +189,10 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 /* Classifications. */
 
 m4_foreachq(`FLT1',`conventional_floattypes',
-`#define my_extern_prefix`'g0float_isfinite_`'FLT1 isfinite
-#define my_extern_prefix`'g0float_isnormal_`'FLT1 isnormal
-#define my_extern_prefix`'g0float_isnan_`'FLT1 isnan
-#define my_extern_prefix`'g0float_isinf_`'FLT1 isinf
+`#define my_extern_prefix`'g0float_isfinite_`'FLT1`'(x) (my_extern_prefix`'boolc2ats (isfinite ((x))))
+#define my_extern_prefix`'g0float_isnormal_`'FLT1`'(x)  (my_extern_prefix`'boolc2ats (isnormal ((x))))
+#define my_extern_prefix`'g0float_isnan_`'FLT1`'(x) (my_extern_prefix`'boolc2ats (isnan ((x))))
+#define my_extern_prefix`'g0float_isinf_`'FLT1`'(x) (isinf ((x)))
 
 ')dnl
 /*------------------------------------------------------------------*/

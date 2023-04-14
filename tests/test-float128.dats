@@ -496,22 +496,23 @@ test24 () : void =
     val- true = isfinite ($extval (float128, "1.2345f128"))
     val- true = isnormal ($extval (float128, "1.2345f128"))
     val- false = isnan ($extval (float128, "1.2345f128"))
-    val- false = isinf ($extval (float128, "1.2345f128"))
+    val- true = isinf ($extval (float128, "1.2345f128")) = 0
 
     val- false = isfinite (g0float_nan<flt128knd> ())
     val- false = isnormal (g0float_nan<flt128knd> ())
     val- true = isnan (g0float_nan<flt128knd> ())
-    val- false = isinf (g0float_nan<flt128knd> ())
+    val- true = isinf (g0float_nan<flt128knd> ()) = 0
 
     val- false = isfinite (g0float_snan<flt128knd> ())
     val- false = isnormal (g0float_snan<flt128knd> ())
     val- true = isnan (g0float_snan<flt128knd> ())
-    val- false = isinf (g0float_snan<flt128knd> ())
+    val- true = isinf (g0float_snan<flt128knd> ()) = 0
 
     val- false = isfinite (infinity<flt128knd> ())
     val- false = isnormal (infinity<flt128knd> ())
     val- false = isnan (infinity<flt128knd> ())
-    val- true = isinf (infinity<flt128knd> ())
+    val- true = isinf (infinity<flt128knd> ()) = 1
+    val- true = isinf (~infinity<flt128knd> ()) = ~1
   in
   end
 

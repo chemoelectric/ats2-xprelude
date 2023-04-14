@@ -214,13 +214,13 @@ m4_foreachq(`FLT1',`conventional_floattypes',
 fn {tk : tkind} g0float_isfinite : g0float tk -<> bool
 fn {tk : tkind} g0float_isnormal : g0float tk -<> bool
 fn {tk : tkind} g0float_isnan : g0float tk -<> bool
-fn {tk : tkind} g0float_isinf : g0float tk -<> bool
+fn {tk : tkind} g0float_isinf : g0float tk -<> intBtwe (~1, 1)
 
 m4_foreachq(`FLT1',`conventional_floattypes',
 `fn g0float_isfinite_`'FLT1 : FLT1 -<> bool = "mac#%"
 fn g0float_isnormal_`'FLT1 : FLT1 -<> bool = "mac#%"
 fn g0float_isnan_`'FLT1 : FLT1 -<> bool = "mac#%"
-fn g0float_isinf_`'FLT1 : FLT1 -<> bool = "mac#%"
+fn g0float_isinf_`'FLT1 : FLT1 -<> intBtwe (~1, 1) = "mac#%"
 
 ')dnl
 overload isfinite with g0float_isfinite
