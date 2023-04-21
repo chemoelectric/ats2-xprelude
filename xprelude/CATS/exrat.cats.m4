@@ -39,7 +39,8 @@ include(`common-macros.m4')m4_include(`ats2-xprelude-macros.m4')
 /*------------------------------------------------------------------*/
 
 extern volatile atomic_int my_extern_prefix`'exrat_support_is_initialized;
-extern atsvoid_t0ype my_extern_prefix`'exrat_support_initialize (atsvoid_t0ype);
+extern atsvoid_t0ype my_extern_prefix`'mark_gmp_initialized (void);
+extern atsvoid_t0ype my_extern_prefix`'exrat_support_initialize (void);
 
 my_extern_prefix`'inline atsvoid_t0ype
 my_extern_prefix`'exrat_one_time_initialization (void)

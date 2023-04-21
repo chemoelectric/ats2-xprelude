@@ -34,6 +34,14 @@ fn
 exrat_initialize :
   () -<> void = "mac#my_extern_prefix`'exrat_one_time_initialization"
 
+(* You can use this if you do not want to replace the memory
+   management for GMP. An example would be if you are using libguile
+   and have already initialized that. You may wish to leave GMP as
+   libguile had set it. *)
+fn
+leave_gmp_memory_management_alone :
+  () -> void = "mac#my_extern_prefix`'mark_gmp_initialized"
+
 tkindef exrat_kind = "my_extern_prefix`'exrat"
 stadef exratknd = exrat_kind
 typedef exrat = g0float exratknd

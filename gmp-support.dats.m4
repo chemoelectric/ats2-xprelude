@@ -57,6 +57,12 @@ my_extern_prefix`'gmp_support_free (void *p, size_t size)
 
 volatile atomic_int my_extern_prefix`'gmp_support_is_initialized = 0;
 
+atsvoid_t0ype
+my_extern_prefix`'mark_gmp_initialized (void)
+{
+  my_extern_prefix`'gmp_support_is_initialized = 1;
+}
+
 /* Use unsigned integers, so they will wrap around when they
    overflow. */
 static volatile atomic_size_t my_extern_prefix`'gmp_initialization_active = 0;
